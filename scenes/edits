@@ -1,0 +1,14 @@
+//playing the guitar
+for (const keyy of Object.keys(gameState6.sequences.guitar)) {
+  let i = Object.keys(gameState6.sequences.guitar).findIndex((keyIndex) => {
+    return keyIndex === keyy
+  })
+  if ((gameState6.sequences.guitar[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.guitar[keyy][playingTime] && !gameState6.sequences.guitar[keyy][playingTime - 1])) {
+    gameState6.guitarmiddleC[i].setDetune(1200 * gameState6.sequences.guitar.octave[playingTime] + 100 * i - 100);
+    gameState6.guitarmiddleC[i].play();
+  } else if (!gameState6.sequences.guitar[keyy][playingTime]) {
+    if (gameState6.sequences.guitar[keyy][playingTime - 1]) {
+      gameState6.guitarmiddleC[i].stop();
+    }
+  }
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="shortcut icon" type="image/jpg" href="assets/favicon.ico"/>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.16.2/dist/phaser.js"></script>
+  <script src="scenes/titlescreen.js"></script>
+  <script src="global/globalParamsAndFunctions.js"></script>
+  <script src="global/dialogue.js"></script>
+  <script src="scenes/lightworld.js"></script>
+  <script src="scenes/poolscore.js"></script>
+  <script src="scenes/keyboard.js"></script>
+  <script src="scenes/navigator.js"></script>
+  <script src="scenes/pause-menu.js"></script>
+  <script src="scenes/items-menu.js"></script>
+  <script src="scenes/equipment-menu.js"></script>
+  <script src="scenes/overworld-menu.js"></script>
+  <script src="scenes/gas-station.js"></script>
+  <script src="scenes/battlescene.js"></script>
+  <script src="scenes/darkworld.js"></script>
+  <script src="scenes/homeboyGame.js"></script>
+  <script src="scenes/myApartment.js"></script>
+</head>
+
+<body>
+  <div id="game"></div>
+  <script>
+    let phaserConfig = {
+      type: Phaser.AUTO, // Which renderer to use
+  width: 1200, // Canvas width in pixels
+  height: 600, // Canvas height in pixels
+  antialias: false,
+  pixelArt: true,
+  scale: {
+        mode: Phaser.Scale.FIT,
+        parent: 'phaser-example',
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1200,
+        height: 600
+    },
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: {
+        y: 0
+      },
+      debug: false
+    }
+  },
+      scene: [TitleScreen, LightWorld, Navigator, MyApartment, PoolScore, Keyboard, PauseMenu, ItemsMenu, EquipmentMenu, OverworldMenu, GasStation, BattleScene, UIScene, DarkWorld, HomeboyGame]
+    };
+
+    const game = new Phaser.Game(phaserConfig);
+  </script>
+</body>
+</html>
