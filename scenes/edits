@@ -12,3 +12,5 @@ for (const keyy of Object.keys(gameState6.sequences.guitar)) {
     }
   }
 }
+
+//this is an edit I made on my new MB pro
