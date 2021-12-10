@@ -18,3 +18,5 @@ for (const keyy of Object.keys(gameState6.sequences.guitar)) {
 //and this is an edit I made in response on my desktop
 
 //here is another response from my MB pro to check if CLI git works
+
+//and now checking if CLI push works from desktop
