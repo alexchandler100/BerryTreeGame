@@ -19,6 +19,8 @@ var ItemsMenu = new Phaser.Class({
     this.load.image('alFace', "assets/AlFace.png");
     this.load.image('jimmyFace', "assets/JimmyFace.png");
     this.load.image('monsterIcon', "assets/monster.png");
+    this.load.image('maxiceIcon', "assets/maxice.png");
+    this.load.image('andycappsIcon', "assets/andycapps.png");
     this.load.image('liquorIcon', "assets/liquorIcon.png");
     this.load.image('hammsIcon', "assets/hamms.png");
     this.load.image('larrySpecialIcon', "assets/larrySpecial.png");
@@ -181,7 +183,7 @@ this.input.on('drop', function (pointer, gameObject, dropZone) {
   console.log(gameObject.name)
   console.log(dropZone.name)
   useItem(gameObject.name,dropZone.name);
-  if (gameObject.name==="Monster" || gameObject.name==="Hamms"){
+  if (gameObject.name==="Monster" || gameObject.name==="Hamms" || gameObject.name==="Labatt Max Ice"){
     gameState.drinkCan.play()
   } else if (gameObject.name==="Gatorade"){
     gameState.drinkGatorade.play()

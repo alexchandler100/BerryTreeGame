@@ -1,15 +1,15 @@
 //keyboard parameters
-let keyboardGet=false;
+let keyboardGet = false;
 let keyboardDialogue;
 
 //billiard parameters
-let eightInPocket=false;
-let nineInPocket=false;
-let cueInPocket=false;
-let _timerStart=false
+let eightInPocket = false;
+let nineInPocket = false;
+let cueInPocket = false;
+let _timerStart = false
 
 //dialogue parameters
-let carCrashDialogue=false;
+let carCrashDialogue = false;
 let adventure = 0;
 let gasAlert = 0;
 let buyFailed = 0;
@@ -35,7 +35,7 @@ let bennettFirstTalk = 0;
 let jonFirstTalk = 0;
 let yogagirlFirstTalk = 0;
 let stripperFirstTalk = 0;
-let volleyballScore=0;
+let volleyballScore = 0;
 let firstPoolParty = 0;
 let ogFirstTalk = 0;
 let gunTalk = 0
@@ -54,35 +54,51 @@ let girl3FirstDialogue = 0;
 let girl4FirstDialogue = 0;
 let crackheadFirstTalk = 0;
 let moneyToCrackhead = 0;
-let crackheadJoin=false;
-let crackheadFirstJoin=true;
+let crackheadJoin = false;
+let crackheadFirstJoin = true;
 let highnessDialogue = 0;
 let gasStation = 0;
 let alFirstTalk = 0;
 let darkworldDialogue = 0;
 let jonChaseX = 20;
-let skillDialogue={
-  "Mac":{3:false, 5:false, 7: false},
-  "Al":{3:false, 5:false, 7: false},
-  "Jimmy":{3:false, 5:false, 7: false},
-  "Bennett":{3:false, 5:false, 7: false}
+let skillDialogue = {
+  "Mac": {
+    3: false,
+    5: false,
+    7: false
+  },
+  "Al": {
+    3: false,
+    5: false,
+    7: false
+  },
+  "Jimmy": {
+    3: false,
+    5: false,
+    7: false
+  },
+  "Bennett": {
+    3: false,
+    5: false,
+    7: false
+  }
 }
 //boss battle parameters
 let bossType;
 let bossBattle = false;
 let bossBattleParameter = 0;
-let dioEnabled=true
+let dioEnabled = true
 
 //overworld parameters
 let indoorZone = ''
-let shakeTheWorld=false;
-let bennettGet=false;
-let alGet=false;
-let swimNoisePlaying=false;
-let inPool=false;
-let nearPool=false;
-let nearVolleyballCourt=false;
-let ballInPool=false;
+let shakeTheWorld = false;
+let bennettGet = false;
+let alGet = false;
+let swimNoisePlaying = false;
+let inPool = false;
+let nearPool = false;
+let nearVolleyballCourt = false;
+let ballInPool = false;
 let zoom = 2;
 let speed = 1;
 let keepaway = 0;
@@ -98,25 +114,33 @@ let devMode3 = 0;
 let athletics = 1;
 let myAptDoor = 0;
 let myAptDoorExit = 0;
-let goInsideApt=0;
-let backToLightWorld=0;
-let cantGetIn=0;
-let restart=false;
-let loading=false;
-let saveFileExists=false;
+let goInsideApt = 0;
+let backToLightWorld = 0;
+let cantGetIn = 0;
+let restart = false;
+let loading = false;
+let saveFileExists = false;
 let scene_number = 2;
 let equipment = []
-let overworldSong='theme'
-let changeThemeSong=false
-let raceBegin=false;
-let raceOngoing=false;
+let overworldSong = 'theme'
+let changeThemeSong = false
+let raceBegin = false;
+let raceOngoing = false;
 let winRace = 0;
 let wonRace = 0;
-let potentialParty = {"Al": false, "Jimmy": false, "Bennett": false};
-let currentParty = {"Al": false, "Jimmy": false, "Bennett": false};
+let potentialParty = {
+  "Al": false,
+  "Jimmy": false,
+  "Bennett": false
+};
+let currentParty = {
+  "Al": false,
+  "Jimmy": false,
+  "Bennett": false
+};
 
 //battle parameters
-let battleBackgroundIndex=0
+let battleBackgroundIndex = 0
 let currentXY;
 let actionIndex;
 let enemyIndex;
@@ -124,10 +148,12 @@ let reward = 0;
 let exp = 0;
 let wonBattle = 0;
 let chasers = [];
-let chasersEnabled=false;
+let chasersEnabled = false;
 let chaserInitiateFight = 0;
-let itemReward='';
-let randomEncounterRewards={
+let itemReward = '';
+let randomEncounterRewards = {
+  "Andy Capp's Hot Fries": .1,
+  'Labatt Max Ice': .1,
   'Gatorade': .3,
   'Monster': .3,
   'Hamms': .3,
@@ -150,8 +176,8 @@ let animObject = {
   "Junkie": ['junkieright', 'junkieattack'],
   "Ex Junkie": ['ex_junkieright', 'ex_junkieattack'],
   'StabBoy 2': ['fratboy2primewalk', 'fratboy2primestab'],
-  'Dark Boy 2': ['darkboy2walk','darkboy2walk'],
-  'Frank': ['frat5huhuh','frat5huhuh'],
+  'Dark Boy 2': ['darkboy2walk', 'darkboy2walk'],
+  'Frank': ['frat5huhuh', 'frat5huhuh'],
 }
 
 let sfxObject = {
@@ -200,9 +226,9 @@ const battleScale = {
   'girl2': 1.2 * 1.4,
   'girl3': 1.2 * 1.4,
   'girl4': 1.2 * 1.4,
-  'crackhead': .4*1.4,
-  'ex_junkie': .63*1.4,
-  'junkie': .63*1.4,
+  'crackhead': .4 * 1.4,
+  'ex_junkie': .63 * 1.4,
+  'junkie': .63 * 1.4,
   'fratboy1': .55 * 1.4,
   'fratboy2': .5 * 1.4,
   'fratboy3': .59 * 1.4,
@@ -222,9 +248,9 @@ const overworldScale = {
   'girl2': 1.2 * 1.4,
   'girl3': 1.2 * 1.4,
   'girl4': 1.2 * 1.4,
-  'crackhead': .4*1.4,
-  'ex_junkie': .63*1.4,
-  'junkie': .63*1.4,
+  'crackhead': .4 * 1.4,
+  'ex_junkie': .63 * 1.4,
+  'junkie': .63 * 1.4,
   'fratboy1': .55 * 1.4,
   'fratboy2': .5 * 1.4,
   'fratboy3': .59 * 1.4,
@@ -236,19 +262,46 @@ const overworldScale = {
 }
 
 const sizeAndOffset = {
-  'al': {size: [64, 128], offset: [60, 64]},
-  'bennett': {size: [64, 64], offset: [60, 100]},
-  'joe': {size: [64, 64], offset: [60, 100]},
-  'jon': {size: [64, 64], offset: [60, 100]}, //changed to circle though
-  'james': {size: [64, 64], offset: [60, 100]}, //changed to circle though
-  'trevor': {size: [64, 64], offset: [60, 100]}, //changed to circle though
-  'smoke': {size: [64, 64], offset: [60, 100]},
-  'hausdorf': {size: [64, 64], offset: [60, 100]},
-  'stripper': {size: [64, 64], offset: [60, 100]},
+  'al': {
+    size: [64, 128],
+    offset: [60, 64]
+  },
+  'bennett': {
+    size: [64, 64],
+    offset: [60, 100]
+  },
+  'joe': {
+    size: [64, 64],
+    offset: [60, 100]
+  },
+  'jon': {
+    size: [64, 64],
+    offset: [60, 100]
+  }, //changed to circle though
+  'james': {
+    size: [64, 64],
+    offset: [60, 100]
+  }, //changed to circle though
+  'trevor': {
+    size: [64, 64],
+    offset: [60, 100]
+  }, //changed to circle though
+  'smoke': {
+    size: [64, 64],
+    offset: [60, 100]
+  },
+  'hausdorf': {
+    size: [64, 64],
+    offset: [60, 100]
+  },
+  'stripper': {
+    size: [64, 64],
+    offset: [60, 100]
+  },
 }
 
 //character stats
-let specialObject={
+let specialObject = {
   'Mac': ["Muay Thai Combo (3)"],
   'Al': ["Blast Errbody (5)"],
   'Jimmy': ["Double Smack (4)"],
@@ -341,22 +394,56 @@ let doitS = 0;
 let money = 0;
 let hamms = 2;
 let monster = 0;
+let maxice = 0;
+let andycapps = 0;
 let gatorade = 0;
 let liquorItem = 0;
 let larrySpecial = 0;
 let items = [];
-let itemEffects = {"Monster": "SP +10", "Gatorade": "HP +60", "Hamms": "HP +20 SP +5", "Larry Special": "HP max SP max", "Liquor": "fucks you up"}
-let all_usable_items = {"Monster":monster, "Gatorade": gatorade, "Hamms": hamms, "Larry Special": larrySpecial,"Liquor": liquorItem}
-let all_usable_items_icons = {"Monster":"monsterIcon", "Gatorade": "gatoradeIcon", "Hamms": "hammsIcon", "Larry Special": "larrySpecialIcon", "Liquor": "liquorIcon"}
-let usable_items = {"Monster":monster, "Gatorade": gatorade, "Hamms": hamms}
-let numberOfItems = 0;
-for (let i=0; i<Object.keys(usable_items).length;i++){
-  numberOfItems+=usable_items[Object.keys(usable_items)[i]]
+let itemEffects = {
+  "Andy Capp's Hot Fries": "SP Max",
+  'Labatt Max Ice': "HP +60, SP +15",
+  "Monster": "SP +10",
+  "Gatorade": "HP +60",
+  "Hamms": "HP +20 SP +5",
+  "Larry Special": "HP max SP max",
+  "Liquor": "fucks you up"
 }
-let players = ["Mac","Al","Jimmy"];
-let playerColors = {"Mac": 0x0e7d4e, "Al": 0xbe2016, "Jimmy": 0x0d2175}
+let all_usable_items = {
+  "Andy Capp's Hot Fries": andycapps,
+  'Labatt Max Ice': maxice,
+  "Monster": monster,
+  "Gatorade": gatorade,
+  "Hamms": hamms,
+  "Larry Special": larrySpecial,
+  "Liquor": liquorItem
+}
+let all_usable_items_icons = {
+  "Andy Capp's Hot Fries": "andycappsIcon",
+  'Labatt Max Ice': "maxiceIcon",
+  "Monster": "monsterIcon",
+  "Gatorade": "gatoradeIcon",
+  "Hamms": "hammsIcon",
+  "Larry Special": "larrySpecialIcon",
+  "Liquor": "liquorIcon"
+}
+let usable_items = {
+  "Monster": monster,
+  "Gatorade": gatorade,
+  "Hamms": hamms
+}
+let numberOfItems = 0;
+for (let i = 0; i < Object.keys(usable_items).length; i++) {
+  numberOfItems += usable_items[Object.keys(usable_items)[i]]
+}
+let players = ["Mac", "Al", "Jimmy"];
+let playerColors = {
+  "Mac": 0x0e7d4e,
+  "Al": 0xbe2016,
+  "Jimmy": 0x0d2175
+}
 
-let equipmentTypes={
+let equipmentTypes = {
   "Camo T-Shirt": "Mac_upper",
   "Jeans": "Mac_lower",
   "Blue Shirt": "Jimmy_upper",
@@ -374,7 +461,7 @@ let equipmentTypes={
   "Brass Knuckles": "accessory",
   "Sprinting Shoes": "accessory"
 }
-let equipmentList={
+let equipmentList = {
   "Camo T-Shirt": camoTshirt,
   "Jeans": jeans,
   "Blue Shirt": blueShirt,
@@ -392,163 +479,243 @@ let equipmentList={
   "Brass Knuckles": brassKnuckles,
   "Sprinting Shoes": sprintingShoes,
 }
-let equipmentDescriptions={
-  "Camo T-Shirt": {type: "Mac Body", def: 2, effect: "None", color: '#068c1b'},
-  "Jeans": {type: "Mac Legs", def: 1, effect: "None", color: '#068c1b'},
-  "Blue Shirt": {type: "Jimmy Body", def: 3, effect: "None", color: '#0f15a1'},
-  "Snowpants": {type: "Jimmy Legs", def: 1, effect: "None", color: '#0f15a1'},
-  "Red Shirt": {type: "Al Body", def: 3, effect: "None", color: '#cb0000'},
-  "Red Sweatpants": {type: "Al Legs", def: 2, effect: "None", color: '#cb0000'},
-  "SP Booster": {type: "Accessory", def: 0, effect: "Max SP +4", color: '#fff'},
-  "HP Booster": {type: "Accessory", def: 0, effect: "Max HP +20", color: '#fff'},
-  "Damage Booster": {type: "Accessory", def: 0, effect: "Damage +4", color: '#fff'},
-  "Camo Hoody": {type: "Mac Body", def: 20, effect: "None", color: '#068c1b'},
-  "Camo Pants": {type: "Mac Legs", def: 10, effect: "None", color: '#068c1b'},
-  "Fubu Shirt": {type: "Al Body", def: 12, effect: "None", color: '#cb0000'},
-  "Jorts": {type: "Jimmy Legs", def: 15, effect: "None", color: '#0f15a1'},
-  "Wife Beater": {type: "Mac Body", def: 1, effect: "Damage +5", color: '#068c1b'},
-  "Brass Knuckles": {type: "Accessory", def: 0, effect: "Damage +15", color: '#fff'},
-  "Sprinting Shoes": {type: "Accessory", def: 0, effect: "Athletics +.3", color: '#fff'},
+let equipmentDescriptions = {
+  "Camo T-Shirt": {
+    type: "Mac Body",
+    def: 2,
+    effect: "None",
+    color: '#068c1b'
+  },
+  "Jeans": {
+    type: "Mac Legs",
+    def: 1,
+    effect: "None",
+    color: '#068c1b'
+  },
+  "Blue Shirt": {
+    type: "Jimmy Body",
+    def: 3,
+    effect: "None",
+    color: '#0f15a1'
+  },
+  "Snowpants": {
+    type: "Jimmy Legs",
+    def: 1,
+    effect: "None",
+    color: '#0f15a1'
+  },
+  "Red Shirt": {
+    type: "Al Body",
+    def: 3,
+    effect: "None",
+    color: '#cb0000'
+  },
+  "Red Sweatpants": {
+    type: "Al Legs",
+    def: 2,
+    effect: "None",
+    color: '#cb0000'
+  },
+  "SP Booster": {
+    type: "Accessory",
+    def: 0,
+    effect: "Max SP +4",
+    color: '#fff'
+  },
+  "HP Booster": {
+    type: "Accessory",
+    def: 0,
+    effect: "Max HP +20",
+    color: '#fff'
+  },
+  "Damage Booster": {
+    type: "Accessory",
+    def: 0,
+    effect: "Damage +4",
+    color: '#fff'
+  },
+  "Camo Hoody": {
+    type: "Mac Body",
+    def: 20,
+    effect: "None",
+    color: '#068c1b'
+  },
+  "Camo Pants": {
+    type: "Mac Legs",
+    def: 10,
+    effect: "None",
+    color: '#068c1b'
+  },
+  "Fubu Shirt": {
+    type: "Al Body",
+    def: 12,
+    effect: "None",
+    color: '#cb0000'
+  },
+  "Jorts": {
+    type: "Jimmy Legs",
+    def: 15,
+    effect: "None",
+    color: '#0f15a1'
+  },
+  "Wife Beater": {
+    type: "Mac Body",
+    def: 1,
+    effect: "Damage +5",
+    color: '#068c1b'
+  },
+  "Brass Knuckles": {
+    type: "Accessory",
+    def: 0,
+    effect: "Damage +15",
+    color: '#fff'
+  },
+  "Sprinting Shoes": {
+    type: "Accessory",
+    def: 0,
+    effect: "Athletics +.3",
+    color: '#fff'
+  },
 }
 //bool=true means we are equipping. Otherwise we are unequipping
-function giveCrackhead1(){
-  if (money>=1){
-    money-=1;
-    moneyToCrackhead+=1;
-  }
-}
-function sprintingShoes(player,bool){
-  if (bool===true){
-    athletics+=.3
-  }
-  else {
-    athletics-=.3
-  }
-}
-function brassKnuckles(player,bool){
-  if (bool===true){
-    damageObject[player]+=15
-  }
-  else {
-    damageObject[player]-=15
-  }
-}
-function camoTshirt(player,bool){
-  if (bool===true){
-    defenseObject[player]+=2
-  }
-  else {
-    defenseObject[player]-=2
-  }
-}
-function jeans(player,bool){
-  if (bool===true){
-    defenseObject[player]+=1
-  }
-  else {
-    defenseObject[player]-=1
-  }
-}
-function blueShirt(player,bool){
-  if (bool===true){
-    defenseObject[player]+=3
-  }
-  else {
-    defenseObject[player]-=3
-  }
-}
-function snowpants(player,bool){
-  if (bool===true){
-    defenseObject[player]+=1
-  }
-  else {
-    defenseObject[player]-=1
-  }
-}
-function redShirt(player,bool){
-  if (bool===true){
-    defenseObject[player]+=3
-  }
-  else {
-    defenseObject[player]-=3
-  }
-}
-function redSweatpants(player,bool){
-  if (bool===true){
-    defenseObject[player]+=2
-  }
-  else {
-    defenseObject[player]-=2
-  }
-}
-function spBooster(player,bool){
-  if (bool===true){
-    maxSPObject[player]+=4
-  }
-  else {
-    maxSPObject[player]-=4
-  }
-}
-function hpBooster(player,bool){
-  if (bool===true){
-    maxHPObject[player]+=20
-  }
-  else {
-    maxHPObject[player]-=20
-  }
-}
-function damageBooster(player,bool){
-  if (bool===true){
-    damageObject[player]+=4
-  }
-  else {
-    damageObject[player]-=4
-  }
-}
-function camoHoody(player,bool){
-  if (bool===true){
-    defenseObject[player]+=20
-  }
-  else {
-    defenseObject[player]-=20
-  }
-}
-function camoPants(player,bool){
-  if (bool===true){
-    defenseObject[player]+=10
-  }
-  else {
-    defenseObject[player]-=10
-  }
-}
-function fubuShirt(player,bool){
-  if (bool===true){
-    defenseObject[player]+=12
-  }
-  else {
-    defenseObject[player]-=12
-  }
-}
-function jorts(player,bool){
-  if (bool===true){
-    defenseObject[player]+=15
-  }
-  else {
-    defenseObject[player]-=15
-  }
-}
-function wifeBeater(player,bool){
-  if (bool===true){
-    defenseObject[player]+=1
-    damageObject[player]+=5
-  }
-  else {
-    defenseObject[player]-=1
-    damageObject[player]-=5
+function giveCrackhead1() {
+  if (money >= 1) {
+    money -= 1;
+    moneyToCrackhead += 1;
   }
 }
 
-let equipped={
+function sprintingShoes(player, bool) {
+  if (bool === true) {
+    athletics += .3
+  } else {
+    athletics -= .3
+  }
+}
+
+function brassKnuckles(player, bool) {
+  if (bool === true) {
+    damageObject[player] += 15
+  } else {
+    damageObject[player] -= 15
+  }
+}
+
+function camoTshirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 2
+  } else {
+    defenseObject[player] -= 2
+  }
+}
+
+function jeans(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 1
+  } else {
+    defenseObject[player] -= 1
+  }
+}
+
+function blueShirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 3
+  } else {
+    defenseObject[player] -= 3
+  }
+}
+
+function snowpants(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 1
+  } else {
+    defenseObject[player] -= 1
+  }
+}
+
+function redShirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 3
+  } else {
+    defenseObject[player] -= 3
+  }
+}
+
+function redSweatpants(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 2
+  } else {
+    defenseObject[player] -= 2
+  }
+}
+
+function spBooster(player, bool) {
+  if (bool === true) {
+    maxSPObject[player] += 4
+  } else {
+    maxSPObject[player] -= 4
+  }
+}
+
+function hpBooster(player, bool) {
+  if (bool === true) {
+    maxHPObject[player] += 20
+  } else {
+    maxHPObject[player] -= 20
+  }
+}
+
+function damageBooster(player, bool) {
+  if (bool === true) {
+    damageObject[player] += 4
+  } else {
+    damageObject[player] -= 4
+  }
+}
+
+function camoHoody(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 20
+  } else {
+    defenseObject[player] -= 20
+  }
+}
+
+function camoPants(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 10
+  } else {
+    defenseObject[player] -= 10
+  }
+}
+
+function fubuShirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 12
+  } else {
+    defenseObject[player] -= 12
+  }
+}
+
+function jorts(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 15
+  } else {
+    defenseObject[player] -= 15
+  }
+}
+
+function wifeBeater(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 1
+    damageObject[player] += 5
+  } else {
+    defenseObject[player] -= 1
+    damageObject[player] -= 5
+  }
+}
+
+let equipped = {
   "Mac": {
     upper: "Camo T-Shirt",
     lower: "Jeans",
@@ -567,226 +734,226 @@ let equipped={
 }
 
 //custom functions
-function saveGame(){
-  saveFileExists=true;
+function saveGame() {
+  saveFileExists = true;
   var file = {
-      fratboy2primedialogue:fratboy2primedialogue,
-      newDarkDialogue:newDarkDialogue,
-      darkboydialogue:darkboydialogue,
-      firstTimeCarGet:firstTimeCarGet,
-      fratboy1FirstTalk:fratboy1FirstTalk,
-      fratboy2FirstTalk:fratboy2FirstTalk,
-      fratboy3FirstTalk:fratboy3FirstTalk,
-      fratboy4FirstTalk:fratboy4FirstTalk,
-      fratboy5FirstTalk:fratboy5FirstTalk,
-      jamesFirstTalk:jamesFirstTalk,
-      joeFirstTalk:joeFirstTalk,
-      bennettFirstTalk:bennettFirstTalk,
-      jonFirstTalk:jonFirstTalk,
-      firstPoolParty:firstPoolParty,
-      ogFirstTalk:ogFirstTalk,
-      gunTalk:gunTalk,
-      newGame:newGame,
-      girl1VolleyballDialogue:girl1VolleyballDialogue,
-      girl2FirstDialogue:girl2FirstDialogue,
-      girl3FirstDialogue:girl3FirstDialogue,
-      girl4FirstDialogue:girl4FirstDialogue,
-      highnessDialogue:highnessDialogue,
-      alFirstTalk:alFirstTalk,
-      darkworldDialogue:darkworldDialogue,
-      scene_number:scene_number,
-      chaserInitiateFight:chaserInitiateFight,
-      maxSPObject:maxSPObject,
-      spObject:spObject,
-      critObject:critObject,
-      defenseObject:defenseObject,
-      hpObject:hpObject,
-      maxHPObject:maxHPObject,
-      expObject:expObject,
-      levelObject:levelObject,
-      damageObject:damageObject,
-      sentBack:sentBack,
-      worldTheme:worldTheme,
-      darkWorld:darkWorld,
-      keepawayHighScore:keepawayHighScore,
-      playerTexture:playerTexture,
-      brothersSeal:brothersSeal,
-      wentPro:trevor.joinParameter,
-      highness:highness,
-      gas:gas,
-      items:items,
-      phoneGet:phoneGet,
-      walletGet:walletGet,
-      keysGet:keysGet,
-      alGet:al.joinParameter,
-      bennettGet:bennett.joinParameter,
-      money:money,
-      hamms:hamms,
-      monster:monster,
-      gatorade:gatorade,
-      equipment: equipment,
-      trevorfollowing: trevor.following,
-      alfollowing: al.following,
-      bennettfollowing: bennett.following,
-      potentialParty: potentialParty,
+    fratboy2primedialogue: fratboy2primedialogue,
+    newDarkDialogue: newDarkDialogue,
+    darkboydialogue: darkboydialogue,
+    firstTimeCarGet: firstTimeCarGet,
+    fratboy1FirstTalk: fratboy1FirstTalk,
+    fratboy2FirstTalk: fratboy2FirstTalk,
+    fratboy3FirstTalk: fratboy3FirstTalk,
+    fratboy4FirstTalk: fratboy4FirstTalk,
+    fratboy5FirstTalk: fratboy5FirstTalk,
+    jamesFirstTalk: jamesFirstTalk,
+    joeFirstTalk: joeFirstTalk,
+    bennettFirstTalk: bennettFirstTalk,
+    jonFirstTalk: jonFirstTalk,
+    firstPoolParty: firstPoolParty,
+    ogFirstTalk: ogFirstTalk,
+    gunTalk: gunTalk,
+    newGame: newGame,
+    girl1VolleyballDialogue: girl1VolleyballDialogue,
+    girl2FirstDialogue: girl2FirstDialogue,
+    girl3FirstDialogue: girl3FirstDialogue,
+    girl4FirstDialogue: girl4FirstDialogue,
+    highnessDialogue: highnessDialogue,
+    alFirstTalk: alFirstTalk,
+    darkworldDialogue: darkworldDialogue,
+    scene_number: scene_number,
+    chaserInitiateFight: chaserInitiateFight,
+    maxSPObject: maxSPObject,
+    spObject: spObject,
+    critObject: critObject,
+    defenseObject: defenseObject,
+    hpObject: hpObject,
+    maxHPObject: maxHPObject,
+    expObject: expObject,
+    levelObject: levelObject,
+    damageObject: damageObject,
+    sentBack: sentBack,
+    worldTheme: worldTheme,
+    darkWorld: darkWorld,
+    keepawayHighScore: keepawayHighScore,
+    playerTexture: playerTexture,
+    brothersSeal: brothersSeal,
+    wentPro: trevor.joinParameter,
+    highness: highness,
+    gas: gas,
+    items: items,
+    phoneGet: phoneGet,
+    walletGet: walletGet,
+    keysGet: keysGet,
+    alGet: al.joinParameter,
+    bennettGet: bennett.joinParameter,
+    money: money,
+    hamms: hamms,
+    monster: monster,
+    gatorade: gatorade,
+    equipment: equipment,
+    trevorfollowing: trevor.following,
+    alfollowing: al.following,
+    bennettfollowing: bennett.following,
+    potentialParty: potentialParty,
   };
-  localStorage.setItem('saveFile',JSON.stringify(file));
+  localStorage.setItem('saveFile', JSON.stringify(file));
 }
 
-function loadGame (){
-  loading=true;
-  restart=true;
+function loadGame() {
+  loading = true;
+  restart = true;
 }
 
-function loadGame2 (){
-  if (saveFileExists){
+function loadGame2() {
+  if (saveFileExists) {
     var file = JSON.parse(localStorage.getItem('saveFile'));
-    fratboy2primedialogue=file.fratboy2primedialogue
-    newDarkDialogue=file.newDarkDialogue
-    darkboydialogue=file.darkboydialogue
-    firstTimeCarGet=file.firstTimeCarGet
-    fratboy1FirstTalk=file.fratboy1FirstTalk
-    fratboy2FirstTalk=file.fratboy2FirstTalk
-    fratboy3FirstTalk=file.fratboy3FirstTalk
-    fratboy4FirstTalk=file.fratboy4FirstTalk
-    fratboy5FirstTalk=file.fratboy5FirstTalk
-    jamesFirstTalk=file.jamesFirstTalk
-    joeFirstTalk=file.joeFirstTalk
-    bennettFirstTalk=file.bennettFirstTalk
-    jonFirstTalk=file.jonFirstTalk
-    firstPoolParty=file.firstPoolParty
-    ogFirstTalk=file.ogFirstTalk
-    gunTalk=file.gunTalk
-    newGame=file.newGame
-    girl1VolleyballDialogue=file.girl1VolleyballDialogue
-    girl2FirstDialogue=file.girl2FirstDialogue
-    girl3FirstDialogue=file.girl3FirstDialogue
-    girl4FirstDialogue=file.girl4FirstDialogue
-    highnessDialogue=file.highnessDialogue
-    alFirstTalk=file.alFirstTalk
-    darkworldDialogue=file.darkworldDialogue
-    scene_number=file.scene_number
-    chaserInitiateFight=file.chaserInitiateFight
-    maxSPObject=file.maxSPObject
-    spObject=file.spObject
-    critObject=file.critObject
-    defenseObject=file.defenseObject
-    hpObject=file.hpObject
-    maxHPObject=file.maxHPObject
-    expObject=file.expObject
-    levelObject=file.levelObject
-    damageObject=file.damageObject
-    sentBack=file.sentBack
-    worldTheme=file.worldTheme
-    darkWorld=file.darkWorld
-    keepawayHighScore=file.keepawayHighScore
-    playerTexture=file.playerTexture
-    brothersSeal=file.brothersSeal
-    trevor.joinParameter=file.wentPro
-    highness=file.highness
-    gas=file.gas
-    items=file.items
-    phoneGet=file.phoneGet
-    walletGet=file.walletGet
-    keysGet=file.keysGet
-    al.joinParameter=file.alGet
-    bennett.joinParameter=file.bennettGet
-    money=file.money
-    hamms=file.hamms
-    monster=file.monster
-    gatorade=file.gatorade
-    usable_items["Monster"]=file.monster
-    usable_items["Gatorade"]=file.gatorade
-    usable_items["Hamms"]=file.hamms
-    equipment=file.equipment
-    trevor.following=file.trevorfollowing
-    al.following=file.alfollowing
-    bennett.following=file.bennettfollowing
-    potentialParty=file.potentialParty
+    fratboy2primedialogue = file.fratboy2primedialogue
+    newDarkDialogue = file.newDarkDialogue
+    darkboydialogue = file.darkboydialogue
+    firstTimeCarGet = file.firstTimeCarGet
+    fratboy1FirstTalk = file.fratboy1FirstTalk
+    fratboy2FirstTalk = file.fratboy2FirstTalk
+    fratboy3FirstTalk = file.fratboy3FirstTalk
+    fratboy4FirstTalk = file.fratboy4FirstTalk
+    fratboy5FirstTalk = file.fratboy5FirstTalk
+    jamesFirstTalk = file.jamesFirstTalk
+    joeFirstTalk = file.joeFirstTalk
+    bennettFirstTalk = file.bennettFirstTalk
+    jonFirstTalk = file.jonFirstTalk
+    firstPoolParty = file.firstPoolParty
+    ogFirstTalk = file.ogFirstTalk
+    gunTalk = file.gunTalk
+    newGame = file.newGame
+    girl1VolleyballDialogue = file.girl1VolleyballDialogue
+    girl2FirstDialogue = file.girl2FirstDialogue
+    girl3FirstDialogue = file.girl3FirstDialogue
+    girl4FirstDialogue = file.girl4FirstDialogue
+    highnessDialogue = file.highnessDialogue
+    alFirstTalk = file.alFirstTalk
+    darkworldDialogue = file.darkworldDialogue
+    scene_number = file.scene_number
+    chaserInitiateFight = file.chaserInitiateFight
+    maxSPObject = file.maxSPObject
+    spObject = file.spObject
+    critObject = file.critObject
+    defenseObject = file.defenseObject
+    hpObject = file.hpObject
+    maxHPObject = file.maxHPObject
+    expObject = file.expObject
+    levelObject = file.levelObject
+    damageObject = file.damageObject
+    sentBack = file.sentBack
+    worldTheme = file.worldTheme
+    darkWorld = file.darkWorld
+    keepawayHighScore = file.keepawayHighScore
+    playerTexture = file.playerTexture
+    brothersSeal = file.brothersSeal
+    trevor.joinParameter = file.wentPro
+    highness = file.highness
+    gas = file.gas
+    items = file.items
+    phoneGet = file.phoneGet
+    walletGet = file.walletGet
+    keysGet = file.keysGet
+    al.joinParameter = file.alGet
+    bennett.joinParameter = file.bennettGet
+    money = file.money
+    hamms = file.hamms
+    monster = file.monster
+    gatorade = file.gatorade
+    usable_items["Monster"] = file.monster
+    usable_items["Gatorade"] = file.gatorade
+    usable_items["Hamms"] = file.hamms
+    equipment = file.equipment
+    trevor.following = file.trevorfollowing
+    al.following = file.alfollowing
+    bennett.following = file.bennettfollowing
+    potentialParty = file.potentialParty
   }
 }
 
-function sleep(){
-  hpObject["Mac"]=maxHPObject["Mac"];
-  hpObject["Jimmy"]=maxHPObject["Jimmy"];
-  hpObject["Al"]=maxHPObject["Al"];
-  hpObject["Bennett"]=maxHPObject["Bennett"];
-  spObject["Mac"]=maxSPObject["Mac"];
-  spObject["Jimmy"]=maxSPObject["Jimmy"];
-  spObject["Al"]=maxSPObject["Al"];
-  spObject["Bennett"]=maxSPObject["Bennett"];
+function sleep() {
+  hpObject["Mac"] = maxHPObject["Mac"];
+  hpObject["Jimmy"] = maxHPObject["Jimmy"];
+  hpObject["Al"] = maxHPObject["Al"];
+  hpObject["Bennett"] = maxHPObject["Bennett"];
+  spObject["Mac"] = maxSPObject["Mac"];
+  spObject["Jimmy"] = maxSPObject["Jimmy"];
+  spObject["Al"] = maxSPObject["Al"];
+  spObject["Bennett"] = maxSPObject["Bennett"];
   console.log("You feel refreshed")
 }
 
-function scoreGoal(){
-  volleyballScore+=1
+function scoreGoal() {
+  volleyballScore += 1
   volleyball.disableBody(true, true)
-  volleyball.enableBody(true, gameState.VolleyballSpawnPoint.x-32, gameState.VolleyballSpawnPoint.y-250, true, true);
+  volleyball.enableBody(true, gameState.VolleyballSpawnPoint.x - 32, gameState.VolleyballSpawnPoint.y - 250, true, true);
   console.log(volleyballScore)
 }
 
-function goInDoor(){
-  myAptDoor=1
-  indoorZone="myApartment"
+function goInDoor() {
+  myAptDoor = 1
+  indoorZone = "myApartment"
 }
 
-function goInPool(){
-  inPool=true
+function goInPool() {
+  inPool = true
 }
 
-function joeTimerStart(){
-  if (money>=2){
-    _timerStart=true;
-    resetTime=true;
-    joeBets=true
+function joeTimerStart() {
+  if (money >= 2) {
+    _timerStart = true;
+    resetTime = true;
+    joeBets = true
     twoballscore = 0;
   } else {
-    joeNotEnoughToBet=true
+    joeNotEnoughToBet = true
   }
 }
 
-function jamesTimerStart(){
-  if (money>=1){
-    _timerStart=true;
-    resetTime=true;
-    jamesBets=true
+function jamesTimerStart() {
+  if (money >= 1) {
+    _timerStart = true;
+    resetTime = true;
+    jamesBets = true
     twoballscore = 0;
   } else {
-    jamesNotEnoughToBet=true
+    jamesNotEnoughToBet = true
   }
 }
 
-function goInPocketCue(){
-  cueInPocket=true
+function goInPocketCue() {
+  cueInPocket = true
 }
 
-function goInPocketEight(){
-  eightInPocket=true
+function goInPocketEight() {
+  eightInPocket = true
 }
 
-function goInPocketNine(){
-  nineInPocket=true
+function goInPocketNine() {
+  nineInPocket = true
 }
 
-function exitPool(){
-  inPool=false
+function exitPool() {
+  inPool = false
 }
 
-function ballGoInPool(){
-  ballInPool=true
+function ballGoInPool() {
+  ballInPool = true
 }
 
-function ballExitPool(){
-  ballInPool=false
+function ballExitPool() {
+  ballInPool = false
 }
 
-function exitApt(){
-  myAptDoorExit=1
+function exitApt() {
+  myAptDoorExit = 1
 }
 
 function onMeetEnemy1(player, zone) {
   if (worldTheme === 'light' && playerTexture === 0 && inPool === false) {
-    chasersEnabled=true;
+    chasersEnabled = true;
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
     rr = Math.floor(Math.random() * enemsForChasers.length);
@@ -800,10 +967,18 @@ function onMeetEnemy1(player, zone) {
     set4 = new Set([rr, ss, tt, pp, qq]);
     let chasersIndexArray = []
     chasersIndexArray.push(rr)
-    if (set1.size === 2) {chasersIndexArray.push(ss)}
-    if (set2.size === 3) {chasersIndexArray.push(tt)}
-    if (set3.size === 4 && trevor.joinParameter) {chasersIndexArray.push(pp)}
-    if (set4.size === 5 && al.joinParameter) {chasersIndexArray.push(qq)}
+    if (set1.size === 2) {
+      chasersIndexArray.push(ss)
+    }
+    if (set2.size === 3) {
+      chasersIndexArray.push(tt)
+    }
+    if (set3.size === 4 && trevor.joinParameter) {
+      chasersIndexArray.push(pp)
+    }
+    if (set4.size === 5 && al.joinParameter) {
+      chasersIndexArray.push(qq)
+    }
     //let chasersGuys=[]
     for (const i of chasersIndexArray) {
       let theta = Math.random() * 2 * 3.1415;
@@ -815,7 +990,7 @@ function onMeetEnemy1(player, zone) {
       for (const i of chasersIndexArray) {
         //chasers[i].destroy()
         chasers[i].disableBody(true, true);
-        chasersEnabled=false;
+        chasersEnabled = false;
         //chasersGuys[i].destroy()
       }
     }, 10000);
@@ -831,18 +1006,30 @@ function onMeetEnemy2() {
     gameState.linkWoods.stop();
     gameState.trevorWoods.stop();
     gameState.battleSongIndex = Math.floor(Math.random() * 9);
-    if (gameState.battleSongIndex === 0) {gameState.battlesong1.play()}
-    else if (gameState.battleSongIndex === 1) {gameState.battlesong2.play()}
-    else if (gameState.battleSongIndex === 2) {gameState.battlesong3.play()}
-    else if (gameState.battleSongIndex === 3) {gameState.battlesong4.play()}
-    else if (gameState.battleSongIndex === 4) {gameState.battlesong5.play()}
-    else if (gameState.battleSongIndex === 5) {gameState.battlesong6.play()}
-    else if (gameState.battleSongIndex === 6) {gameState.battlesong7.play()}
-    else if (gameState.battleSongIndex === 7) {gameState.battlesong8.play()}
-    else if (gameState.battleSongIndex === 8) {gameState.battlesong9.play()}
+    if (gameState.battleSongIndex === 0) {
+      gameState.battlesong1.play()
+    } else if (gameState.battleSongIndex === 1) {
+      gameState.battlesong2.play()
+    } else if (gameState.battleSongIndex === 2) {
+      gameState.battlesong3.play()
+    } else if (gameState.battleSongIndex === 3) {
+      gameState.battlesong4.play()
+    } else if (gameState.battleSongIndex === 4) {
+      gameState.battlesong5.play()
+    } else if (gameState.battleSongIndex === 5) {
+      gameState.battlesong6.play()
+    } else if (gameState.battleSongIndex === 6) {
+      gameState.battlesong7.play()
+    } else if (gameState.battleSongIndex === 7) {
+      gameState.battlesong8.play()
+    } else if (gameState.battleSongIndex === 8) {
+      gameState.battlesong9.play()
+    }
     this.scene.switch('BattleScene');
     chaserInitiateFight = 0;
-    for (let i = 0; i < chasers.length; i++) {chasers[i].disableBody(true, true)}
+    for (let i = 0; i < chasers.length; i++) {
+      chasers[i].disableBody(true, true)
+    }
   }
 }
 
@@ -864,7 +1051,7 @@ function joeBorrow() {
 
 //to initiate joe giving you 10 bucks
 function joeGive() {
-  money -=2;
+  money -= 2;
   gameState.block.play()
 }
 
@@ -876,46 +1063,51 @@ function jamesBorrow() {
 
 //to initiate joe giving you 10 bucks
 function jamesGive() {
-  money -=1;
+  money -= 1;
   gameState.block.play()
 }
 
 function applyRailEnglish() {
-  railEnglish=true
+  railEnglish = true
 }
 
-function hitTopRail(){
-  _hitTopRail=true
+function hitTopRail() {
+  _hitTopRail = true
 }
-function hitTopRailRight(){
-  _hitTopRailRight=true
+
+function hitTopRailRight() {
+  _hitTopRailRight = true
 }
-function hitBottomRail(){
-  _hitBottomRail=true
+
+function hitBottomRail() {
+  _hitBottomRail = true
 }
-function hitBottomRailRight(){
-  _hitBottomRailRight=true
+
+function hitBottomRailRight() {
+  _hitBottomRailRight = true
 }
-function hitLeftRail(){
-  _hitLeftRail=true
+
+function hitLeftRail() {
+  _hitLeftRail = true
 }
-function hitRightRail(){
-  _hitRightRail=true
+
+function hitRightRail() {
+  _hitRightRail = true
 }
 
 //direction vector
-function directionVector(obj1,obj2){
-  return [(obj2.x-obj1.x)/distance(obj1,obj2),(obj2.y-obj1.y)/distance(obj1,obj2)]
+function directionVector(obj1, obj2) {
+  return [(obj2.x - obj1.x) / distance(obj1, obj2), (obj2.y - obj1.y) / distance(obj1, obj2)]
 }
 
 //direction vector
-function spriteSpeed(obj){
-  return Math.sqrt(obj.body.velocity.x**2+obj.body.velocity.y**2)
+function spriteSpeed(obj) {
+  return Math.sqrt(obj.body.velocity.x ** 2 + obj.body.velocity.y ** 2)
 }
 
 //to buy from homeboy
 function buyWeed() {
-  if (money >= 10 && highScore>40) {
+  if (money >= 10 && highScore > 40) {
     money -= 10;
     items.push('Weed (2g)')
     gameState.itemget.play();
@@ -925,7 +1117,7 @@ function buyWeed() {
 }
 
 function shaken() {
-  shakeTheWorld=true
+  shakeTheWorld = true
 }
 
 //to buy from homeboy (bad deal)
@@ -972,15 +1164,32 @@ function useItem(object, player) {
         spObject[player] = maxSPObject[player]
       }
     }
-  }
-    else if (object === "Liquor") {
-      if (liquorItem >= 1) {
-        liquorItem -= 1
-        usable_items["Liquor"] -= 1
+  } else if (object === "Liquor") {
+    if (liquorItem >= 1) {
+      liquorItem -= 1
+      usable_items["Liquor"] -= 1
+      spObject[player] = maxSPObject[player]
+    }
+  } else if (object === "Andy Capp's Hot Fries") {
+    if (andycapps >= 1) {
+      andycapps -= 1
+      usable_items["Andy Capp's Hot Fries"] -= 1
+      spObject[player] = maxSPObject[player]
+    }
+  } else if (object === "Labatt Max Ice") {
+    if (maxice >= 1) {
+      maxice -= 1
+      usable_items["Labatt Max Ice"] -= 1
+      hpObject[player] += 50
+      if (hpObject[player] >= maxHPObject[player]) {
+        hpObject[player] = maxHPObject[player]
+      }
+      spObject[player] += 15
+      if (spObject[player] >= maxSPObject[player]) {
         spObject[player] = maxSPObject[player]
       }
-  }
-  else if (object === "Larry Special") {
+    }
+  } else if (object === "Larry Special") {
     if (larrySpecial >= 1) {
       larrySpecial -= 1
       usable_items["Larry Special"] -= 1
@@ -1081,29 +1290,29 @@ function adventured() { //play zelda block noise
 }
 
 function startRace() {
-  raceBegin=true;
+  raceBegin = true;
 }
 
 function meWinRace() {
-  if (raceOngoing){
-      winRace=1;
+  if (raceOngoing) {
+    winRace = 1;
   }
 }
 
 function bennettWinRace() {
-  if (raceOngoing){
-      winRace=2;
+  if (raceOngoing) {
+    winRace = 2;
   }
 }
 
 function endRaceWin() {
-  wonRace=1;
-  bennettGet=1
+  wonRace = 1;
+  bennettGet = 1
   gameState.itemget.play()
 }
 
 function endRaceLoss() {
-  wonRace=2;
+  wonRace = 2;
 }
 
 function getDead() { //to initiate gameover
@@ -1145,13 +1354,13 @@ function dioFight() { //initiate dio fight
 
 function getBeer() { //bennett gives you beer
   hamms += 1
-  usable_items["Hamms"]+=1
+  usable_items["Hamms"] += 1
   gameState.itemget.play()
 }
 
 function getMonsters() { //james gives you monster
   monster += 2
-  usable_items["Monster"]+=2
+  usable_items["Monster"] += 2
   gameState.itemget.play()
 }
 
@@ -1229,10 +1438,10 @@ function getOneDamageBennett() { //level up increase damage
   gameState.itemget.play()
 }
 
-function skillCheck(player){
-  if (player==="Mac" && levelObject["Mac"]===3){
+function skillCheck(player) {
+  if (player === "Mac" && levelObject["Mac"] === 3) {
     specialObject["Mac"].push("Fuck Everybody Up (8)")
-    skillDialogue["Mac"][3]=true
+    skillDialogue["Mac"][3] = true
   }
 }
 
@@ -1307,13 +1516,13 @@ function alCheckhamms() { //al checks if you have hamms and weed, if so, he join
 function colleenCheck20() { //al checks if you have hamms and weed, if so, he joins your party
   if (money >= 20) {
     cokeGet()
-    money-=20
+    money -= 20
   }
 }
 
 function jimmyJoins() { //if you go pro for the first time jimmy joins your party
-  if (jimmyJoinParam===false) {
-    jimmyJoinParam=true
+  if (jimmyJoinParam === false) {
+    jimmyJoinParam = true
   }
 }
 
@@ -1325,23 +1534,23 @@ function gunGet() { //al joins your party (still called gunget because he used t
 function cokeGet() { //al joins your party (still called gunget because he used to just give you a gun)
   gameState.itemget.play()
   items.push("Gram of Coke")
-  girl4FirstDialogue=4
+  girl4FirstDialogue = 4
 }
 
 //this removes all instances of obj from the array arr
-function removeAll(arr,obj){
-  for (var i=0;i<arr.length;i++){
-    if (arr[i]===obj){
-      arr.splice(i,1)
+function removeAll(arr, obj) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] === obj) {
+      arr.splice(i, 1)
     }
   }
 }
 
 //this removes first instance of obj from the array arr
-function removeFirst(arr,obj){
-  for (var i=0;i<arr.length;i++){
-    if (arr[i]===obj){
-      arr.splice(i,1)
+function removeFirst(arr, obj) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] === obj) {
+      arr.splice(i, 1)
       break
     }
   }
@@ -1350,15 +1559,15 @@ function removeFirst(arr,obj){
 function getBrassKnuckles() { //al joins your party (still called gunget because he used to just give you a gun)
   gameState.itemget.play()
   equipment.push("Brass Knuckles")
-  removeAll(items,"Gram of Coke")
+  removeAll(items, "Gram of Coke")
 }
 
-function getHPBoost(){
+function getHPBoost() {
   equipment.push("HP Booster");
   gameState.itemget.play();
 }
 
-function getDamageBoost(){
+function getDamageBoost() {
   equipment.push("Damage Booster");
   gameState.itemget.play();
 }

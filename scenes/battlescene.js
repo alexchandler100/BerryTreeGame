@@ -471,6 +471,41 @@ var Unit = new Phaser.Class({
     }
   },
 
+  maxice: function() {
+    if (defendOn[this.type]) {
+      defendOn[this.type] = false
+    }
+    if (maxice >= 1) {
+      if (this.type==="Mac"){
+        gameStateBattle.me.anims.play('drink_monster', true);
+        window.setTimeout(() => {
+          gameStateBattle.me.anims.play('leftwalk', true);
+        }, 2999);
+      } else if (this.type==="Jimmy"){
+        gameStateBattle.trevor.anims.play('trevor_drink_monster', true);
+        window.setTimeout(() => {
+          gameStateBattle.trevor.anims.play('trevorleft', true);
+        }, 2999);
+      }
+      gameState.drinkCan.play()
+      this.scene.events.emit("Message", this.type + " drinks a Max Ice to recover 50 HP and 15 SP");
+      maxice -= 1
+      usable_items["Labatt Max Ice"]-=1;
+      spObject[this.type] += 15
+      hpObject[this.type] += 50
+      this.hp += 50
+      if (spObject[this.type] >= maxSPObject[this.type]) {
+        spObject[this.type] = maxSPObject[this.type]
+      }
+      if (hpObject[this.type] >= maxHPObject[this.type]) {
+        hpObject[this.type] = maxHPObject[this.type]
+        this.hp = maxHPObject[this.type]
+      }
+    } else {
+      this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
+    }
+  },
+
   larrySpecial: function() {
     if (defendOn[this.type]) {
       defendOn[this.type] = false
@@ -904,7 +939,7 @@ var BattleScene = new Phaser.Class({
       let rn2 = Math.random();
       if (rn2 < rewardProbability) {
         itemReward = rewardKeys[rn];
-        if (itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special') {
+        if (itemReward==="Andy Capp's Hot Fries" ||itemReward === 'Labatt Max Ice' ||itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special') {
           all_usable_items[itemReward] += 1;
           if (usable_items[itemReward]){
             usable_items[itemReward]+=1
@@ -1009,6 +1044,11 @@ var BattleScene = new Phaser.Class({
         this.index--
       }
       this.units[this.index].monster()
+    } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Labatt Max Ice') {
+      if (maxice===0){
+        this.index--
+      }
+      this.units[this.index].maxice()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Hamms') {
       if (hamms===0){
         this.index--
@@ -1387,6 +1427,14 @@ var UIScene = new Phaser.Class({
       this.actionsMenu.actionsRemap()
       this.actionsMenu.deselect()
     } else if (this.actionsMenu.menuItems[actionIndex]._text == 'Monster') {
+      this.battleScene.receivePlayerSelection(actionIndex, 0);
+      this.actionsMenu.actionsRemap()
+      this.actionsMenu.deselect()
+    } else if (this.actionsMenu.menuItems[actionIndex]._text == "Labatt Max Ice") {
+      this.battleScene.receivePlayerSelection(actionIndex, 0);
+      this.actionsMenu.actionsRemap()
+      this.actionsMenu.deselect()
+    } else if (this.actionsMenu.menuItems[actionIndex]._text == "Andy Capp's Hot Fries") {
       this.battleScene.receivePlayerSelection(actionIndex, 0);
       this.actionsMenu.actionsRemap()
       this.actionsMenu.deselect()

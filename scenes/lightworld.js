@@ -2706,15 +2706,27 @@ var LightWorld = new Phaser.Class({
       money += 10;
       hamms += 1;
       monster += 1;
+      maxice+=1;
+      andycapps+=1;
       gatorade += 1;
-      larrySpecial += 1
-      usable_items["Hamms"] += 1
-      usable_items["Monster"] += 1
-      usable_items["Gatorade"] += 1
+      larrySpecial += 1;
+      usable_items["Hamms"] += 1;
+      usable_items["Monster"] += 1;
+      usable_items["Gatorade"] += 1;
       if (usable_items["Larry Special"]){
-        usable_items["Larry Special"] += 1
+        usable_items["Larry Special"] += 1;
       } else {
-        usable_items["Larry Special"] = 1
+        usable_items["Larry Special"] = 1;
+      }
+      if (usable_items["Andy Capp's Hot Fries"]){
+        usable_items["Andy Capp's Hot Fries"] += 1;
+      } else {
+        usable_items["Andy Capp's Hot Fries"] = 1;
+      }
+      if (usable_items["Labatt Max Ice"]){
+        usable_items["Labatt Max Ice"] += 1;
+      } else {
+        usable_items["Labatt Max Ice"] = 1;
       }
       gameState.secret.play()
       for (itemz of ["SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes"]) {
