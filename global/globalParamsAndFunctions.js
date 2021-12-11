@@ -157,7 +157,7 @@ let animObject = {
 let sfxObject = {
   "Dio": "slash",
   "Frat Boy 1": "bodyhit",
-  "Frat Boy 2": "bodyhit",
+  "Frat Boy 2": "spray",
   "Frat Boy 3": "bodyhit",
   "Frat Boy 4": "bodyhit",
   "Crackhead": "bitenoise",
@@ -1304,6 +1304,13 @@ function alCheckhamms() { //al checks if you have hamms and weed, if so, he join
   beatbox = 1
 }
 
+function colleenCheck20() { //al checks if you have hamms and weed, if so, he joins your party
+  if (money >= 20) {
+    cokeGet()
+    money-=20
+  }
+}
+
 function jimmyJoins() { //if you go pro for the first time jimmy joins your party
   if (jimmyJoinParam===false) {
     jimmyJoinParam=true
@@ -1318,11 +1325,32 @@ function gunGet() { //al joins your party (still called gunget because he used t
 function cokeGet() { //al joins your party (still called gunget because he used to just give you a gun)
   gameState.itemget.play()
   items.push("Gram of Coke")
+  girl4FirstDialogue=4
+}
+
+//this removes all instances of obj from the array arr
+function removeAll(arr,obj){
+  for (var i=0;i<arr.length;i++){
+    if (arr[i]===obj){
+      arr.splice(i,1)
+    }
+  }
+}
+
+//this removes first instance of obj from the array arr
+function removeFirst(arr,obj){
+  for (var i=0;i<arr.length;i++){
+    if (arr[i]===obj){
+      arr.splice(i,1)
+      break
+    }
+  }
 }
 
 function getBrassKnuckles() { //al joins your party (still called gunget because he used to just give you a gun)
   gameState.itemget.play()
   equipment.push("Brass Knuckles")
+  removeAll(items,"Gram of Coke")
 }
 
 function getHPBoost(){

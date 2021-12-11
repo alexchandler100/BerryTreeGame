@@ -1296,8 +1296,12 @@ var BattleScene = new Phaser.Class({
       //should be able to do the follosing in one line but its not working... oh well
       if (sfxObject[this.units[this.index].type] == 'bodyhit') {
         gameState.bodyhit.play();
+        console.log('playing bodyhit');
       } else if (sfxObject[this.units[this.index].type] == 'slash') {
         gameState.slash.play();
+      } else if (sfxObject[this.units[this.index].type] == 'spray') {
+        gameState.spray.play();
+        console.log('playing bodyhit');
       } else if (sfxObject[this.units[this.index].type] == 'bitenoise') {
         gameState.bitenoise.play();
       } else if (sfxObject[this.units[this.index].type] == 'stabnoise') {

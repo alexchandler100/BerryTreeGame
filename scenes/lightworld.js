@@ -205,6 +205,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('swimNoise', ['assets/swimNoise.wav']);
     this.load.audio('holyDiver', ['assets/holyDiver.wav']);
     this.load.audio('slash', ['assets/slash.wav']);
+    this.load.audio('spray', ['assets/spray.mp3']);
     this.load.audio('smack', ['assets/smack.wav']);
     this.load.audio('bodyhit', ['assets/bodyhit.wav']);
     this.load.audio('airsoft', ['assets/airsoft.wav']);
@@ -474,6 +475,9 @@ var LightWorld = new Phaser.Class({
     });
     gameState.slash = this.sound.add('slash', {
       volume: .25
+    });
+    gameState.spray = this.sound.add('spray', {
+      volume: 1
     });
     gameState.smack = this.sound.add('smack', {
       volume: .25
@@ -2144,6 +2148,7 @@ var LightWorld = new Phaser.Class({
       } else if (distance(phone, me) < 30 && phoneGet === 0) {
         phone.disableBody(true, true);
         items.push("Phone");
+        this.scene.scene.events.emit("Message", "You found Phone", this.cameras.main.worldView.x + this.cameras.main.width / 2, this.cameras.main.worldView.y + this.cameras.main.height / 2);
         phoneGet = 1;
         gameState.itemget.play();
       } else if (darkWorld === 0 && distance(hausdorf, me) < 30 && worldTheme === 'light') {
@@ -2942,27 +2947,42 @@ var LightWorld = new Phaser.Class({
       blocked = 0
     }
 
+    //dialogue for girl1
     if (distance(me, girl1) < 20 && distance(girl1, volleyball) < 100 && girl1VolleyballDialogue === 0 && trevor.joinParameter) {
       gameState.ooo.play()
       initializePage(this)
       let firstPage = fetchPage(121)
       displayPage(this, firstPage)
       girl1VolleyballDialogue = 1
-    } else if (distance(me, girl4) < 20 && girl4FirstDialogue === 0 && trevor.joinParameter) {
+    }
+    //dialogue for girl4 (colleen)
+    else if (distance(me, girl4) < 20 && girl4FirstDialogue === 0 && trevor.joinParameter && !items.includes("Gram of Coke")) {
       gameState.wutt.play()
       initializePage(this)
       let firstPage = fetchPage(130)
       displayPage(this, firstPage)
       girl4FirstDialogue = 1
+    } else if (distance(me, girl4) < 20 && girl4FirstDialogue === 2 && trevor.joinParameter) {
+      gameState.wutt.play()
+      initializePage(this)
+      let firstPage = fetchPage(136)
+      displayPage(this, firstPage)
+      girl4FirstDialogue = 4
     } else if (distance(me, girl4) > 400 && girl4FirstDialogue === 1 && trevor.joinParameter) {
       girl4FirstDialogue = 0
-    } else if (distance(me, girl3) < 20 && girl3FirstDialogue === 0 && distance(girl3, volleyball) > 300 && trevor.joinParameter) {
+    } else if (distance(me, girl4) > 400 && girl4FirstDialogue === 4 && trevor.joinParameter) {
+      girl4FirstDialogue = 2
+    }
+    //dialogue for girl3
+    else if (distance(me, girl3) < 20 && girl3FirstDialogue === 0 && distance(girl3, volleyball) > 300 && trevor.joinParameter) {
       gameState.hello.play()
       initializePage(this)
       let firstPage = fetchPage(120)
       displayPage(this, firstPage)
       girl3FirstDialogue = 1
-    } else if (distance(me, girl2) < 20 && girl2FirstDialogue === 0 && trevor.joinParameter) {
+    }
+    //dialogue for girl2
+    else if (distance(me, girl2) < 20 && girl2FirstDialogue === 0 && trevor.joinParameter) {
       gameState.heyy.play()
       initializePage(this)
       let firstPage = fetchPage(98)
@@ -3241,7 +3261,8 @@ var LightWorld = new Phaser.Class({
 
     //ai for stripper
     if (distance(stripper, me) < 1000) {
-      stripper.getUnstuck()
+      //stripper.getUnstuck()
+      //seemed to just be getting her stuck strangely enough...
       stripper.randomWalk()
       stripper.animate(6)
       if (stripper.body.velocity.x > 3) {
@@ -3259,7 +3280,7 @@ var LightWorld = new Phaser.Class({
         initializePage(this)
         let page = fetchPage(1602)
         displayPage(this, page)
-      } else if (distance(me, stripper) > 200) {
+      } else if (distance(me, stripper) > 200 && stripperFirstTalk === 1) {
         stripperFirstTalk = 0
       }
     }

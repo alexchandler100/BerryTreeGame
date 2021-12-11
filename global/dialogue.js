@@ -1,7 +1,7 @@
 const pages = [{
     character: 'me',
     page: 1,
-    narrative: "MAN I'm hungover, I need a gatorade and a monster REAL bad. I lost my wallet, my phone, my keys... Shiiit what did I do yesterday? At least I got a few beers left... they're warm as shit though...",
+    narrative: "MAN I'm hungover, I need a gatorade and a monster REAL bad. I lost my wallet, my phone, my keys... Man what did I do yesterday? At least I got a few beers left... they're warm as hell though...",
     options: [{
         option: 'Try to remember',
         nextPage: 2
@@ -46,7 +46,7 @@ const pages = [{
   {
     character: 'me',
     page: 4,
-    narrative: 'PRESS S TO GENERALLY INTERACT WITH SHIT. PRESS Z TO ACCESS THE MENU AND CLICK THE EXIT BUTTON TO EXIT. EXAMINE MENU ITEMS BY HOVERING THE CURSOR OVER THEM. MENU ITEMS CAN BE USED BY DRAGGING AND DROPPING THEM INTO APPROPRIATE PLACES IN THE MENU.',
+    narrative: 'PRESS S TO GENERALLY INTERACT WITH STUFF. PRESS Z TO ACCESS THE MENU AND CLICK THE EXIT BUTTON TO EXIT. EXAMINE MENU ITEMS BY HOVERING THE CURSOR OVER THEM. MENU ITEMS CAN BE USED BY DRAGGING AND DROPPING THEM INTO APPROPRIATE PLACES IN THE MENU.',
     options: [{
       option: 'More',
       nextPage: 8
@@ -58,7 +58,7 @@ const pages = [{
     page: 8,
     narrative: 'PRESS DELETE IF THE BALL GETS STUCK, IT WILL RESPAWN. IF YOU WANT A CHEAT CODE, JUST ASK MR. C.',
     options: [{
-      option: 'Fuck yeah',
+      option: 'Right on',
       nextPage: undefined
     }, ]
   },
@@ -68,11 +68,11 @@ const pages = [{
     page: 10,
     narrative: 'Ill just see whats up with Jimmy.',
     options: [{
-        option: 'Hell yeah',
+        option: 'Tight',
         nextPage: undefined
       },
       {
-        option: 'Shiiiit',
+        option: 'Right on',
         nextPage: undefined
       },
     ]
@@ -87,7 +87,7 @@ const pages = [{
         nextPage: undefined
       },
       {
-        option: 'Fuck it',
+        option: 'Whatever',
         nextPage: 10
       },
     ]
@@ -102,7 +102,7 @@ const pages = [{
         nextPage: undefined
       },
       {
-        option: 'Fuck yeah',
+        option: 'Hell yeah',
         nextPage: undefined
       },
     ]
@@ -133,7 +133,7 @@ const pages = [{
     page: 21,
     narrative: "Jimmy: Damnnn you went pro man you almost got the brothers seal!!! Yo I'll help you out with fighting those frat dickheads. Damnn there's girls by the pool? The gate is locked but theres always that secret entrance on the west side of the fence.",
     options: [{
-      option: 'Dude fuck yeah',
+      option: 'Dude hell yeah',
       nextPage: undefined,
       aftermath: jimmyJoins
     }, ]
@@ -720,6 +720,46 @@ const pages = [{
 
   {
     character: 'me',
+    page: 136,
+    narrative: 'Colleen: So... let me guess... you want more coke...',
+    options: [{
+      option: 'Nice boobs',
+      nextPage: 137,
+      aftermath: block
+    },
+    {
+      option: 'Uhh yeah',
+      nextPage: 138,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 137,
+    narrative: 'Colleen: That is not gonna work again... come on!',
+    options: [{
+      option: 'Shiiiiit',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 138,
+    narrative: 'Colleen: Ok that will be 20 bucks.',
+    options: [{
+      option: 'Hell no',
+      nextPage: undefined,
+    },
+    {
+      option: 'Shiit ok',
+      nextPage: undefined,
+      aftermath: colleenCheck20
+    },]
+  },
+
+  {
+    character: 'me',
     page: 140,
     narrative: 'You begin wondering deeply about the laws of your own reality. Why should it be the case that beings may only move in two independent directions?',
     options: [{
@@ -1208,12 +1248,26 @@ const pages = [{
 
   {
     character: 'me',
-    page: 1602,
-    narrative: `Stripper: Holy fucking shit thank you so much for the coke. Here take these brass knuckles. You can fuck people up with these, they're my boyfriend's they hurt super bad. He takes care of me though...`,
+    page: 1603,
+    narrative: `Stripper: Holy fucking shit thank you so much. Here take these brass knuckles. You can fuck people up with these, they're my boyfriend's they hurt super bad. He takes care of me though...`,
     options: [{
       option: 'Shiiit badass',
       nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 1602,
+    narrative: `Stripper: So did you get some coke or what?`,
+    options: [{
+      option: 'Yeah here you go',
+      nextPage: 1603,
       aftermath: getBrassKnuckles,
+    },
+    {
+      option: 'Nah, sorry',
+      nextPage: undefined,
     },]
   },
 
