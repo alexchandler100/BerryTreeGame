@@ -39,7 +39,11 @@ var OnScreenMessage = new Phaser.Class({
       callback: this.hideMessage,
       callbackScope: this
     });
-  }
+  },
+  hideMessage: function() {
+    this.hideEvent = null;
+    this.visible = false;
+  },
 });
 
 var NPC = new Phaser.Class({
@@ -2148,7 +2152,9 @@ var LightWorld = new Phaser.Class({
       } else if (distance(phone, me) < 30 && phoneGet === 0) {
         phone.disableBody(true, true);
         items.push("Phone");
-        this.scene.scene.events.emit("Message", "You found Phone", this.cameras.main.worldView.x + this.cameras.main.width / 2, this.cameras.main.worldView.y + this.cameras.main.height / 2);
+        this.message.x=me.x;
+        this.message.y=me.y;
+        this.scene.scene.events.emit("Message", "You found Phone", me.x, me.y);
         phoneGet = 1;
         gameState.itemget.play();
       } else if (darkWorld === 0 && distance(hausdorf, me) < 30 && worldTheme === 'light') {
@@ -2161,10 +2167,14 @@ var LightWorld = new Phaser.Class({
         usable_items["Liquor"] = liquorItem;
         liquorGet = 1;
         gameState.itemget.play()
+        this.message.x=me.x;
+        this.message.y=me.y;
+        this.scene.scene.events.emit("Message", "You found Liquor", me.x, me.y);
       } else if (distance(wallet, me) < 30 && walletGet === 0) {
         wallet.disableBody(true, true);
         items.push("Wallet");
-        console.log(this.scene.scene.events)
+        this.message.x=me.x;
+        this.message.y=me.y;
         this.scene.scene.events.emit("Message", "You found Wallet", me.x, me.y);
         walletGet = 1;
         moneyPlus = true;
