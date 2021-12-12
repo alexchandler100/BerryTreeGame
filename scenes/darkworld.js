@@ -341,19 +341,19 @@ var DarkWorld = new Phaser.Class({
     var keyObj1 = this.input.keyboard.addKey('one'); // Get key object
 
     keyObj1.on('down', function(event) {
-      zoom = .25;
+      zoom = .264;
     });
 
     var keyObj2 = this.input.keyboard.addKey('two'); // Get key object
 
     keyObj2.on('down', function(event) {
-      zoom = .5
+      zoom = .6
     });
 
     var keyObj3 = this.input.keyboard.addKey('three'); // Get key object
 
     keyObj3.on('down', function(event) {
-      zoom = .75
+      zoom = .76
     });
 
     var keyObj4 = this.input.keyboard.addKey('four'); // Get key object
@@ -365,7 +365,7 @@ var DarkWorld = new Phaser.Class({
     var keyObj5 = this.input.keyboard.addKey('five'); // Get key object
 
     keyObj5.on('down', function(event) {
-      zoom = 1.5
+      zoom = 1.6
     });
 
     var keyObj6 = this.input.keyboard.addKey('six'); // Get key object
