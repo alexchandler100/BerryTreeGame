@@ -505,7 +505,7 @@ const pages = [{
   {
     character: 'me',
     page: 86,
-    narrative: "Original Homeboy: You wanna play this video game? I can't FUCKING get past 40 points. Use the directional keys and press down to smoke your bong and increase your speed.",
+    narrative: "Original Homeboy: You wanna play this video game? I can't FUCKING get past 40 points. Use the left/right keys to move, press up to jump, and press down to smoke your bong and increase your speed.",
     options: [{
       option: 'shiiit hell yeah',
       nextPage: undefined,

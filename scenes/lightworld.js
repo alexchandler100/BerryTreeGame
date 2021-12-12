@@ -2154,7 +2154,7 @@ var LightWorld = new Phaser.Class({
         items.push("Phone");
         this.message.x=me.x;
         this.message.y=me.y;
-        this.scene.scene.events.emit("Message", "You found Phone", me.x, me.y);
+        this.scene.scene.events.emit("Message", "You found your phone", me.x, me.y);
         phoneGet = 1;
         gameState.itemget.play();
       } else if (darkWorld === 0 && distance(hausdorf, me) < 30 && worldTheme === 'light') {
@@ -2169,17 +2169,20 @@ var LightWorld = new Phaser.Class({
         gameState.itemget.play()
         this.message.x=me.x;
         this.message.y=me.y;
-        this.scene.scene.events.emit("Message", "You found Liquor", me.x, me.y);
+        this.scene.scene.events.emit("Message", "You found some liquor", me.x, me.y);
       } else if (distance(wallet, me) < 30 && walletGet === 0) {
         wallet.disableBody(true, true);
         items.push("Wallet");
         this.message.x=me.x;
         this.message.y=me.y;
-        this.scene.scene.events.emit("Message", "You found Wallet", me.x, me.y);
+        this.scene.scene.events.emit("Message", "You found your wallet", me.x, me.y);
         walletGet = 1;
         moneyPlus = true;
         gameState.itemget.play()
       } else if (distance(keys, me) < 30 && keysGet === 0) {
+        this.message.x=me.x;
+        this.message.y=me.y;
+        this.scene.scene.events.emit("Message", "You found your apartment and car keys", me.x, me.y);
         keys.disableBody(true, true);
         items.push("Keys");
         keysGet = 1;
@@ -2195,6 +2198,7 @@ var LightWorld = new Phaser.Class({
         ball.body.velocity.x += directionVector(me, ball)[0] * 25 * (1 + spriteSpeed(me) / 40);
         ball.body.velocity.y += directionVector(me, ball)[1] * 25 * (1 + spriteSpeed(me) / 40);
         gameState.ball1.play();
+        //problem here if you go in apartment and then go in pool room, you warp to the wrong place when you change scenes
       } else if (myAptDoor === 1 && keysGet === 0) {
         cantGetIn = 1;
         myAptDoor = 0;
@@ -3071,19 +3075,23 @@ var LightWorld = new Phaser.Class({
 
     //dialogue for finding phone and wallet
     if (phoneGet + walletGet === 2 && keysGet === 0) {
-      initializePage(this)
-      let page = fetchPage(5)
-      displayPage(this, page)
       phoneGet += 1;
       walletGet += 1;
+      window.setTimeout(() => {
+        initializePage(this)
+        let page = fetchPage(5)
+        displayPage(this, page)
+      }, 3000);
     }
 
     //dialogue for finding Keys
     if (phoneGet + walletGet + keysGet === 5) {
-      initializePage(this)
-      let page = fetchPage(6)
-      displayPage(this, page)
       keysGet += 1;
+      window.setTimeout(() => {
+        initializePage(this)
+        let page = fetchPage(6)
+        displayPage(this, page)
+      }, 3000);
     }
 
     //we resume every frame... must be more efficient way... fix needed...
