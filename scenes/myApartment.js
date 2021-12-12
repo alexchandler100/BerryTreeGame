@@ -602,17 +602,17 @@ var MyApartment = new Phaser.Class({
       y: gameStateApt.enter.y + 200
     }
 
-    liquorApt = this.physics.add.sprite(gameStateApt.enter.x + 650, gameStateApt.enter.y+32, 'liquorApt');
-    liquorApt.setScale(.25);
+    //liquorApt = this.physics.add.sprite(gameStateApt.enter.x + 650, gameStateApt.enter.y+32, 'liquorApt');
+    //liquorApt.setScale(.25);
 
-    monsterApt = this.physics.add.sprite(gameStateApt.enter.x + 700, gameStateApt.enter.y+32, 'monsterApt');
-    monsterApt.setScale(.25);
+    //monsterApt = this.physics.add.sprite(gameStateApt.enter.x + 700, gameStateApt.enter.y+32, 'monsterApt');
+    //monsterApt.setScale(.25);
 
-    hammsApt = this.physics.add.sprite(gameStateApt.enter.x + 750, gameStateApt.enter.y+32, 'hammsApt');
-    hammsApt.setScale(.25);
+    //hammsApt = this.physics.add.sprite(gameStateApt.enter.x + 750, gameStateApt.enter.y+32, 'hammsApt');
+    //hammsApt.setScale(.25);
 
-    larrySpecialApt = this.physics.add.sprite(gameStateApt.enter.x + 800, gameStateApt.enter.y+32, 'larrySpecialApt');
-    larrySpecialApt.setScale(.25);
+    //larrySpecialApt = this.physics.add.sprite(gameStateApt.enter.x + 800, gameStateApt.enter.y+32, 'larrySpecialApt');
+    //larrySpecialApt.setScale(.25);
 
     //door zone to leave
     exitZone = this.physics.add.group({
@@ -623,6 +623,8 @@ var MyApartment = new Phaser.Class({
 
     //hitting pool balls
 
+    canvas=this.sys.canvas;
+
     this.input.on('pointerdown', function(pointer, localX, localY) {
       //this is how you transform coordinates from ingame coordinates to "pointer" coordinates
       if (cueball.body.velocity.x < 5 && cueball.body.velocity.y < 5 && cueball.body.velocity.x > -5 && cueball.body.velocity.y > -5) {
@@ -630,6 +632,8 @@ var MyApartment = new Phaser.Class({
           //poolcue.x = ((pointer.x - 468) / 3 + 2816)
           //poolcue.y = ((pointer.y - 155) / 3 + 1408)
           this.input.setDefaultCursor('url(assets/empty.png), pointer');
+          //canvas.style.cursor='none'
+          console.log(canvas.style.cursor);
         //changed from the following so that you could shoot using the stick instead of the pointer
         //cueball.body.velocity.x = (cueball.x - ((pointer.x - 468) / 3 + 2816)) * 3
         //cueball.body.velocity.y = (cueball.y - ((pointer.y - 155) / 3 + 1408)) * 3
@@ -830,19 +834,19 @@ var MyApartment = new Phaser.Class({
     var keyObj1 = this.input.keyboard.addKey('one'); // Get key object
 
     keyObj1.on('down', function(event) {
-      zoom = .25;
+      zoom = .264;
     });
 
     var keyObj2 = this.input.keyboard.addKey('two'); // Get key object
 
     keyObj2.on('down', function(event) {
-      zoom = .5
+      zoom = .6
     });
 
     var keyObj3 = this.input.keyboard.addKey('three'); // Get key object
 
     keyObj3.on('down', function(event) {
-      zoom = .75
+      zoom = .76
     });
 
     var keyObj4 = this.input.keyboard.addKey('four'); // Get key object
@@ -854,13 +858,13 @@ var MyApartment = new Phaser.Class({
     var keyObj5 = this.input.keyboard.addKey('five'); // Get key object
 
     keyObj5.on('down', function(event) {
-      zoom = 1.5
+      zoom = 1.6
     });
 
     var keyObj6 = this.input.keyboard.addKey('six'); // Get key object
 
     keyObj6.on('down', function(event) {
-      zoom = 2.25
+      zoom = 2
     });
 
     var keyObj7 = this.input.keyboard.addKey('seven'); // Get key object
@@ -1400,6 +1404,8 @@ var MyApartment = new Phaser.Class({
     if (meApt.body.velocity.x === 0 && meApt.body.velocity.y === 0) {
       meApt.anims.play('turn', true)
     }
+    meApt.x=Math.round(meApt.x);
+    meApt.y=Math.round(meApt.y);
   }
 
 });
