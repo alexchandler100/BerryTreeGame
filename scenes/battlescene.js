@@ -678,7 +678,7 @@ var BattleScene = new Phaser.Class({
       macX.setScale(blindObject["Mac"] / 2)
       macX.visible = true
       macX.x = gameStateBattle.me.x - 3
-      macX.y = gameStateBattle.me.y - 55
+      macX.y = gameStateBattle.me.y - 60
     } else {
       macX.visible = false
     }
@@ -696,7 +696,7 @@ var BattleScene = new Phaser.Class({
       if (blindObject["Bennett"] > 0) {
         bennettX.setScale(blindObject["Bennett"] / 2)
         bennettX.visible = true
-        bennettX.x = gameStateBattle.bennett.x - 10
+        bennettX.x = gameStateBattle.bennett.x
         bennettX.y = gameStateBattle.bennett.y - 50
       } else {
         bennettX.visible = false
@@ -706,8 +706,8 @@ var BattleScene = new Phaser.Class({
       if (blindObject["Al"] > 0) {
         alX.setScale(blindObject["Al"] / 2)
         alX.visible = true
-        alX.x = gameStateBattle.al.x - 10
-        alX.y = gameStateBattle.al.y - 55
+        alX.x = gameStateBattle.al.x
+        alX.y = gameStateBattle.al.y - 60
       } else {
         alX.visible = false
       }

@@ -41,7 +41,6 @@ let english = {
   left: false,
   right: false
 }
-
 let phi0;
 let vx1;
 let vy1;

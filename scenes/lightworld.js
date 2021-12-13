@@ -2949,7 +2949,7 @@ var LightWorld = new Phaser.Class({
       if (chasersEnabled) {
         let rr = Math.random() * 6 - 3
         if (distance(child, me) < 300) {
-          chase(child, me, 4.5 + rr) //changed from 4.5 when they instantly randomly became too fast
+          chase(child, me, 4.5 + rr) //use 3 for laptop and 4.5 for desktop (I think because my macbook has faster refresh rate)
         }
       }
     });
@@ -3356,7 +3356,7 @@ var LightWorld = new Phaser.Class({
       }
       trevor.follow(me, 1)
       trevor.animate(5);
-      trevor.chase(ball, 1.4); //changed from 1.4 to 1.1 when he started being way too fast
+      trevor.chase(ball, 1.4); ////use 1.1 for laptop and 1.4 for desktop (I think because my macbook has faster refresh rate)
       trevor.getUnstuck()
       //high score for keepaway and dialogue
       if (trevor.following === false && distance(me, ball) < 100 && distance(trevor, ball) > 40 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
