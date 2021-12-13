@@ -1,22 +1,10 @@
-//playing the guitar
-for (const keyy of Object.keys(gameState6.sequences.guitar)) {
-  let i = Object.keys(gameState6.sequences.guitar).findIndex((keyIndex) => {
-    return keyIndex === keyy
-  })
-  if ((gameState6.sequences.guitar[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.guitar[keyy][playingTime] && !gameState6.sequences.guitar[keyy][playingTime - 1])) {
-    gameState6.guitarmiddleC[i].setDetune(1200 * gameState6.sequences.guitar.octave[playingTime] + 100 * i - 100);
-    gameState6.guitarmiddleC[i].play();
-  } else if (!gameState6.sequences.guitar[keyy][playingTime]) {
-    if (gameState6.sequences.guitar[keyy][playingTime - 1]) {
-      gameState6.guitarmiddleC[i].stop();
-    }
+if (al.joinParameter && al.following) {
+  if (blindObject["Jimmy"] > 0) {
+    alX.setScale(blindObject["Jimmy"] / 2)
+    alX.visible = true
+    alX.x = gameStateBattle.al.x - 10
+    alX.y = gameStateBattle.al.y - 65
+  } else {
+    alX.visible = false
   }
 }
-
-//this is an edit I made on my new MB pro
-
-//and this is an edit I made in response on my desktop
-
-//here is another response from my MB pro to check if CLI git works
-
-//and now checking if CLI push works from desktop

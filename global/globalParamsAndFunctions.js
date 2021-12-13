@@ -315,6 +315,14 @@ let defendOn = {
   'Bennett': false,
 }
 
+// the number is the number of turns left being blind
+let blindObject = {
+  'Mac': 0,
+  'Al': 0,
+  'Jimmy': 0,
+  'Bennett': 0,
+}
+
 let maxSPObject = {
   'Mac': 8,
   'Al': 11,

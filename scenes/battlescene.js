@@ -2,9 +2,9 @@ const gameStateBattle = {
   t: 0,
   u: 0
 }
-let enemySelected=false;
+let enemySelected = false;
 
-let currentHero='Mac'
+let currentHero = 'Mac'
 
 var Message = new Phaser.Class({
   Extends: Phaser.GameObjects.Container,
@@ -213,11 +213,11 @@ var ActionsMenu = new Phaser.Class({
     this.addMenuItem('Attack');
     this.addMenuItem('Defend');
     this.addMenuItem('Special');
-    numberOfItems=0
-    for (let i=0; i<Object.keys(usable_items).length;i++){
-      numberOfItems+=usable_items[Object.keys(usable_items)[i]]
+    numberOfItems = 0
+    for (let i = 0; i < Object.keys(usable_items).length; i++) {
+      numberOfItems += usable_items[Object.keys(usable_items)[i]]
     }
-    if (numberOfItems>0){
+    if (numberOfItems > 0) {
       this.addMenuItem('Items');
     }
   },
@@ -227,10 +227,10 @@ var ActionsMenu = new Phaser.Class({
   },
   itemRemap: function() {
     this.clear();
-    for (let i=0;i<Object.keys(usable_items).length;i++){
-      if (usable_items[Object.keys(usable_items)[i]]>0){
-          this.addMenuItem(Object.keys(usable_items)[i]);
-          console.log(Object.keys(usable_items)[i])
+    for (let i = 0; i < Object.keys(usable_items).length; i++) {
+      if (usable_items[Object.keys(usable_items)[i]] > 0) {
+        this.addMenuItem(Object.keys(usable_items)[i]);
+        console.log(Object.keys(usable_items)[i])
       }
     }
     //this.addMenuItem("Monster");
@@ -241,7 +241,7 @@ var ActionsMenu = new Phaser.Class({
     console.log('special remap')
     this.clear();
     console.log(`line 230 the current hero is: ${currentHero}`)
-    for (let i=0;i<specialObject[currentHero].length;i++) {
+    for (let i = 0; i < specialObject[currentHero].length; i++) {
       this.addMenuItem(specialObject[currentHero][i]);
     }
     this.menuItemIndex = 0;
@@ -251,14 +251,14 @@ var ActionsMenu = new Phaser.Class({
     this.addMenuItem('Attack');
     this.addMenuItem('Defend');
     this.addMenuItem('Special');
-    numberOfItems=0
-    for (let i=0; i<Object.keys(usable_items).length;i++){
-      numberOfItems+=usable_items[Object.keys(usable_items)[i]]
+    numberOfItems = 0
+    for (let i = 0; i < Object.keys(usable_items).length; i++) {
+      numberOfItems += usable_items[Object.keys(usable_items)[i]]
       console.log(Object.keys(usable_items)[i])
       console.log(usable_items[Object.keys(usable_items)[i]])
       console.log('actions remapping... should add items to menu if number of items >0')
     }
-    if (numberOfItems>0){
+    if (numberOfItems > 0) {
       this.addMenuItem('Items');
     }
     console.log(`number of items: ${numberOfItems}`)
@@ -300,6 +300,15 @@ var Unit = new Phaser.Class({
     let extra_damage;
     let dd;
     let rnd = Math.floor(Math.random() * 10)
+    //since blinding is OP, we are decreasing rnd so fratboy2 is less likely to land (may have to adjust the value)
+    if (this.type === "Frat Boy 2") {
+      rnd -= 3
+    }
+    //to decrease likeliness to land hit if blinded
+    if (blindObject[this.type]) {
+      rnd = Math.floor(rnd / 3)
+      console.log('this hero is blind')
+    }
     if (rnd >= 9) {
       extra_damage = Math.ceil(this.damage / 2)
     } else {
@@ -315,6 +324,12 @@ var Unit = new Phaser.Class({
     if (target.living) {
       let d = Math.max(0, dd);
       target.takeDamage(d);
+      //if the attacker is fratboy2, and the attack hits, the target is blinded
+      if (this.type === "Frat Boy 2" && d > 0) {
+        blindObject[target.type] = 2
+        console.log('the target is blinded')
+        console.log(target)
+      }
       if (rnd >= 9) {
         this.scene.events.emit("Message", "Critical hit! ");
       } else if (rnd <= 0) {
@@ -349,6 +364,9 @@ var Unit = new Phaser.Class({
       rnd = Math.floor(Math.random() * critObject[this.type])
     } else {
       rnd = Math.floor(Math.random() * 10)
+    }
+    if (blindObject[this.type]) {
+      rnd = Math.floor(rnd / 3)
     }
     if (rnd >= 9) {
       extra_damage = Math.ceil(this.damage / 2)
@@ -416,12 +434,12 @@ var Unit = new Phaser.Class({
       defendOn[this.type] = false
     }
     if (gatorade >= 1) {
-      if (this.type==="Mac"){
+      if (this.type === "Mac") {
         gameStateBattle.me.anims.play('drink_gatorade', true);
         window.setTimeout(() => {
           gameStateBattle.me.anims.play('leftwalk', true);
         }, 2999);
-      } else if (this.type==="Jimmy"){
+      } else if (this.type === "Jimmy") {
         gameStateBattle.trevor.anims.play('trevor_drink_gatorade', true);
         window.setTimeout(() => {
           gameStateBattle.trevor.anims.play('trevorleft', true);
@@ -430,7 +448,7 @@ var Unit = new Phaser.Class({
       gameState.drinkGatorade.play()
       this.scene.events.emit("Message", this.type + " drinks a gatorade to recover 60 HP");
       gatorade -= 1
-      usable_items["Gatorade"]-=1;
+      usable_items["Gatorade"] -= 1;
       this.hp += 60
       hpObject[this.type] += 60
       if (this.hp >= maxHPObject[this.type]) {
@@ -447,12 +465,12 @@ var Unit = new Phaser.Class({
       defendOn[this.type] = false
     }
     if (monster >= 1) {
-      if (this.type==="Mac"){
+      if (this.type === "Mac") {
         gameStateBattle.me.anims.play('drink_monster', true);
         window.setTimeout(() => {
           gameStateBattle.me.anims.play('leftwalk', true);
         }, 2999);
-      } else if (this.type==="Jimmy"){
+      } else if (this.type === "Jimmy") {
         gameStateBattle.trevor.anims.play('trevor_drink_monster', true);
         window.setTimeout(() => {
           gameStateBattle.trevor.anims.play('trevorleft', true);
@@ -461,7 +479,7 @@ var Unit = new Phaser.Class({
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a monster to recover 10 SP");
       monster -= 1
-      usable_items["Monster"]-=1;
+      usable_items["Monster"] -= 1;
       spObject[this.type] += 10
       if (spObject[this.type] >= maxSPObject[this.type]) {
         spObject[this.type] = maxSPObject[this.type]
@@ -476,12 +494,12 @@ var Unit = new Phaser.Class({
       defendOn[this.type] = false
     }
     if (maxice >= 1) {
-      if (this.type==="Mac"){
+      if (this.type === "Mac") {
         gameStateBattle.me.anims.play('drink_monster', true);
         window.setTimeout(() => {
           gameStateBattle.me.anims.play('leftwalk', true);
         }, 2999);
-      } else if (this.type==="Jimmy"){
+      } else if (this.type === "Jimmy") {
         gameStateBattle.trevor.anims.play('trevor_drink_monster', true);
         window.setTimeout(() => {
           gameStateBattle.trevor.anims.play('trevorleft', true);
@@ -490,7 +508,7 @@ var Unit = new Phaser.Class({
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a Max Ice to recover 50 HP and 15 SP");
       maxice -= 1
-      usable_items["Labatt Max Ice"]-=1;
+      usable_items["Labatt Max Ice"] -= 1;
       spObject[this.type] += 15
       hpObject[this.type] += 50
       this.hp += 50
@@ -539,12 +557,12 @@ var Unit = new Phaser.Class({
       defendOn[this.type] = false
     }
     if (hamms >= 1) {
-      if (this.type==="Mac"){
+      if (this.type === "Mac") {
         gameStateBattle.me.anims.play('drink_hamms', true);
         window.setTimeout(() => {
           gameStateBattle.me.anims.play('leftwalk', true);
         }, 2999);
-      } else if (this.type==="Jimmy"){
+      } else if (this.type === "Jimmy") {
         gameStateBattle.trevor.anims.play('trevor_drink_hamms', true);
         window.setTimeout(() => {
           gameStateBattle.trevor.anims.play('trevorleft', true);
@@ -553,7 +571,7 @@ var Unit = new Phaser.Class({
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a hamms to recover 20 HP and 5 SP");
       hamms -= 1
-      usable_items["Hamms"]-=1;
+      usable_items["Hamms"] -= 1;
       spObject[this.type] += 5
       hpObject[this.type] += 20
       this.hp += 20
@@ -645,6 +663,7 @@ var BattleScene = new Phaser.Class({
       this.load.image(`background${i}`, gameStateBattle.images[i]);
     }
     this.load.image(`school_roof`, 'assets/school_roof.png');
+    this.load.image(`blinded`, 'assets/blinded.png');
     //this.load.image(`background1`, 'assets/burcham_battle.png');
   },
   create: function() {
@@ -655,6 +674,44 @@ var BattleScene = new Phaser.Class({
     this.UIScene = this.scene.get("UIScene");
   },
   update: function() {
+    if (blindObject["Mac"] > 0) {
+      macX.setScale(blindObject["Mac"] / 2)
+      macX.visible = true
+      macX.x = gameStateBattle.me.x - 3
+      macX.y = gameStateBattle.me.y - 55
+    } else {
+      macX.visible = false
+    }
+    if (trevor.joinParameter && trevor.following) {
+      if (blindObject["Jimmy"] > 0) {
+        trevorX.setScale(blindObject["Jimmy"] / 2)
+        trevorX.visible = true
+        trevorX.x = gameStateBattle.trevor.x - 10
+        trevorX.y = gameStateBattle.trevor.y - 70
+      } else {
+        trevorX.visible = false
+      }
+    }
+    if (bennett.joinParameter && bennett.following) {
+      if (blindObject["Bennett"] > 0) {
+        bennettX.setScale(blindObject["Bennett"] / 2)
+        bennettX.visible = true
+        bennettX.x = gameStateBattle.bennett.x - 10
+        bennettX.y = gameStateBattle.bennett.y - 50
+      } else {
+        bennettX.visible = false
+      }
+    }
+    if (al.joinParameter && al.following) {
+      if (blindObject["Al"] > 0) {
+        alX.setScale(blindObject["Al"] / 2)
+        alX.visible = true
+        alX.x = gameStateBattle.al.x - 10
+        alX.y = gameStateBattle.al.y - 55
+      } else {
+        alX.visible = false
+      }
+    }
     gameStateBattle.t += 1;
     gameStateBattle.damageText.x -= 2
     gameStateBattle.damageText.y += (gameStateBattle.t * 2 - 30) / 30
@@ -724,6 +781,9 @@ var BattleScene = new Phaser.Class({
     //recall inputs look like (scene, x, y, texture, frame, type, hp, damage)
     // player characters - warrior
     gameStateBattle.me = new PlayerCharacter(this, 850, 250, "me", 1, "Mac", hpObject['Mac'], damageObject['Mac']);
+    macX = this.add.image(gameStateBattle.me.x, gameStateBattle.me.y, 'blinded');
+    macX.setDepth(1);
+    macX.visible = false;
     if (hpObject['Mac'] > 0) {
       this.add.existing(gameStateBattle.me);
       gameStateBattle.me.active = true
@@ -735,6 +795,9 @@ var BattleScene = new Phaser.Class({
 
     if (al.joinParameter && al.following) {
       gameStateBattle.al = new PlayerCharacter(this, 800, 300, "al", 4, "Al", hpObject['Al'], damageObject['Al']);
+      alX = this.add.image(gameStateBattle.al.x, gameStateBattle.al.y, 'blinded');
+      alX.setDepth(1);
+      alX.visible = false;
       if (hpObject['Al'] > 0) {
         this.add.existing(gameStateBattle.al);
         gameStateBattle.al.active = true
@@ -747,6 +810,9 @@ var BattleScene = new Phaser.Class({
 
     if (trevor.joinParameter && trevor.following) {
       gameStateBattle.trevor = new PlayerCharacter(this, 750, 350, "trevor", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
+      trevorX = this.add.image(gameStateBattle.trevor.x, gameStateBattle.trevor.y, 'blinded');
+      trevorX.setDepth(1);
+      trevorX.visible = false;
       if (hpObject['Jimmy'] > 0) {
         this.add.existing(gameStateBattle.trevor);
         gameStateBattle.trevor.active = true
@@ -759,6 +825,9 @@ var BattleScene = new Phaser.Class({
 
     if (bennett.joinParameter && bennett.following) {
       gameStateBattle.bennett = new PlayerCharacter(this, 1001, 325, "bennett", 4, "Bennett", hpObject['Bennett'], damageObject['Bennett']);
+      bennettX = this.add.image(gameStateBattle.bennett.x, gameStateBattle.bennett.y, 'blinded');
+      bennettX.setDepth(1);
+      bennettX.visible = false;
       if (hpObject['Bennett'] > 0) {
         this.add.existing(gameStateBattle.bennett);
         gameStateBattle.bennett.active = true
@@ -939,10 +1008,10 @@ var BattleScene = new Phaser.Class({
       let rn2 = Math.random();
       if (rn2 < rewardProbability) {
         itemReward = rewardKeys[rn];
-        if (itemReward==="Andy Capp's Hot Fries" ||itemReward === 'Labatt Max Ice' ||itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special') {
+        if (itemReward === "Andy Capp's Hot Fries" || itemReward === 'Labatt Max Ice' || itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special') {
           all_usable_items[itemReward] += 1;
-          if (usable_items[itemReward]){
-            usable_items[itemReward]+=1
+          if (usable_items[itemReward]) {
+            usable_items[itemReward] += 1
           } else {
             usable_items[itemReward] = 1;
           }
@@ -1035,32 +1104,32 @@ var BattleScene = new Phaser.Class({
   },
   receivePlayerSelection: function(action, target) {
     if (this.UIScene.actionsMenu.menuItems[action]._text == 'Gatorade') {
-      if (gatorade===0){
+      if (gatorade === 0) {
         this.index--
       }
       this.units[this.index].gatorade()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Monster') {
-      if (monster===0){
+      if (monster === 0) {
         this.index--
       }
       this.units[this.index].monster()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Labatt Max Ice') {
-      if (maxice===0){
+      if (maxice === 0) {
         this.index--
       }
       this.units[this.index].maxice()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Hamms') {
-      if (hamms===0){
+      if (hamms === 0) {
         this.index--
       }
       this.units[this.index].hamms()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Larry Special') {
-      if (larrySpecial===0){
+      if (larrySpecial === 0) {
         this.index--
       }
       this.units[this.index].larrySpecial()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Liquor') {
-      if (liquorItem===0){
+      if (liquorItem === 0) {
         this.index--
       }
       this.units[this.index].liquor()
@@ -1070,7 +1139,14 @@ var BattleScene = new Phaser.Class({
         gameStateBattle.me.x = this.aliveEnemies[target].x + 80
         gameStateBattle.me.y = this.aliveEnemies[target].y
         //gameStateBattle.me.anims.play('attack', false);
-        gameStateBattle.me.anims.play('attack_improved', false);
+        r = Math.floor(Math.random() * 3);
+        if (r === 0) {
+          gameStateBattle.me.anims.play('attack_improved', false);
+        } else if (r === 1) {
+          gameStateBattle.me.anims.play('attack_improved2', false);
+        } else if (r === 2) {
+          gameStateBattle.me.anims.play('attack_improved3', false);
+        }
         gameState.punchSound.play();
         window.setTimeout(() => {
           gameStateBattle.me.x = this.aliveEnemies[target].x + 73
@@ -1163,13 +1239,13 @@ var BattleScene = new Phaser.Class({
         for (let i=0;i<6;i++){
             this.units[this.index].attack(this.aliveEnemies[i%this.aliveEnemies.length])
         }*/
-        for (let i=0;i<6;i++){
+        for (let i = 0; i < 6; i++) {
           window.setTimeout(() => {
             gameState.punchSound.play()
-            this.units[this.index].attack(this.aliveEnemies[i%this.aliveEnemies.length])
-            gameStateBattle.me.x = this.aliveEnemies[i%this.aliveEnemies.length].x + 80;
-            gameStateBattle.me.y = this.aliveEnemies[i%this.aliveEnemies.length].y;
-          }, 500*i);
+            this.units[this.index].attack(this.aliveEnemies[i % this.aliveEnemies.length])
+            gameStateBattle.me.x = this.aliveEnemies[i % this.aliveEnemies.length].x + 80;
+            gameStateBattle.me.y = this.aliveEnemies[i % this.aliveEnemies.length].y;
+          }, 500 * i);
         }
         window.setTimeout(() => {
           gameStateBattle.me.x = 850;
@@ -1280,6 +1356,15 @@ var BattleScene = new Phaser.Class({
     this.UIScene.remapHeroes();
     // map enemies menu items to enemies
     this.UIScene.remapEnemies();
+    //to decrease blindness for hero
+    if (this.units[this.index]) {
+      if (this.index < this.heroes.length && blindObject[this.units[this.index].type] > 0) {
+        console.log(`blindness: ${blindObject[this.units[this.index].type]}`)
+        console.log('decreasing blindness')
+        blindObject[this.units[this.index].type] -= 1
+      }
+      console.log(`blindness: ${blindObject[this.units[this.index].type]}`)
+    }
     // if we have victory or game over
     if (this.checkVictory()) {
       this.endBattleVictory();
@@ -1289,78 +1374,78 @@ var BattleScene = new Phaser.Class({
       this.endBattleGameOver();
       return;
     }
-    do {
-      // currently active unit
-      this.index++;
-      // if there are no more units, we start again from the first one
-      if (this.index >= this.units.length) {
-        this.index = 0;
-      }
-      if (this.index<this.heroes.length){
-        currentHero=this.units[this.index].type
-      }
-    } while (!this.units[this.index].living);
-    // if its player hero
-    if (this.units[this.index] instanceof PlayerCharacter) {
-      // we need the player to select action and then enemy
-      this.events.emit("PlayerSelect", this.index);
-    } else { // else if its enemy unit
-      // pick random living hero to be attacked
-      var r;
+    window.setTimeout(() => {
       do {
-        r = Math.floor(Math.random() * this.heroes.length);
-      } while (!this.heroes[r].living)
-      // call the enemy's attack function
-      if (this.units[this.index].type==="Crackhead" && crackheadJoin){
-        r = Math.floor(Math.random() * this.enemies.length);
-        this.units[this.index].attack(this.enemies[r]);
-      } else {
-        this.units[this.index].attack(this.heroes[r]);
+        // currently active unit
+        this.index++;
+        // if there are no more units, we start again from the first one
+        if (this.index >= this.units.length) {
+          this.index = 0;
+        }
+        if (this.index < this.heroes.length) {
+          currentHero = this.units[this.index].type
+        }
+      } while (!this.units[this.index].living);
+      // if its player hero
+      if (this.units[this.index] instanceof PlayerCharacter) {
+        // we need the player to select action and then enemy
+        this.events.emit("PlayerSelect", this.index);
+      } else { // else if its enemy unit
+        // pick random living hero to be attacked
+        var r;
+        do {
+          r = Math.floor(Math.random() * this.heroes.length);
+        } while (!this.heroes[r].living)
+        // call the enemy's attack function
+        // if you paid crackhead 10 he will attack his own teammates
+        if (this.units[this.index].type === "Crackhead" && crackheadJoin) {
+          r = Math.floor(Math.random() * this.enemies.length);
+          this.units[this.index].attack(this.enemies[r]);
+        } else {
+          this.units[this.index].attack(this.heroes[r]);
+        }
+        currentXY = {
+          x: JSON.parse(JSON.stringify(this.units[this.index].x)),
+          y: JSON.parse(JSON.stringify(this.units[this.index].y))
+        };
+        if (this.units[this.index].type === "Crackhead" && crackheadJoin) {
+          this.units[this.index].x = this.enemies[r].x - 70;
+          this.units[this.index].y = this.enemies[r].y;
+        } else {
+          this.units[this.index].x = this.heroes[r].x - 70;
+          this.units[this.index].y = this.heroes[r].y;
+        }
+        //anims for enemy attacks
+        this.units[this.index].anims.play(animObject[this.units[this.index].type][1], false);
+        //should be able to do the following in one line but its not working... oh well
+        if (sfxObject[this.units[this.index].type] == 'bodyhit') {
+          gameState.bodyhit.play();
+          console.log('playing bodyhit');
+        } else if (sfxObject[this.units[this.index].type] == 'slash') {
+          gameState.slash.play();
+        } else if (sfxObject[this.units[this.index].type] == 'spray') {
+          gameState.spray.play();
+          console.log('playing bodyhit');
+        } else if (sfxObject[this.units[this.index].type] == 'bitenoise') {
+          gameState.bitenoise.play();
+        } else if (sfxObject[this.units[this.index].type] == 'stabnoise') {
+          gameState.stabnoise.play();
+        }
+
+        window.setTimeout(() => {
+          this.units[this.index].x = currentXY.x;
+          this.units[this.index].y = currentXY.y;
+          this.units[this.index].anims.play(animObject[this.units[this.index].type][0], true);
+        }, 2000);
+
+        // add timer for the next turn, so will have smooth gameplay
+        this.time.addEvent({
+          delay: 3000,
+          callback: this.nextTurn,
+          callbackScope: this
+        });
       }
-
-      //anims for enemy attacks
-      currentXY = {
-        x: JSON.parse(JSON.stringify(this.units[this.index].x)),
-        y: JSON.parse(JSON.stringify(this.units[this.index].y))
-      };
-
-      if (this.units[this.index].type==="Crackhead" && crackheadJoin){
-        this.units[this.index].x = this.enemies[r].x - 70;
-        this.units[this.index].y = this.enemies[r].y;
-      } else {
-        this.units[this.index].x = this.heroes[r].x - 70;
-        this.units[this.index].y = this.heroes[r].y;
-      }
-
-      this.units[this.index].anims.play(animObject[this.units[this.index].type][1], false);
-      //should be able to do the follosing in one line but its not working... oh well
-      if (sfxObject[this.units[this.index].type] == 'bodyhit') {
-        gameState.bodyhit.play();
-        console.log('playing bodyhit');
-      } else if (sfxObject[this.units[this.index].type] == 'slash') {
-        gameState.slash.play();
-      } else if (sfxObject[this.units[this.index].type] == 'spray') {
-        gameState.spray.play();
-        console.log('playing bodyhit');
-      } else if (sfxObject[this.units[this.index].type] == 'bitenoise') {
-        gameState.bitenoise.play();
-      } else if (sfxObject[this.units[this.index].type] == 'stabnoise') {
-        gameState.stabnoise.play();
-      }
-
-      window.setTimeout(() => {
-        this.units[this.index].x = currentXY.x;
-        this.units[this.index].y = currentXY.y;
-        this.units[this.index].anims.play(animObject[this.units[this.index].type][0], true);
-      }, 2000);
-
-      // add timer for the next turn, so will have smooth gameplay
-      this.time.addEvent({
-        delay: 3000,
-        callback: this.nextTurn,
-        callbackScope: this
-      });
-    }
+    }, 500);
   },
 });
 
@@ -1442,8 +1527,7 @@ var UIScene = new Phaser.Class({
       this.battleScene.receivePlayerSelection(actionIndex, 0);
       this.actionsMenu.actionsRemap()
       this.actionsMenu.deselect()
-    }
-    else if (this.actionsMenu.menuItems[actionIndex]._text == 'Liquor') {
+    } else if (this.actionsMenu.menuItems[actionIndex]._text == 'Liquor') {
       this.battleScene.receivePlayerSelection(actionIndex, 0);
       this.actionsMenu.actionsRemap()
       this.actionsMenu.deselect()
@@ -1483,8 +1567,8 @@ var UIScene = new Phaser.Class({
   remapEnemies: function() {
     var enemies = this.battleScene.enemies;
     aliveEnemies = []
-    for (let i=0;i<enemies.length;i++){
-      if (enemies[i].living){
+    for (let i = 0; i < enemies.length; i++) {
+      if (enemies[i].living) {
         aliveEnemies.push(enemies[i])
       }
     }

@@ -236,6 +236,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('wutt', ['assets/wutt.wav']);
     this.load.audio('ooo', ['assets/ooo.wav']);
     this.load.audio('block', ['assets/block.wav']);
+    this.load.audio('iwantsomecrack', ['assets/iwantsomecrack.mp3']);
     this.load.audio('itemget', ['assets/itemget.wav']);
     this.load.audio('dead', ['assets/dead.wav']);
     this.load.audio('poolhit', ['assets/poolhit.wav']);
@@ -481,6 +482,9 @@ var LightWorld = new Phaser.Class({
       volume: .25
     });
     gameState.spray = this.sound.add('spray', {
+      volume: 1
+    });
+    gameState.iwantsomecrack = this.sound.add('iwantsomecrack', {
       volume: 1
     });
     gameState.smack = this.sound.add('smack', {
@@ -1979,6 +1983,24 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
+      key: 'attack_improved2',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [4, 3, 4, 1, 4, 5]
+      }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'attack_improved3',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [4, 0, 4, 6, 4, 8]
+      }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: 'special_combo',
       frames: this.anims.generateFrameNumbers('me_boxing', {
         frames: [4, 2, 4, 0, 4, 1, 4, 3, 4, 5, 4, 8]
@@ -2927,7 +2949,7 @@ var LightWorld = new Phaser.Class({
       if (chasersEnabled) {
         let rr = Math.random() * 6 - 3
         if (distance(child, me) < 300) {
-          chase(child, me, 4.5 + rr)
+          chase(child, me, 4.5 + rr) //changed from 4.5 when they instantly randomly became too fast
         }
       }
     });
@@ -3334,7 +3356,7 @@ var LightWorld = new Phaser.Class({
       }
       trevor.follow(me, 1)
       trevor.animate(5);
-      trevor.chase(ball, 1.4);
+      trevor.chase(ball, 1.4); //changed from 1.4 to 1.1 when he started being way too fast
       trevor.getUnstuck()
       //high score for keepaway and dialogue
       if (trevor.following === false && distance(me, ball) < 100 && distance(trevor, ball) > 40 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
@@ -3489,10 +3511,11 @@ var LightWorld = new Phaser.Class({
       if (crackhead.body.velocity.x > 5) {
         crackhead.anims.play('crackheadright', true)
       }
-      if (crackhead.body.velocity.x < 5) {
+      if (crackhead.body.velocity.x < -5) {
         crackhead.anims.play('crackheadleft', true)
       }
       if (distance(me, crackhead) < 30 && crackheadFirstTalk === 0) {
+        gameState.iwantsomecrack.play()
         if (moneyToCrackhead>=10 && crackheadFirstJoin){
           crackheadJoin=true;
           crackheadFirstJoin=false;
