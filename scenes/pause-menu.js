@@ -65,6 +65,7 @@ var PauseMenu = new Phaser.Class({
       this.scene.stop();
       scene_number = 2;
       pause = false
+      launchParameter=false;
     }, this);
     exitText = this.add.text(1080-7, 70-14, 'x', {
       fontSize: '25px',

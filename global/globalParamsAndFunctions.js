@@ -90,6 +90,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let launchParameter=false; //this just makes sure the gas station scene isn't launched every tween (only once)
 let indoorZone = ''
 let shakeTheWorld = false;
 let bennettGet = false;
@@ -415,7 +416,8 @@ let itemEffects = {
   "Gatorade": "HP +60",
   "Hamms": "HP +20 SP +5",
   "Larry Special": "HP max SP max",
-  "Liquor": "fucks you up"
+  "Liquor": "fucks you up",
+  "Gas": "makes your \n car work"
 }
 let all_usable_items = {
   "Andy Capp's Hot Fries": andycapps,

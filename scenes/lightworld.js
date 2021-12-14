@@ -256,6 +256,14 @@ var LightWorld = new Phaser.Class({
     this.load.audio('theme', ['assets/fugginwitsumshiit.wav']);
     this.load.audio('dark_theme', ['assets/dark_theme.wav']);
     this.load.audio('windNoise', ['assets/windNoise.wav']);
+    //menu items icons
+    this.load.image('monsterIcon', "assets/monster.png");
+    this.load.image('maxiceIcon', "assets/maxice.png");
+    this.load.image('andycappsIcon', "assets/andycapps.png");
+    this.load.image('liquorIcon', "assets/liquorIcon.png");
+    this.load.image('hammsIcon', "assets/hamms.png");
+    this.load.image('larrySpecialIcon', "assets/larrySpecial.png");
+    this.load.image('gatoradeIcon', "assets/gatorade.png");
     //loading sprite images
     //this.load.image('bikinigirl2', "assets/bikinigirl2.png");
     this.load.image('towel1', "assets/towel1.png");
@@ -826,18 +834,6 @@ var LightWorld = new Phaser.Class({
     hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false);
     stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
 
-    // on pointerdown following
-    /*
-    trevor.setInteractive().on('pointerup', function(){
-      if (trevor.joinParameter && trevor.following===false){
-        trevor.following=true;
-      }
-      else if (trevor.following){
-        trevor.following=false
-      }
-    });
-    */
-
     chasersGroup = this.physics.add.group()
     for (let i = 0; i < enemsForChasers.length; i++) {
       chasers[i] = chasersGroup.create(1200 + 100, 600 + 300, enemsForChasers[i][0]);
@@ -846,7 +842,6 @@ var LightWorld = new Phaser.Class({
       chasers[i].body.setCircle(enemsForChasers[i][4]);
       chasers[i].body.setOffset(enemsForChasers[i][5], enemsForChasers[i][6]);
     }
-
 
     fratboys = this.physics.add.group()
     //fratboys
@@ -919,7 +914,8 @@ var LightWorld = new Phaser.Class({
     //to spawn at bottom left corner of map
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "abbott bottom right")
     //to spawn at marathon
-    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "marathon top left")
+    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "marathon top left").x+200
+    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "marathon top left").y+650
     //to spawn at pool table
     //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").x+10
     //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").y+10
@@ -2146,11 +2142,11 @@ var LightWorld = new Phaser.Class({
     //collecting items
     var keyObjS = this.input.keyboard.addKey('S'); // Get key object
     keyObjS.on('down', function(event) {
-      console.log(`keyboardGet: ${keyboardGet}`)
       numberOfItems=0
       for (let i=0; i<Object.keys(usable_items).length;i++){
         numberOfItems+=usable_items[Object.keys(usable_items)[i]]
       }
+      console.log(numberOfItems)
       if (playerTexture === 0 && me.body.velocity.x === 0 && me.body.velocity.y === 0 && keysGet > 0 && distance(car, me) < 30) {
         playerTexture = 1;
         speed = 1;
@@ -3126,12 +3122,14 @@ var LightWorld = new Phaser.Class({
       this.physics.resume()
     }
 
-    if (scene_number === 1) {
+    if (scene_number === 1 && launchParameter===false) {
       pause = true;
       this.scene.launch('PauseMenu');
-    } else if (scene_number === 3) {
+      launchParameter=true
+    } else if (scene_number === 3 && launchParameter===false) {
       pause = true;
       this.scene.launch('GasStation');
+      launchParameter=true
     }
     // this next part is only here so that numbers in the character menu update every frame... maybe this is causing some issues with speed? (fix needed...)
     /*

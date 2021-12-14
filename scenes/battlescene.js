@@ -323,6 +323,10 @@ var Unit = new Phaser.Class({
     }
     if (target.living) {
       let d = Math.max(0, dd);
+      if (blindObject[this.type]) {
+        d = Math.floor(d / 2)
+        console.log('this hero is blind')
+      }
       target.takeDamage(d);
       //if the attacker is fratboy2, and the attack hits, the target is blinded
       if (this.type === "Frat Boy 2" && d > 0) {
@@ -379,6 +383,10 @@ var Unit = new Phaser.Class({
       dd = this.damage + extra_damage
     }
     let d = Math.max(0, dd) * 1.5
+    if (blindObject[this.type]) {
+      d = Math.floor(d / 2)
+      console.log('this hero is blind')
+    }
     let dam;
     if (target.living) {
       //specifically for Mac special attack

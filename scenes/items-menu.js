@@ -18,13 +18,6 @@ var ItemsMenu = new Phaser.Class({
     this.load.image('macFace', "assets/MacFace.png");
     this.load.image('alFace', "assets/AlFace.png");
     this.load.image('jimmyFace', "assets/JimmyFace.png");
-    this.load.image('monsterIcon', "assets/monster.png");
-    this.load.image('maxiceIcon', "assets/maxice.png");
-    this.load.image('andycappsIcon', "assets/andycapps.png");
-    this.load.image('liquorIcon', "assets/liquorIcon.png");
-    this.load.image('hammsIcon', "assets/hamms.png");
-    this.load.image('larrySpecialIcon', "assets/larrySpecial.png");
-    this.load.image('gatoradeIcon', "assets/gatorade.png");
   },
   create: function() {
     function onlyUnique(value, index, self) {
@@ -79,6 +72,7 @@ var ItemsMenu = new Phaser.Class({
       this.scene.stop();
       scene_number = 2;
       pause = false;
+      launchParameter=false;
     }, this);
     exitText = this.add.text(1080 - 7, 70 - 14, 'x', {
       fontSize: '25px',
@@ -126,7 +120,7 @@ if (trevor.following){
       fill: '#fff'
     });
 
-    //console.log(Object.keys(usable_items))
+    //generates graphics for all items in usable_items
     gameState2.newItem={}
     let xcoord2 = 175;
     let ycoord2 = 140;
@@ -194,6 +188,7 @@ this.input.on('drop', function (pointer, gameObject, dropZone) {
   update: function() {
     //redisplay items
     if (redisplayItems){
+      console.log(`redisplaying items. There are ${hamms} hamms and ${usable_items["Hamms"]} usable hamms`)
       gameState2.macText.setText(`HP: ${hpObject["Mac"]}/${maxHPObject["Mac"]} \nSP: ${spObject["Mac"]}/${maxSPObject["Mac"]}`)
       if (al.following){
         gameState2.alText.setText(`HP: ${hpObject["Al"]}/${maxHPObject["Al"]} \nSP: ${spObject["Al"]}/${maxSPObject["Al"]}`)
