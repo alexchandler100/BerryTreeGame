@@ -90,6 +90,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let stamina=100;
 let launchParameter=false; //this just makes sure the gas station scene isn't launched every tween (only once)
 let indoorZone = ''
 let shakeTheWorld = false;

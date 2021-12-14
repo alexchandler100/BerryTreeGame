@@ -2398,6 +2398,21 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    //stamina
+    if (playerTexture===0 && speed===3 && me.body.velocity.x**2+me.body.velocity.y**2>100){
+      stamina-=.03
+    } else if (playerTexture===0 && speed===4 && me.body.velocity.x**2+me.body.velocity.y**2>100){
+      stamina-=.06
+    } else if (playerTexture===0 && me.body.velocity.x**2+me.body.velocity.y**2<51**2){
+      stamina+=.02
+    }
+    if (stamina<=0){
+      stamina=0
+    } else if (stamina>=100){
+      stamina=100
+    } if (stamina<=5){
+      speed=1
+    }
     //new skill dialogue
     if (skillDialogue["Mac"][3]){
       skillDialogue["Mac"][3]=false;
