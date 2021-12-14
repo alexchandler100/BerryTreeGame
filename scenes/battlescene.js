@@ -212,7 +212,6 @@ var HeroesMenu = new Phaser.Class({
 var ActionsMenu = new Phaser.Class({
   Extends: Menu,
   initialize: function ActionsMenu(x, y, scene) {
-    console.log('initialize actions menu')
     Menu.call(this, x, y, scene);
     this.addMenuItem('Attack');
     this.addMenuItem('Defend');
@@ -234,7 +233,6 @@ var ActionsMenu = new Phaser.Class({
     for (let i = 0; i < Object.keys(usable_items).length; i++) {
       if (usable_items[Object.keys(usable_items)[i]] > 0) {
         this.addMenuItem(Object.keys(usable_items)[i]);
-        console.log(Object.keys(usable_items)[i])
       }
     }
     //this.addMenuItem("Monster");
@@ -242,9 +240,7 @@ var ActionsMenu = new Phaser.Class({
     this.menuItemIndex = 0;
   },
   specialRemap: function() {
-    console.log('special remap')
     this.clear();
-    console.log(`line 230 the current hero is: ${currentHero}`)
     for (let i = 0; i < specialObject[currentHero].length; i++) {
       this.addMenuItem(specialObject[currentHero][i]);
     }
@@ -258,15 +254,10 @@ var ActionsMenu = new Phaser.Class({
     numberOfItems = 0
     for (let i = 0; i < Object.keys(usable_items).length; i++) {
       numberOfItems += usable_items[Object.keys(usable_items)[i]]
-      console.log(Object.keys(usable_items)[i])
-      console.log(usable_items[Object.keys(usable_items)[i]])
-      console.log('actions remapping... should add items to menu if number of items >0')
     }
     if (numberOfItems > 0) {
       this.addMenuItem('Items');
     }
-    console.log(`number of items: ${numberOfItems}`)
-    console.log(`usable items: ${usable_items}`)
     this.menuItemIndex = 0;
   }
 });
@@ -336,7 +327,10 @@ var Unit = new Phaser.Class({
       if (this.type === "Frat Boy 2" && d > 0) {
         blindObject[target.type] = 2
         console.log('the target is blinded')
-        console.log(target)
+      }
+      if ((this.type === "Ex Junkie" || this.type === "Junkie") && d > 0) {
+        bleedingObject[target.type] = 3
+        console.log('the target is bleeding')
       }
       if (rnd >= 9) {
         this.scene.events.emit("Message", "Critical hit! ");
@@ -678,9 +672,35 @@ var BattleScene = new Phaser.Class({
     this.load.image(`burcham_walk`, 'assets/burcham_walk.png');
     this.load.image(`burcham_walk_front`, 'assets/burcham_walk_front.png');
     this.load.image(`blinded`, 'assets/blinded.png');
+    this.load.spritesheet('bleeding',
+      'assets/bleeding.png', {
+        frameWidth: 50,
+        frameHeight: 50
+      });
     //this.load.image(`background1`, 'assets/burcham_battle.png');
   },
   create: function() {
+    //bleeding animation
+    this.anims.create({
+      key: 'bleedingfast',
+      frames: this.anims.generateFrameNumbers('bleeding', {
+        start: 0,
+        end: 4
+      }),
+      frameRate: 5,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'bleedingslow',
+      frames: this.anims.generateFrameNumbers('bleeding', {
+        start: 0,
+        end: 4
+      }),
+      frameRate: 3,
+      repeat: -1
+    });
+
     this.startBattle();
     // on wake event we call startBattle too
     this.sys.events.on('wake', this.startBattle, this);
@@ -702,10 +722,8 @@ var BattleScene = new Phaser.Class({
     if (bossBattle && (bossType === 'fratboy2prime') && burchamWalkImage.a.x <= -4958) {
       gameStateBattle.switch = -1
     }
-    //if (burchamWalkImage.x){
-    //burchamWalkImage.x=6157-1200
-    //burchamWalkImage.x=0
-    //}
+
+    // for blindness and bleeding animations
     if (blindObject["Mac"] > 0) {
       macX.setScale(blindObject["Mac"] / 2)
       macX.visible = true
@@ -713,6 +731,14 @@ var BattleScene = new Phaser.Class({
       macX.y = gameStateBattle.me.y - 60
     } else {
       macX.visible = false
+    }
+    if (bleedingObject["Mac"] > 0) {
+      macBleed.setScale(bleedingObject["Mac"] / 2)
+      macBleed.visible = true
+      macBleed.x = gameStateBattle.me.x - 3
+      macBleed.y = gameStateBattle.me.y
+    } else {
+      macBleed.visible = false
     }
     if (trevor.joinParameter && trevor.following) {
       if (blindObject["Jimmy"] > 0) {
@@ -722,6 +748,14 @@ var BattleScene = new Phaser.Class({
         trevorX.y = gameStateBattle.trevor.y - 70
       } else {
         trevorX.visible = false
+      }
+      if (bleedingObject["Jimmy"] > 0) {
+        trevorBleed.setScale(bleedingObject["Jimmy"] / 2)
+        trevorBleed.visible = true
+        trevorBleed.x = gameStateBattle.trevor.x - 3
+        trevorBleed.y = gameStateBattle.trevor.y
+      } else {
+        trevorBleed.visible = false
       }
     }
     if (bennett.joinParameter && bennett.following) {
@@ -733,6 +767,14 @@ var BattleScene = new Phaser.Class({
       } else {
         bennettX.visible = false
       }
+      if (bleedingObject["Bennett"] > 0) {
+        bennettBleed.setScale(bleedingObject["Bennett"] / 2)
+        bennettBleed.visible = true
+        bennettBleed.x = gameStateBattle.bennett.x - 3
+        bennettBleed.y = gameStateBattle.bennett.y
+      } else {
+        bennettBleed.visible = false
+      }
     }
     if (al.joinParameter && al.following) {
       if (blindObject["Al"] > 0) {
@@ -742,6 +784,14 @@ var BattleScene = new Phaser.Class({
         alX.y = gameStateBattle.al.y - 60
       } else {
         alX.visible = false
+      }
+      if (bleedingObject["Al"] > 0) {
+        alBleed.setScale(bleedingObject["Al"] / 2)
+        alBleed.visible = true
+        alBleed.x = gameStateBattle.al.x - 3
+        alBleed.y = gameStateBattle.al.y
+      } else {
+        alBleed.visible = false
       }
     }
     gameStateBattle.t += 1;
@@ -754,8 +804,8 @@ var BattleScene = new Phaser.Class({
     //enemies
     const enems = [
       ['crackhead', 'Crackhead', 1, 30, crackhead, 'crackheadright'],
-      ['ex_junkie', 'Ex Junkie', 15, 28, ex_junkie, 'ex_junkieright'],
-      ['junkie', 'Junkie', 20, 25, junkie, 'junkieright'],
+      ['ex_junkie', 'Ex Junkie', 30, 15, ex_junkie, 'ex_junkieright'],
+      ['junkie', 'Junkie', 40, 12, junkie, 'junkieright'],
       ['fratboy1', 'Frat Boy 1', 65, 12, fratboy1, 'frat1right'],
       ['fratboy2', 'Frat Boy 2', 40, 14, fratboy2, 'frat2right'],
       ['fratboy3', 'Frat Boy 3', 30, 16, fratboy3, 'frat3right'],
@@ -824,6 +874,10 @@ var BattleScene = new Phaser.Class({
     macX = this.add.image(gameStateBattle.me.x, gameStateBattle.me.y, 'blinded');
     macX.setDepth(1);
     macX.visible = false;
+    macBleed = this.physics.add.sprite(gameStateBattle.me.x, gameStateBattle.me.y, 'bleeding');
+    macBleed.setDepth(1);
+    macBleed.visible = false;
+    macBleed.anims.play('bleedingfast',true)
     if (hpObject['Mac'] > 0) {
       this.add.existing(gameStateBattle.me);
       gameStateBattle.me.active = true
@@ -838,6 +892,10 @@ var BattleScene = new Phaser.Class({
       alX = this.add.image(gameStateBattle.al.x, gameStateBattle.al.y, 'blinded');
       alX.setDepth(1);
       alX.visible = false;
+      alBleed = this.physics.add.sprite(gameStateBattle.al.x, gameStateBattle.al.y, 'bleeding');
+      alBleed.setDepth(2.2);
+      alBleed.visible=false;
+      alBleed.anims.play('bleedingfast',true)
       if (hpObject['Al'] > 0) {
         this.add.existing(gameStateBattle.al);
         gameStateBattle.al.active = true
@@ -854,6 +912,10 @@ var BattleScene = new Phaser.Class({
       trevorX = this.add.image(gameStateBattle.trevor.x, gameStateBattle.trevor.y, 'blinded');
       trevorX.setDepth(2.1);
       trevorX.visible = false;
+      trevorBleed = this.physics.add.sprite(gameStateBattle.trevor.x, gameStateBattle.trevor.y, 'bleeding');
+      trevorBleed.setDepth(2.2);
+      trevorBleed.visible=false;
+      trevorBleed.anims.play('bleedingfast',true)
       if (hpObject['Jimmy'] > 0) {
         this.add.existing(gameStateBattle.trevor);
         gameStateBattle.trevor.active = true
@@ -869,6 +931,10 @@ var BattleScene = new Phaser.Class({
       bennettX = this.add.image(gameStateBattle.bennett.x, gameStateBattle.bennett.y, 'blinded');
       bennettX.setDepth(1);
       bennettX.visible = false;
+      bennettBleed = this.physics.add.sprite(gameStateBattle.bennett.x, gameStateBattle.bennett.y, 'bleeding');
+      bennettBleed.setDepth(2.2);
+      bennettBleed.visible=false;
+      bennettBleed.anims.play('bleedingfast',true)
       if (hpObject['Bennett'] > 0) {
         this.add.existing(gameStateBattle.bennett);
         gameStateBattle.bennett.active = true
@@ -1400,11 +1466,20 @@ var BattleScene = new Phaser.Class({
     //to decrease blindness for hero
     if (this.units[this.index]) {
       if (this.index < this.heroes.length && blindObject[this.units[this.index].type] > 0) {
-        console.log(`blindness: ${blindObject[this.units[this.index].type]}`)
-        console.log('decreasing blindness')
         blindObject[this.units[this.index].type] -= 1
       }
-      console.log(`blindness: ${blindObject[this.units[this.index].type]}`)
+      if (this.index < this.heroes.length && bleedingObject[this.units[this.index].type] > 0) {
+        console.log(this.units[this.index])
+        bleedingObject[this.units[this.index].type] -= 1
+        gameStateBattle.t = 0;
+        gameStateBattle.u = 0;
+        gameStateBattle.damageText.scaleX = 2;
+        gameStateBattle.damageText.scaleY = 2;
+        let dmm = Math.floor(this.units[this.index].hp*.1)+5
+        this.scene.scene.events.emit("damageIndicator", [dmm, this.units[this.index].x, this.units[this.index].y]);
+        this.units[this.index].hp-=dmm
+        hpObject[this.units[this.index].type] -= dmm;
+      }
     }
     // if we have victory or game over
     if (this.checkVictory()) {
@@ -1461,12 +1536,10 @@ var BattleScene = new Phaser.Class({
         //should be able to do the following in one line but its not working... oh well
         if (sfxObject[this.units[this.index].type] == 'bodyhit') {
           gameState.bodyhit.play();
-          console.log('playing bodyhit');
         } else if (sfxObject[this.units[this.index].type] == 'slash') {
           gameState.slash.play();
         } else if (sfxObject[this.units[this.index].type] == 'spray') {
           gameState.spray.play();
-          console.log('playing bodyhit');
         } else if (sfxObject[this.units[this.index].type] == 'bitenoise') {
           gameState.bitenoise.play();
         } else if (sfxObject[this.units[this.index].type] == 'stabnoise') {

@@ -90,6 +90,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let playingOutOfBreath=false;
 let stamina=100;
 let launchParameter=false; //this just makes sure the gas station scene isn't launched every tween (only once)
 let indoorZone = ''
@@ -319,6 +320,13 @@ let defendOn = {
 
 // the number is the number of turns left being blind
 let blindObject = {
+  'Mac': 0,
+  'Al': 0,
+  'Jimmy': 0,
+  'Bennett': 0,
+}
+
+let bleedingObject = {
   'Mac': 0,
   'Al': 0,
   'Jimmy': 0,

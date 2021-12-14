@@ -1,0 +1,125 @@
+{
+	"textures": [
+		{
+			"image": "bleeding.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 250,
+				"h": 50
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "bleeding1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 50,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					}
+				},
+				{
+					"filename": "bleeding2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 50,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					},
+					"frame": {
+						"x": 50,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					}
+				},
+				{
+					"filename": "bleeding3.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 50,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					},
+					"frame": {
+						"x": 100,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					}
+				},
+				{
+					"filename": "bleeding4.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 50,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					},
+					"frame": {
+						"x": 150,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					}
+				},
+				{
+					"filename": "bleeding5.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 50,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					},
+					"frame": {
+						"x": 200,
+						"y": 0,
+						"w": 50,
+						"h": 50
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:ffb72e076f08fe6bd7c4a12487ba4979:c9cc1d39b523a69a5356ae163061a212:a079de5a820b4b8690f10b45a4203e4a$"
+	}
+}

@@ -201,6 +201,7 @@ var LightWorld = new Phaser.Class({
   },
   preload: function() {
     //loading audio
+    this.load.audio('outOfBreath', ['assets/outOfBreath.mp3']);
     this.load.audio('carcrash', ['assets/carcrash.wav']);
     this.load.audio('trevorWoods', ['assets/trevorwoods.wav']);
     this.load.audio('marioWoods', ['assets/8mario_forest.mp3']);
@@ -519,6 +520,10 @@ var LightWorld = new Phaser.Class({
     gameState.ball2 = this.sound.add('ball2', {
       volume: .6
     });
+    gameState.outOfBreath = this.sound.add('outOfBreath', {
+      volume: 1.5
+    });
+    gameState.outOfBreath.loop = true;
     gameState.alSound = this.sound.add('al');
     //gameState.holdOn = this.sound.add('holdon');
     gameState.beatbox = this.sound.add('beatbox', {
@@ -2403,8 +2408,8 @@ var LightWorld = new Phaser.Class({
       stamina-=.03
     } else if (playerTexture===0 && speed===4 && me.body.velocity.x**2+me.body.velocity.y**2>100){
       stamina-=.06
-    } else if (playerTexture===0 && me.body.velocity.x**2+me.body.velocity.y**2<51**2){
-      stamina+=.02
+    } else if (playerTexture===0 && speed===1 || speed===2){
+      stamina+=.04
     }
     if (stamina<=0){
       stamina=0
@@ -2412,6 +2417,14 @@ var LightWorld = new Phaser.Class({
       stamina=100
     } if (stamina<=5){
       speed=1
+    }
+    if (stamina<=30 && playingOutOfBreath===false){
+      gameState.outOfBreath.play()
+      playingOutOfBreath=true
+      console.log(`playing out of breath sound`)
+    } else if (stamina>=30 && playingOutOfBreath===true){
+      gameState.outOfBreath.stop()
+      playingOutOfBreath=false
     }
     //new skill dialogue
     if (skillDialogue["Mac"][3]){
@@ -3712,34 +3725,34 @@ var LightWorld = new Phaser.Class({
       if (this.cursors.left.isDown) {
         if (speed === 1) {
           me.anims.play('leftwalk', true);
-        } else if (speed === 2) {
+        } else if (speed === 2 || speed === 3) {
           me.anims.play('leftrun', true);
-        } else if (speed > 2) {
+        } else if (speed > 3) {
           me.anims.play('leftsprint', true);
         }
       } else if (this.cursors.right.isDown) {
         if (speed === 1) {
           me.anims.play('rightwalk', true);
-        } else if (speed === 2) {
+        } else if (speed === 2 || speed === 3) {
           me.anims.play('rightrun', true);
-        } else if (speed > 2) {
+        } else if (speed > 3) {
           me.anims.play('rightsprint', true);
         }
       }
       if (this.cursors.up.isDown && !(this.cursors.right.isDown)) {
         if (speed === 1) {
           me.anims.play('leftwalk', true);
-        } else if (speed === 2) {
+        } else if (speed === 2 || speed === 3) {
           me.anims.play('leftrun', true);
-        } else if (speed > 2) {
+        } else if (speed > 3) {
           me.anims.play('leftsprint', true);
         }
       } else if (this.cursors.down.isDown && !(this.cursors.left.isDown)) {
         if (speed === 1) {
           me.anims.play('rightwalk', true);
-        } else if (speed === 2) {
+        } else if (speed === 2|| speed === 3) {
           me.anims.play('rightrun', true);
-        } else if (speed > 2) {
+        } else if (speed > 3) {
           me.anims.play('rightsprint', true);
         }
       }
