@@ -901,6 +901,7 @@ var LightWorld = new Phaser.Class({
     //levelObject["Mac"]=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
     //to spawn at pool area
     //gameState.PlayerSpawnPoint=BurchamPoolSpawnPoint
+
     //to spawn at highschool roof
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
     //to spawn at soccer net
@@ -919,7 +920,9 @@ var LightWorld = new Phaser.Class({
     //to spawn at pool table
     //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").x+10
     //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").y+10
-
+    //to spawn at fratboy2primestab
+    //gameState.PlayerSpawnPoint.x=Fratboy2PrimeSpawnPoint.x
+    //gameState.PlayerSpawnPoint.y=Fratboy2PrimeSpawnPoint.y-50
 
     me = this.physics.add.sprite(gameState.PlayerSpawnPoint.x, gameState.PlayerSpawnPoint.y, 'me');
     me.setScale(.17);

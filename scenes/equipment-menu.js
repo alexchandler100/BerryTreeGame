@@ -62,6 +62,7 @@ var EquipmentMenu = new Phaser.Class({
     gameState4.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
     gameState4.exit_button.setInteractive()
     gameState4.exit_button.on('pointerup', function() {
+      launchParameter=false;
       this.scene.stop();
       scene_number = 2;
       pause = false;

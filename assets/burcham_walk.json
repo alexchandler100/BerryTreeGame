@@ -1,0 +1,167 @@
+{
+	"textures": [
+		{
+			"image": "burcham_walk.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 2400,
+				"h": 2400
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Screen Shot 2021-12-13 at 11.12.09 PM (2).png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					}
+				},
+				{
+					"filename": "Screen Shot 2021-12-13 at 11.12.15 PM (2).png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					},
+					"frame": {
+						"x": 1200,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					}
+				},
+				{
+					"filename": "Screen Shot 2021-12-13 at 11.12.20 PM (2).png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					},
+					"frame": {
+						"x": 0,
+						"y": 600,
+						"w": 1200,
+						"h": 600
+					}
+				},
+				{
+					"filename": "Screen Shot 2021-12-13 at 11.12.25 PM (2).png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					},
+					"frame": {
+						"x": 1200,
+						"y": 600,
+						"w": 1200,
+						"h": 600
+					}
+				},
+				{
+					"filename": "Screen Shot 2021-12-13 at 11.12.30 PM (2).png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					},
+					"frame": {
+						"x": 0,
+						"y": 1200,
+						"w": 1200,
+						"h": 600
+					}
+				},
+				{
+					"filename": "Screen Shot 2021-12-13 at 11.12.35 PM (2).png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					},
+					"frame": {
+						"x": 1200,
+						"y": 1200,
+						"w": 1200,
+						"h": 600
+					}
+				},
+				{
+					"filename": "Screen Shot 2021-12-13 at 11.12.39 PM (2).png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1200,
+						"h": 600
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1200,
+						"h": 600
+					},
+					"frame": {
+						"x": 0,
+						"y": 1800,
+						"w": 1200,
+						"h": 600
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:446df2decebbde4c357aa29a36adcfeb:947cc618b8d41981c62732e0b56dc324:9b328318bc4d4f74f5b4d0ce54ea9c79$"
+	}
+}

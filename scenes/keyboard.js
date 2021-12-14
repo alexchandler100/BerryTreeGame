@@ -260,6 +260,7 @@ var Keyboard = new Phaser.Class({
     gameState6.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
     gameState6.exit_button.setInteractive()
     gameState6.exit_button.on('pointerup', function() {
+      launchParameter=false;
       scene_number = 2;
       pause = false;
     }, this);

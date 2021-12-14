@@ -1,6 +1,10 @@
 const gameStateBattle = {
   t: 0,
-  u: 0
+  u: 0,
+  x: 0,
+  ij: 0,
+  alph: 'abcdefghijklmnopqrstuvwxyz',
+  switch: -1
 }
 let enemySelected = false;
 
@@ -671,6 +675,8 @@ var BattleScene = new Phaser.Class({
       this.load.image(`background${i}`, gameStateBattle.images[i]);
     }
     this.load.image(`school_roof`, 'assets/school_roof.png');
+    this.load.image(`burcham_walk`, 'assets/burcham_walk.png');
+    this.load.image(`burcham_walk_front`, 'assets/burcham_walk_front.png');
     this.load.image(`blinded`, 'assets/blinded.png');
     //this.load.image(`background1`, 'assets/burcham_battle.png');
   },
@@ -682,6 +688,24 @@ var BattleScene = new Phaser.Class({
     this.UIScene = this.scene.get("UIScene");
   },
   update: function() {
+    //to make burchamwalk scroll left
+    if (bossBattle && (bossType === 'fratboy2prime') && gameStateBattle.switch === -1) {
+      burchamWalkImage.a.x += 1
+      burchamWalkFrontImage.a.x += 1
+    } else if (bossBattle && (bossType === 'fratboy2prime') && gameStateBattle.switch === 1) {
+      burchamWalkImage.a.x -= 1
+      burchamWalkFrontImage.a.x -= 1
+    }
+    if (bossBattle && (bossType === 'fratboy2prime') && burchamWalkImage.a.x >= 0) {
+      gameStateBattle.switch = 1
+    }
+    if (bossBattle && (bossType === 'fratboy2prime') && burchamWalkImage.a.x <= -4958) {
+      gameStateBattle.switch = -1
+    }
+    //if (burchamWalkImage.x){
+    //burchamWalkImage.x=6157-1200
+    //burchamWalkImage.x=0
+    //}
     if (blindObject["Mac"] > 0) {
       macX.setScale(blindObject["Mac"] / 2)
       macX.visible = true
@@ -739,6 +763,12 @@ var BattleScene = new Phaser.Class({
     ]
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
+    } else if (bossBattle && (bossType === 'fratboy2prime')) {
+      burchamWalkImage = {}
+      burchamWalkFrontImage = {}
+      burchamWalkImage.a = this.add.image(-4957, -125, `burcham_walk`).setOrigin(0, 0);
+      burchamWalkFrontImage.a = this.add.image(-6157 + 1200, -125, `burcham_walk_front`).setOrigin(0, 0);
+      burchamWalkFrontImage.a.setDepth(1)
     } else { // add random background or location based background
       this.add.image(0, -125, `background${battleBackgroundIndex}`).setOrigin(0, 0);
     }
@@ -755,8 +785,10 @@ var BattleScene = new Phaser.Class({
       this.add.existing(gameStateBattle.enem4);
       gameStateBattle.enem5 = new Enemy(this, 200, 325, enems[2][0], null, enems[2][1], enems[2][2] + 5 * (levelObject['Mac'] - 1), enems[2][3] + enems[2][3] * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem5);
+      gameStateBattle.enem5.setDepth(2)
       gameStateBattle.enem2 = new Enemy(this, 385, 350, enems[3][0], null, enems[3][1], enems[3][2] + 5 * (levelObject['Mac'] - 1), enems[3][3] + enems[3][3] * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem2);
+      gameStateBattle.enem2.setDepth(2)
       gameStateBattle.enem3 = new Enemy(this, 450, 250, enems[4][0], null, enems[4][1], enems[4][2] + 5 * (levelObject['Mac'] - 1), enems[4][3] + enems[4][3] * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem3);
     } else if (bossBattle && bossType === 'frank') {
@@ -818,8 +850,9 @@ var BattleScene = new Phaser.Class({
 
     if (trevor.joinParameter && trevor.following) {
       gameStateBattle.trevor = new PlayerCharacter(this, 750, 350, "trevor", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
+      gameStateBattle.trevor.setDepth(2)
       trevorX = this.add.image(gameStateBattle.trevor.x, gameStateBattle.trevor.y, 'blinded');
-      trevorX.setDepth(1);
+      trevorX.setDepth(2.1);
       trevorX.visible = false;
       if (hpObject['Jimmy'] > 0) {
         this.add.existing(gameStateBattle.trevor);
