@@ -856,7 +856,7 @@ var LightWorld = new Phaser.Class({
     fratboy2 = fratboys.create(gameState.fratboy2SpawnPoint.x, gameState.fratboy2SpawnPoint.y, 'fratboy2');
     fratboy3 = fratboys.create(gameState.fratboy3SpawnPoint.x, gameState.fratboy3SpawnPoint.y, 'fratboy3');
     fratboy4 = fratboys.create(gameState.fratboy4SpawnPoint.x, gameState.fratboy4SpawnPoint.y, 'fratboy4');
-    fratboy5 = fratboys.create(gameState.fratboy4SpawnPoint.x + 20, gameState.fratboy4SpawnPoint.y + 200, 'fratboy5');
+    fratboy5 = fratboys.create(gameState.fratboy4SpawnPoint.x + 120, gameState.fratboy4SpawnPoint.y + 200, 'fratboy5');
 
     fratboys.children.iterate(function(child) {
       child.setScale(.16);
@@ -891,6 +891,8 @@ var LightWorld = new Phaser.Class({
     //spawn blnde
     const BlondeSpawnPoint = map.findObject("Objects", obj => obj.name === "blonde spawn point");
     blonde = grls.create(BlondeSpawnPoint.x, BlondeSpawnPoint.y, 'blonde');
+    blonde.x=gameState.fratboy4SpawnPoint.x+120
+    blonde.y=gameState.fratboy4SpawnPoint.y+220
     blonde.setScale(.25);
     blonde.setSize(1, 80);
     blonde.setOffset(30, 80);
@@ -901,6 +903,9 @@ var LightWorld = new Phaser.Class({
     //levelObject["Mac"]=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
     //to spawn at pool area
     //gameState.PlayerSpawnPoint=BurchamPoolSpawnPoint
+    //to spawn at fratboy5
+    //gameState.PlayerSpawnPoint.x=gameState.fratboy4SpawnPoint.x+50
+    //gameState.PlayerSpawnPoint.y=gameState.fratboy4SpawnPoint.y+50
 
     //to spawn at highschool roof
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
