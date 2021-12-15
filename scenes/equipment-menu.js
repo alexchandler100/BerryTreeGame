@@ -8,6 +8,9 @@ var EquipmentMenu = new Phaser.Class({
       "key": "EquipmentMenu"
     });
   },
+  wake: function (){
+    redisplay=true
+  },
   init: function(data) {
     //sumn
   },

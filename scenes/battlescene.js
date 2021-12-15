@@ -762,7 +762,7 @@ var BattleScene = new Phaser.Class({
       if (blindObject["Bennett"] > 0) {
         bennettX.setScale(blindObject["Bennett"] / 2)
         bennettX.visible = true
-        bennettX.x = gameStateBattle.bennett.x
+        bennettX.x = gameStateBattle.bennett.x -7
         bennettX.y = gameStateBattle.bennett.y - 50
       } else {
         bennettX.visible = false
@@ -1136,6 +1136,26 @@ var BattleScene = new Phaser.Class({
     for (var i = 0; i < this.units.length; i++) {
       // link item
       this.units[i].destroy();
+      //reset damage indicator
+      gameStateBattle.t = 0;
+      gameStateBattle.u = 0;
+      gameStateBattle.damageText.scaleX = 2;
+      gameStateBattle.damageText.scaleY = 2;
+      //destroy all status effect animations
+      macX.destroy();
+      macBleed.destroy();
+      if (trevor.joinParameter && trevor.following) {
+          trevorX.destroy()
+          trevorBleed.destroy()
+      }
+      if (bennett.joinParameter && bennett.following) {
+        bennettX.destroy()
+        bennettBleed.destroy()
+      }
+      if (al.joinParameter && al.following) {
+        alX.destroy()
+        alBleed.destroy()
+      }
     }
     this.units.length = 0;
     // sleep the UI
@@ -1196,6 +1216,16 @@ var BattleScene = new Phaser.Class({
     worldTheme = 'light';
   },
   wake: function() {
+    gameStateBattle.me.hp=hpObject["Mac"]
+    if (bennett.joinParameter && bennett.following){
+      gameStateBattle.bennett.hp=hpObject["Bennett"]
+    }
+    if (trevor.joinParameter && trevor.following){
+      gameStateBattle.trevor.hp=hpObject["Jimmy"]
+    }
+    if (al.joinParameter && al.following){
+      gameStateBattle.al.hp=hpObject["Al"]
+    }
     gameState.swimNoise.stop()
     this.scene.run('UIScene');
     this.time.addEvent({
