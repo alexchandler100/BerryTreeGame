@@ -375,6 +375,16 @@ var LightWorld = new Phaser.Class({
         frameWidth: 64,
         frameHeight: 64
       });
+      this.load.spritesheet('canjam-0',
+        'assets/canjam-0.png', {
+          frameWidth: 200,
+          frameHeight: 1200
+        });
+        this.load.spritesheet('canjam-1',
+          'assets/canjam-1.png', {
+            frameWidth: 200,
+            frameHeight: 1200
+          });
     this.load.spritesheet('me',
       'assets/me_running_BTJM.png', {
         frameWidth: 200,
@@ -658,6 +668,9 @@ var LightWorld = new Phaser.Class({
     const VolleyballNetSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyballnet spawn point");
     const BurchamPoolSpawnPoint = map.findObject("Objects", obj => obj.name === "burchampool spawn point");
 
+    canjam = this.physics.add.sprite(VolleyballNetSpawnPoint.x +170, VolleyballNetSpawnPoint.y - 200, 'canjam-0');
+    canjam.setScale(.1)
+
 
     //spawning phone wallet and keys
     if (phoneGet === 0) {
@@ -710,6 +723,28 @@ var LightWorld = new Phaser.Class({
     net.children.iterate(function(child) {
       child.body.immovable = true;
       child.body.moves = false;
+    });
+
+    //canjam animations
+    this.anims.create({
+      key: 'canjamplay',
+      frames: this.anims.generateFrameNumbers('canjam-0', {
+        start: 0,
+        end: 9
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    //canjam animations
+    this.anims.create({
+      key: 'canjamplay1',
+      frames: this.anims.generateFrameNumbers('canjam-1', {
+        start: 0,
+        end: 7
+      }),
+      frameRate: 10,
+      repeat: -1
     });
 
     //pool water animation
@@ -2408,7 +2443,7 @@ var LightWorld = new Phaser.Class({
       stamina-=.03
     } else if (playerTexture===0 && speed===4 && me.body.velocity.x**2+me.body.velocity.y**2>100){
       stamina-=.06
-    } else if (playerTexture===0 && speed===1 || speed===2){
+    } else if (playerTexture===0 && speed===1 || me.body.velocity.x**2+me.body.velocity.y**2<100**2){
       stamina+=.04
     }
     if (stamina<=0){
@@ -3025,6 +3060,14 @@ var LightWorld = new Phaser.Class({
     } else if (blocked === 1) {
       gameState.block.play();
       blocked = 0
+    }
+
+    //ai for canjam
+
+    if (time %100===1){
+      canjam.anims.play('canjamplay',true)
+    } else if (time %50===1){
+      canjam.anims.play('canjamplay1',true)
     }
 
     //dialogue for girl1

@@ -1,10 +1,7 @@
-if (al.joinParameter && al.following) {
-  if (blindObject["Jimmy"] > 0) {
-    alX.setScale(blindObject["Jimmy"] / 2)
-    alX.visible = true
-    alX.x = gameStateBattle.al.x - 10
-    alX.y = gameStateBattle.al.y - 65
-  } else {
-    alX.visible = false
-  }
+if (gameStateBattle.al.living = false){
+  alX.visible=false
+  alBleed.visible=false
+} else {
+  alX.visible=true
+  alBleed.visible=true
 }

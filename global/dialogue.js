@@ -58,6 +58,16 @@ const pages = [{
     page: 8,
     narrative: 'PRESS DELETE IF THE BALL GETS STUCK, IT WILL RESPAWN. IF YOU WANT A CHEAT CODE, JUST ASK MR. C.',
     options: [{
+      option: 'WHAT ELSE??',
+      nextPage: 9
+    }, ]
+  },
+
+  {
+    character: 'me',
+    page: 9,
+    narrative: 'WATCH YOUR STAMINA BAR! IF IT DROPS BELOW 30 PERCENT, YOU WILL NOT BE ABLE TO RUN, AND YOUR PARTY DOES LESS DAMAGE AND LANDS LESS OFTEN IN BATTLE.',
+    options: [{
       option: 'Right on',
       nextPage: undefined
     }, ]

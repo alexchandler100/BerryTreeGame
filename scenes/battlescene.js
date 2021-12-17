@@ -295,6 +295,11 @@ var Unit = new Phaser.Class({
     let extra_damage;
     let dd;
     let rnd = Math.floor(Math.random() * 10)
+    // decrease chance of landing if stamina is low
+    if (stamina <= 30 && Object.keys(hpObject).includes(this.type)) {
+      rnd -= 2
+      console.log(`low stamina... decreasing rnd by 2`)
+    }
     //since blinding is OP, we are decreasing rnd so fratboy2 is less likely to land (may have to adjust the value)
     if (this.type === "Frat Boy 2") {
       rnd -= 3
@@ -321,6 +326,10 @@ var Unit = new Phaser.Class({
       if (blindObject[this.type]) {
         d = Math.floor(d / 2)
         console.log('this hero is blind')
+      }
+      if (stamina <= 30 && Object.keys(hpObject).includes(this.type)) {
+        d = Math.floor(d * .75)
+        console.log('low stamina, decreasing damage by .75')
       }
       target.takeDamage(d);
       //if the attacker is fratboy2, and the attack hits, the target is blinded
@@ -706,6 +715,28 @@ var BattleScene = new Phaser.Class({
     this.sys.events.on('wake', this.startBattle, this);
     //use uiscene functions
     this.UIScene = this.scene.get("UIScene");
+
+    //status effects create
+    macX = this.add.image(-50,-50,  'blinded').setDepth(1);
+    macBleed = this.physics.add.sprite(-50,-50,  'bleeding').setDepth(1);
+    macBleed.anims.play('bleedingfast', true)
+
+    if (al.joinParameter && al.following) {
+      alX = this.add.image(-50,-50, 'blinded').setDepth(1);
+      alBleed = this.physics.add.sprite(-50,-50, 'bleeding').setDepth(2.2);
+      alBleed.anims.play('bleedingfast', true)
+    }
+
+    if (bennett.joinParameter && bennett.following) {
+      bennettX = this.add.image(-50,-50, 'blinded').setDepth(1);
+      bennettBleed = this.physics.add.sprite(-50,-50, 'bleeding').setDepth(2.2);
+      bennettBleed.anims.play('bleedingfast', true)
+    }
+    if (trevor.joinParameter && trevor.following) {
+      trevorX = this.add.image(-50,-50, 'blinded').setDepth(2.1);
+      trevorBleed = this.physics.add.sprite(-50,-50, 'bleeding').setDepth(2.2);
+      trevorBleed.anims.play('bleedingfast', true)
+    }
   },
   update: function() {
     //to make burchamwalk scroll left
@@ -724,76 +755,66 @@ var BattleScene = new Phaser.Class({
     }
 
     // for blindness and bleeding animations
-    if (blindObject["Mac"] > 0) {
-      macX.setScale(blindObject["Mac"] / 2)
-      macX.visible = true
-      macX.x = gameStateBattle.me.x - 3
-      macX.y = gameStateBattle.me.y - 60
+    macX.setScale(blindObject["Mac"] / 2)
+    macX.x = gameStateBattle.me.x - 3
+    macX.y = gameStateBattle.me.y - 60
+    macBleed.setScale(bleedingObject["Mac"] / 2)
+    macBleed.x = gameStateBattle.me.x - 3
+    macBleed.y = gameStateBattle.me.y
+    if (gameStateBattle.me.living === false){
+      macX.visible=false
+      macBleed.visible=false
     } else {
-      macX.visible = false
+      macX.visible=true
+      macBleed.visible=true
     }
-    if (bleedingObject["Mac"] > 0) {
-      macBleed.setScale(bleedingObject["Mac"] / 2)
-      macBleed.visible = true
-      macBleed.x = gameStateBattle.me.x - 3
-      macBleed.y = gameStateBattle.me.y
-    } else {
-      macBleed.visible = false
-    }
+
     if (trevor.joinParameter && trevor.following) {
-      if (blindObject["Jimmy"] > 0) {
-        trevorX.setScale(blindObject["Jimmy"] / 2)
-        trevorX.visible = true
-        trevorX.x = gameStateBattle.trevor.x - 10
-        trevorX.y = gameStateBattle.trevor.y - 70
+      trevorX.x = gameStateBattle.trevor.x - 10
+      trevorX.y = gameStateBattle.trevor.y - 70
+      trevorBleed.x = gameStateBattle.trevor.x - 3
+      trevorBleed.y = gameStateBattle.trevor.y
+      trevorX.setScale(blindObject["Jimmy"] / 2)
+      trevorBleed.setScale(bleedingObject["Jimmy"] / 2)
+      if (gameStateBattle.trevor.living === false){
+        trevorX.visible=false
+        trevorBleed.visible=false
       } else {
-        trevorX.visible = false
-      }
-      if (bleedingObject["Jimmy"] > 0) {
-        trevorBleed.setScale(bleedingObject["Jimmy"] / 2)
-        trevorBleed.visible = true
-        trevorBleed.x = gameStateBattle.trevor.x - 3
-        trevorBleed.y = gameStateBattle.trevor.y
-      } else {
-        trevorBleed.visible = false
+        trevorX.visible=true
+        trevorBleed.visible=true
       }
     }
     if (bennett.joinParameter && bennett.following) {
-      if (blindObject["Bennett"] > 0) {
-        bennettX.setScale(blindObject["Bennett"] / 2)
-        bennettX.visible = true
-        bennettX.x = gameStateBattle.bennett.x
-        bennettX.y = gameStateBattle.bennett.y - 50
+      bennettX.x = gameStateBattle.bennett.x
+      bennettX.y = gameStateBattle.bennett.y - 50
+      bennettX.setScale(blindObject["Bennett"] / 2)
+      bennettBleed.x = gameStateBattle.bennett.x - 3
+      bennettBleed.y = gameStateBattle.bennett.y
+      bennettBleed.setScale(bleedingObject["Bennett"] / 2)
+      if (gameStateBattle.bennett.living === false){
+        bennettX.visible=false
+        bennettBleed.visible=false
       } else {
-        bennettX.visible = false
-      }
-      if (bleedingObject["Bennett"] > 0) {
-        bennettBleed.setScale(bleedingObject["Bennett"] / 2)
-        bennettBleed.visible = true
-        bennettBleed.x = gameStateBattle.bennett.x - 3
-        bennettBleed.y = gameStateBattle.bennett.y
-      } else {
-        bennettBleed.visible = false
+        bennettX.visible=true
+        bennettBleed.visible=true
       }
     }
     if (al.joinParameter && al.following) {
-      if (blindObject["Al"] > 0) {
-        alX.setScale(blindObject["Al"] / 2)
-        alX.visible = true
-        alX.x = gameStateBattle.al.x
-        alX.y = gameStateBattle.al.y - 60
+      alX.x = gameStateBattle.al.x
+      alX.y = gameStateBattle.al.y - 60
+      alX.setScale(blindObject["Al"] / 2)
+      alBleed.setScale(bleedingObject["Al"] / 2)
+      alBleed.x = gameStateBattle.al.x - 3
+      alBleed.y = gameStateBattle.al.y
+      if (gameStateBattle.al.living === false){
+        alX.visible=false
+        alBleed.visible=false
       } else {
-        alX.visible = false
-      }
-      if (bleedingObject["Al"] > 0) {
-        alBleed.setScale(bleedingObject["Al"] / 2)
-        alBleed.visible = true
-        alBleed.x = gameStateBattle.al.x - 3
-        alBleed.y = gameStateBattle.al.y
-      } else {
-        alBleed.visible = false
+        alX.visible=true
+        alBleed.visible=true
       }
     }
+
     gameStateBattle.t += 1;
     gameStateBattle.damageText.x -= 2
     gameStateBattle.damageText.y += (gameStateBattle.t * 2 - 30) / 30
@@ -871,13 +892,7 @@ var BattleScene = new Phaser.Class({
     //recall inputs look like (scene, x, y, texture, frame, type, hp, damage)
     // player characters - warrior
     gameStateBattle.me = new PlayerCharacter(this, 850, 250, "me", 1, "Mac", hpObject['Mac'], damageObject['Mac']);
-    macX = this.add.image(gameStateBattle.me.x, gameStateBattle.me.y, 'blinded');
-    macX.setDepth(1);
-    macX.visible = false;
-    macBleed = this.physics.add.sprite(gameStateBattle.me.x, gameStateBattle.me.y, 'bleeding');
-    macBleed.setDepth(1);
-    macBleed.visible = false;
-    macBleed.anims.play('bleedingfast',true)
+    //macBleed.visible = false;
     if (hpObject['Mac'] > 0) {
       this.add.existing(gameStateBattle.me);
       gameStateBattle.me.active = true
@@ -889,13 +904,6 @@ var BattleScene = new Phaser.Class({
 
     if (al.joinParameter && al.following) {
       gameStateBattle.al = new PlayerCharacter(this, 800, 300, "al", 4, "Al", hpObject['Al'], damageObject['Al']);
-      alX = this.add.image(gameStateBattle.al.x, gameStateBattle.al.y, 'blinded');
-      alX.setDepth(1);
-      alX.visible = false;
-      alBleed = this.physics.add.sprite(gameStateBattle.al.x, gameStateBattle.al.y, 'bleeding');
-      alBleed.setDepth(2.2);
-      alBleed.visible=false;
-      alBleed.anims.play('bleedingfast',true)
       if (hpObject['Al'] > 0) {
         this.add.existing(gameStateBattle.al);
         gameStateBattle.al.active = true
@@ -909,13 +917,6 @@ var BattleScene = new Phaser.Class({
     if (trevor.joinParameter && trevor.following) {
       gameStateBattle.trevor = new PlayerCharacter(this, 750, 350, "trevor", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
       gameStateBattle.trevor.setDepth(2)
-      trevorX = this.add.image(gameStateBattle.trevor.x, gameStateBattle.trevor.y, 'blinded');
-      trevorX.setDepth(2.1);
-      trevorX.visible = false;
-      trevorBleed = this.physics.add.sprite(gameStateBattle.trevor.x, gameStateBattle.trevor.y, 'bleeding');
-      trevorBleed.setDepth(2.2);
-      trevorBleed.visible=false;
-      trevorBleed.anims.play('bleedingfast',true)
       if (hpObject['Jimmy'] > 0) {
         this.add.existing(gameStateBattle.trevor);
         gameStateBattle.trevor.active = true
@@ -928,13 +929,6 @@ var BattleScene = new Phaser.Class({
 
     if (bennett.joinParameter && bennett.following) {
       gameStateBattle.bennett = new PlayerCharacter(this, 1001, 325, "bennett", 4, "Bennett", hpObject['Bennett'], damageObject['Bennett']);
-      bennettX = this.add.image(gameStateBattle.bennett.x, gameStateBattle.bennett.y, 'blinded');
-      bennettX.setDepth(1);
-      bennettX.visible = false;
-      bennettBleed = this.physics.add.sprite(gameStateBattle.bennett.x, gameStateBattle.bennett.y, 'bleeding');
-      bennettBleed.setDepth(2.2);
-      bennettBleed.visible=false;
-      bennettBleed.anims.play('bleedingfast',true)
       if (hpObject['Bennett'] > 0) {
         this.add.existing(gameStateBattle.bennett);
         gameStateBattle.bennett.active = true
@@ -1475,9 +1469,9 @@ var BattleScene = new Phaser.Class({
         gameStateBattle.u = 0;
         gameStateBattle.damageText.scaleX = 2;
         gameStateBattle.damageText.scaleY = 2;
-        let dmm = Math.floor(this.units[this.index].hp*.1)+5
+        let dmm = Math.floor(this.units[this.index].hp * .1) + 5
         this.scene.scene.events.emit("damageIndicator", [dmm, this.units[this.index].x, this.units[this.index].y]);
-        this.units[this.index].hp-=dmm
+        this.units[this.index].hp -= dmm
         hpObject[this.units[this.index].type] -= dmm;
       }
     }
