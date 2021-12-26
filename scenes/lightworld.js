@@ -2434,15 +2434,9 @@ var LightWorld = new Phaser.Class({
     if (playerTexture===0 && speed===3 && me.body.velocity.x**2+me.body.velocity.y**2>100){
       stamina-=.02
     } else if (playerTexture===0 && speed===4 && me.body.velocity.x**2+me.body.velocity.y**2>100){
-<<<<<<< HEAD
       stamina-=.05
     } else if (playerTexture===0 && speed===1 || me.body.velocity.x**2+me.body.velocity.y**2<100**2){
       stamina+=.07
-=======
-      stamina-=.06
-    } else if (playerTexture===0 && (me.body.velocity.x**2+me.body.velocity.y**2<100**2 || speed===1)){
-      stamina+=.04
->>>>>>> 191570b28d5f4dcefd080f5a15680b3bed3ee84d
     }
     if (stamina<=0){
       stamina=0

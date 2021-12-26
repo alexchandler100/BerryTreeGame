@@ -767,7 +767,6 @@ var BattleScene = new Phaser.Class({
       macX.visible=true
       macBleed.visible=true
     }
-<<<<<<< HEAD
 
     if (trevor.following) {
       trevorX.x = gameStateBattle.trevor.x - 10
@@ -779,48 +778,6 @@ var BattleScene = new Phaser.Class({
       if (gameStateBattle.trevor.living === false){
         trevorX.visible=false
         trevorBleed.visible=false
-=======
-    if (bleedingObject["Mac"] > 0) {
-      macBleed.setScale(bleedingObject["Mac"] / 2)
-      macBleed.visible = true
-      macBleed.x = gameStateBattle.me.x - 3
-      macBleed.y = gameStateBattle.me.y
-    } else {
-      macBleed.visible = false
-    }
-    if (trevor.joinParameter && trevor.following) {
-      if (blindObject["Jimmy"] > 0) {
-        trevorX.setScale(blindObject["Jimmy"] / 2)
-        trevorX.visible = true
-        trevorX.x = gameStateBattle.trevor.x - 10
-        trevorX.y = gameStateBattle.trevor.y - 70
-      } else {
-        trevorX.visible = false
-      }
-      if (bleedingObject["Jimmy"] > 0) {
-        trevorBleed.setScale(bleedingObject["Jimmy"] / 2)
-        trevorBleed.visible = true
-        trevorBleed.x = gameStateBattle.trevor.x - 3
-        trevorBleed.y = gameStateBattle.trevor.y
-      } else {
-        trevorBleed.visible = false
-      }
-    }
-    if (bennett.joinParameter && bennett.following) {
-      if (blindObject["Bennett"] > 0) {
-        bennettX.setScale(blindObject["Bennett"] / 2)
-        bennettX.visible = true
-        bennettX.x = gameStateBattle.bennett.x -7
-        bennettX.y = gameStateBattle.bennett.y - 50
-      } else {
-        bennettX.visible = false
-      }
-      if (bleedingObject["Bennett"] > 0) {
-        bennettBleed.setScale(bleedingObject["Bennett"] / 2)
-        bennettBleed.visible = true
-        bennettBleed.x = gameStateBattle.bennett.x - 3
-        bennettBleed.y = gameStateBattle.bennett.y
->>>>>>> 191570b28d5f4dcefd080f5a15680b3bed3ee84d
       } else {
         trevorX.visible=true
         trevorBleed.visible=true
