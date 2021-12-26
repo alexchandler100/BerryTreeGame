@@ -185,7 +185,7 @@ let sfxObject = {
   "Frat Boy 1": "bodyhit",
   "Frat Boy 2": "spray",
   "Frat Boy 3": "bodyhit",
-  "Frat Boy 4": "bodyhit",
+  "Frat Boy 4": "shatter",
   "Crackhead": "bitenoise",
   "Junkie": "stabnoise",
   "Ex Junkie": "stabnoise",

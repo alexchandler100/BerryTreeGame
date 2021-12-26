@@ -304,6 +304,11 @@ var Unit = new Phaser.Class({
     if (this.type === "Frat Boy 2") {
       rnd -= 3
     }
+    //making fratboy4 have higher depth to see bottle attacks
+    if (this.type === "Frat Boy 4") {
+      this.setDepth(3)
+      console.log(`setting frat boy 4 depth to 3`)
+    }
     //to decrease likeliness to land hit if blinded
     if (blindObject[this.type]) {
       rnd = Math.floor(rnd / 3)
@@ -838,7 +843,7 @@ var BattleScene = new Phaser.Class({
       ['fratboy1', 'Frat Boy 1', 65, 6, fratboy1, 'frat1right'],
       ['fratboy2', 'Frat Boy 2', 20, 7, fratboy2, 'frat2right'],
       ['fratboy3', 'Frat Boy 3', 30, 8, fratboy3, 'frat3right'],
-      ['fratboy4', 'Frat Boy 4', 30, 5, fratboy4, 'frat4right'],
+      ['fratboy4', 'Frat Boy 4', 20, 10, fratboy4, 'frat4right'],
     ]
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
@@ -1566,6 +1571,8 @@ var BattleScene = new Phaser.Class({
           gameState.bitenoise.play();
         } else if (sfxObject[this.units[this.index].type] == 'stabnoise') {
           gameState.stabnoise.play();
+        } else if (sfxObject[this.units[this.index].type] == 'shatter') {
+          gameState.shatter.play();
         }
 
         window.setTimeout(() => {

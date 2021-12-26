@@ -216,6 +216,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('airsoft', ['assets/airsoft.wav']);
     this.load.audio('punch', ['assets/Punch.wav']);
     this.load.audio('stabnoise', ['assets/stabnoise.wav']);
+    this.load.audio('shatter', ['assets/shatter.mp3']);
     this.load.audio('bitenoise', ['assets/bitenoise.wav']);
     this.load.audio('battle1', ['assets/battle1.wav']);
     this.load.audio('battle2', ['assets/battle2.wav']);
@@ -516,6 +517,9 @@ var LightWorld = new Phaser.Class({
       volume: .4
     });
     gameState.stabnoise = this.sound.add('stabnoise', {
+      volume: .8
+    });
+    gameState.shatter = this.sound.add('shatter', {
       volume: .8
     });
     gameState.bitenoise = this.sound.add('bitenoise', {
@@ -1549,10 +1553,10 @@ var LightWorld = new Phaser.Class({
       key: 'frat4attack',
       frames: this.anims.generateFrameNumbers('fratboy4', {
         start: 5,
-        end: 5
+        end: 7
       }),
-      frameRate: 1,
-      repeat: -1
+      frameRate: 5,
+      repeat: 0
     });
     //girl animations
 
