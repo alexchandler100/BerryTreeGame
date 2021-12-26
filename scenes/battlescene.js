@@ -331,6 +331,10 @@ var Unit = new Phaser.Class({
         d = Math.floor(d * .75)
         console.log('low stamina, decreasing damage by .75')
       }
+      if (Object.keys(hpObject).includes(target.type)) {
+        console.log(`multiplying enemy attack power by ${(1.55)**(numberOfPlayers)}`)
+        d = Math.floor(d * (1.55)**(numberOfPlayers))
+      }
       target.takeDamage(d);
       //if the attacker is fratboy2, and the attack hits, the target is blinded
       if (this.type === "Frat Boy 2" && d > 0) {
@@ -721,22 +725,17 @@ var BattleScene = new Phaser.Class({
     macBleed = this.physics.add.sprite(-50,-50,  'bleeding').setDepth(1);
     macBleed.anims.play('bleedingfast', true)
 
-    if (al.joinParameter && al.following) {
       alX = this.add.image(-50,-50, 'blinded').setDepth(1);
       alBleed = this.physics.add.sprite(-50,-50, 'bleeding').setDepth(2.2);
       alBleed.anims.play('bleedingfast', true)
-    }
 
-    if (bennett.joinParameter && bennett.following) {
       bennettX = this.add.image(-50,-50, 'blinded').setDepth(1);
       bennettBleed = this.physics.add.sprite(-50,-50, 'bleeding').setDepth(2.2);
       bennettBleed.anims.play('bleedingfast', true)
-    }
-    if (trevor.joinParameter && trevor.following) {
+
       trevorX = this.add.image(-50,-50, 'blinded').setDepth(2.1);
       trevorBleed = this.physics.add.sprite(-50,-50, 'bleeding').setDepth(2.2);
       trevorBleed.anims.play('bleedingfast', true)
-    }
   },
   update: function() {
     //to make burchamwalk scroll left
@@ -769,7 +768,7 @@ var BattleScene = new Phaser.Class({
       macBleed.visible=true
     }
 
-    if (trevor.joinParameter && trevor.following) {
+    if (trevor.following) {
       trevorX.x = gameStateBattle.trevor.x - 10
       trevorX.y = gameStateBattle.trevor.y - 70
       trevorBleed.x = gameStateBattle.trevor.x - 3
@@ -784,7 +783,7 @@ var BattleScene = new Phaser.Class({
         trevorBleed.visible=true
       }
     }
-    if (bennett.joinParameter && bennett.following) {
+    if (bennett.following) {
       bennettX.x = gameStateBattle.bennett.x
       bennettX.y = gameStateBattle.bennett.y - 50
       bennettX.setScale(blindObject["Bennett"] / 2)
@@ -799,7 +798,7 @@ var BattleScene = new Phaser.Class({
         bennettBleed.visible=true
       }
     }
-    if (al.joinParameter && al.following) {
+    if (al.following) {
       alX.x = gameStateBattle.al.x
       alX.y = gameStateBattle.al.y - 60
       alX.setScale(blindObject["Al"] / 2)
@@ -822,15 +821,24 @@ var BattleScene = new Phaser.Class({
     gameStateBattle.damageText.scaleY -= .005
   },
   startBattle: function() {
+    numberOfPlayers = 1
+    if (trevor.following){
+      numberOfPlayers += 1
+    } if (al.following){
+      numberOfPlayers += 1
+    } if (bennett.following){
+      numberOfPlayers += 1
+    }
+    console.log(`numberofplayers ${numberOfPlayers}`)
     //enemies
     const enems = [
-      ['crackhead', 'Crackhead', 1, 30, crackhead, 'crackheadright'],
-      ['ex_junkie', 'Ex Junkie', 30, 15, ex_junkie, 'ex_junkieright'],
-      ['junkie', 'Junkie', 40, 12, junkie, 'junkieright'],
-      ['fratboy1', 'Frat Boy 1', 65, 12, fratboy1, 'frat1right'],
-      ['fratboy2', 'Frat Boy 2', 40, 14, fratboy2, 'frat2right'],
-      ['fratboy3', 'Frat Boy 3', 30, 16, fratboy3, 'frat3right'],
-      ['fratboy4', 'Frat Boy 4', 30, 9, fratboy4, 'frat4right'],
+      ['crackhead', 'Crackhead', 1, 15, crackhead, 'crackheadright'],
+      ['ex_junkie', 'Ex Junkie', 30, 8, ex_junkie, 'ex_junkieright'],
+      ['junkie', 'Junkie', 40, 6, junkie, 'junkieright'],
+      ['fratboy1', 'Frat Boy 1', 65, 6, fratboy1, 'frat1right'],
+      ['fratboy2', 'Frat Boy 2', 20, 7, fratboy2, 'frat2right'],
+      ['fratboy3', 'Frat Boy 3', 30, 8, fratboy3, 'frat3right'],
+      ['fratboy4', 'Frat Boy 4', 30, 5, fratboy4, 'frat4right'],
     ]
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
@@ -867,11 +875,11 @@ var BattleScene = new Phaser.Class({
       this.add.existing(gameStateBattle.enem1);
     } else {
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)
-      if (set3.size === 4 && trevor.joinParameter) {
+      if (set3.size === 4 && trevor.following) {
         gameStateBattle.enem4 = new Enemy(this, 300, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (levelObject['Mac'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 2) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem4);
       }
-      if (set4.size === 5 && al.joinParameter) {
+      if (set4.size === 5 && al.following) {
         gameStateBattle.enem5 = new Enemy(this, 250, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (levelObject['Mac'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 2) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem5);
       }
@@ -902,7 +910,7 @@ var BattleScene = new Phaser.Class({
       gameStateBattle.me.living = false
     }
 
-    if (al.joinParameter && al.following) {
+    if (al.following) {
       gameStateBattle.al = new PlayerCharacter(this, 800, 300, "al", 4, "Al", hpObject['Al'], damageObject['Al']);
       if (hpObject['Al'] > 0) {
         this.add.existing(gameStateBattle.al);
@@ -914,7 +922,7 @@ var BattleScene = new Phaser.Class({
       }
     }
 
-    if (trevor.joinParameter && trevor.following) {
+    if (trevor.following) {
       gameStateBattle.trevor = new PlayerCharacter(this, 750, 350, "trevor", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
       gameStateBattle.trevor.setDepth(2)
       if (hpObject['Jimmy'] > 0) {
@@ -927,7 +935,7 @@ var BattleScene = new Phaser.Class({
       }
     }
 
-    if (bennett.joinParameter && bennett.following) {
+    if (bennett.following) {
       gameStateBattle.bennett = new PlayerCharacter(this, 1001, 325, "bennett", 4, "Bennett", hpObject['Bennett'], damageObject['Bennett']);
       if (hpObject['Bennett'] > 0) {
         this.add.existing(gameStateBattle.bennett);
@@ -965,35 +973,35 @@ var BattleScene = new Phaser.Class({
       if (set2.size === 3) {
         gameStateBattle.enem3.anims.play(enems[tt][5], true);
       }
-      if (set3.size === 4 && trevor.joinParameter) {
+      if (set3.size === 4 && trevor.following) {
         gameStateBattle.enem4.anims.play(enems[pp][5], true);
       }
-      if (set4.size === 5 && al.joinParameter) {
+      if (set4.size === 5 && al.following) {
         gameStateBattle.enem5.anims.play(enems[qq][5], true);
       }
     }
 
     //animations for sprites
     gameStateBattle.me.anims.play('leftwalk', true);
-    if (al.joinParameter && al.following) {
+    if (al.following) {
       gameStateBattle.al.anims.play('alleft', true);
     }
-    if (trevor.joinParameter && trevor.following) {
+    if (trevor.following) {
       gameStateBattle.trevor.anims.play('trevorleft', true);
     }
-    if (bennett.joinParameter && bennett.following) {
+    if (bennett.following) {
       gameStateBattle.bennett.anims.play('bennett_walk', true);
     }
 
     // array with heroes
     this.heroes = [gameStateBattle.me];
-    if (trevor.joinParameter && trevor.following) {
+    if (trevor.following) {
       this.heroes.push(gameStateBattle.trevor);
     }
-    if (al.joinParameter && al.following) {
+    if (al.following) {
       this.heroes.push(gameStateBattle.al);
     }
-    if (bennett.joinParameter && bennett.following) {
+    if (bennett.following) {
       this.heroes.push(gameStateBattle.bennett);
     }
     // array with enemies
@@ -1013,10 +1021,10 @@ var BattleScene = new Phaser.Class({
       if (set2.size === 3) {
         this.enemies.push(gameStateBattle.enem3)
       }
-      if (set3.size === 4 && trevor.joinParameter) {
+      if (set3.size === 4 && trevor.following) {
         this.enemies.push(gameStateBattle.enem4)
       }
-      if (set4.size === 5 && al.joinParameter) {
+      if (set4.size === 5 && al.following) {
         this.enemies.push(gameStateBattle.enem5)
       }
     }
@@ -1060,18 +1068,12 @@ var BattleScene = new Phaser.Class({
     if (bossBattle && bossType === 'darkboy') {
       exp += 100 * 3 ** (levelObject['Mac'] - 1)
       reward = 10
-      for (let i = 0; i < this.heroes.length; i++) {
-        expObject[this.heroes[i].type] += exp;
-      }
       money += reward
       items.push('Empty NyQuil')
       gameState.spooky.stop()
     } else if (bossBattle && bossType === 'dio') {
       exp += 200 * 3 ** (levelObject['Mac'] - 1)
       reward = 100
-      for (let i = 0; i < this.heroes.length; i++) {
-        expObject[this.heroes[i].type] += exp;
-      }
       money += reward
       equipment.push('Dio Band')
       gameState.holyDiver.stop()
@@ -1082,26 +1084,17 @@ var BattleScene = new Phaser.Class({
     } else if (bossBattle && bossType === 'fratboy2prime') {
       exp += 100 * 3 ** (levelObject['Mac'] - 1)
       reward = 20
-      for (let i = 0; i < this.heroes.length; i++) {
-        expObject[this.heroes[i].type] += exp;
-      }
       money += reward
       items.push('knife')
       gameState.spooky.stop()
     } else if (bossBattle && bossType === 'frank') {
       exp += 100 * 3 ** (levelObject['Mac'] - 1)
       reward = 25
-      for (let i = 0; i < this.heroes.length; i++) {
-        expObject[this.heroes[i].type] += exp;
-      }
       money += reward
       gameState.spooky.stop()
     } else {
       exp += this.enemies.length * levelObject['Mac'] * 10;
       reward += Math.round(this.enemies.length * Math.ceil(levelObject['Mac'] / 5) * Math.floor(Math.random() * 3) * 30) / 100;
-      for (let i = 0; i < this.heroes.length; i++) {
-        expObject[this.heroes[i].type] += exp;
-      }
       money += reward;
       let rewardKeys = Object.keys(randomEncounterRewards);
       let rn = Math.floor(Math.random() * rewardKeys.length);
@@ -1120,6 +1113,11 @@ var BattleScene = new Phaser.Class({
           equipment.push(itemReward)
         }
       };
+    }
+    exp/=2
+    exp=Math.floor(exp)
+    for (let i = 0; i < this.heroes.length; i++) {
+      expObject[this.heroes[i].type] += exp;
     }
     window.setTimeout(() => {
       wonBattle = 1
@@ -1690,7 +1688,6 @@ var UIScene = new Phaser.Class({
   },
 
   create: function() {
-
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(1, 0xb39c0e);
     this.graphics.fillStyle(0x000000, 1);

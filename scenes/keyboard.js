@@ -8,7 +8,6 @@ let timer = 0
 let quantizing=false;
 
 function stopRecording(){
-  console.log(`done recording`)
   recording = false;
   recordingTime = 0;
   //quantize
@@ -237,27 +236,27 @@ var Keyboard = new Phaser.Class({
     gameState.linkWoods.stop()
     gameState.trevorWoods.stop()
     gameState6.octave = 0;
-    motif6 = this.add.image(100, 100, 'motif6').setOrigin(0, 0);
+    motif6 = this.add.image(100, 100, 'motif6').setOrigin(0, 0).setDepth(1);
 
     //menu buttons
     //switch to menu 1
-    gameState6.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
+    gameState6.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff).setDepth(1);
 
     //switch to menu 2
-    gameState6.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
+    gameState6.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff).setDepth(1);
 
     //switch to menu 3
-    gameState6.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff);
+    gameState6.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff).setDepth(1);
 
     //switch to menu 4
-    gameState6.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff);
+    gameState6.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff).setDepth(1);
 
     //switch to menu 5
-    gameState6.pausemenu_button5 = this.add.rectangle(270, 70, 20, 20, 0xfff);
-    gameState6.pausemenu_button_white2 = this.add.rectangle(270, 70, 16, 16, 0x000);
+    gameState6.pausemenu_button5 = this.add.rectangle(270, 70, 20, 20, 0xfff).setDepth(1);
+    gameState6.pausemenu_button_white2 = this.add.rectangle(270, 70, 16, 16, 0x000).setDepth(1);
 
     //exit button
-    gameState6.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
+    gameState6.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff).setDepth(1);
     gameState6.exit_button.setInteractive()
     gameState6.exit_button.on('pointerup', function() {
       launchParameter=false;
@@ -267,7 +266,7 @@ var Keyboard = new Phaser.Class({
     exitText = this.add.text(1080 - 7, 70 - 14, 'x', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     gameState6.pianomiddleC = {}
     for (let i = 0; i < 16; i++) {
@@ -334,7 +333,7 @@ var Keyboard = new Phaser.Class({
     gameState6.drums.O=this.sound.add('tambourine1');
 
     //piano button
-    gameState6.piano_button = this.add.rectangle(500, 30, 95, 20, 0xfff);
+    gameState6.piano_button = this.add.rectangle(500, 30, 95, 20, 0xfff).setDepth(1);
     gameState6.piano_button.setInteractive()
     gameState6.piano_button.on('pointerup', function() {
       gameState6.instrument = 'piano'
@@ -376,10 +375,10 @@ var Keyboard = new Phaser.Class({
     pianoText = this.add.text(500 - 35, 30 - 14, 'piano', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //choir button
-    gameState6.choir_button = this.add.rectangle(500, 60, 95, 20, 0xfff);
+    gameState6.choir_button = this.add.rectangle(500, 60, 95, 20, 0xfff).setDepth(1);
     gameState6.choir_button.setInteractive()
     gameState6.choir_button.on('pointerup', function() {
       gameState6.instrument = 'piano'
@@ -421,10 +420,10 @@ var Keyboard = new Phaser.Class({
     choirText = this.add.text(500 - 35, 60 - 14, 'choir', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //drums button
-    gameState6.drums_button = this.add.rectangle(605, 30, 95, 20, 0xfff);
+    gameState6.drums_button = this.add.rectangle(605, 30, 95, 20, 0xfff).setDepth(1);
     gameState6.drums_button.setInteractive();
     gameState6.drums_button.on('pointerup', function() {
       gameState6.instrument = 'drums'
@@ -432,10 +431,10 @@ var Keyboard = new Phaser.Class({
     drumsText = this.add.text(600 - 30, 30 - 14, 'drums', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //strings button
-    gameState6.strings_button = this.add.rectangle(620, 60, 115, 20, 0xfff);
+    gameState6.strings_button = this.add.rectangle(620, 60, 115, 20, 0xfff).setDepth(1);
     gameState6.strings_button.setInteractive()
     gameState6.strings_button.on('pointerup', function() {
       gameState6.instrument = 'piano'
@@ -477,10 +476,10 @@ var Keyboard = new Phaser.Class({
     stringsText = this.add.text(605 - 35, 60 - 14, 'strings', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //wurlitzer button
-    gameState6.wurl_button = this.add.rectangle(740, 30, 150, 20, 0xfff);
+    gameState6.wurl_button = this.add.rectangle(740, 30, 150, 20, 0xfff).setDepth(1);
     gameState6.wurl_button.setInteractive()
     gameState6.wurl_button.on('pointerup', function() {
       gameState6.instrument = 'piano'
@@ -522,10 +521,10 @@ var Keyboard = new Phaser.Class({
     wurlText = this.add.text(710 - 35, 30 - 14, 'wurlitzer', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //guitar button
-    gameState6.guitar_button = this.add.rectangle(745, 60, 100, 20, 0xfff);
+    gameState6.guitar_button = this.add.rectangle(745, 60, 100, 20, 0xfff).setDepth(1);
     gameState6.guitar_button.setInteractive()
     gameState6.guitar_button.on('pointerup', function() {
       gameState6.instrument = 'piano'
@@ -567,10 +566,10 @@ var Keyboard = new Phaser.Class({
     guitarText = this.add.text(735 - 35, 60 - 14, 'guitar', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //bass button
-    gameState6.bass_button = this.add.rectangle(870, 30, 90, 20, 0xfff);
+    gameState6.bass_button = this.add.rectangle(870, 30, 90, 20, 0xfff).setDepth(1);
     gameState6.bass_button.setInteractive()
     gameState6.bass_button.on('pointerup', function() {
       gameState6.instrument = 'piano'
@@ -612,10 +611,10 @@ var Keyboard = new Phaser.Class({
     bassText = this.add.text(870 - 35, 30 - 14, 'bass', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //clav button
-    gameState6.clav_button = this.add.rectangle(855, 60, 90, 20, 0xfff);
+    gameState6.clav_button = this.add.rectangle(855, 60, 90, 20, 0xfff).setDepth(1);
     gameState6.clav_button.setInteractive()
     gameState6.clav_button.on('pointerup', function() {
       gameState6.instrument = 'piano'
@@ -657,11 +656,11 @@ var Keyboard = new Phaser.Class({
     clavText = this.add.text(855 - 35, 60 - 14, 'clavi', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
 
     //background button
-    gameState6.background_button = this.add.rectangle(250, 530, 180, 20, 0xfff);
+    gameState6.background_button = this.add.rectangle(250, 530, 180, 20, 0xfff).setDepth(1);
     gameState6.background_button.setInteractive();
     gameState6.background_button.on('pointerup', function() {
       if (backgroundPlaying === true) {
@@ -676,10 +675,10 @@ var Keyboard = new Phaser.Class({
     backgroundText = this.add.text(250 - 70, 530 - 14, 'background', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //record button
-    gameState6.record_button = this.add.rectangle(650, 530, 120, 20, 0xfff);
+    gameState6.record_button = this.add.rectangle(650, 530, 120, 20, 0xfff).setDepth(1);
     gameState6.record_button.setInteractive();
     gameState6.record_button.on('pointerup', function() {
       record()
@@ -688,10 +687,10 @@ var Keyboard = new Phaser.Class({
     recordText = this.add.text(650 - 40, 530 - 14, 'record', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //play button
-    gameState6.play_button = this.add.rectangle(780, 530, 100, 20, 0xfff);
+    gameState6.play_button = this.add.rectangle(780, 530, 100, 20, 0xfff).setDepth(1);
     gameState6.play_button.setInteractive();
     gameState6.play_button.on('pointerup', function() {
       playing = true;
@@ -700,10 +699,10 @@ var Keyboard = new Phaser.Class({
     playText = this.add.text(780 - 30, 530 - 14, 'play', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //stop button
-    gameState6.stop_button = this.add.rectangle(890, 530, 100, 20, 0xfff);
+    gameState6.stop_button = this.add.rectangle(890, 530, 100, 20, 0xfff).setDepth(1);
     gameState6.stop_button.setInteractive();
     gameState6.stop_button.on('pointerup', function() {
       playing = false;
@@ -714,10 +713,10 @@ var Keyboard = new Phaser.Class({
     stopText = this.add.text(890 - 30, 530 - 14, 'stop', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //quantize button
-    gameState6.quantize_button = this.add.rectangle(680, 570, 140, 20, 0xfff);
+    gameState6.quantize_button = this.add.rectangle(680, 570, 140, 20, 0xfff).setDepth(1);
     gameState6.quantize_button.setInteractive();
     gameState6.quantize_button.on('pointerup', function() {
       if (quantizing){
@@ -733,12 +732,12 @@ var Keyboard = new Phaser.Class({
     quantizeText = this.add.text(700 - 80, 570 - 14, 'quantize', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     quantizeOnOffText = this.add.text(840 - 70, 570 - 14, 'Off', {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(1);
 
     //drum sounds
     hiphopdrums1 = this.sound.add('hiphopdrums1');
@@ -805,67 +804,67 @@ var Keyboard = new Phaser.Class({
     });
 
     //indicators for keys
-    gameState.keyCircleA = this.add.circle(590, 430, 3);
+    gameState.keyCircleA = this.add.circle(590, 430, 3).setDepth(1);
     gameState.keyCircleA.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleA.visible = false;
 
-    gameState.keyCircleW = this.add.circle(590 + 7, 390, 3);
+    gameState.keyCircleW = this.add.circle(590 + 7, 390, 3).setDepth(1);
     gameState.keyCircleW.setStrokeStyle(2, 0xffffff);
     gameState.keyCircleW.visible = false;
 
-    gameState.keyCircleS = this.add.circle(590 + 22, 430, 3);
+    gameState.keyCircleS = this.add.circle(590 + 22, 430, 3).setDepth(1);
     gameState.keyCircleS.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleS.visible = false;
 
-    gameState.keyCircleE = this.add.circle(590 + 35, 390, 3);
+    gameState.keyCircleE = this.add.circle(590 + 35, 390, 3).setDepth(1);
     gameState.keyCircleE.setStrokeStyle(2, 0xffffff);
     gameState.keyCircleE.visible = false;
 
-    gameState.keyCircleD = this.add.circle(590 + 44, 430, 3);
+    gameState.keyCircleD = this.add.circle(590 + 44, 430, 3).setDepth(1);
     gameState.keyCircleD.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleD.visible = false;
 
-    gameState.keyCircleF = this.add.circle(590 + 66, 430, 3);
+    gameState.keyCircleF = this.add.circle(590 + 66, 430, 3).setDepth(1);
     gameState.keyCircleF.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleF.visible = false;
 
-    gameState.keyCircleT = this.add.circle(590 + 73, 390, 3);
+    gameState.keyCircleT = this.add.circle(590 + 73, 390, 3).setDepth(1);
     gameState.keyCircleT.setStrokeStyle(2, 0xffffff);
     gameState.keyCircleT.visible = false;
 
-    gameState.keyCircleG = this.add.circle(590 + 88, 430, 3);
+    gameState.keyCircleG = this.add.circle(590 + 88, 430, 3).setDepth(1);
     gameState.keyCircleG.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleG.visible = false;
 
-    gameState.keyCircleY = this.add.circle(590 + 99, 390, 3);
+    gameState.keyCircleY = this.add.circle(590 + 99, 390, 3).setDepth(1);
     gameState.keyCircleY.setStrokeStyle(2, 0xffffff);
     gameState.keyCircleY.visible = false;
 
-    gameState.keyCircleH = this.add.circle(590 + 110, 430, 3);
+    gameState.keyCircleH = this.add.circle(590 + 110, 430, 3).setDepth(1);
     gameState.keyCircleH.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleH.visible = false;
 
-    gameState.keyCircleU = this.add.circle(590 + 123, 390, 3);
+    gameState.keyCircleU = this.add.circle(590 + 123, 390, 3).setDepth(1);
     gameState.keyCircleU.setStrokeStyle(2, 0xffffff);
     gameState.keyCircleU.visible = false;
 
-    gameState.keyCircleJ = this.add.circle(590 + 132, 430, 3);
+    gameState.keyCircleJ = this.add.circle(590 + 132, 430, 3).setDepth(1);
     gameState.keyCircleJ.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleJ.visible = false;
 
-    gameState.keyCircleK = this.add.circle(590 + 152, 430, 3);
+    gameState.keyCircleK = this.add.circle(590 + 152, 430, 3).setDepth(1);
     gameState.keyCircleK.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleK.visible = false;
 
-    gameState.keyCircleO = this.add.circle(590 + 159, 390, 3);
+    gameState.keyCircleO = this.add.circle(590 + 159, 390, 3).setDepth(1);
     gameState.keyCircleO.setStrokeStyle(2, 0xffffff);
     gameState.keyCircleO.visible = false;
 
-    gameState.keyCircleL = this.add.circle(590 + 174, 430, 3);
+    gameState.keyCircleL = this.add.circle(590 + 174, 430, 3).setDepth(1);
     gameState.keyCircleL.setStrokeStyle(2, 0x1a65ac);
     gameState.keyCircleL.visible = false;
 
-    gameState.keyCircleP = this.add.circle(590 + 189, 390, 3);
+    gameState.keyCircleP = this.add.circle(590 + 189, 390, 3).setDepth(1);
     gameState.keyCircleP.setStrokeStyle(2, 0xffffff);
     gameState.keyCircleP.visible = false;
     //assigning keys to pitches

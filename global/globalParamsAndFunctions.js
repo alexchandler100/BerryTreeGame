@@ -115,10 +115,6 @@ let devMode1 = 0;
 let devMode2 = 0;
 let devMode3 = 0;
 let athletics = 1;
-let myAptDoor = 0;
-let myAptDoorExit = 0;
-let goInsideApt = 0;
-let backToLightWorld = 0;
 let cantGetIn = 0;
 let restart = false;
 let loading = false;
@@ -143,6 +139,7 @@ let currentParty = {
 };
 
 //battle parameters
+let numberOfPlayers = 1;
 let battleBackgroundIndex = 0
 let currentXY;
 let actionIndex;
@@ -911,10 +908,6 @@ function scoreGoal() {
   console.log(volleyballScore)
 }
 
-function goInDoor() {
-  myAptDoor = 1
-  indoorZone = "myApartment"
-}
 
 function goInPool() {
   inPool = true
@@ -964,10 +957,6 @@ function ballGoInPool() {
 
 function ballExitPool() {
   ballInPool = false
-}
-
-function exitApt() {
-  myAptDoorExit = 1
 }
 
 function onMeetEnemy1(player, zone) {

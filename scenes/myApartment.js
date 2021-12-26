@@ -75,24 +75,9 @@ function bringToTouching(ball1, ball2){
   x2 = ball2.x;
   y10 = ball1.y;
   y2 = ball2.y;
-
-  console.log(`vx1: ${vx1}`)
-  console.log(`vy1: ${vy1}`)
-  console.log(`x10: ${x10}`)
-  console.log(`x2: ${x2}`)
-  console.log(`y10: ${y10}`)
-  console.log(`y2: ${y2}`)
-  console.log(`distance: ${distance(ball1,ball2)}`)
-
-  //pause=true
-  //window.setTimeout(()=>{
-    //pause=false
-  //},1000)
-
   aa = vx1**2 + vy1**2;
   bb = 2*((x10-x2)*vx1 + (y10-y2)*vy1);
   cc = (x2-x10)**2 + (y2-y10)**2 - 5.6**2;
-  console.log(`discriminant: ${bb**2-4*aa*cc}`)
   tt1 = (-bb+Math.sqrt(bb**2-4*aa*cc))/(2*aa);
   tt2 = (-bb-Math.sqrt(bb**2-4*aa*cc))/(2*aa);
   ttf = Math.min(tt1,tt2)
@@ -114,9 +99,6 @@ function ballCollide(ball1, ball2) {
     } else if (vx1 <= 0 && vy1 > 0) {
       phi0 = Math.PI / 2 - Math.atan(vx1 / vy1)
     }
-    console.log(`cueball initial speed: ${Math.sqrt(vx1**2+vy1**2)}`)
-    //console.log(`ball2 initial speed: ${Math.sqrt(vx2**2+vy2**2)}`)
-    console.log(`cueball initial angle: ${phi0*180/3.1415}`)
     x1 = ball1.x;
     x2 = ball2.x;
     y1 = ball1.y;
@@ -128,7 +110,6 @@ function ballCollide(ball1, ball2) {
     //thetap is the positive angle between 0 and 90 between v1 and r
     thetap = Math.abs(Math.acos((rx * vx1 + ry * vy1) / (Math.sqrt(vx1 ** 2 + vy1 ** 2) * Math.sqrt(rx ** 2 + ry ** 2))))
     energy = (vx1 ** 2 + vx2 ** 2 + vy1 ** 2 + vy2 ** 2) / 2;
-    console.log(`deflection angle: ${thetap*180/3.1415}`)
     if (vx1 * ry - vy1 * rx < 0) {
       theta = phi0 - thetap;
     } else {
@@ -139,19 +120,14 @@ function ballCollide(ball1, ball2) {
     } else {
       phi = theta - Math.PI / 2; //angle at which ball 1 exits
     }
-    //console.log(`total energy before: ${energy}`)
-    //console.log(`target ball angle after: ${theta*180/3.1415}`)
-    //console.log(`object ball angle after: ${phi*180/3.1415}`)
     let ball2finalspeed = (py - px * Math.tan(phi)) / (Math.sin(theta) - Math.cos(theta) * Math.tan(phi));
     let ball1finalspeed = Math.sqrt(energy - ball2finalspeed ** 2 / 2);
     if (english.bottom) {
       english.bottom = false;
       if (thetap < 10 * Math.PI / 180) {
-        //console.log(`cue should travel straight backwards`)
         phi = theta + Math.PI;
         ball1finalspeed = ball2finalspeed / 2 * englishStrength/3;
       } else if (10 * Math.PI / 180 <= thetap && thetap <= 80 * Math.PI / 180) {
-        //console.log(`cue gets extra angle from back spin`)
         if (vx1 * ry - vy1 * rx < 0) {
           phi += Math.PI / 4 * englishStrength/3
         } else {
@@ -161,7 +137,6 @@ function ballCollide(ball1, ball2) {
     } else if (english.top) {
       english.top = false;
       if (thetap < 10 * Math.PI / 180) {
-        //console.log(`cue should travel straight forwards`)
         if (vx1 * ry - vy1 * rx < 0) {
           phi = theta + 2 * thetap
         } else {
@@ -169,7 +144,6 @@ function ballCollide(ball1, ball2) {
         }
         ball1finalspeed = ball2finalspeed / 2 * englishStrength/3;
       } else if (10 * Math.PI / 180 <= thetap && thetap <= 80 * Math.PI / 180) {
-        //console.log(`cue gets extra angle from front spin`)
         if (vx1 * ry - vy1 * rx < 0) {
           phi -= Math.PI / 4 * englishStrength/3
         } else {
@@ -178,18 +152,10 @@ function ballCollide(ball1, ball2) {
       }
     }
     //left and right english do not affect deflection angle so we do not use them here. Only on rail interactions
-    else {
-      //console.log(`no english`)
-    }
     ball1.body.velocity.x = ball1finalspeed * Math.cos(phi);
     ball1.body.velocity.y = ball1finalspeed * Math.sin(phi);
     ball2.body.velocity.x = ball2finalspeed * Math.cos(theta);
     ball2.body.velocity.y = ball2finalspeed * Math.sin(theta);
-    //console.log(`ball1 final speed: ${ball1finalspeed}`)
-    //console.log(`ball2 final speed: ${ball2finalspeed}`)
-    //console.log(`total energy after: ${(ball2finalspeed**2+ball1finalspeed**2)/2}`)
-  } else {
-    //console.log(`2nd ball was moving so default to phaser collide function. my custom collide currently assumes the 2nd ball is hardly moving`)
   }
 }
 
@@ -225,6 +191,7 @@ var MyApartment = new Phaser.Class({
 
   //added this for battle scene and changed all instances of cursors to this.cursors (and removed const before cursors initialization)
   wake: function() {
+    console.log(`indoorzone: ${indoorZone}`)
     if (indoorZone==='clubhouse 731' || indoorZone === 'clubhouse woods'){
       this.scene.run("PoolScore");
     }
@@ -245,12 +212,22 @@ var MyApartment = new Phaser.Class({
     this.cursors.right.reset();
     this.cursors.up.reset();
     this.cursors.down.reset();
+    // gameStateApt.spawn changes to wherever we want to spawn but gameStateApt.enter is fixed
+    gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
+    gameStateApt.enter = mapApt.findObject("objects", obj => obj.name === "enter");
+    gameStateApt.elevatorUpstairs = mapApt.findObject("objects", obj => obj.name === "clubhouse elevator");
+    gameStateApt.elevatorDownstairs = mapApt.findObject("objects", obj => obj.name === "downstairs elevator");
+
     if (indoorZone === 'myApartment') {
-      gameStateApt.enter = mapApt.findObject("objects", obj => obj.name === "enter");
+      gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
     } else if (indoorZone === 'clubhouse 731') {
-      gameStateApt.enter = gameState.clubhouseInside731Entrance;
+      gameStateApt.spawn = gameState.clubhouseInside731Entrance;
     } else if (indoorZone === 'clubhouse woods') {
-      gameStateApt.enter = gameState.clubhouseInsideWoodsEntrance
+      gameStateApt.spawn = gameState.clubhouseInsideWoodsEntrance
+    }
+    if (meApt){
+      meApt.x=gameStateApt.spawn.x;
+      meApt.y=gameStateApt.spawn.y;
     }
   },
   onKeyInput: function(event) {
@@ -364,7 +341,6 @@ var MyApartment = new Phaser.Class({
     const over3interiors = mapApt.createStaticLayer("over3interiors", tileset5, 0, 0);
     const over4custom = mapApt.createStaticLayer("over4custom", tileset7, 0, 0);
     const over5interiors = mapApt.createStaticLayer("over5interiors", tileset5, 0, 0);
-    //console.log(over4custom)
     gameState.clubhouseInside731Entrance = mapApt.findObject("objects", obj => obj.name === "731 entrance clubhouse")
     gameState.clubhouseInsideWoodsEntrance = mapApt.findObject("objects", obj => obj.name === "burcham woods entrance clubhouse");
     gameStateApt.poolTableTL = mapApt.findObject("objects", obj => obj.name === "pool table top left");
@@ -514,18 +490,29 @@ var MyApartment = new Phaser.Class({
     });
 
     //spawning player and setting properties
+    gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
+    gameStateApt.enter = mapApt.findObject("objects", obj => obj.name === "enter");
+    gameStateApt.elevatorUpstairs = mapApt.findObject("objects", obj => obj.name === "clubhouse elevator");
+    gameStateApt.elevatorDownstairs = mapApt.findObject("objects", obj => obj.name === "downstairs elevator");
+    console.log(`indoor zone: ${indoorZone}`)
     if (indoorZone === 'myApartment') {
-      gameStateApt.enter = mapApt.findObject("objects", obj => obj.name === "enter");
+      gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
     } else if (indoorZone === 'clubhouse 731') {
-      gameStateApt.enter = gameState.clubhouseInside731Entrance;
+      gameStateApt.spawn = gameState.clubhouseInside731Entrance;
     } else if (indoorZone === 'clubhouse woods') {
-      gameStateApt.enter = gameState.clubhouseInsideWoodsEntrance
+      gameStateApt.spawn = gameState.clubhouseInsideWoodsEntrance
     }
-    meApt = this.physics.add.sprite(gameStateApt.enter.x, gameStateApt.enter.y, 'me');
+    meApt = this.physics.add.sprite(gameStateApt.spawn.x+16, gameStateApt.spawn.y - 32, 'me');
     meApt.setScale(.3);
     meApt.body.setSize(80, 50);
     meApt.body.setOffset(60, 140);
     //meApt.setDepth(1);
+
+    bennettApt = this.physics.add.sprite(mapApt.findObject("objects", obj => obj.name === "enter").x + 200, mapApt.findObject("objects", obj => obj.name === "enter").y + 320, 'bennett');
+    bennettApt.anims.play('bennettdown', true);
+    bennettApt.setScale(.25);
+    bennettApt.body.setSize(80, 50);
+    bennettApt.body.setOffset(60, 140);
 
     joeApt = this.physics.add.sprite(gameState.clubhouseInside731Entrance.x + 480, gameState.clubhouseInside731Entrance.y - 50, 'joe');
     joeApt.setScale(.35);
@@ -614,11 +601,6 @@ var MyApartment = new Phaser.Class({
     //larrySpecialApt.setScale(.25);
 
     //door zone to leave
-    exitZone = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone
-    });
-    exitZone.create(gameStateApt.enter.x, gameStateApt.enter.y - 40, 60, 30)
-    this.physics.add.overlap(exitZone, meApt, exitApt, false, this);
 
     //hitting pool balls
 
@@ -627,15 +609,7 @@ var MyApartment = new Phaser.Class({
     this.input.on('pointerdown', function(pointer, localX, localY) {
       //this is how you transform coordinates from ingame coordinates to "pointer" coordinates
       if (cueball.body.velocity.x < 5 && cueball.body.velocity.y < 5 && cueball.body.velocity.x > -5 && cueball.body.velocity.y > -5) {
-        //if (Math.abs(poolcue.x - ((pointer.x - 468) / 3 + 2816)) > 10 && Math.abs(poolcue.y - ((pointer.y - 155) / 3 + 1408)) > 10)
-          //poolcue.x = ((pointer.x - 468) / 3 + 2816)
-          //poolcue.y = ((pointer.y - 155) / 3 + 1408)
           this.input.setDefaultCursor('url(assets/empty.png), pointer');
-          //canvas.style.cursor='none'
-          console.log(canvas.style.cursor);
-        //changed from the following so that you could shoot using the stick instead of the pointer
-        //cueball.body.velocity.x = (cueball.x - ((pointer.x - 468) / 3 + 2816)) * 3
-        //cueball.body.velocity.y = (cueball.y - ((pointer.y - 155) / 3 + 1408)) * 3
       }
     }, this);
 
@@ -927,11 +901,40 @@ var MyApartment = new Phaser.Class({
 
     //item collection and object interaction
     gameStateApt.keyObjS.on('down', function(event) {
-      if (myAptDoorExit === 1) {
-        myAptDoorExit = 0;
-        backToLightWorld = 1;
-        //console.log("switching back")
-      } else if (meApt.x > gameState.bed.x - 50 && meApt.x < gameState.bed.x + 50 && meApt.y > gameState.bed.y - 50 && meApt.y < gameState.bed.y + 50) {
+      //back to light world from my apartment door
+      if (meApt.x > gameStateApt.enter.x - 30 && meApt.x < gameStateApt.enter.x + 30 && meApt.y > gameStateApt.enter.y - 90 && meApt.y < gameStateApt.enter.y + 10) {
+        this.scene.switch("LightWorld");
+        this.scene.sleep("PoolScore");
+        me.x = gameState.PlayerSpawnPoint.x - 48;
+        me.y = gameState.PlayerSpawnPoint.y - 64;
+        console.log(`switched to lightworld from my apartment door inside`)
+      }
+      //switch to light world from clubhouse 731 entrance
+      else if (meApt.x > gameState.clubhouseInside731Entrance.x - 30 && meApt.x < gameState.clubhouseInside731Entrance.x + 30 && meApt.y > gameState.clubhouseInside731Entrance.y - 30 && meApt.y < gameState.clubhouseInside731Entrance.y + 30) {
+        this.scene.switch("LightWorld");
+        this.scene.sleep("PoolScore");
+        me.x = gameState.clubhouse731BR.x;
+        me.y = gameState.clubhouse731BR.y - 74;
+        console.log(`switched to lightworld from clubhouse 731 entrance`)
+      }
+      //switch to light world from clubhouse burcham woods entrance
+      else if (meApt.x > gameState.clubhouseInsideWoodsEntrance.x - 30 && meApt.x < gameState.clubhouseInsideWoodsEntrance.x + 30 && meApt.y > gameState.clubhouseInsideWoodsEntrance.y - 30 && meApt.y < gameState.clubhouseInsideWoodsEntrance.y + 30) {
+        this.scene.switch("LightWorld");
+        this.scene.sleep("PoolScore");
+        me.x = gameState.clubhousewoodsTL.x+20;
+        me.y = gameState.clubhousewoodsTL.y+35;
+        console.log(`switched to lightworld from clubhouse burcham woods entrance`)
+      }
+      else if (distance(meApt,gameStateApt.elevatorUpstairs)<60) {
+        meApt.x = gameStateApt.elevatorDownstairs.x
+        meApt.y = gameStateApt.elevatorDownstairs.y
+      }
+      else if (distance(meApt,gameStateApt.elevatorDownstairs)<60) {
+        meApt.x = gameStateApt.elevatorUpstairs.x
+        meApt.y = gameStateApt.elevatorUpstairs.y
+      }
+      //to sleep in bed
+      else if (meApt.x > gameState.bed.x - 50 && meApt.x < gameState.bed.x + 50 && meApt.y > gameState.bed.y - 50 && meApt.y < gameState.bed.y + 50) {
         this.physics.pause()
         this.cameras.main.fade(1000);
         sleep();
@@ -948,17 +951,9 @@ var MyApartment = new Phaser.Class({
           sleepyText.setText('')
           this.physics.resume()
         }, 4000);
-      } else if (meApt.x > gameState.clubhouseInside731Entrance.x - 30 && meApt.x < gameState.clubhouseInside731Entrance.x + 30 && meApt.y > gameState.clubhouseInside731Entrance.y - 30 && meApt.y < gameState.clubhouseInside731Entrance.y + 30) {
-        this.scene.switch("LightWorld");
-        this.scene.sleep("PoolScore");
-        me.x = gameState.clubhouse731BR.x;
-        me.y = gameState.clubhouse731BR.y;
-      } else if (meApt.x > gameState.clubhouseInsideWoodsEntrance.x - 30 && meApt.x < gameState.clubhouseInsideWoodsEntrance.x + 30 && meApt.y > gameState.clubhouseInsideWoodsEntrance.y - 30 && meApt.y < gameState.clubhouseInsideWoodsEntrance.y + 30) {
-        this.scene.switch("LightWorld");
-        this.scene.sleep("PoolScore");
-        me.x = gameState.clubhousewoodsTL.x;
-        me.y = gameState.clubhousewoodsTL.y;
-      } else if (meApt.x > gameState.bed.x - 150 && meApt.x < gameState.bed.x - 50 && meApt.y > gameState.bed.y + 50 && meApt.y < gameState.bed.y + 150) {
+      }
+      //get keyboard
+      else if (meApt.x > gameState.bed.x - 150 && meApt.x < gameState.bed.x - 50 && meApt.y > gameState.bed.y + 50 && meApt.y < gameState.bed.y + 150) {
         if (keyboardGet===false){
           keyboardDialogue=true;
           gameState.itemget.play;
@@ -980,7 +975,6 @@ var MyApartment = new Phaser.Class({
       let firstPage = fetchPageApt(4000);
       displayPageApt(this, firstPage);
     }
-    //console.log(`opportunityForExtra2: ${opportunityForExtra2}`)
     //for english indicator
     if (gameStateApt.keyObjS.isDown) {
       englishIndicator.bottom = true;
@@ -1023,7 +1017,6 @@ var MyApartment = new Phaser.Class({
       } else if (vx1 <= 0 && vy1 > 0) {
         phi0 = Math.PI / 2 - Math.atan(vx1 / vy1)
       }
-      //console.log(`initial angle: ${phi0*180/Math.PI}`)
       phi = -phi0;
       if (english.right && (_hitTopRail || _hitTopRailRight || _hitBottomRail || _hitBottomRailRight)){
         english={top:false,bottom:false,left:false,right:false}
@@ -1066,7 +1059,6 @@ var MyApartment = new Phaser.Class({
         cueball.body.velocity.x = ball1finalspeed * Math.cos(phi);
         cueball.body.velocity.y = ball1finalspeed * Math.sin(phi);
       }  else if (english.right && (_hitLeftRail || _hitRightRail)){
-        //console.log(`right english on side rails`)
         english={top:false,bottom:false,left:false,right:false}
         //this describes quadrants 2 and 3 in the usual sense
         if (phi0>=Math.PI/2+Math.PI/3 && phi0<=3*Math.PI/2-Math.PI/3){
@@ -1083,7 +1075,6 @@ var MyApartment = new Phaser.Class({
         cueball.body.velocity.x = ball1finalspeed * Math.cos(phi);
         cueball.body.velocity.y = ball1finalspeed * Math.sin(phi);
       } else if (english.left && (_hitLeftRail || _hitRightRail)){
-        //console.log(`left english on side rails`)
         english={top:false,bottom:false,left:false,right:false}
         //this describes quadrants 2 and 3 in the usual sense
         if (phi0>=Math.PI/2+Math.PI/3 && phi0<=3*Math.PI/2-Math.PI/3){
@@ -1109,7 +1100,6 @@ var MyApartment = new Phaser.Class({
     }
     if (dragging) {
       lineCounter += 1
-      //console.log(poolcue.angle)
       gameState.lines[lineCounter] = new Phaser.Geom.Line(cueball.x, cueball.y, cueball.x + (cueball.x - poolcue.x-40*Math.sin(poolcue.angle*Math.PI/180))*1.5, cueball.y + (cueball.y - poolcue.y+40*Math.cos(poolcue.angle*Math.PI/180))*1.5);
       if (!this.graphics) {
         this.graphics = this.add.graphics({
@@ -1174,7 +1164,6 @@ var MyApartment = new Phaser.Class({
         displayPageApt(this, firstPage);
         twoballscore=0
         gameStateApt.pooltimer.setText(``)
-        console.log('set timer to 0')
         timeApt=0
       }
       if (timeApt === 0) {
@@ -1226,8 +1215,6 @@ var MyApartment = new Phaser.Class({
     }
     if (distance(cueball, eightball) < 5.6) { //was 5.6
       cueHitEight = true
-      //console.log(`cue hit eight: ${cueHitEight}`)
-      //console.log(`cue hit nine: ${cueHitNine}`)
       if (!alreadyPlayedEightCueCollide) {
         bringToTouching(cueball,eightball)
         gameState.poolcollide.play()
@@ -1237,8 +1224,6 @@ var MyApartment = new Phaser.Class({
     }
     if (distance(cueball, nineball) < 5.6) { //was 5.6
       cueHitNine = true
-      //console.log(`cue hit eight: ${cueHitEight}`)
-      //console.log(`cue hit nine: ${cueHitNine}`)
       if (!alreadyPlayedNineCueCollide) {
         bringToTouching(cueball,nineball)
         gameState.poolcollide.play()
@@ -1247,7 +1232,6 @@ var MyApartment = new Phaser.Class({
       }
     }
     if (distance(eightball, nineball) < 5.6) {
-      //console.log(`eight hit nine`)
       if (!alreadyPlayedEightNineCollide) {
         gameState.poolcollide.play()
         alreadyPlayedEightNineCollide = true
@@ -1268,7 +1252,6 @@ var MyApartment = new Phaser.Class({
         pocketedEight = false;
         pocketedNine = false;
         twoballscore += 1
-        console.log(`point scored`)
         //gameState.itemget.play()
         gameStateApt.ohShit.play()
         opportunityForExtra2 = true
@@ -1280,7 +1263,6 @@ var MyApartment = new Phaser.Class({
         pocketedEight = false;
         pocketedNine = false;
         twoballscore += 2
-        console.log(`three points scored`)
         gameState.itemget.play()
         gameStateApt.ohShit.play()
       }
@@ -1291,15 +1273,11 @@ var MyApartment = new Phaser.Class({
       pocketedEight = true
       eightInPocket = false
       eightball.disableBody(true, true);
-      //console.log(`pocketed eight ${pocketedEight}`)
-      //console.log(`pocketed nine ${pocketedNine}`)
     } else if (nineInPocket) {
       gameState.poolpocket.play()
       pocketedNine = true
       nineInPocket = false
       nineball.disableBody(true, true);
-      //console.log(`pocketed eight ${pocketedEight}`)
-      //console.log(`pocketed nine ${pocketedNine}`)
     } else if (cueInPocket) {
       gameState.poolpocket.play()
       cueInPocket = false
@@ -1320,9 +1298,6 @@ var MyApartment = new Phaser.Class({
         displayPageApt(this, firstPage)
       }
     } else {
-      //console.log(`not in pool zone. erasing timer and score text`)
-      //gameStateApt.pooltimer.setText('')
-      //gameStateApt.poolscore.setText('')
       camera.startFollow(meApt, true)
       //zoom = 1
     }
@@ -1331,10 +1306,6 @@ var MyApartment = new Phaser.Class({
     eightball.beABall()
     nineball.beABall()
     //for going back to light world
-    if (backToLightWorld === 1) {
-      backToLightWorld = 0;
-      this.scene.switch("LightWorld")
-    }
     //pause
     if (pause) {
       this.physics.pause()

@@ -2194,7 +2194,6 @@ var LightWorld = new Phaser.Class({
       for (let i=0; i<Object.keys(usable_items).length;i++){
         numberOfItems+=usable_items[Object.keys(usable_items)[i]]
       }
-      console.log(numberOfItems)
       if (playerTexture === 0 && me.body.velocity.x === 0 && me.body.velocity.y === 0 && keysGet > 0 && distance(car, me) < 30) {
         playerTexture = 1;
         speed = 1;
@@ -2265,14 +2264,13 @@ var LightWorld = new Phaser.Class({
         ball.body.velocity.y += directionVector(me, ball)[1] * 25 * (1 + spriteSpeed(me) / 40);
         gameState.ball1.play();
         //problem here if you go in apartment and then go in pool room, you warp to the wrong place when you change scenes
-      } else if (myAptDoor === 1 && keysGet === 0) {
+      } else if (me.x>gameState.PlayerSpawnPoint.x -64 && me.x<gameState.PlayerSpawnPoint.x -32 && me.y>gameState.PlayerSpawnPoint.y - 84 && me.y<gameState.PlayerSpawnPoint.y - 32 && keysGet === 0) {
         cantGetIn = 1;
-        myAptDoor = 0;
-      } else if (myAptDoor === 1 && keysGet) {
-        me.x = gameState.PlayerSpawnPoint.x;
-        me.y = gameState.PlayerSpawnPoint.y;
-        myAptDoor = 0;
-        goInsideApt = 1;
+      } else if (me.x>gameState.PlayerSpawnPoint.x -64 && me.x<gameState.PlayerSpawnPoint.x -32 && me.y>gameState.PlayerSpawnPoint.y - 84 && me.y<gameState.PlayerSpawnPoint.y - 32 && keysGet) {
+        //me.x = gameState.PlayerSpawnPoint.x;
+        //me.y = gameState.PlayerSpawnPoint.y;
+        indoorZone="MyApartment"
+        this.scene.switch("MyApartment");
       } else if (me.x>gameState.clubhouse731TL.x && me.x<gameState.clubhouse731BR.x && me.y>gameState.clubhouse731TL.y && me.y<gameState.clubhouse731BR.y) {
         indoorZone='clubhouse 731'
         this.scene.switch("MyApartment");
@@ -2361,12 +2359,6 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(trevor, beachball);
     this.physics.add.collider(al, beachball);
     this.physics.add.collider(bennett, beachball);
-    //door zone for my apartment
-    doorZone = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone
-    });
-    doorZone.create(gameState.PlayerSpawnPoint.x - 15 - 32, gameState.PlayerSpawnPoint.y - 40 - 32, 30, 40)
-    this.physics.add.overlap(doorZone, me, goInDoor, false, this);
 
     //goalzone
     goalZone = this.physics.add.group({
@@ -2440,11 +2432,11 @@ var LightWorld = new Phaser.Class({
   update: function() {
     //stamina
     if (playerTexture===0 && speed===3 && me.body.velocity.x**2+me.body.velocity.y**2>100){
-      stamina-=.03
+      stamina-=.02
     } else if (playerTexture===0 && speed===4 && me.body.velocity.x**2+me.body.velocity.y**2>100){
-      stamina-=.06
+      stamina-=.05
     } else if (playerTexture===0 && speed===1 || me.body.velocity.x**2+me.body.velocity.y**2<100**2){
-      stamina+=.04
+      stamina+=.07
     }
     if (stamina<=0){
       stamina=0
@@ -2760,11 +2752,6 @@ var LightWorld = new Phaser.Class({
       initializePage(this)
       let firstPage = fetchPage(1400)
       displayPage(this, firstPage)
-    }
-    //go inside apartment
-    if (goInsideApt === 1) {
-      goInsideApt = 0;
-      this.scene.switch("MyApartment");
     }
     //increase athletics
     if (spriteSpeed(me) > 20 && scene_number === 2) {
@@ -3465,6 +3452,9 @@ var LightWorld = new Phaser.Class({
       if (keepaway === 400) {
         trevor.joinParameter = true;
         potentialParty["Jimmy"]=true;
+        console.log(this.scene.scene)
+        //this.scene.scene.events.emit("Message", "You went pro.", me.x, me.y);
+        /*
         highScoreText = this.add.text(me.x - 100, me.y - 50, 'You went pro', {
           fontFamily: 'Academy Engraved LET',
           fontSize: '50px',
@@ -3473,9 +3463,11 @@ var LightWorld = new Phaser.Class({
         window.setTimeout(() => {
           highScoreText.setText('')
         }, 3000);
+        */
       } else if (keepaway === 750) {
         items.push("Brothers Seal")
         brothersSeal = 1
+        /*
         highScoreText = this.add.text(me.x - 300, me.y - 50, '        You got the brothers seal.\nYou sense a dark gate unhinged...', {
           fontFamily: 'Academy Engraved LET',
           fontSize: '30px',
@@ -3484,6 +3476,7 @@ var LightWorld = new Phaser.Class({
         window.setTimeout(() => {
           highScoreText.setText('')
         }, 4000);
+        */
       }
     }
 

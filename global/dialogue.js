@@ -141,7 +141,7 @@ const pages = [{
   {
     character: 'me',
     page: 21,
-    narrative: "Jimmy: Damnnn you went pro man you almost got the brothers seal!!! Yo I'll help you out with fighting those frat dickheads. Damnn there's girls by the pool? The gate is locked but theres always that secret entrance on the west side of the fence.",
+    narrative: "Jimmy: Damnnn YOU WENT PRO!!! Yo I'll help you out with fighting those frat dickheads. Damnn there's girls by the pool? The gate is locked but theres always that secret entrance on the west side of the fence.",
     options: [{
       option: 'Dude hell yeah',
       nextPage: undefined,
