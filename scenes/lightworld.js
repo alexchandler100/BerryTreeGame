@@ -2204,7 +2204,7 @@ var LightWorld = new Phaser.Class({
         gameState.itemget.play();
         me.setSize(64, 32);
         me.setOffset(0, 0);
-        zoom = .75
+        zoom = .76
         if (bennett.following) {
           bennett.disableBody(true, true);
         }
@@ -2434,9 +2434,15 @@ var LightWorld = new Phaser.Class({
     if (playerTexture===0 && speed===3 && me.body.velocity.x**2+me.body.velocity.y**2>100){
       stamina-=.02
     } else if (playerTexture===0 && speed===4 && me.body.velocity.x**2+me.body.velocity.y**2>100){
+<<<<<<< HEAD
       stamina-=.05
     } else if (playerTexture===0 && speed===1 || me.body.velocity.x**2+me.body.velocity.y**2<100**2){
       stamina+=.07
+=======
+      stamina-=.06
+    } else if (playerTexture===0 && (me.body.velocity.x**2+me.body.velocity.y**2<100**2 || speed===1)){
+      stamina+=.04
+>>>>>>> 191570b28d5f4dcefd080f5a15680b3bed3ee84d
     }
     if (stamina<=0){
       stamina=0
@@ -2517,7 +2523,7 @@ var LightWorld = new Phaser.Class({
     }
     //ai for race with bennett
     if (raceBegin) {
-      zoom = .75
+      zoom = .76
       raceBegin = false;
       raceOngoing = true
       me.x = gameState.westburchamroadBR.x - 260

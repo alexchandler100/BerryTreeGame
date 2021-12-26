@@ -589,7 +589,7 @@ let equipmentDescriptions = {
   "Sprinting Shoes": {
     type: "Accessory",
     def: 0,
-    effect: "Athletics +.3",
+    effect: "Athletics +.2",
     color: '#fff'
   },
 }
@@ -603,9 +603,9 @@ function giveCrackhead1() {
 
 function sprintingShoes(player, bool) {
   if (bool === true) {
-    athletics += .3
+    athletics += .2
   } else {
-    athletics -= .3
+    athletics -= .2
   }
 }
 
