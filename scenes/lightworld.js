@@ -3092,13 +3092,13 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for yoga girl
-    if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 0 && !items.includes("Yoga Blocks")) {
+    if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 0) {
       yogagirlFirstTalk = 1
       initializePage(this)
       let page = fetchPage(1500)
       displayPage(this, page)
       activeQuests["Yoga girl needs blocks"]="I was talking to this hot girl doing yoga. She was complaining about some stripper and asked if I had any yoga blocks. Maybe she'll give me something cool if I can find some."
-    } else if (distance(me, yogagirl) <30 && yogagirlFirstTalk === 0 && items.includes("Yoga Blocks")) {
+    } else if (distance(me, yogagirl) <30 && yogagirlFirstTalk === 1 && items.includes("Yoga Blocks")) {
       yogagirlFirstTalk = 1
       initializePage(this)
       let page = fetchPage(1502)
@@ -3107,9 +3107,6 @@ var LightWorld = new Phaser.Class({
       gameState.itemget.play()
       equipment.push("Gold Duck Tape")
       removeAll(items, "Yoga Blocks")
-    }
-    else if (distance(me, yogagirl) > 200) {
-      yogagirlFirstTalk = 0
     }
 
     //dialogue ai for girl1 (Jennay)
