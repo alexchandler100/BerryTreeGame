@@ -978,7 +978,7 @@ var LightWorld = new Phaser.Class({
     me.body.setSize(70, 90);
     me.body.setOffset(60, 100);
 
-    const above = map.createStaticLayer("Above", tileset1, 0, 0);
+    const above = map.createStaticLayer("Above", tileset2, 0, 0);
     // create a boolean for tiles in Tiled called ''collides'' in the tileset editor and set collides = 'true'
     world.setCollisionByProperty({
       collides: true
@@ -993,6 +993,9 @@ var LightWorld = new Phaser.Class({
       collides: true
     });
     special.setCollisionByProperty({
+      collides: true
+    });
+    above.setCollisionByProperty({
       collides: true
     });
     //followers colliding
@@ -1024,6 +1027,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(me, world2);
     this.physics.add.collider(me, world3);
     this.physics.add.collider(me, special);
+    this.physics.add.collider(me, above);
     this.physics.add.collider(me, cars);
     this.physics.add.collider(me, ball);
     this.physics.add.collider(me, volleyball);
@@ -2321,6 +2325,14 @@ var LightWorld = new Phaser.Class({
       }
     });
 
+    //pause Menu
+    var keyObjX = this.input.keyboard.addKey('X'); // Get key object
+    keyObjX.on('down', function() {
+      if (scene_number === 2) {
+        scene_number = 10
+      }
+    });
+
     //to end the race
     raceFinish = this.physics.add.group({
       classType: Phaser.GameObjects.Zone
@@ -3200,6 +3212,10 @@ var LightWorld = new Phaser.Class({
       pause = true;
       this.scene.launch('GasStation');
       launchParameter=true
+    } else if (scene_number === 10 && launchParameter===false) {
+      pause = true;
+      this.scene.launch('QuestLog');
+      launchParameter=true
     }
     // this next part is only here so that numbers in the character menu update every frame... maybe this is causing some issues with speed? (fix needed...)
     /*
@@ -3456,7 +3472,7 @@ var LightWorld = new Phaser.Class({
       if (keepaway === 400) {
         trevor.joinParameter = true;
         potentialParty["Jimmy"]=true;
-        console.log(this.scene.scene)
+        completeQuest('Go Pro in Kick-The-Ball');
         //this.scene.scene.events.emit("Message", "You went pro.", me.x, me.y);
         /*
         highScoreText = this.add.text(me.x - 100, me.y - 50, 'You went pro', {

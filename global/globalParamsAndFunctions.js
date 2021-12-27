@@ -9,6 +9,11 @@ let cueInPocket = false;
 let _timerStart = false
 
 //dialogue parameters
+let activeQuests = {
+  'Go Pro in Kick-The-Ball': 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and something good might happen.',
+  'Robo-Trip': 'Today would be a real good day to get some tussin. Nothing to do, might as well robotrip and send that shit.'
+}
+let completedQuests = {'Wake Up': 'Well you did do one thing so far. Good job.'}
 let carCrashDialogue = false;
 let adventure = 0;
 let gasAlert = 0;
@@ -90,9 +95,9 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
-let playingOutOfBreath=false;
-let stamina=100;
-let launchParameter=false; //this just makes sure the gas station scene isn't launched every tween (only once)
+let playingOutOfBreath = false;
+let stamina = 100;
+let launchParameter = false; //this just makes sure the gas station scene isn't launched every tween (only once)
 let indoorZone = ''
 let shakeTheWorld = false;
 let bennettGet = false;
@@ -592,6 +597,11 @@ let equipmentDescriptions = {
     effect: "Athletics +.2",
     color: '#fff'
   },
+}
+//use this to complete a quest
+function completeQuest(title) {
+  completedQuests[title]=activeQuests[title]
+  delete activeQuests[title]
 }
 //bool=true means we are equipping. Otherwise we are unequipping
 function giveCrackhead1() {
