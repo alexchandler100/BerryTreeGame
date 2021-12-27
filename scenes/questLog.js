@@ -21,14 +21,14 @@ var QuestLog = new Phaser.Class({
     gameState10.pausemenu_button_white1 = this.add.rectangle(150, 70, 16, 16, 0x000);
     gameState10.pausemenu_button1.setInteractive()
     gameState10.pausemenu_button1.on('pointerup', function() {
-      scene_number=10
+      scene_number = 10
     }, this);
 
     //switch to menu 2
     gameState10.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
     gameState10.pausemenu_button2.setInteractive()
     gameState10.pausemenu_button2.on('pointerup', function() {
-      scene_number=11
+      scene_number = 11
     }, this);
 
     //exit button
@@ -38,9 +38,9 @@ var QuestLog = new Phaser.Class({
       this.scene.stop();
       scene_number = 2;
       pause = false
-      launchParameter=false;
+      launchParameter = false;
     }, this);
-    exitText = this.add.text(1080-7, 70-14, 'x', {
+    exitText = this.add.text(1080 - 7, 70 - 14, 'x', {
       fontSize: '25px',
       fill: '#fff'
     });
@@ -50,18 +50,89 @@ var QuestLog = new Phaser.Class({
       fill: '#fff'
     });
 
-    gameState10.activeQuestDisplay={}
-    let xcoord2 = 175;
-    let ycoord2 = 140;
+/*
+    gameState10.activeQuestDisplay = this.add.text(175, 140, '', {
+      fontSize: '25px',
+      fill: '#fff',
+      wordWrap: {
+        width: 850,
+        useAdvancedWrap: true
+      }
+    }).setOrigin(0, 0);
+    let textFiller='';
     for (questTitle of Object.keys(activeQuests)) {
-        gameState10.activeQuestDisplay[questTitle]=this.add.text(xcoord2,ycoord2,questTitle+': '+activeQuests[questTitle], {
-          fontSize: '25px',
-          fill: '#fff',
-          wordWrap: { width: 850, useAdvancedWrap: true }
-        }).setOrigin(0,0)
-        ycoord2+=125
+      textFiller += `${questTitle}: ${activeQuests[questTitle]}\n\n`
+    };
+    gameState10.activeQuestDisplay.setText(`${textFiller}`);
+    */
+
+    gameState10.newItem={}
+    gameState10.activeQuestDisplay={}
+    let xcoord10 = 215;
+    let ycoord10 = 140;
+    let itemCount10=0;
+    for (questTitle of Object.keys(activeQuests)) {
+        itemCount10+=1;
+        gameState10.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 75, 0xb39c0e).setOrigin(0,0).setInteractive()
+        gameState10.newItem[questTitle].name=questTitle
+        if (questTitle.length<13){
+          gameState10.activeQuestDisplay[questTitle] = this.add.text(xcoord10+15, ycoord10+25, questTitle, {
+            fontSize: '25px',
+            fill: '#fff',
+            fontFamily: 'Academy Engraved LET',
+            wordWrap: {
+              width: 130,
+              useAdvancedWrap: true
+            }
+          }).setOrigin(0, 0);
+        } else {
+          gameState10.activeQuestDisplay[questTitle] = this.add.text(xcoord10+10, ycoord10+10, questTitle, {
+            fontSize: '20px',
+            fill: '#fff',
+            fontFamily: 'Academy Engraved LET',
+            wordWrap: {
+              width: 130,
+              useAdvancedWrap: true
+            }
+          }).setOrigin(0, 0);
+        }
+        if (itemCount10%4===0){
+          xcoord10=215;
+          ycoord10+=125
+        }
+        else {xcoord10+=200}
     }
 
+    gameState10.tempBackground = this.add.rectangle(0,0, 400, 200, 0xffffff).setOrigin(0,0).setDepth(2);
+    gameState10.tempText=this.add.text(0,0, ``, {
+      fontSize: '25px',
+      fontFamily: 'Academy Engraved LET',
+      align: 'center',
+      fill: '#000000',
+      wordWrap: {
+        width: 300,
+        useAdvancedWrap: true
+      }
+    }).setDepth(3);
+    gameState10.tempBackground.visible=false;
+    gameState10.tempText.visible=false;
+
+    this.input.on('pointerover', function (pointer, justOver) {
+        gameState10.tempBackground.x=pointer.x+15;
+        gameState10.tempBackground.y=pointer.y-15;
+        gameState10.tempBackground.visible=true;
+        gameState10.tempText.visible=true;
+        gameState10.tempText.setText(activeQuests[justOver[0].name]);
+        gameState10.tempText.x=gameState10.tempBackground.x;
+        gameState10.tempText.y=gameState10.tempBackground.y;
+        gameState10.tempBackground.width=gameState10.tempText.width;
+        gameState10.tempBackground.height=gameState10.tempText.height;
+  });
+
+  this.input.on('pointerout', function (pointer, justOut) {
+      gameState10.tempText.visible=false;
+      gameState10.tempBackground.visible=false;
+  });
   },
   update: function() {
     if (scene_number === 11) {

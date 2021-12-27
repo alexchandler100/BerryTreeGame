@@ -17,17 +17,17 @@ var QuestLogCompleted = new Phaser.Class({
     gameState1.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
 
     //switch to menu 1
-    gameState10.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
-    gameState10.pausemenu_button1.setInteractive()
-    gameState10.pausemenu_button1.on('pointerup', function() {
+    gameState11.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
+    gameState11.pausemenu_button1.setInteractive()
+    gameState11.pausemenu_button1.on('pointerup', function() {
       scene_number=10
     }, this);
 
     //switch to menu 2
-    gameState10.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
-    gameState10.pausemenu_button_white2 = this.add.rectangle(180, 70, 16, 16, 0x000);
-    gameState10.pausemenu_button2.setInteractive()
-    gameState10.pausemenu_button2.on('pointerup', function() {
+    gameState11.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
+    gameState11.pausemenu_button_white2 = this.add.rectangle(180, 70, 16, 16, 0x000);
+    gameState11.pausemenu_button2.setInteractive()
+    gameState11.pausemenu_button2.on('pointerup', function() {
       scene_number=11
     }, this);
 
@@ -50,17 +50,73 @@ var QuestLogCompleted = new Phaser.Class({
       fill: '#fff'
     });
 
+    gameState11.newItem={}
     gameState11.activeQuestDisplay={}
-    let xcoord2 = 175;
-    let ycoord2 = 140;
+    let xcoord10 = 215;
+    let ycoord10 = 140;
+    let itemCount10=0;
     for (questTitle of Object.keys(completedQuests)) {
-        gameState11.activeQuestDisplay[questTitle]=this.add.text(xcoord2,ycoord2,questTitle+': '+completedQuests[questTitle], {
-          fontSize: '25px',
-          fill: '#fff',
-          wordWrap: { width: 850, useAdvancedWrap: true }
-        }).setOrigin(0,0)
-        ycoord2+=125
+        itemCount10+=1;
+        gameState11.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 75, 0xb39c0e).setOrigin(0,0).setInteractive()
+        gameState11.newItem[questTitle].name=questTitle
+        if (questTitle.length<13){
+          gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10+15, ycoord10+25, questTitle, {
+            fontSize: '25px',
+            fill: '#fff',
+            fontFamily: 'Academy Engraved LET',
+            wordWrap: {
+              width: 130,
+              useAdvancedWrap: true
+            }
+          }).setOrigin(0, 0);
+        } else {
+          gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10+10, ycoord10+10, questTitle, {
+            fontSize: '20px',
+            fill: '#fff',
+            fontFamily: 'Academy Engraved LET',
+            wordWrap: {
+              width: 130,
+              useAdvancedWrap: true
+            }
+          }).setOrigin(0, 0);
+        }
+        if (itemCount10%4===0){
+          xcoord10=215;
+          ycoord10+=120
+        }
+        else {xcoord10+=200}
     }
+
+    gameState11.tempBackground = this.add.rectangle(0,0, 400, 200, 0xffffff).setOrigin(0,0).setDepth(2);
+    gameState11.tempText=this.add.text(0,0, ``, {
+      fontSize: '25px',
+      fill: '#000000',
+      fontFamily: 'Academy Engraved LET',
+      align: 'center',
+      wordWrap: {
+        width: 300,
+        useAdvancedWrap: true
+      }
+    }).setDepth(3);
+    gameState11.tempBackground.visible=false;
+    gameState11.tempText.visible=false;
+
+    this.input.on('pointerover', function (pointer, justOver) {
+        gameState11.tempBackground.x=pointer.x+15;
+        gameState11.tempBackground.y=pointer.y-15;
+        gameState11.tempBackground.visible=true;
+        gameState11.tempText.visible=true;
+        gameState11.tempText.setText(completedQuests[justOver[0].name]);
+        gameState11.tempText.x=gameState11.tempBackground.x;
+        gameState11.tempText.y=gameState11.tempBackground.y;
+        gameState11.tempBackground.width=gameState11.tempText.width;
+        gameState11.tempBackground.height=gameState11.tempText.height;
+  });
+
+  this.input.on('pointerout', function (pointer, justOut) {
+      gameState11.tempText.visible=false;
+      gameState11.tempBackground.visible=false;
+  });
 
   },
   update: function() {

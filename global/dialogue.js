@@ -1311,10 +1311,10 @@ const pages = [{
 
   {
     character: 'me',
-    page: 1501,
-    narrative: `Yoga girl: Idk like anyway I'm like doing yoga. But if you could like find me some yoga blocks, that would be like super awesome!`,
+    page: 1502,
+    narrative: `Yoga girl: Oh my god like thank you so much. Here, take this gold duck tape. I like found it over there near the woods.`,
     options: [{
-      option: 'Shiiit',
+      option: 'Okayy',
       nextPage: undefined,
     },
     {

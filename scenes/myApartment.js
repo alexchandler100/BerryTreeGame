@@ -250,7 +250,9 @@ var MyApartment = new Phaser.Class({
     }
   },
   preload: function() {
+    this.load.image('yogamat', "assets/yogamat.png");
     this.load.image('liquorApt', "assets/liquor.png");
+    this.load.image('yogaBlocks', "assets/yogaBlocks.png");
     this.load.image('monsterApt', "assets/monster.png");
     this.load.image('hammsApt', "assets/hamms.png");
     this.load.image('larrySpecialApt', "assets/larrySpecial.png");
@@ -452,8 +454,6 @@ var MyApartment = new Phaser.Class({
     jamesApt.body.setSize(80, 50);
     jamesApt.body.setOffset(60, 140);
 
-
-
     triangleChalk = this.physics.add.sprite(gameStateApt.poolTableTL.x + 152, gameStateApt.poolTableTL.y + 57.1, 'triangleChalk');
     triangleChalk.setScale(.1)
 
@@ -494,6 +494,24 @@ var MyApartment = new Phaser.Class({
     gameStateApt.enter = mapApt.findObject("objects", obj => obj.name === "enter");
     gameStateApt.elevatorUpstairs = mapApt.findObject("objects", obj => obj.name === "clubhouse elevator");
     gameStateApt.elevatorDownstairs = mapApt.findObject("objects", obj => obj.name === "downstairs elevator");
+
+    //yoga blocks and mats in gym
+    yogamatApt = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800, 'yogamat');
+    yogamatApt2 = this.add.image(gameStateApt.elevatorDownstairs.x-150, gameStateApt.elevatorDownstairs.y-800, 'yogamat');
+    yogamatApt3 = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800+50, 'yogamat');
+    yogamatApt4 = this.add.image(gameStateApt.elevatorDownstairs.x-150, gameStateApt.elevatorDownstairs.y-800+50, 'yogamat');
+    yogamatApt5 = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800+100, 'yogamat');
+    yogamatApt6 = this.add.image(gameStateApt.elevatorDownstairs.x-150, gameStateApt.elevatorDownstairs.y-800+100, 'yogamat');
+    yogamatApt.setScale(2);
+    yogamatApt2.setScale(2);
+    yogamatApt3.setScale(2);
+    yogamatApt4.setScale(2);
+    yogamatApt5.setScale(2);
+    yogamatApt6.setScale(2);
+
+    yogaBlocks = this.physics.add.sprite(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800, 'yogaBlocks');
+    yogaBlocks.setScale(.3);
+
     console.log(`indoor zone: ${indoorZone}`)
     if (indoorZone === 'myApartment') {
       gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
@@ -908,6 +926,12 @@ var MyApartment = new Phaser.Class({
         me.x = gameState.PlayerSpawnPoint.x - 48;
         me.y = gameState.PlayerSpawnPoint.y - 64;
         console.log(`switched to lightworld from my apartment door inside`)
+      } else if (distance(yogaBlocks, meApt) < 40 && gotYogaBlocks===false) {
+        console.log('got yoga blocks')
+        gotYogaBlocks=true;
+        yogaBlocks.disableBody(true, true);
+        items.push("Yoga Blocks")
+        gameState.itemget.play()
       }
       //switch to light world from clubhouse 731 entrance
       else if (meApt.x > gameState.clubhouseInside731Entrance.x - 30 && meApt.x < gameState.clubhouseInside731Entrance.x + 30 && meApt.y > gameState.clubhouseInside731Entrance.y - 30 && meApt.y < gameState.clubhouseInside731Entrance.y + 30) {

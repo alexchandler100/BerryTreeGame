@@ -347,7 +347,9 @@ var Unit = new Phaser.Class({
         console.log('the target is blinded')
       }
       if ((this.type === "Ex Junkie" || this.type === "Junkie") && d > 0) {
-        bleedingObject[target.type] = 3
+        if (!bleedProofObject[target.type]){
+          bleedingObject[target.type] = 3
+        }
         console.log('the target is bleeding')
       }
       if (rnd >= 9) {
@@ -905,7 +907,6 @@ var BattleScene = new Phaser.Class({
     //recall inputs look like (scene, x, y, texture, frame, type, hp, damage)
     // player characters - warrior
     gameStateBattle.me = new PlayerCharacter(this, 850, 250, "me", 1, "Mac", hpObject['Mac'], damageObject['Mac']);
-    //macBleed.visible = false;
     if (hpObject['Mac'] > 0) {
       this.add.existing(gameStateBattle.me);
       gameStateBattle.me.active = true
@@ -1139,6 +1140,7 @@ var BattleScene = new Phaser.Class({
       gameStateBattle.damageText.scaleX = 2;
       gameStateBattle.damageText.scaleY = 2;
       //destroy all status effect animations
+      /*
       macX.destroy();
       macBleed.destroy();
       if (trevor.joinParameter && trevor.following) {
@@ -1153,6 +1155,7 @@ var BattleScene = new Phaser.Class({
         alX.destroy()
         alBleed.destroy()
       }
+      */
     }
     this.units.length = 0;
     // sleep the UI

@@ -3065,23 +3065,72 @@ var LightWorld = new Phaser.Class({
       blocked = 0
     }
 
-    //ai for canjam
-
-    if (time %100===1){
-      canjam.anims.play('canjamplay',true)
-    } else if (time %50===1){
-      canjam.anims.play('canjamplay1',true)
+    //ai for stripper
+    if (distance(stripper, me) < 1000) {
+      //stripper.getUnstuck()
+      //seemed to just be getting her stuck strangely enough...
+      stripper.randomWalk()
+      stripper.animate(6)
+      if (stripper.body.velocity.x > 3) {
+        stripper.flipX = true;
+      } else if (stripper.body.velocity.x < -3) {
+        stripper.flipX = false;
+      }
+      if (distance(me, stripper) < 30 && stripperFirstTalk === 0 && !items.includes("Gram of Coke")) {
+        stripperFirstTalk = 1
+        initializePage(this)
+        let page = fetchPage(1600)
+        activeQuests["Cokehead Stripper"]="The stripper at 731 Burcham needs some coke. Maybe she'll give you something good in return for some."
+        displayPage(this, page)
+      } else if (distance(me, stripper) < 30 && stripperFirstTalk === 0 && items.includes("Gram of Coke")) {
+        stripperFirstTalk = 2
+        initializePage(this)
+        let page = fetchPage(1602)
+        displayPage(this, page)
+        completeQuest("Cokehead Stripper")
+      } else if (distance(me, stripper) > 200 && stripperFirstTalk === 1) {
+        stripperFirstTalk = 0
+      }
     }
 
-    //dialogue for girl1
-    if (distance(me, girl1) < 20 && distance(girl1, volleyball) < 100 && girl1VolleyballDialogue === 0 && trevor.joinParameter) {
+    //ai for yoga girl
+    if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 0 && !items.includes("Yoga Blocks")) {
+      yogagirlFirstTalk = 1
+      initializePage(this)
+      let page = fetchPage(1500)
+      displayPage(this, page)
+      activeQuests["Yoga girl needs blocks"]="I was talking to this hot girl doing yoga. She was complaining about some stripper and asked if I had any yoga blocks. Maybe she'll give me something cool if I can find some."
+    } else if (distance(me, yogagirl) <30 && yogagirlFirstTalk === 0 && items.includes("Yoga Blocks")) {
+      yogagirlFirstTalk = 1
+      initializePage(this)
+      let page = fetchPage(1502)
+      displayPage(this, page)
+      completeQuest["Yoga girl needs blocks"]
+      gameState.itemget.play()
+      equipment.push("Gold Duck Tape")
+      removeAll(items, "Yoga Blocks")
+    }
+    else if (distance(me, yogagirl) > 200) {
+      yogagirlFirstTalk = 0
+    }
+
+    //dialogue ai for girl1 (Jennay)
+    if (distance(me, girl1) < 20 && girl1FirstDialogue === 0 && distance(girl1, volleyball) > 300 && trevor.joinParameter) {
+      gameState.hello.play()
+      initializePage(this)
+      let firstPage = fetchPage(120)
+      displayPage(this, firstPage)
+      girl1FirstDialogue = 1
+      activeQuests["Girls Wanna Play Volleyball"]="Jennay wants me to get the volleyball so they can play. She said some crazy guy grabbed it and headed to the field behind 731 Burcham and St. Aquinas. Prolly Homeboy Jon, shiiit."
+    } else if (distance(me, girl1) < 20 && distance(girl1, volleyball) < 300 && girl1FirstDialogue === 1 && trevor.joinParameter) {
       gameState.ooo.play()
       initializePage(this)
       let firstPage = fetchPage(121)
       displayPage(this, firstPage)
-      girl1VolleyballDialogue = 1
+      girl1FirstDialogue = 2
+      completeQuest["Girls Wanna Play Volleyball"]
     }
-    //dialogue for girl4 (colleen)
+    //dialogue ai for girl4 (colleen)
     else if (distance(me, girl4) < 20 && girl4FirstDialogue === 0 && trevor.joinParameter && !items.includes("Gram of Coke")) {
       gameState.wutt.play()
       initializePage(this)
@@ -3099,30 +3148,30 @@ var LightWorld = new Phaser.Class({
     } else if (distance(me, girl4) > 400 && girl4FirstDialogue === 4 && trevor.joinParameter) {
       girl4FirstDialogue = 2
     }
-    //dialogue for girl3
-    else if (distance(me, girl3) < 20 && girl3FirstDialogue === 0 && distance(girl3, volleyball) > 300 && trevor.joinParameter) {
-      gameState.hello.play()
-      initializePage(this)
-      let firstPage = fetchPage(120)
-      displayPage(this, firstPage)
-      girl3FirstDialogue = 1
-    }
-    //dialogue for girl2
+    //dialogue ai for girl2
     else if (distance(me, girl2) < 20 && girl2FirstDialogue === 0 && trevor.joinParameter) {
       gameState.heyy.play()
       initializePage(this)
       let firstPage = fetchPage(98)
       displayPage(this, firstPage)
       girl2FirstDialogue = 1
-    } else if (distance(me, girl2) > 700 && girl2FirstDialogue === 1 && trevor.joinParameter) {
-      girl2FirstDialogue = 0
+      activeQuests["Becca Wants Some Smokes"]="Becca seems drunk and asked me to get some smokes. She gave me about 3.50$. I can usually get some for free from Homeboy Jon. I wonder where he is..."
     } else if (distance(me, girl1) < 20 && girl2FirstDialogue === 1 && items.includes('Marlboro lights') && trevor.joinParameter) {
       //hamms -= 2
       initializePage(this)
       let firstPage = fetchPage(110)
       displayPage(this, firstPage)
       girl2FirstDialogue = 2
+      completeQuest("Becca Wants Some Smokes")
     }
+
+    //ai for canjam
+    if (time %100===1){
+      canjam.anims.play('canjamplay',true)
+    } else if (time %50===1){
+      canjam.anims.play('canjamplay1',true)
+    }
+
     //dialogue for pool party
     else if (firstPoolParty === 0 && distance(joe, girl1) < 800 && distance(jon, girl1) < 800 && distance(trevor, girl1) < 800 && distance(james, girl1) < 800) {
       initializePage(this)
@@ -3165,18 +3214,11 @@ var LightWorld = new Phaser.Class({
       dancingGirl.enableBody(true, dancingGirl.x, dancingGirl.y, true, true);
     }
 
-    //dialogue for getting car first time
-    if (playerTexture === 1 && firstTimeCarGet === 0) {
-      initializePage(this)
-      let page = fetchPage(7)
-      displayPage(this, page)
-      firstTimeCarGet = 1
-    }
-
     //dialogue for finding phone and wallet
     if (phoneGet + walletGet === 2 && keysGet === 0) {
       phoneGet += 1;
       walletGet += 1;
+      activeQuests["Gotta Find My Keys"]="I found my wallet and phone by the volleyball court, but I still have no idea where my keys are. I have a feeling I was in the woods last night. God damnit."
       window.setTimeout(() => {
         initializePage(this)
         let page = fetchPage(5)
@@ -3186,12 +3228,23 @@ var LightWorld = new Phaser.Class({
 
     //dialogue for finding Keys
     if (phoneGet + walletGet + keysGet === 5) {
+      completeQuest("Gotta Find My Keys")
       keysGet += 1;
+      activeQuests["Gotta Find My Car"]="I found my keys in the woods, but now I don't know where my damn car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
       window.setTimeout(() => {
         initializePage(this)
         let page = fetchPage(6)
         displayPage(this, page)
       }, 3000);
+    }
+
+    //dialogue for getting car first time
+    if (playerTexture === 1 && firstTimeCarGet === 0) {
+      initializePage(this)
+      let page = fetchPage(7)
+      displayPage(this, page)
+      firstTimeCarGet = 1
+      activeQuests["Go to the Gas Station"]="I found my car, hell yeah. I should go to the gas station and pick up some gatorades and monsters. I'm prolly almost out of gas too."
     }
 
     //we resume every frame... must be more efficient way... fix needed...
@@ -3209,6 +3262,9 @@ var LightWorld = new Phaser.Class({
       this.scene.launch('PauseMenu');
       launchParameter=true
     } else if (scene_number === 3 && launchParameter===false) {
+      if (activeQuests["Go to the Gas Station"]) {
+        completeQuest("Go to the Gas Station")
+      }
       pause = true;
       this.scene.launch('GasStation');
       launchParameter=true
@@ -3365,12 +3421,14 @@ var LightWorld = new Phaser.Class({
         }
         hamms -= 4
         gunTalk = 0
+        completeQuest("Al wants some shit")
       } else if (distance(me, al) < 30 && alFirstTalk === 0 && al.joinParameter === false) {
         gameState.alSound.play()
         initializePage(this)
         let page = fetchPage(30)
         displayPage(this, page)
         alFirstTalk = 1
+        activeQuests["Al wants some shit"]="I ran into Homeboy Al. He got this new airsoft gun and said I could fuck with it if I got him 4 beers (hamms) and 2g of weed. I can get beers from the gas station, but I should get my car first. Original homeboy usually has weed, I think he's usually in the woods."
       } else if (distance(me, al) > 300 && alFirstTalk === 1) {
         alFirstTalk = 0
       }
@@ -3395,41 +3453,7 @@ var LightWorld = new Phaser.Class({
       }
     }
 
-    //ai for stripper
-    if (distance(stripper, me) < 1000) {
-      //stripper.getUnstuck()
-      //seemed to just be getting her stuck strangely enough...
-      stripper.randomWalk()
-      stripper.animate(6)
-      if (stripper.body.velocity.x > 3) {
-        stripper.flipX = true;
-      } else if (stripper.body.velocity.x < -3) {
-        stripper.flipX = false;
-      }
-      if (distance(me, stripper) < 30 && stripperFirstTalk === 0 && !items.includes("Gram of Coke")) {
-        stripperFirstTalk = 1
-        initializePage(this)
-        let page = fetchPage(1600)
-        displayPage(this, page)
-      } else if (distance(me, stripper) < 30 && stripperFirstTalk === 0 && items.includes("Gram of Coke")) {
-        stripperFirstTalk = 2
-        initializePage(this)
-        let page = fetchPage(1602)
-        displayPage(this, page)
-      } else if (distance(me, stripper) > 200 && stripperFirstTalk === 1) {
-        stripperFirstTalk = 0
-      }
-    }
 
-    //ai for yoga girl
-    if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 0) {
-      yogagirlFirstTalk = 1
-      initializePage(this)
-      let page = fetchPage(1500)
-      displayPage(this, page)
-    } else if (distance(me, yogagirl) > 200) {
-      yogagirlFirstTalk = 0
-    }
 
 
     //ai for trevor

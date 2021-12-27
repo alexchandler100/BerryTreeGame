@@ -10,10 +10,13 @@ let _timerStart = false
 
 //dialogue parameters
 let activeQuests = {
-  'Go Pro in Kick-The-Ball': 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and something good might happen.',
-  'Robo-Trip': 'Today would be a real good day to get some tussin. Nothing to do, might as well robotrip and send that shit.'
+  'Go Pro at Kick-The-Ball': 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and something good might happen.',
+  'Find Your Shit': 'You got all drunk last night and lost your keys, phone, and wallet. Seems like you probably left them somewhere at 731 Burcham Apartments.',
+  'Robo-Trip': 'Today would be a real good day to get some tussin. Nothing to do, might as well fuck with some tussin.',
 }
-let completedQuests = {'Wake Up': 'Well you did do one thing so far. Good job.'}
+let completedQuests = {
+  'Wake Up': 'Well you did do one thing so far. Good job.',
+}
 let carCrashDialogue = false;
 let adventure = 0;
 let gasAlert = 0;
@@ -66,6 +69,7 @@ let gasStation = 0;
 let alFirstTalk = 0;
 let darkworldDialogue = 0;
 let jonChaseX = 20;
+let gotYogaBlocks=false;
 let skillDialogue = {
   "Mac": {
     3: false,
@@ -313,6 +317,13 @@ let specialObject = {
   'Bennett': ["Dirty Combo (7)"]
 }
 
+let bleedProofObject = {
+  'Mac': false,
+  'Al': false,
+  'Jimmy': false,
+  'Bennett': false,
+}
+
 let defendOn = {
   'Mac': false,
   'Al': false,
@@ -480,7 +491,8 @@ let equipmentTypes = {
   "Jorts": "Jimmy_lower",
   "Wife Beater": "Mac_upper",
   "Brass Knuckles": "accessory",
-  "Sprinting Shoes": "accessory"
+  "Sprinting Shoes": "accessory",
+  "Gold Duck Tape": "accessory"
 }
 let equipmentList = {
   "Camo T-Shirt": camoTshirt,
@@ -498,6 +510,7 @@ let equipmentList = {
   "Jorts": jorts,
   "Wife Beater": wifeBeater,
   "Brass Knuckles": brassKnuckles,
+  "Gold Duck Tape": goldDuckTape,
   "Sprinting Shoes": sprintingShoes,
 }
 let equipmentDescriptions = {
@@ -591,6 +604,12 @@ let equipmentDescriptions = {
     effect: "Damage +15",
     color: '#fff'
   },
+  "Gold Duck Tape": {
+    type: "Accessory",
+    def: 0,
+    effect: "Prevents Bleeding",
+    color: '#fff'
+  },
   "Sprinting Shoes": {
     type: "Accessory",
     def: 0,
@@ -624,6 +643,14 @@ function brassKnuckles(player, bool) {
     damageObject[player] += 15
   } else {
     damageObject[player] -= 15
+  }
+}
+
+function goldDuckTape(player, bool) {
+  if (bool === true) {
+    bleedProofObject[player]=true
+  } else {
+    bleedProofObject[player]=false
   }
 }
 
@@ -1152,7 +1179,7 @@ function buyWeedRipoff() {
 //to use items
 function useItem(object, player) {
   if (object === "Monster") {
-    if (monster >= 1) {
+    if (usable_items["Monster"] >= 1) {
       monster -= 1
       usable_items["Monster"] -= 1
       spObject[player] += 10
@@ -1161,7 +1188,7 @@ function useItem(object, player) {
       }
     }
   } else if (object === "Gatorade") {
-    if (gatorade >= 1) {
+    if (usable_items["Gatorade"] >= 1) {
       gatorade -= 1
       usable_items["Gatorade"] -= 1
       hpObject[player] += 60
@@ -1170,7 +1197,7 @@ function useItem(object, player) {
       }
     }
   } else if (object === "Hamms") {
-    if (hamms >= 1) {
+    if (usable_items["Hamms"] >= 1) {
       hamms -= 1
       usable_items["Hamms"] -= 1
       hpObject[player] += 20
@@ -1183,19 +1210,19 @@ function useItem(object, player) {
       }
     }
   } else if (object === "Liquor") {
-    if (liquorItem >= 1) {
+    if (usable_items["Liquor"] >= 1) {
       liquorItem -= 1
       usable_items["Liquor"] -= 1
       spObject[player] = maxSPObject[player]
     }
   } else if (object === "Andy Capp's Hot Fries") {
-    if (andycapps >= 1) {
+    if (usable_items["Andy Capp's Hot Fries"] >= 1) {
       andycapps -= 1
       usable_items["Andy Capp's Hot Fries"] -= 1
       spObject[player] = maxSPObject[player]
     }
   } else if (object === "Labatt Max Ice") {
-    if (maxice >= 1) {
+    if (usable_items["Labatt Max Ice"] >= 1) {
       maxice -= 1
       usable_items["Labatt Max Ice"] -= 1
       hpObject[player] += 50
@@ -1208,7 +1235,8 @@ function useItem(object, player) {
       }
     }
   } else if (object === "Larry Special") {
-    if (larrySpecial >= 1) {
+    if (usable_items["Larry Special"] >= 1) {
+      console.log(`I have one larry special`)
       larrySpecial -= 1
       usable_items["Larry Special"] -= 1
       hpObject[player] = maxHPObject[player]

@@ -1,5 +1,5 @@
 const gameState4 = {};
-let redisplay=false;
+let redisplay=true;
 
 var EquipmentMenu = new Phaser.Class({
   Extends: Phaser.Scene,

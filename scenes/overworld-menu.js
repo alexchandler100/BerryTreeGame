@@ -117,9 +117,13 @@ var OverworldMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    itemsText = this.add.text(175, 460, '', {
+    itemsText = this.add.text(175, 400, '', {
       fontSize: '25px',
-      fill: '#fff'
+      fill: '#fff',
+      wordWrap: {
+        width: 800,
+        useAdvancedWrap: true
+      }
     });
     items = items.filter(onlyUnique)
     item_list = "Special Items: \n";
