@@ -745,6 +745,23 @@ var BattleScene = new Phaser.Class({
       trevorBleed.anims.play('bleedingfast', true)
   },
   update: function() {
+    for (let i=0; i<this.units.length;i++){
+      this.units[i].setDepth(this.units[i].y)
+    }
+    macX.setDepth(gameStateBattle.me.y+.1)
+    macBleed.setDepth(gameStateBattle.me.y+.1)
+    if (trevor.following){
+      trevorX.setDepth(gameStateBattle.trevor.y+.1)
+      trevorBleed.setDepth(gameStateBattle.trevor.y+.1)
+    }
+    if (al.following){
+    alX.setDepth(gameStateBattle.al.y+.1)
+    alBleed.setDepth(gameStateBattle.al.y+.1)
+  }
+  if (bennett.following){
+    bennettX.setDepth(gameStateBattle.bennett.y+.1)
+    bennettBleed.setDepth(gameStateBattle.bennett.y+.1)
+  }
     //to make burchamwalk scroll left
     if (bossBattle && (bossType === 'fratboy2prime') && gameStateBattle.switch === -1) {
       burchamWalkImage.a.x += 1
