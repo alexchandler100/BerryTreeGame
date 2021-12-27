@@ -3076,20 +3076,18 @@ var LightWorld = new Phaser.Class({
       } else if (stripper.body.velocity.x < -3) {
         stripper.flipX = false;
       }
-      if (distance(me, stripper) < 30 && stripperFirstTalk === 0 && !items.includes("Gram of Coke")) {
+      if (distance(me, stripper) < 30 && stripperFirstTalk === 0) {
         stripperFirstTalk = 1
         initializePage(this)
         let page = fetchPage(1600)
         activeQuests["Cokehead Stripper"]="The stripper at 731 Burcham needs some coke. Maybe she'll give you something good in return for some."
         displayPage(this, page)
-      } else if (distance(me, stripper) < 30 && stripperFirstTalk === 0 && items.includes("Gram of Coke")) {
+      } else if (distance(me, stripper) < 30 && stripperFirstTalk === 1 && items.includes("Gram of Coke")) {
         stripperFirstTalk = 2
         initializePage(this)
         let page = fetchPage(1602)
         displayPage(this, page)
         completeQuest("Cokehead Stripper")
-      } else if (distance(me, stripper) > 200 && stripperFirstTalk === 1) {
-        stripperFirstTalk = 0
       }
     }
 

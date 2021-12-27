@@ -56,7 +56,7 @@ let blocked = 0;
 let newGame = true;
 let moneyPlus = false;
 let checkLevelDialogue = 0;
-let girl1VolleyballDialogue = 0;
+let girl1FirstDialogue = 0;
 let girl2FirstDialogue = 0;
 let girl3FirstDialogue = 0;
 let girl4FirstDialogue = 0;
@@ -807,7 +807,7 @@ function saveGame() {
     ogFirstTalk: ogFirstTalk,
     gunTalk: gunTalk,
     newGame: newGame,
-    girl1VolleyballDialogue: girl1VolleyballDialogue,
+    girl1FirstDialogue: girl1FirstDialogue,
     girl2FirstDialogue: girl2FirstDialogue,
     girl3FirstDialogue: girl3FirstDialogue,
     girl4FirstDialogue: girl4FirstDialogue,
@@ -878,7 +878,7 @@ function loadGame2() {
     ogFirstTalk = file.ogFirstTalk
     gunTalk = file.gunTalk
     newGame = file.newGame
-    girl1VolleyballDialogue = file.girl1VolleyballDialogue
+    girl1FirstDialogue = file.girl1FirstDialogue
     girl2FirstDialogue = file.girl2FirstDialogue
     girl3FirstDialogue = file.girl3FirstDialogue
     girl4FirstDialogue = file.girl4FirstDialogue
