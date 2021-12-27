@@ -871,7 +871,7 @@ var BattleScene = new Phaser.Class({
       burchamWalkFrontImage = {}
       burchamWalkImage.a = this.add.image(-4957, -125, `burcham_walk`).setOrigin(0, 0);
       burchamWalkFrontImage.a = this.add.image(-6157 + 1200, -125, `burcham_walk_front`).setOrigin(0, 0);
-      burchamWalkFrontImage.a.setDepth(1)
+      burchamWalkFrontImage.a.setDepth(324)
     } else { // add random background or location based background
       this.add.image(0, -125, `background${battleBackgroundIndex}`).setOrigin(0, 0);
     }
