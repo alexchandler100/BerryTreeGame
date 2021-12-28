@@ -18,12 +18,8 @@ const pages = [{
     page: 2,
     narrative: `I just remember playing volleyball... I bet if I can keep that ball away from Jimmy for long enough, he'll help me out`,
     options: [{
-        option: 'Controls',
+        option: 'Controls?',
         nextPage: 3
-      },
-      {
-        option: 'Do something else.',
-        nextPage: undefined
       },
     ]
   },
@@ -31,7 +27,7 @@ const pages = [{
   {
     character: 'me',
     page: 3,
-    narrative: 'PRESS U,I,O,P KEYS TO ADJUST SPEED, 1,2,...,9,0 KEYS TO ADJUST ZOOM, S TO ENTER YOUR CAR AND D TO EXIT. PRESSING ESCAPE CAN EXIT DIALOGUE BOXES.',
+    narrative: 'PRESS U,I,O,P KEYS TO ADJUST SPEED, 1,2,...,9,0 KEYS TO ADJUST ZOOM. PRESS S TO GENERALLY INTERACT WITH STUFF. FOR EXAMPLE S WILL KICK THE BALL OR PICK UP ITEMS ON THE GROUND.',
     options: [{
         option: 'More',
         nextPage: 4
@@ -46,7 +42,7 @@ const pages = [{
   {
     character: 'me',
     page: 4,
-    narrative: 'PRESS S TO GENERALLY INTERACT WITH STUFF. PRESS Z TO ACCESS THE MENU AND CLICK THE EXIT BUTTON TO EXIT. EXAMINE MENU ITEMS BY HOVERING THE CURSOR OVER THEM. MENU ITEMS CAN BE USED BY DRAGGING AND DROPPING THEM INTO APPROPRIATE PLACES IN THE MENU.',
+    narrative: 'PRESS Z TO ACCESS THE MENU AND CLICK THE EXIT BUTTON TO EXIT. EXAMINE MENU ITEMS BY HOVERING THE CURSOR OVER THEM. MENU ITEMS CAN BE USED BY DRAGGING AND DROPPING THEM INTO APPROPRIATE PLACES IN THE MENU. The X key opens the quest log.',
     options: [{
       option: 'More',
       nextPage: 8
@@ -56,7 +52,7 @@ const pages = [{
   {
     character: 'me',
     page: 8,
-    narrative: 'PRESS DELETE IF THE BALL GETS STUCK, IT WILL RESPAWN. IF YOU WANT A CHEAT CODE, JUST ASK MR. C.',
+    narrative: 'PRESS DELETE IF THE BALL GETS STUCK, IT WILL RESPAWN IN ITS ORIGINAL LOCATION. IF YOU WANT A CHEAT CODE, JUST ASK MR. C.',
     options: [{
       option: 'WHAT ELSE??',
       nextPage: 9
@@ -94,11 +90,8 @@ const pages = [{
     narrative: "Alright, got my wallet and my phone at least. Damnnn I got about 3.50 in here, tight. Shiit. Now where the fuck my keys at?",
     options: [{
         option: 'In the woods?',
-        nextPage: undefined
-      },
-      {
-        option: 'Whatever',
-        nextPage: 10
+        nextPage: undefined,
+        aftermath: openQuestLog
       },
     ]
   },
@@ -109,11 +102,13 @@ const pages = [{
     narrative: "Parked my car somewhere by the woods I think... maybe behind 711 Burcham.",
     options: [{
         option: 'Right on',
-        nextPage: undefined
+        nextPage: undefined,
+        aftermath: openQuestLog
       },
       {
         option: 'Hell yeah',
-        nextPage: undefined
+        nextPage: undefined,
+        aftermath: openQuestLog
       },
     ]
   },
@@ -124,7 +119,8 @@ const pages = [{
     narrative: "Tight, I better head up to the gas station and get some shit. Better not crash though... (go to the Mobile station at Abbott and E. Saginaw.)",
     options: [{
       option: 'Lets go.',
-      nextPage: undefined
+      nextPage: undefined,
+      aftermath: openQuestLog
     }, ]
   },
 
@@ -134,7 +130,8 @@ const pages = [{
     narrative: "Jimmy: Damnnn that was tight dude you almost went pro.",
     options: [{
       option: 'Check this shit out',
-      nextPage: undefined
+      nextPage: undefined,
+      aftermath: openQuestLog
     }, ]
   },
 
@@ -177,6 +174,36 @@ const pages = [{
       option: 'Duude',
       nextPage: undefined
     }, ]
+  },
+
+  {
+    character: 'me',
+    page: 25,
+    narrative: "Jimmy: Huhuh shiiiiit that wasn't very good.",
+    options: [{
+      option: 'God Damn it',
+      nextPage: undefined,
+    },
+    {
+      option: 'What do I do?',
+      nextPage: 26,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 26,
+    narrative: "Jimmy: Do you have amnesia or some shit? Goddamn man this is kick-the-ball. Just try and keep the ball for awhile, do some cool stuff and you'll get points. Get enough points and you'll GO PRO or even get the BROTHER'S SEAL.",
+    options: [{
+      option: 'Right on',
+      nextPage: undefined,
+      aftermath: openQuestLog
+    },
+    {
+      option: 'Okayyy!',
+      nextPage: undefined,
+      aftermath: openQuestLog
+    },]
   },
 
   {
@@ -342,6 +369,7 @@ const pages = [{
     options: [{
         option: "Sweet.",
         nextPage: undefined,
+        aftermath: openQuestLog
       },
     ]
   },
@@ -619,7 +647,8 @@ const pages = [{
     narrative: 'Jennay: Can you like get the volleyball? We want to play but like I saw some crazy guy running with it in the field behind St. Thomas Aquinas... just North of 731',
     options: [{
       option: 'Hell yeah.',
-      nextPage: undefined
+      nextPage: undefined,
+      aftermath: openQuestLog
     }, ]
   },
 
@@ -1246,13 +1275,11 @@ const pages = [{
     character: 'me',
     page: 1601,
     narrative: `Stripper: Coool so like do you know where I could get some coke?`,
-    options: [{
-      option: 'Shiiit',
-      nextPage: undefined,
-    },
+    options: [
     {
       option: 'Uhh possibly',
       nextPage: undefined,
+      aftermath: openQuestLog
     },]
   },
 
@@ -1273,11 +1300,6 @@ const pages = [{
     options: [{
       option: 'Yeah here you go',
       nextPage: 1603,
-      aftermath: getBrassKnuckles,
-    },
-    {
-      option: 'Nah, sorry',
-      nextPage: undefined,
     },]
   },
 
@@ -1302,10 +1324,12 @@ const pages = [{
     options: [{
       option: 'Shiiit',
       nextPage: undefined,
+      aftermath: openQuestLog
     },
     {
       option: 'Right on',
       nextPage: undefined,
+      aftermath: openQuestLog
     },]
   },
 
@@ -1645,6 +1669,39 @@ const pages = [{
       nextPage: undefined,
     }, {
       option: 'Hell Yeah',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 5000,
+    narrative: `Man, I must have been a real dick last night or something. Random people are attacking me... that ain't good. I must have gone to a frat party or something.`,
+    options: [{
+      option: 'Sweet',
+      nextPage: undefined,
+    }, {
+      option: 'Hell Yeah',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 5001,
+    narrative: `Oh shit I do remember trying to pick up that PT Cruiser with Jimmy and Homeboy Jon last night behind that halfway house, and that fat old dickhead started chasing us.`,
+    options: [{
+      option: 'Hmmm',
+      nextPage: 5002,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 5002,
+    narrative: `I guess that explains why that Ex Junkie is all pissed trying to stab us and stuff...`,
+    options: [{
+      option: 'Well Goddamn',
       nextPage: undefined,
     },]
   },

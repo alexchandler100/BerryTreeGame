@@ -884,15 +884,15 @@ var BattleScene = new Phaser.Class({
     } else if (bossBattle && bossType === 'fratboy2prime') {
       gameStateBattle.enem1 = new Enemy(this, 120, 200, 'fratboy2prime', null, 'StabBoy 2', 400, 60);
       this.add.existing(gameStateBattle.enem1);
-      gameStateBattle.enem4 = new Enemy(this, 250, 275, enems[5][0], null, enems[5][1], enems[5][2] + 5 * (levelObject['Mac'] - 1), enems[5][3] + enems[5][3] * (levelObject['Mac'] - 1));
+      gameStateBattle.enem4 = new Enemy(this, 250, 275, enems[5][0], null, enems[5][1], enems[5][2] + 3 * (levelObject['Mac'] - 1), enems[5][3] + enems[5][3]/2 * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem4);
-      gameStateBattle.enem5 = new Enemy(this, 200, 325, enems[2][0], null, enems[2][1], enems[2][2] + 5 * (levelObject['Mac'] - 1), enems[2][3] + enems[2][3] * (levelObject['Mac'] - 1));
+      gameStateBattle.enem5 = new Enemy(this, 200, 325, enems[2][0], null, enems[2][1], enems[2][2] + 3 * (levelObject['Mac'] - 1), enems[2][3] + enems[2][3]/2 * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem5);
       gameStateBattle.enem5.setDepth(2)
-      gameStateBattle.enem2 = new Enemy(this, 385, 350, enems[3][0], null, enems[3][1], enems[3][2] + 5 * (levelObject['Mac'] - 1), enems[3][3] + enems[3][3] * (levelObject['Mac'] - 1));
+      gameStateBattle.enem2 = new Enemy(this, 385, 350, enems[3][0], null, enems[3][1], enems[3][2] + 3 * (levelObject['Mac'] - 1), enems[3][3] + enems[3][3]/2 * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem2);
       gameStateBattle.enem2.setDepth(2)
-      gameStateBattle.enem3 = new Enemy(this, 450, 250, enems[4][0], null, enems[4][1], enems[4][2] + 5 * (levelObject['Mac'] - 1), enems[4][3] + enems[4][3] * (levelObject['Mac'] - 1));
+      gameStateBattle.enem3 = new Enemy(this, 450, 250, enems[4][0], null, enems[4][1], enems[4][2] + 3 * (levelObject['Mac'] - 1), enems[4][3] + enems[4][3]/2 * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem3);
     } else if (bossBattle && bossType === 'frank') {
       gameStateBattle.enem1 = new Enemy(this, 450, 250, 'fratboy5', null, 'Frank', 1000, 70);
@@ -900,23 +900,23 @@ var BattleScene = new Phaser.Class({
     } else {
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)
       if (set3.size === 4 && trevor.following) {
-        gameStateBattle.enem4 = new Enemy(this, 300, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (levelObject['Mac'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 2) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem4 = new Enemy(this, 300, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (levelObject['Mac'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 3) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem4);
       }
       if (set4.size === 5 && al.following) {
-        gameStateBattle.enem5 = new Enemy(this, 250, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (levelObject['Mac'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 2) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem5 = new Enemy(this, 250, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (levelObject['Mac'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 3) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem5);
       }
-      gameStateBattle.enem1 = new Enemy(this, 450, 250, enems[rr][0], null, enems[rr][1], enems[rr][2] + 15 * (levelObject['Mac'] - 1), enems[rr][3] + Math.floor(enems[rr][3] / 2) * (levelObject['Mac'] - 1));
+      gameStateBattle.enem1 = new Enemy(this, 450, 250, enems[rr][0], null, enems[rr][1], enems[rr][2] + 15 * (levelObject['Mac'] - 1), enems[rr][3] + Math.floor(enems[rr][3] / 3) * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem1);
 
       if (set1.size === 2) {
-        gameStateBattle.enem2 = new Enemy(this, 400, 300, enems[ss][0], null, enems[ss][1], enems[ss][2] + 15 * (levelObject['Mac'] - 1), enems[ss][3] + Math.floor(enems[ss][3] / 2) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem2 = new Enemy(this, 400, 300, enems[ss][0], null, enems[ss][1], enems[ss][2] + 15 * (levelObject['Mac'] - 1), enems[ss][3] + Math.floor(enems[ss][3] / 3) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem2);
       }
 
       if (set2.size === 3) {
-        gameStateBattle.enem3 = new Enemy(this, 350, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (levelObject['Mac'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 2) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem3 = new Enemy(this, 350, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (levelObject['Mac'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 3) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem3);
       }
     }
@@ -1087,6 +1087,8 @@ var BattleScene = new Phaser.Class({
   },
   endBattleVictory: function() {
     // grants experience items and money
+    openFightDialogue=false;
+    numberOfFights+=1;
     battleBackground = ''
     if (bossBattle && bossType === 'darkboy') {
       exp += 100 * 3 ** (levelObject['Mac'] - 1)

@@ -1182,6 +1182,9 @@ var MyApartment = new Phaser.Class({
         twoballscore=0
         gameStateApt.pooltimer.setText(``)
         timeApt=0
+        if (activeQuests["Bets with Joe"]){
+          completeQuest("Bets with Joe")
+        }
       } else if (twoballscore >= 3 && jamesBets) {
         initializePageApt(this);
         let firstPage = fetchPageApt(3025);

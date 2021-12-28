@@ -10,7 +10,6 @@ let _timerStart = false
 
 //dialogue parameters
 let activeQuests = {
-  'Go Pro at Kick-The-Ball': 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and something good might happen.',
   'Find Your Shit': 'You got all drunk last night and lost your keys, phone, and wallet. Seems like you probably left them somewhere at 731 Burcham Apartments.',
   'Robo-Trip': 'Today would be a real good day to get some tussin. Nothing to do, might as well fuck with some tussin.',
 }
@@ -99,6 +98,11 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let pointerDirection = [0,0]
+let pointerLocation = [0,0]
+let pointerSet = false
+let numberOfFights = 0;
+let openFightDialogue = false;
 let playingOutOfBreath = false;
 let stamina = 100;
 let launchParameter = false; //this just makes sure the gas station scene isn't launched every tween (only once)
@@ -984,6 +988,10 @@ function goInPocketNine() {
   nineInPocket = true
 }
 
+function openQuestLog(){
+  scene_number=10
+}
+
 function exitPool() {
   inPool = false
 }
@@ -1418,6 +1426,7 @@ function getCigarettes() { //jon gives you cigarettes
 function getTreeFitty() { //girl gives you 3.50 for beer
   money += 3.50
   gameState.itemget.play()
+  openQuestLog()
 }
 
 function getOneSPMac() { //level up increase SP
@@ -1557,6 +1566,7 @@ function alCheckhamms() { //al checks if you have hamms and weed, if so, he join
     gunTalk = 1
   }
   beatbox = 1
+  openQuestLog()
 }
 
 function colleenCheck20() { //al checks if you have hamms and weed, if so, he joins your party
@@ -1600,12 +1610,6 @@ function removeFirst(arr, obj) {
       break
     }
   }
-}
-
-function getBrassKnuckles() { //al joins your party (still called gunget because he used to just give you a gun)
-  gameState.itemget.play()
-  equipment.push("Brass Knuckles")
-  removeAll(items, "Gram of Coke")
 }
 
 function getHPBoost() {
