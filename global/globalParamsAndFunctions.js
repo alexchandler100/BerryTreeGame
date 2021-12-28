@@ -42,6 +42,7 @@ let bennettFirstTalk = 0;
 let jonFirstTalk = 0;
 let yogagirlFirstTalk = 0;
 let stripperFirstTalk = 0;
+let adelineFirstTalk = 0;
 let volleyballScore = 0;
 let firstPoolParty = 0;
 let ogFirstTalk = 0;
@@ -328,6 +329,13 @@ let bleedProofObject = {
   'Bennett': false,
 }
 
+let blindProofObject = {
+  'Mac': false,
+  'Al': false,
+  'Jimmy': false,
+  'Bennett': false,
+}
+
 let defendOn = {
   'Mac': false,
   'Al': false,
@@ -424,6 +432,7 @@ let gas = 4;
 let phoneGet = 0;
 let walletGet = 0;
 let liquorGet = 0;
+let flowersGet = 0;
 let keysGet = 0;
 let doitS = 0;
 let money = 0;
@@ -496,6 +505,7 @@ let equipmentTypes = {
   "Wife Beater": "Mac_upper",
   "Brass Knuckles": "accessory",
   "Sprinting Shoes": "accessory",
+  "Camo Duck Tape": "accessory",
   "Gold Duck Tape": "accessory"
 }
 let equipmentList = {
@@ -515,6 +525,7 @@ let equipmentList = {
   "Wife Beater": wifeBeater,
   "Brass Knuckles": brassKnuckles,
   "Gold Duck Tape": goldDuckTape,
+  "Camo Duck Tape": camoDuckTape,
   "Sprinting Shoes": sprintingShoes,
 }
 let equipmentDescriptions = {
@@ -614,6 +625,12 @@ let equipmentDescriptions = {
     effect: "Prevents Bleeding",
     color: '#fff'
   },
+  "Camo Duck Tape": {
+    type: "Accessory",
+    def: 0,
+    effect: "Prevents Blindness",
+    color: '#fff'
+  },
   "Sprinting Shoes": {
     type: "Accessory",
     def: 0,
@@ -655,6 +672,14 @@ function goldDuckTape(player, bool) {
     bleedProofObject[player]=true
   } else {
     bleedProofObject[player]=false
+  }
+}
+
+function camoDuckTape(player, bool) {
+  if (bool === true) {
+    blindProofObject[player]=true
+  } else {
+    blindProofObject[player]=false
   }
 }
 

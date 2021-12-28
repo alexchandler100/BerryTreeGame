@@ -343,14 +343,16 @@ var Unit = new Phaser.Class({
       target.takeDamage(d);
       //if the attacker is fratboy2, and the attack hits, the target is blinded
       if (this.type === "Frat Boy 2" && d > 0) {
-        blindObject[target.type] = 2
-        console.log('the target is blinded')
+        if (!blindProofObject[target.type]){
+          blindObject[target.type] = 2
+          console.log('the target is blinded')
+        }
       }
       if ((this.type === "Ex Junkie" || this.type === "Junkie") && d > 0) {
         if (!bleedProofObject[target.type]){
           bleedingObject[target.type] = 3
+          console.log('the target is bleeding')
         }
-        console.log('the target is bleeding')
       }
       if (rnd >= 9) {
         this.scene.events.emit("Message", "Critical hit! ");

@@ -106,9 +106,13 @@ var GasStation = new Phaser.Class({
       if (money >= 1.5) {
         gameState3.chaching.play()
         money -= 1.5;
-        andycapps += 1
-        usable_items["Andy Capp's Hot Fries"]+=1
-        redisplayItems=true
+        andycapps += 1;
+        if (usable_items["Andy Capp's Hot Fries"]) {
+          usable_items["Andy Capp's Hot Fries"] += 1;
+        } else {
+          usable_items["Andy Capp's Hot Fries"] = 1;
+        }
+        redisplayItems=true;
       }
     }, this);
     andycappsText.inventoryName="Andy Capp's Hot Fries"

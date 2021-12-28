@@ -262,6 +262,7 @@ var LightWorld = new Phaser.Class({
     this.load.image('monsterIcon', "assets/monster.png");
     this.load.image('maxiceIcon', "assets/maxice.png");
     this.load.image('andycappsIcon', "assets/andycapps.png");
+    this.load.image('flowers', "assets/flowers.png");
     this.load.image('liquorIcon', "assets/liquorIcon.png");
     this.load.image('hammsIcon', "assets/hamms.png");
     this.load.image('larrySpecialIcon', "assets/larrySpecial.png");
@@ -311,11 +312,13 @@ var LightWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 200
       });
+      /*
     this.load.spritesheet('dancinggirl',
       'assets/girl_dancing.png', {
         frameWidth: 68,
         frameHeight: 96
       });
+      */
     this.load.spritesheet('meSwimming',
       'assets/me_swimming.png', {
         frameWidth: 200,
@@ -672,6 +675,46 @@ var LightWorld = new Phaser.Class({
     const VolleyballNetSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyballnet spawn point");
     const BurchamPoolSpawnPoint = map.findObject("Objects", obj => obj.name === "burchampool spawn point");
 
+    //location zone points
+    gameState.clubhouse731TL = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left")
+    gameState.clubhouse731BR = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance bottom right")
+    gameState.clubhousewoodsTL = map.findObject("Objects", obj => obj.name === "burcham woods clubhouse entrance top left")
+    gameState.clubhousewoodsBR = map.findObject("Objects", obj => obj.name === "burcham woods clubhouse entrance bottom right")
+    gameState.burcham731TL = map.findObject("Objects", obj => obj.name === "731 burcham top left")
+    gameState.burcham731BR = map.findObject("Objects", obj => obj.name === "731 burcham bottom right")
+    gameState.burcham711TL = map.findObject("Objects", obj => obj.name === "711 burcham top left")
+    gameState.burcham711BR = map.findObject("Objects", obj => obj.name === "711 burcham bottom right")
+    gameState.burchamwoodsTL = map.findObject("Objects", obj => obj.name === "burcham woods top left")
+    gameState.burchamwoodsBR = map.findObject("Objects", obj => obj.name === "burcham woods bottom right")
+    gameState.burcham787TL = map.findObject("Objects", obj => obj.name === "787 burcham top left")
+    gameState.burcham787BR = map.findObject("Objects", obj => obj.name === "787 burcham bottom right")
+    gameState.highschoolTL = map.findObject("Objects", obj => obj.name === "east lansing high school top left")
+    gameState.highschoolBR = map.findObject("Objects", obj => obj.name === "east lansing high school bottom right")
+    gameState.westburchamroadTL = map.findObject("Objects", obj => obj.name === "west burcham road top left")
+    gameState.westburchamroadBR = map.findObject("Objects", obj => obj.name === "west burcham road bottom right")
+    gameState.eastburchamroadTL = map.findObject("Objects", obj => obj.name === "east burcham road top left")
+    gameState.eastburchamroadBR = map.findObject("Objects", obj => obj.name === "east burcham road bottom right")
+    gameState.churchTL = map.findObject("Objects", obj => obj.name === "st thomas aquinas school top left")
+    gameState.churchBR = map.findObject("Objects", obj => obj.name === "st thomas aquinas school bottom right")
+    gameState.abbottTL = map.findObject("Objects", obj => obj.name === "abbott top left")
+    gameState.abbottBR = map.findObject("Objects", obj => obj.name === "abbott bottom right")
+    gameState.altonTL = map.findObject("Objects", obj => obj.name === "alton top left")
+    gameState.altonBR = map.findObject("Objects", obj => obj.name === "alton bottom right")
+    gameState.saginawTL = map.findObject("Objects", obj => obj.name === "saginaw top left")
+    gameState.saginawBR = map.findObject("Objects", obj => obj.name === "saginaw bottom right")
+    gameState.macTL = map.findObject("Objects", obj => obj.name === "mac top left")
+    gameState.macBR = map.findObject("Objects", obj => obj.name === "mac bottom right")
+    gameState.divisionTL = map.findObject("Objects", obj => obj.name === "division top left")
+    gameState.divisionBR = map.findObject("Objects", obj => obj.name === "division bottom right")
+    gameState.woodsTL = map.findObject("Objects", obj => obj.name === "woods top left")
+    gameState.woodsBR = map.findObject("Objects", obj => obj.name === "woods bottom right")
+    gameState.marathonTL = map.findObject("Objects", obj => obj.name === "marathon top left")
+    gameState.marathonBR = map.findObject("Objects", obj => obj.name === "marathon bottom right")
+    gameState.poolTL = map.findObject("Objects", obj => obj.name === "pool top left")
+    gameState.poolBR = map.findObject("Objects", obj => obj.name === "pool bottom right")
+    gameState.volleyballTL = map.findObject("Objects", obj => obj.name === "volleyball top left")
+    gameState.volleyballBR = map.findObject("Objects", obj => obj.name === "volleyball bottom right")
+
     canjam = this.physics.add.sprite(VolleyballNetSpawnPoint.x + 170, VolleyballNetSpawnPoint.y - 200, 'canjam-0');
     canjam.setScale(.1)
 
@@ -784,6 +827,7 @@ var LightWorld = new Phaser.Class({
     });
     adeline.anims.play('adeline_party', true)
 
+    /*
     dancingGirl = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 165, BurchamPoolSpawnPoint.y + 280, 'dancinggirl');
     dancingGirl.setScale(.35)
     dancingGirl.body.immovable = true;
@@ -798,6 +842,7 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
     dancingGirl.anims.play('dancinggirldancing', true)
+    */
 
     yogamat = this.add.image(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 220 + 10, 'yogamat');
     yogagirl = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 220 - 7, 'yogagirl');
@@ -827,6 +872,9 @@ var LightWorld = new Phaser.Class({
       child.body.immovable = true;
       child.body.moves = false;
     });
+
+    flowers = this.physics.add.sprite(gameState.altonBR.x-16, gameState.altonBR.y+16, 'flowers');
+    flowers.setScale(.3);
 
     liquor = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 25 + 64, BurchamPoolSpawnPoint.y + 300 + 5, 'liquor');
     liquor.setScale(.1);
@@ -1024,7 +1072,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(bennett, al);
     //collisions with pool chairs
     this.physics.add.collider(me, goalieZone);
-    this.physics.add.collider(me, dancingGirl);
+    //this.physics.add.collider(me, dancingGirl);
     this.physics.add.collider(me, yogagirl);
     this.physics.add.collider(me, adeline);
     //this.physics.add.collider(me,bikinigirl2);
@@ -1054,7 +1102,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(me, beachball);
     this.physics.add.collider(me, oghomeboy);
     this.physics.add.collider(me, james);
-    this.physics.add.collider(me, joe);
+    //this.physics.add.collider(me, joe);
     this.physics.add.collider(me, fratboys);
     //colliders for grls
     this.physics.add.collider(grls, special);
@@ -2270,6 +2318,7 @@ var LightWorld = new Phaser.Class({
         phoneGet = 1;
         gameState.itemget.play();
       } else if (darkWorld === 0 && distance(hausdorf, me) < 30 && worldTheme === 'light') {
+        completeQuest('Robo-Trip')
         darkWorld = 1;
         worldTheme = 'dark';
         zoom = 1
@@ -2282,6 +2331,14 @@ var LightWorld = new Phaser.Class({
         this.message.x = me.x;
         this.message.y = me.y;
         this.scene.scene.events.emit("Message", "You found some liquor", me.x, me.y);
+      } else if (distance(flowers, me) < 40 && flowersGet === 0) {
+        flowers.disableBody(true, true);
+        flowersGet = 1;
+        gameState.itemget.play()
+        this.message.x = me.x;
+        this.message.y = me.y;
+        items.push("Flowers")
+        this.scene.scene.events.emit("Message", "You found some flowers", me.x, me.y);
       } else if (distance(wallet, me) < 30 && walletGet === 0) {
         wallet.disableBody(true, true);
         items.push("Wallet");
@@ -2434,45 +2491,6 @@ var LightWorld = new Phaser.Class({
     this.physics.add.overlap(me, spawns, onMeetEnemy1, false, this);
     this.physics.add.overlap(me, chasersGroup, onMeetEnemy2, false, this);
 
-    //location zone points
-    gameState.clubhouse731TL = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left")
-    gameState.clubhouse731BR = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance bottom right")
-    gameState.clubhousewoodsTL = map.findObject("Objects", obj => obj.name === "burcham woods clubhouse entrance top left")
-    gameState.clubhousewoodsBR = map.findObject("Objects", obj => obj.name === "burcham woods clubhouse entrance bottom right")
-    gameState.burcham731TL = map.findObject("Objects", obj => obj.name === "731 burcham top left")
-    gameState.burcham731BR = map.findObject("Objects", obj => obj.name === "731 burcham bottom right")
-    gameState.burcham711TL = map.findObject("Objects", obj => obj.name === "711 burcham top left")
-    gameState.burcham711BR = map.findObject("Objects", obj => obj.name === "711 burcham bottom right")
-    gameState.burchamwoodsTL = map.findObject("Objects", obj => obj.name === "burcham woods top left")
-    gameState.burchamwoodsBR = map.findObject("Objects", obj => obj.name === "burcham woods bottom right")
-    gameState.burcham787TL = map.findObject("Objects", obj => obj.name === "787 burcham top left")
-    gameState.burcham787BR = map.findObject("Objects", obj => obj.name === "787 burcham bottom right")
-    gameState.highschoolTL = map.findObject("Objects", obj => obj.name === "east lansing high school top left")
-    gameState.highschoolBR = map.findObject("Objects", obj => obj.name === "east lansing high school bottom right")
-    gameState.westburchamroadTL = map.findObject("Objects", obj => obj.name === "west burcham road top left")
-    gameState.westburchamroadBR = map.findObject("Objects", obj => obj.name === "west burcham road bottom right")
-    gameState.eastburchamroadTL = map.findObject("Objects", obj => obj.name === "east burcham road top left")
-    gameState.eastburchamroadBR = map.findObject("Objects", obj => obj.name === "east burcham road bottom right")
-    gameState.churchTL = map.findObject("Objects", obj => obj.name === "st thomas aquinas school top left")
-    gameState.churchBR = map.findObject("Objects", obj => obj.name === "st thomas aquinas school bottom right")
-    gameState.abbottTL = map.findObject("Objects", obj => obj.name === "abbott top left")
-    gameState.abbottBR = map.findObject("Objects", obj => obj.name === "abbott bottom right")
-    gameState.altonTL = map.findObject("Objects", obj => obj.name === "alton top left")
-    gameState.altonBR = map.findObject("Objects", obj => obj.name === "alton bottom right")
-    gameState.saginawTL = map.findObject("Objects", obj => obj.name === "saginaw top left")
-    gameState.saginawBR = map.findObject("Objects", obj => obj.name === "saginaw bottom right")
-    gameState.macTL = map.findObject("Objects", obj => obj.name === "mac top left")
-    gameState.macBR = map.findObject("Objects", obj => obj.name === "mac bottom right")
-    gameState.divisionTL = map.findObject("Objects", obj => obj.name === "division top left")
-    gameState.divisionBR = map.findObject("Objects", obj => obj.name === "division bottom right")
-    gameState.woodsTL = map.findObject("Objects", obj => obj.name === "woods top left")
-    gameState.woodsBR = map.findObject("Objects", obj => obj.name === "woods bottom right")
-    gameState.marathonTL = map.findObject("Objects", obj => obj.name === "marathon top left")
-    gameState.marathonBR = map.findObject("Objects", obj => obj.name === "marathon bottom right")
-    gameState.poolTL = map.findObject("Objects", obj => obj.name === "pool top left")
-    gameState.poolBR = map.findObject("Objects", obj => obj.name === "pool bottom right")
-    gameState.volleyballTL = map.findObject("Objects", obj => obj.name === "volleyball top left")
-    gameState.volleyballBR = map.findObject("Objects", obj => obj.name === "volleyball bottom right")
     this.scene.launch('Navigator');
     //end of create
     this.sys.events.on('wake', this.wake, this);
@@ -2822,9 +2840,9 @@ var LightWorld = new Phaser.Class({
       let firstPage = fetchPage(1400)
       displayPage(this, firstPage)
     }
-    //increase athletics
+    //increase athletics (got rid of this feature... it messes up how you play kick-the-ball after 1.05)
     if (spriteSpeed(me) > 20 && scene_number === 2) {
-      athletics += .00001
+      //athletics += .00001
     }
     //fail to buy weed
     if (buyFailed === 1) {
@@ -3157,16 +3175,43 @@ var LightWorld = new Phaser.Class({
       initializePage(this)
       let page = fetchPage(1500)
       displayPage(this, page)
-      activeQuests["Yoga girl needs blocks"] = "I was talking to this hot girl doing yoga. She was complaining about some stripper and asked if I had any yoga blocks. Maybe she'll give me something cool if I can find some."
-    } else if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 1 && items.includes("Yoga Blocks")) {
-      yogagirlFirstTalk = 1
+      if (!activeQuests["Yoga girl needs blocks"]){
+        activeQuests["Yoga girl needs blocks"] = "I was talking to this hot girl doing yoga. She was complaining about some stripper and asked if I had any yoga blocks. Maybe she'll give me something cool if I can find some."
+      }
+    } else if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 2 && items.includes("Yoga Blocks")) {
+      yogagirlFirstTalk = 2
       initializePage(this)
       let page = fetchPage(1502)
       displayPage(this, page)
-      completeQuest["Yoga girl needs blocks"]
+      completeQuest("Yoga girl needs blocks")
       gameState.itemget.play()
       equipment.push("Gold Duck Tape")
       removeAll(items, "Yoga Blocks")
+    } else if (distance(me, yogagirl) > 200 && yogagirlFirstTalk === 1 ){
+      yogagirlFirstTalk = 2
+    }
+
+    //ai for adeline
+    if (distance(me, adeline) < 30 && adelineFirstTalk === 0 && trevor.following && girl1FirstDialogue >= 1) {
+      console.log(`adeline talking`)
+      adelineFirstTalk = 1
+      initializePage(this)
+      let page = fetchPage(3500)
+      displayPage(this, page)
+      if (!activeQuests["Adeline is pissed"]){
+        activeQuests["Adeline is pissed"] = "My lady friend Adeline is pissed because she heard me hitting on some girls by the pool. I should get her flowers or something... I think I saw some by the road at the Alton and Burcham intersection."
+      }
+    } else if (distance(me, adeline) < 30 && adelineFirstTalk === 2 && items.includes("Flowers")) {
+      adelineFirstTalk = 2
+      initializePage(this)
+      let page = fetchPage(3502)
+      displayPage(this, page)
+      completeQuest("Adeline is pissed")
+      gameState.itemget.play()
+      equipment.push("Camo Duck Tape")
+      removeAll(items, "Flowers")
+    } else if (distance(me, adeline) > 200 && adelineFirstTalk === 1 ){
+      adelineFirstTalk = 2
     }
 
     //dialogue ai for girl1 (Jennay)
@@ -3183,7 +3228,7 @@ var LightWorld = new Phaser.Class({
       let firstPage = fetchPage(121)
       displayPage(this, firstPage)
       girl1FirstDialogue = 2
-      completeQuest["Girls Wanna Play Volleyball"]
+      completeQuest("Girls Wanna Play Volleyball")
     }
     //dialogue ai for girl4 (colleen)
     else if (distance(me, girl4) < 20 && girl4FirstDialogue === 0 && trevor.joinParameter && !items.includes("Gram of Coke")) {
@@ -3252,7 +3297,7 @@ var LightWorld = new Phaser.Class({
       girl4.disableBody(true, true)
       liquor.disableBody(true, true)
       adeline.disableBody(true, true)
-      dancingGirl.disableBody(true, true)
+      //dancingGirl.disableBody(true, true)
     } else if (trevor.joinParameter) {
       girl1.enableBody(true, gameState.Girl1SpawnPoint.x, gameState.Girl1SpawnPoint.y, true, true);
       girl3.enableBody(true, gameState.Girl3SpawnPoint.x + 4, gameState.Girl3SpawnPoint.y, true, true);
@@ -3266,7 +3311,7 @@ var LightWorld = new Phaser.Class({
       yogagirl.enableBody(true, adeline.x - 3 * 32, adeline.y - 19 * 32, true, true);
       yogamat.x = yogagirl.x;
       yogamat.y = yogagirl.y + 20;
-      dancingGirl.enableBody(true, dancingGirl.x, dancingGirl.y, true, true);
+      //dancingGirl.enableBody(true, dancingGirl.x, dancingGirl.y, true, true);
     }
 
     //dialogue for finding phone and wallet
@@ -3283,6 +3328,7 @@ var LightWorld = new Phaser.Class({
 
     //dialogue for finding Keys
     if (phoneGet + walletGet + keysGet === 5) {
+      completeQuest('Find Your Shit')
       completeQuest("Gotta Find My Keys")
       keysGet += 1;
       activeQuests["Gotta Find My Car"] = "I found my keys in the woods, but now I don't know where my damn car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
@@ -3299,6 +3345,7 @@ var LightWorld = new Phaser.Class({
       let page = fetchPage(7)
       displayPage(this, page)
       firstTimeCarGet = 1
+      completeQuest("Gotta Find My Car")
       activeQuests["Go to the Gas Station"] = "I found my car, hell yeah. I should go to the gas station and pick up some gatorades and monsters. I'm prolly almost out of gas too."
     }
 
@@ -3375,19 +3422,27 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for joe
-    if (distance(joe, me) < 1000) {
-      if (distance(joe, me) < 200 && distance(joe, me) > 50) {
-        joe.chase(me, .5)
+    if (trevor.following) {
+      joe.body.setCircle(60);
+      joe.body.setOffset(60, 120);
+      if (distance(joe, ball) > 300) {
+        joe.disableBody(true, true)
+        joe.enableBody(true, ball.x + Phaser.Math.FloatBetween(-150, 150), ball.y + Phaser.Math.FloatBetween(-100, 100), true, true);
       }
-      if (distance(joe, ball) < 300) {
-        joe.chase(ball, 2)
+      joe.chase(ball, 2)
+    }
+    if (distance(joe, me) < 1000) {
+      if (distance(joe, me) < 200 && distance(joe, me) > 50 && !trevor.following) {
+        joe.chase(me, .5)
       }
       if (distance(joe, volleyball) < 300) {
         joe.chase(volleyball, 3)
       }
       joe.animate();
       joe.getUnstuck();
-      joe.randomWalk()
+      if (!trevor.following){
+        joe.randomWalk()
+      }
 
       if (distance(me, joe) < 30 && joeFirstTalk === 0) {
         initializePage(this)
@@ -3853,6 +3908,7 @@ var LightWorld = new Phaser.Class({
     //player controls and animations
     me.body.setVelocity(0);
     //pointer controls
+    /*
     if (playerTexture === 0 && gameState.pointer.isDown) {
       var pointerLoc = [Number(gameState.pointer.downX), Number(gameState.pointer.downY)]
       var screenCenter = [Number(600), Number(300)]
@@ -3895,10 +3951,8 @@ var LightWorld = new Phaser.Class({
           me.anims.play('rightsprint', true);
         }
       }
-      if (me.body.velocity.x === 0 && me.body.velocity.y === 0) {
-        me.anims.play('turn', true)
-      }
     }
+    */
 
     if (playerTexture === 0 && inPool === false) {
       // player Horizontal movement

@@ -179,13 +179,13 @@ const pages = [{
   {
     character: 'me',
     page: 25,
-    narrative: "Jimmy: Huhuh shiiiiit that wasn't very good.",
+    narrative: "Jimmy: Huhuh shiiiiit that wasn't very good. You must be damn hungover shiit usually you kick ass at kick-the-ball.",
     options: [{
       option: 'God Damn it',
       nextPage: undefined,
     },
     {
-      option: 'What do I do?',
+      option: 'Kick-the-ball?',
       nextPage: 26,
     },]
   },
@@ -1644,6 +1644,26 @@ const pages = [{
       option: 'Shiiit',
       nextPage: undefined,
       aftermath: jamesGive
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 3500,
+    narrative: `Adeline: Alex I heard you talking to those girls! I am so pissed at you I am never talking to you ever again!!`,
+    options: [{
+      option: 'Shiiit',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 3502,
+    narrative: `Adeline: Aww you brought me flowers?? That is so nice, you are the best! Here, you can have this camo duck tape, I actually bought it for you but I was so mad I was gonna just throw it away...`,
+    options: [{
+      option: 'Hell yeah',
+      nextPage: undefined,
     },]
   },
 
