@@ -1571,6 +1571,40 @@ const pages = [{
 
   {
     character: 'me',
+    page: 4010,
+    narrative: `Alana: You never called me back you asshole. Whatever like I have a boyfriend now and he's in a frat.`,
+    options: [{
+      option: 'Shiiit',
+      nextPage: undefined,
+    },
+    {
+      option: `Lol where's he at?`,
+      nextPage: 4011,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 4011,
+    narrative: `Alana: Shut up!!!`,
+    options: [{
+      option: 'You using these blocks?',
+      nextPage: 4012,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 4012,
+    narrative: `Alana: Like yes like go away!!!`,
+    options: [{
+      option: 'Shiiit',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
     page: 3014,
     narrative: `Joe: Yo you ain't got 2 bucks shiiiit...`,
     options: [{

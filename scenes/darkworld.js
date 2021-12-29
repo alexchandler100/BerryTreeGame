@@ -68,11 +68,13 @@ var DarkWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 300
       });
-    this.load.image("tuxmon-tiles", "assets/tilesets/tuxmon-sample-32px.png");
-    this.load.image("elTiles", "assets/tilesets/ff6_town_city_32px.png");
-    this.load.image("carTiles", "assets/tilesets/car_tiles.png");
-    this.load.tilemapTiledJSON("map", "assets/east_lansing.json");
-    this.load.tilemapTiledJSON("dark_map", "assets/dark_east_lansing.json");
+      this.load.image("tuxmon-tiles", "assets/tilesets/tuxmon-sample-32px.png");
+      this.load.image("buildings1", "assets/tilesets/buildings1.png");
+      this.load.image("elTiles", "assets/tilesets/el_tileset_custom.png");
+      this.load.image("buildingTiles", "assets/tilesets/buildings_custom.png");
+      this.load.image("elTiles2", "assets/tilesets/[Base]BaseChip_pipo.png");
+      this.load.image("carTiles", "assets/tilesets/car_tiles.png");
+    this.load.tilemapTiledJSON("dark_map", "assets/dark_east_lansing2.json");
   },
   create: function() {
     this.cameras.main.zoom = 2;
@@ -86,11 +88,14 @@ var DarkWorld = new Phaser.Class({
         key: "dark_map"
       });
 
-    const tileset1Dark = mapDark.addTilesetImage("tuxmon-sample-32px", "tuxmon-tiles");
-    const tileset2Dark = mapDark.addTilesetImage("ff6_town_city_32px", "elTiles");
-    const tileset3Dark = mapDark.addTilesetImage("car_tiles", "carTiles");
-    const belowDark = mapDark.createDynamicLayer("Below", tileset2Dark, 0, 0);
-    const buildingtopsDark = mapDark.createDynamicLayer("BuildingTops", tileset1Dark, 0, 0);
+      const tileset1Dark = mapDark.addTilesetImage("tuxmon-sample-32px", "tuxmon-tiles");
+      const tileset2Dark = mapDark.addTilesetImage("el_tileset_custom", "elTiles")
+      const tileset33Dark = mapDark.addTilesetImage("buildings_custom", "buildingTiles")
+      const tileset22Dark = mapDark.addTilesetImage("[Base]BaseChip_pipo", "elTiles2")
+      const tileset3Dark = mapDark.addTilesetImage("car_tiles", "carTiles");
+      const tileset4Dark = mapDark.addTilesetImage("buildings1", "buildings1");
+      const belowDark = mapDark.createDynamicLayer("Below2", tileset2Dark, 0, 0);
+      const buildingtopsDark = mapDark.createDynamicLayer("BuildingTops", tileset1Dark, 0, 0);
 
     //spawning objects
     const DioShrineSpawnPoint = mapDark.findObject("Objects", obj => obj.name === "dioshrine spawn point");
@@ -99,8 +104,12 @@ var DarkWorld = new Phaser.Class({
     dioshrine.setScale(.12)
 
     //spawning map layers which are under player
+
+    //spawning map layers which are under player and npcs (should this be static? fix needed...)
     const worldDark = mapDark.createDynamicLayer("World", tileset1Dark, 0, 0);
-    const specialDark = mapDark.createStaticLayer("Special", tileset1Dark, 0, 0);
+    const world3Dark = mapDark.createDynamicLayer("World3", tileset33Dark, 0, 0);
+    const world2Dark = mapDark.createDynamicLayer("World2", tileset22Dark, 0, 0);
+    const specialDark = mapDark.createStaticLayer("Special", tileset4Dark, 0, 0);
     const carsDark = mapDark.createStaticLayer("Cars", tileset3Dark, 0, 0);
 
     //tinting for tiles
@@ -130,13 +139,24 @@ var DarkWorld = new Phaser.Class({
     meDark.body.setSize(70, 90);
     meDark.body.setOffset(60, 100);
 
-    const aboveDark = mapDark.createStaticLayer("Above", tileset1Dark, 0, 0);
-    // create a property for tiles in Tiled called ''collides'' in the tileset editor
-    // and set the tiles you wish to collide to 'true'
+    const aboveDark = mapDark.createStaticLayer("Above", tileset2Dark, 0, 0);
+    // create a boolean for tiles in Tiled called ''collides'' in the tileset editor and set collides = 'true'
     worldDark.setCollisionByProperty({
       collides: true
     });
+    world2Dark.setCollisionByProperty({
+      collides: true
+    });
+    world3Dark.setCollisionByProperty({
+      collides: true
+    });
     carsDark.setCollisionByProperty({
+      collides: true
+    });
+    specialDark.setCollisionByProperty({
+      collides: true
+    });
+    aboveDark.setCollisionByProperty({
       collides: true
     });
 

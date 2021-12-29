@@ -512,6 +512,13 @@ var MyApartment = new Phaser.Class({
     yogaBlocks = this.physics.add.sprite(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800, 'yogaBlocks');
     yogaBlocks.setScale(.3);
 
+    blondeApt = this.physics.add.sprite(gameStateApt.elevatorDownstairs.x+32, gameStateApt.elevatorDownstairs.y-800-32, 'blonde');
+    blondeApt.setScale(.5);
+    blondeApt.body.setSize(80, 50);
+    blondeApt.body.setOffset(0, 52);
+    blondeApt.anims.play('blondeJumping', true);
+    blondeApt.body.immovable = true;
+
     console.log(`indoor zone: ${indoorZone}`)
     if (indoorZone === 'myApartment') {
       gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
@@ -537,7 +544,9 @@ var MyApartment = new Phaser.Class({
     joeApt.body.setSize(80, 50);
     joeApt.body.setOffset(60, 140);
 
+
     //collisions with walls and stuff
+    this.physics.add.collider(meApt, blondeApt);
     this.physics.add.collider(meApt, under0room);
     this.physics.add.collider(meApt, over1interiors);
     this.physics.add.collider(meApt, over2interiors);
@@ -1214,6 +1223,14 @@ var MyApartment = new Phaser.Class({
           twoballscore = 0
         }
       }
+    }
+    if (distance(meApt, blondeApt) < 20 && blondeTalk === false) {
+      blondeTalk = true;
+      initializePageApt(this);
+      let firstPage = fetchPageApt(4010);
+      displayPageApt(this, firstPage);
+    } else if (distance(meApt, blondeApt) > 40) {
+      blondeTalk = false
     }
     if (distance(meApt, joeApt) < 10 && joePoolTalk === false) {
       joePoolTalk = true;

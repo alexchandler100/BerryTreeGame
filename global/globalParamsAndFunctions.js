@@ -11,11 +11,12 @@ let _timerStart = false
 //dialogue parameters
 let activeQuests = {
   'Find Your Shit': 'You got all drunk last night and lost your keys, phone, and wallet. Seems like you probably left them somewhere at 731 Burcham Apartments.',
-  'Robo-Trip': 'Today would be a real good day to get some tussin. Nothing to do, might as well fuck with some tussin.',
+  'Robo-Trip': 'Today would be a real good day to get some tussin. Nothing to do, might as well fuck with some tussin. I feel like I had some last night on the high school roof but never drank it. Maybe its still up there...',
 }
 let completedQuests = {
   'Wake Up': 'Well you did do one thing so far. Good job.',
 }
+let blondeTalk=false;
 let carCrashDialogue = false;
 let adventure = 0;
 let gasAlert = 0;
@@ -506,7 +507,8 @@ let equipmentTypes = {
   "Brass Knuckles": "accessory",
   "Sprinting Shoes": "accessory",
   "Camo Duck Tape": "accessory",
-  "Gold Duck Tape": "accessory"
+  "Gold Duck Tape": "accessory",
+  "Dio Band": "accessory"
 }
 let equipmentList = {
   "Camo T-Shirt": camoTshirt,
@@ -526,6 +528,7 @@ let equipmentList = {
   "Brass Knuckles": brassKnuckles,
   "Gold Duck Tape": goldDuckTape,
   "Camo Duck Tape": camoDuckTape,
+  "Dio Band": dioBand,
   "Sprinting Shoes": sprintingShoes,
 }
 let equipmentDescriptions = {
@@ -625,6 +628,12 @@ let equipmentDescriptions = {
     effect: "Prevents Bleeding",
     color: '#fff'
   },
+  "Dio Band": {
+    type: "Accessory",
+    def: 30,
+    effect: "An Unholy Relic. Prevents Bleeding, Prevents Blindness",
+    color: '#fff'
+  },
   "Camo Duck Tape": {
     type: "Accessory",
     def: 0,
@@ -634,7 +643,7 @@ let equipmentDescriptions = {
   "Sprinting Shoes": {
     type: "Accessory",
     def: 0,
-    effect: "Athletics +.2",
+    effect: "Athletics +.25",
     color: '#fff'
   },
 }
@@ -653,9 +662,9 @@ function giveCrackhead1() {
 
 function sprintingShoes(player, bool) {
   if (bool === true) {
-    athletics += .2
+    athletics += .25
   } else {
-    athletics -= .2
+    athletics -= .25
   }
 }
 
@@ -672,6 +681,18 @@ function goldDuckTape(player, bool) {
     bleedProofObject[player]=true
   } else {
     bleedProofObject[player]=false
+  }
+}
+
+function dioBand(player, bool) {
+  if (bool === true) {
+    bleedProofObject[player]=true
+    blindProofObject[player]=true
+    damageObject[player] += 30
+  } else {
+    bleedProofObject[player]=false
+    blindProofObject[player]=false
+    damageObject[player] -= 30
   }
 }
 
@@ -1189,6 +1210,7 @@ function buyWeed() {
     money -= 10;
     items.push('Weed (2g)')
     gameState.itemget.play();
+    completeQuest('Get Weed From OG Homeboy')
   } else {
     buyFailed = 1
   }

@@ -878,13 +878,13 @@ var BattleScene = new Phaser.Class({
       this.add.image(0, -125, `background${battleBackgroundIndex}`).setOrigin(0, 0);
     }
     if (bossBattle && bossType === 'darkboy') {
-      gameStateBattle.enem1 = new Enemy(this, 450, 250, 'darkboy2', null, 'Dark Boy 2', 800, 50);
+      gameStateBattle.enem1 = new Enemy(this, 450, 250, 'darkboy2', null, 'Dark Boy 2', 600, 20);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'dio') {
-      gameStateBattle.enem1 = new Enemy(this, 250, 100, 'dio', null, 'Dio', 1500, 80);
+      gameStateBattle.enem1 = new Enemy(this, 250, 100, 'dio', null, 'Dio', 1200, 40);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'fratboy2prime') {
-      gameStateBattle.enem1 = new Enemy(this, 120, 200, 'fratboy2prime', null, 'StabBoy 2', 400, 60);
+      gameStateBattle.enem1 = new Enemy(this, 120, 200, 'fratboy2prime', null, 'StabBoy 2', 600, 50);
       this.add.existing(gameStateBattle.enem1);
       gameStateBattle.enem4 = new Enemy(this, 250, 275, enems[5][0], null, enems[5][1], enems[5][2] + 3 * (levelObject['Mac'] - 1), enems[5][3] + enems[5][3]/2 * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem4);
@@ -1141,7 +1141,7 @@ var BattleScene = new Phaser.Class({
         }
       };
     }
-    exp/=2
+    exp*=2/3
     exp=Math.floor(exp)
     for (let i = 0; i < this.heroes.length; i++) {
       expObject[this.heroes[i].type] += exp;

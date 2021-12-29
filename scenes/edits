@@ -1,9 +1,0 @@
-else if (distance(flowers, me) < 40 && flowersGet === 0) {
-  flowers.disableBody(true, true);
-  flowersGet = 1;
-  gameState.itemget.play()
-  this.message.x = me.x;
-  this.message.y = me.y;
-  items.push("Flowers")
-  this.scene.scene.events.emit("Message", "You found some flowers", me.x, me.y);
-}

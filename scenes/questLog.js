@@ -118,8 +118,8 @@ var QuestLog = new Phaser.Class({
     gameState10.tempText.visible=false;
 
     this.input.on('pointerover', function (pointer, justOver) {
-        gameState10.tempBackground.x=pointer.x+15;
-        gameState10.tempBackground.y=pointer.y-15;
+        gameState10.tempBackground.x=pointer.x;
+        gameState10.tempBackground.y=pointer.y-50;
         gameState10.tempBackground.visible=true;
         gameState10.tempText.visible=true;
         gameState10.tempText.setText(activeQuests[justOver[0].name]);

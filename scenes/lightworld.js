@@ -277,7 +277,6 @@ var LightWorld = new Phaser.Class({
     this.load.image('quil', "assets/quil.png");
     this.load.image('dioshrine', "assets/dio_statue.png");
     this.load.image('car_keys', "assets/car_keys.png");
-    this.load.image('blonde', "assets/blonde.png");
     //this.load.image('girl3', "assets/girl3.png");
     this.load.image('girl4', "assets/girl4.png");
     this.load.image('net', "assets/net.png");
@@ -297,6 +296,11 @@ var LightWorld = new Phaser.Class({
         frameWidth: 128,
         frameHeight: 128
       });
+      this.load.spritesheet('blonde',
+        'assets/blonde.png', {
+          frameWidth: 96,
+          frameHeight: 115
+        });
     this.load.spritesheet('stripper',
       'assets/stripper.png', {
         frameWidth: 120,
@@ -483,7 +487,6 @@ var LightWorld = new Phaser.Class({
     this.load.image("elTiles2", "assets/tilesets/[Base]BaseChip_pipo.png");
     this.load.image("carTiles", "assets/tilesets/car_tiles.png");
     this.load.tilemapTiledJSON("map", "assets/east_lansing.json");
-    this.load.tilemapTiledJSON("dark_map", "assets/dark_east_lansing.json");
   },
   create: function() {
     //camera controls
@@ -770,6 +773,29 @@ var LightWorld = new Phaser.Class({
     net.children.iterate(function(child) {
       child.body.immovable = true;
       child.body.moves = false;
+    });
+
+    //canjam animations
+
+    //bldne animations
+
+    this.anims.create({
+      key: 'blnde_turn',
+      frames: this.anims.generateFrameNumbers('blonde', {
+        start: 0,
+        end: 0
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'blondeJumping',
+      frames: this.anims.generateFrameNumbers('blonde', {
+        frames: [1,2,3,2]
+      }),
+      frameRate: 6,
+      repeat: -1
     });
 
     //canjam animations
@@ -1822,17 +1848,7 @@ var LightWorld = new Phaser.Class({
 
 
 
-    //bldne animations
 
-    this.anims.create({
-      key: 'blnde_turn',
-      frames: this.anims.generateFrameNumbers('blonde', {
-        start: 0,
-        end: 0
-      }),
-      frameRate: 2,
-      repeat: -1
-    });
 
     //trevor animations
 
@@ -2319,6 +2335,7 @@ var LightWorld = new Phaser.Class({
         gameState.itemget.play();
       } else if (darkWorld === 0 && distance(hausdorf, me) < 30 && worldTheme === 'light') {
         completeQuest('Robo-Trip')
+        completeQuest('High School Roof')
         darkWorld = 1;
         worldTheme = 'dark';
         zoom = 1
@@ -3215,14 +3232,14 @@ var LightWorld = new Phaser.Class({
     }
 
     //dialogue ai for girl1 (Jennay)
-    if (distance(me, girl1) < 20 && girl1FirstDialogue === 0 && distance(girl1, volleyball) > 300 && trevor.joinParameter) {
+    if (distance(me, girl1) < 10 && girl1FirstDialogue === 0 && distance(girl1, volleyball) > 300 && trevor.joinParameter) {
       gameState.hello.play()
       initializePage(this)
       let firstPage = fetchPage(120)
       displayPage(this, firstPage)
       girl1FirstDialogue = 1
       activeQuests["Girls Wanna Play Volleyball"] = "Jennay wants me to get the volleyball so they can play. She said some crazy guy grabbed it and headed to the field behind 731 Burcham and St. Aquinas. Prolly Homeboy Jon, shiiit."
-    } else if (distance(me, girl1) < 20 && distance(girl1, volleyball) < 300 && girl1FirstDialogue === 1 && trevor.joinParameter) {
+    } else if (distance(me, girl1) < 10 && distance(girl1, volleyball) < 300 && girl1FirstDialogue === 1 && trevor.joinParameter) {
       gameState.ooo.play()
       initializePage(this)
       let firstPage = fetchPage(121)
@@ -3231,13 +3248,13 @@ var LightWorld = new Phaser.Class({
       completeQuest("Girls Wanna Play Volleyball")
     }
     //dialogue ai for girl4 (colleen)
-    else if (distance(me, girl4) < 20 && girl4FirstDialogue === 0 && trevor.joinParameter && !items.includes("Gram of Coke")) {
+    else if (distance(me, girl4) < 10 && girl4FirstDialogue === 0 && trevor.joinParameter && !items.includes("Gram of Coke")) {
       gameState.wutt.play()
       initializePage(this)
       let firstPage = fetchPage(130)
       displayPage(this, firstPage)
       girl4FirstDialogue = 1
-    } else if (distance(me, girl4) < 20 && girl4FirstDialogue === 2 && trevor.joinParameter) {
+    } else if (distance(me, girl4) < 10 && girl4FirstDialogue === 2 && trevor.joinParameter) {
       gameState.wutt.play()
       initializePage(this)
       let firstPage = fetchPage(136)
@@ -3249,14 +3266,14 @@ var LightWorld = new Phaser.Class({
       girl4FirstDialogue = 2
     }
     //dialogue ai for girl2
-    else if (distance(me, girl2) < 20 && girl2FirstDialogue === 0 && trevor.joinParameter) {
+    else if (distance(me, girl2) < 10 && girl2FirstDialogue === 0 && trevor.joinParameter) {
       gameState.heyy.play()
       initializePage(this)
       let firstPage = fetchPage(98)
       displayPage(this, firstPage)
       girl2FirstDialogue = 1
       activeQuests["Becca Wants Some Smokes"] = "Becca seems drunk and asked me to get some smokes. She gave me about 3.50$. I can usually get some for free from Homeboy Jon. I wonder where he is..."
-    } else if (distance(me, girl1) < 20 && girl2FirstDialogue === 1 && items.includes('Marlboro lights') && trevor.joinParameter) {
+    } else if (distance(me, girl1) < 10 && girl2FirstDialogue === 1 && items.includes('Marlboro lights') && trevor.joinParameter) {
       //hamms -= 2
       initializePage(this)
       let firstPage = fetchPage(110)
@@ -3418,6 +3435,7 @@ var LightWorld = new Phaser.Class({
         let page = fetchPage(40)
         displayPage(this, page)
         jamesFirstTalk = 1
+        activeQuests['High School Roof']='James said he saw some lights or aliens or something up on the high school roof. He is most likely just high as shit but I may as well get up there anyway.'
       }
     }
 
@@ -3558,6 +3576,7 @@ var LightWorld = new Phaser.Class({
         initializePage(this)
         let page = fetchPage(80)
         displayPage(this, page)
+        activeQuests['Get Weed From OG Homeboy']='I ran into OG homeboy in the woods. He said if I can beat his high score on his video game, I can get a discount on weed (2g for 10 bucks).'
       } else if (distance(me, oghomeboy) > 200) {
         ogFirstTalk = 0
       }
@@ -3651,6 +3670,7 @@ var LightWorld = new Phaser.Class({
         initializePage(this)
         let page = fetchPage(70)
         displayPage(this, page)
+        activeQuests["Score Goals on Homeboy Jon"]='I found homeboy Jon in the field behind 731. He said if I can score a goal on him he will give me smokes. If I score on his GOD MODE he might give me something real good.'
         jonFirstTalk = 1
         jon.y = gameState.JonSpawnPoint.y - 60
         volleyball.enableBody(true, gameState.VolleyballSpawnPoint.x - 32, gameState.VolleyballSpawnPoint.y - 250, true, true);
@@ -3707,6 +3727,7 @@ var LightWorld = new Phaser.Class({
           initializePage(this)
           let page = fetchPage(76)
           displayPage(this, page)
+          completeQuest("Score Goals on Homeboy Jon")
           jon.y = gameState.JonSpawnPoint.y - 60
           volleyballScore = 5.5
           jonChaseX -= 20 //makes him easier to score on
@@ -3749,8 +3770,12 @@ var LightWorld = new Phaser.Class({
         crackhead.anims.play('crackheadleft', true)
       }
       if (distance(me, crackhead) < 30 && crackheadFirstTalk === 0) {
+        if (!activeQuests["Crackhead wants some change"]){
+          activeQuests["Crackhead wants some change"]='That one crackhead wants some money. He says he needs 10 bucks. Maybe if I give it to him, he will help me out instead of attacking me all the time...'
+        }
         gameState.iwantsomecrack.play()
         if (moneyToCrackhead >= 10 && crackheadFirstJoin) {
+          completeQuest("Crackhead wants some change")
           crackheadJoin = true;
           crackheadFirstJoin = false;
           crackheadFirstTalk = 1
