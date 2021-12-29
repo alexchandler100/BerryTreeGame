@@ -521,7 +521,7 @@ const pages = [{
   {
     character: 'me',
     page: 84,
-    narrative: "Original Homeboy: Shit... maybe but first you gotta beat this high score on this video game I got man. I can't get past 40 its driving me fucking CRAZY DUDE...",
+    narrative: "Original Homeboy: Shit... maybe but first you gotta beat this high score on this video game I got man. I can't get past 55 its driving me fucking CRAZY DUDE...",
     options: [{
       option: 'tight',
       nextPage: undefined,

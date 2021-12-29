@@ -1,6 +1,6 @@
 const gameStateHB = {};
 
-let highScore = 40;
+let highScore = 55;
 let score = 0;
 let buzz = 1;
 let health = 2;
@@ -176,7 +176,7 @@ var HomeboyGame = new Phaser.Class({
       fill: '#001'
     });
 
-    highScoreText = this.add.text(1050, 40, `PBR: ${highScore}`, {
+    highScoreText = this.add.text(1050, 55, `PBR: ${highScore}`, {
       fontSize: '25px',
       fill: '#001'
     });

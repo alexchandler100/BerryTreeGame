@@ -860,9 +860,9 @@ var BattleScene = new Phaser.Class({
     const enems = [
       ['crackhead', 'Crackhead', 1, 15, crackhead, 'crackheadright'],
       ['ex_junkie', 'Ex Junkie', 30, 8, ex_junkie, 'ex_junkieright'],
-      ['junkie', 'Junkie', 40, 6, junkie, 'junkieright'],
-      ['fratboy1', 'Frat Boy 1', 65, 6, fratboy1, 'frat1right'],
-      ['fratboy2', 'Frat Boy 2', 20, 7, fratboy2, 'frat2right'],
+      ['junkie', 'Junkie', 40, 8, junkie, 'junkieright'],
+      ['fratboy1', 'Frat Boy 1', 65, 8, fratboy1, 'frat1right'],
+      ['fratboy2', 'Frat Boy 2', 20, 8, fratboy2, 'frat2right'],
       ['fratboy3', 'Frat Boy 3', 30, 8, fratboy3, 'frat3right'],
       ['fratboy4', 'Frat Boy 4', 20, 10, fratboy4, 'frat4right'],
     ]
@@ -878,7 +878,7 @@ var BattleScene = new Phaser.Class({
       this.add.image(0, -125, `background${battleBackgroundIndex}`).setOrigin(0, 0);
     }
     if (bossBattle && bossType === 'darkboy') {
-      gameStateBattle.enem1 = new Enemy(this, 450, 250, 'darkboy2', null, 'Dark Boy 2', 600, 20);
+      gameStateBattle.enem1 = new Enemy(this, 450, 250, 'darkboy2', null, 'Dark Boy 2', 1000, 20);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'dio') {
       gameStateBattle.enem1 = new Enemy(this, 250, 100, 'dio', null, 'Dio', 1200, 40);
