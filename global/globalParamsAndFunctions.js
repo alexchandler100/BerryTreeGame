@@ -1206,7 +1206,7 @@ function spriteSpeed(obj) {
 
 //to buy from homeboy
 function buyWeed() {
-  if (money >= 10 && highScore > 55) {
+  if (money >= 10 && highScore > 70) {
     money -= 10;
     items.push('Weed (2g)')
     gameState.itemget.play();

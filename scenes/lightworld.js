@@ -1234,12 +1234,6 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(james, cars)
     this.physics.add.collider(james, jon)
     //colliders for car
-    this.physics.add.collider(car, ball)
-    this.physics.add.collider(car, volleyball)
-    this.physics.add.collider(car, joe)
-    this.physics.add.collider(car, trevor)
-    this.physics.add.collider(car, jon)
-    this.physics.add.collider(car, james)
     this.physics.add.collider(car, world)
     this.physics.add.collider(car, world2)
     this.physics.add.collider(car, world3)

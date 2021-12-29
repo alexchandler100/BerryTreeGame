@@ -16,7 +16,7 @@ const pages = [{
   {
     character: 'me',
     page: 2,
-    narrative: `I just remember playing volleyball... I bet if I can keep that ball away from Jimmy for long enough, he'll help me out`,
+    narrative: `I just remember playing volleyball... I bet if I can keep that ball away from Jimmy for long enough, he'll help me out.`,
     options: [{
         option: 'Controls?',
         nextPage: 3
@@ -62,7 +62,7 @@ const pages = [{
   {
     character: 'me',
     page: 9,
-    narrative: 'WATCH YOUR STAMINA BAR! IF IT DROPS BELOW 30 PERCENT, YOU WILL NOT BE ABLE TO RUN, AND YOUR PARTY DOES LESS DAMAGE AND LANDS LESS OFTEN IN BATTLE.',
+    narrative: 'WATCH YOUR STAMINA BAR! IF IT DROPS BELOW 30 PERCENT, YOUR PARTY DOES LESS DAMAGE AND LANDS LESS OFTEN IN BATTLE.',
     options: [{
       option: 'Right on',
       nextPage: undefined
@@ -87,7 +87,7 @@ const pages = [{
   {
     character: 'me',
     page: 5,
-    narrative: "Alright, got my wallet and my phone at least. Damnnn I got about 3.50 in here, tight. Shiit. Now where the fuck my keys at?",
+    narrative: "Alright, got my wallet and my phone at least. Got about 3.50 in here. Now where the fuck are my keys at?",
     options: [{
         option: 'In the woods?',
         nextPage: undefined,
@@ -161,7 +161,7 @@ const pages = [{
     page: 23,
     narrative: "Jimmy joins your party. Use the pointer to click on Jimmy, he will follow you and help you fight. If you wish to part ways, just click again on Jimmy. If you get too far away, he will wander off...",
     options: [{
-      option: 'Tight',
+      option: 'Sweet',
       nextPage: undefined,
     }, ]
   },
@@ -171,7 +171,7 @@ const pages = [{
     page: 22,
     narrative: "Jimmy: Dude you got the motha fucking brothers seal. HOLY FUCK! Damnnn theres an insanely awesome pool party?",
     options: [{
-      option: 'Duude',
+      option: 'Hell yeah',
       nextPage: undefined
     }, ]
   },
@@ -448,7 +448,7 @@ const pages = [{
   {
     character: 'me',
     page: 76,
-    narrative: "Homeboy Jon: Damn man you're badass at kick the ball. You earned this shiiiit here you go take it. You can run fast as shit with these.",
+    narrative: "Homeboy Jon: Damn man you're badass at kick-the-ball. You earned this, here you go take it. You can run fast as shit with these.",
     options: [{
       option: 'Sweeet',
       nextPage: undefined,
@@ -459,9 +459,9 @@ const pages = [{
   {
     character: 'me',
     page: 80,
-    narrative: "Original Homeboy: Wanna smoke this bong?",
+    narrative: "Original Homeboy: Wanna smoke this bong? Yoo I got this video game it's pissing me off though man I can't beat it.",
     options: [{
-        option: 'Fuck yeah.',
+        option: 'Gimme that bong.',
         nextPage: 81,
         aftermath: increaseHighnessDialogue
       },
@@ -481,12 +481,12 @@ const pages = [{
     page: 81,
     narrative: "Hit that shiit.",
     options: [{
-        option: 'Gimme that.',
+        option: 'Gimme that',
         nextPage: undefined,
         aftermath: getHigh
       },
       {
-        option: "I'm good man.",
+        option: "Nah I'm good",
         nextPage: undefined,
       },
     ]
@@ -497,7 +497,7 @@ const pages = [{
     page: 82,
     narrative: "Original Homeboy: 20 bucks a gram",
     options: [{
-        option: 'Fuck yeah.',
+        option: 'Fuck yeah',
         nextPage: 83,
       },
       {
@@ -512,7 +512,7 @@ const pages = [{
     page: 83,
     narrative: "Original Homeboy: Here you go man",
     options: [{
-      option: 'aight',
+      option: 'Shiit',
       nextPage: undefined,
       aftermath: buyWeedRipoff
     }, ]
@@ -521,7 +521,7 @@ const pages = [{
   {
     character: 'me',
     page: 84,
-    narrative: "Original Homeboy: Shit... maybe but first you gotta beat this high score on this video game I got man. I can't get past 55 its driving me fucking CRAZY DUDE...",
+    narrative: "Original Homeboy: Shit... maybe but first you gotta beat this high score on this video game I got man. I can't get past 70 its driving me fucking CRAZY DUDE...",
     options: [{
       option: 'tight',
       nextPage: undefined,
@@ -532,7 +532,7 @@ const pages = [{
   {
     character: 'me',
     page: 85,
-    narrative: "Original Homeboy: Uhh looks like you haven't beat 40 points yet... Or maybe you don't have enough money. Somehow I can't tell the difference...",
+    narrative: "Original Homeboy: Uhh looks like you haven't beat 70 points yet... Or maybe you don't have enough money. Somehow I can't tell the difference...",
     options: [{
       option: 'fuuuck',
       nextPage: undefined,
@@ -543,7 +543,7 @@ const pages = [{
   {
     character: 'me',
     page: 86,
-    narrative: "Original Homeboy: You wanna play this video game? I can't FUCKING get past 40 points. Use the left/right keys to move, press up to jump, and press down to smoke your bong and increase your speed.",
+    narrative: "Original Homeboy: I can't FUCKING get past 70 points. Use the left/right keys to move, press up to jump, and press down to smoke your bong and increase your speed.",
     options: [{
       option: 'shiiit hell yeah',
       nextPage: undefined,
@@ -576,11 +576,11 @@ const pages = [{
     page: 98,
     narrative: 'Becca: Hey how did you get in here?',
     options: [{
-        option: 'Shiiiit',
+        option: "Can't tell you",
         nextPage: 99
       },
       {
-        option: 'Secret Entrance.',
+        option: 'Secret Entrance',
         nextPage: 99
       },
     ]
@@ -591,7 +591,7 @@ const pages = [{
     page: 99,
     narrative: 'Becca: So like could you like get us some cigarettes?',
     options: [{
-        option: "I'm busy.",
+        option: "You shouldn't be smoking",
         nextPage: undefined,
         aftermath: upErgh
       },
@@ -606,7 +606,7 @@ const pages = [{
   {
     character: 'me',
     page: 110,
-    narrative: 'McKenzie: Oh my god like thank you so much for bringing us cigarettes.',
+    narrative: 'Becca: Oh my god like thank you so much for bringing us cigarettes.',
     options: [{
         option: 'Anytime',
         nextPage: 112,
@@ -622,7 +622,7 @@ const pages = [{
   {
     character: 'me',
     page: 111,
-    narrative: 'McKenzie: I like totally have a boyfriend.',
+    narrative: 'Becca: I like totally have a boyfriend.',
     options: [{
       option: 'Fuck',
       nextPage: 112
@@ -632,7 +632,7 @@ const pages = [{
   {
     character: 'me',
     page: 112,
-    narrative: 'McKenzie: Anyway, you can like have this.',
+    narrative: 'Becca: Anyway, you can like have this.',
     options: [{
         option: 'Sweeet',
         nextPage: undefined,
@@ -731,7 +731,7 @@ const pages = [{
     page: 134,
     narrative: 'Colleen: Whattttt?',
     options: [{
-      option: 'Wanna bang??',
+      option: 'Bang??',
       nextPage: undefined,
       aftermath: block
     },
@@ -746,7 +746,7 @@ const pages = [{
     page: 135,
     narrative: 'Colleen: Okaayyyyy!!',
     options: [{
-      option: 'Wanna bang??',
+      option: "Let's bang!",
       nextPage: 132,
       aftermath: block
     },
@@ -774,7 +774,7 @@ const pages = [{
   {
     character: 'me',
     page: 137,
-    narrative: 'Colleen: That is not gonna work again... come on!',
+    narrative: "Colleen: Yeah that's not gonna work again... come on!",
     options: [{
       option: 'Shiiiiit',
       nextPage: undefined,
