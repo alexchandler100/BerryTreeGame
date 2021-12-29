@@ -449,7 +449,7 @@ let itemEffects = {
   "Andy Capp's Hot Fries": "SP Max",
   'Labatt Max Ice': "HP +60, SP +15",
   "Monster": "SP +10",
-  "Gatorade": "HP +60",
+  "Gatorade": "HP +60, stamina max",
   "Hamms": "HP +20 SP +5",
   "Larry Special": "HP max SP max",
   "Liquor": "fucks you up",
@@ -643,7 +643,7 @@ let equipmentDescriptions = {
   "Sprinting Shoes": {
     type: "Accessory",
     def: 0,
-    effect: "Athletics +.25",
+    effect: "Athletics +.35",
     color: '#fff'
   },
 }
@@ -662,9 +662,9 @@ function giveCrackhead1() {
 
 function sprintingShoes(player, bool) {
   if (bool === true) {
-    athletics += .25
+    athletics += .35005
   } else {
-    athletics -= .25
+    athletics -= .35005
   }
 }
 
@@ -1001,7 +1001,7 @@ function goInPool() {
 }
 
 function joeTimerStart() {
-  if (money >= 2) {
+  if (money >= 5) {
     _timerStart = true;
     resetTime = true;
     joeBets = true
@@ -1012,7 +1012,7 @@ function joeTimerStart() {
 }
 
 function jamesTimerStart() {
-  if (money >= 1) {
+  if (money >= 3) {
     _timerStart = true;
     resetTime = true;
     jamesBets = true
@@ -1150,7 +1150,7 @@ function joeBorrow() {
 
 //to initiate joe giving you 10 bucks
 function joeGive() {
-  money -= 2;
+  money -= 5;
   gameState.block.play()
 }
 
@@ -1162,7 +1162,7 @@ function jamesBorrow() {
 
 //to initiate joe giving you 10 bucks
 function jamesGive() {
-  money -= 1;
+  money -= 3;
   gameState.block.play()
 }
 
@@ -1247,6 +1247,7 @@ function useItem(object, player) {
       gatorade -= 1
       usable_items["Gatorade"] -= 1
       hpObject[player] += 60
+      stamina = 100
       if (hpObject[player] >= maxHPObject[player]) {
         hpObject[player] = maxHPObject[player]
       }

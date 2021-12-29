@@ -1,7 +1,7 @@
 const pages = [{
     character: 'me',
     page: 1,
-    narrative: "MAN I'm hungover, I need a gatorade and a monster REAL bad. I lost my wallet, my phone, my keys... Man what did I do yesterday? At least I got a few beers left... they're warm as hell though...",
+    narrative: "MAN I'm hungover, I need a gatorade and a monster REAL bad. I lost my wallet, my phone, my keys... Man what did I do yesterday? At least I got a few beers left... they're warm as shit though...",
     options: [{
         option: 'Try to remember',
         nextPage: 2
@@ -644,7 +644,7 @@ const pages = [{
   {
     character: 'me',
     page: 120,
-    narrative: 'Jennay: Can you like get the volleyball? We want to play but like I saw some crazy guy running with it in the field behind St. Thomas Aquinas... just North of 731',
+    narrative: 'Juanita: Can you like get the volleyball? We want to play but like I saw some crazy guy running with it in the field behind St. Thomas Aquinas... just North of 731',
     options: [{
       option: 'Hell yeah.',
       nextPage: undefined,
@@ -655,20 +655,19 @@ const pages = [{
   {
     character: 'me',
     page: 121,
-    narrative: "Jennay: Thank you soo much for like bringing the ball. But we're like too drunk to play now.",
+    narrative: "Juanita: Thank you soo much for like bringing the ball. But we're like too drunk to play now.",
     options: [{
-      option: 'wanna bang?.',
+      option: 'No problem',
       nextPage: 122,
-      aftermath: block
     }, ]
   },
 
   {
     character: 'me',
     page: 122,
-    narrative: 'Jennay: We like all have boyfriends. Anyway... you can like have this thing.',
+    narrative: 'Juanita: Here, I found this at school, you might be able to use it for something.',
     options: [{
-      option: 'God damnit.',
+      option: 'Sweet thanks',
       nextPage: undefined,
       aftermath: getDamageBoost
     }, ]
@@ -1246,7 +1245,7 @@ const pages = [{
   {
     character: 'me',
     page: 1400,
-    narrative: `Seems as if you ain't got no motha fuckin keys... shiiiiiit.`,
+    narrative: `Trying to go in your apartment but... seems as if you ain't got no motha fuckin keys... shiiiiiit.`,
     options: [{
       option: 'Fuck',
       nextPage: undefined,
@@ -1557,7 +1556,7 @@ const pages = [{
   {
     character: 'me',
     page: 3010,
-    narrative: `Joe: Yo I bet you 10 bucks you can't get 4 points in under 2 minutes. If you lose you gotta pay me 2.`,
+    narrative: `Joe: Yo I bet you 10 bucks you can't get 4 points in under 2 minutes. If you lose you gotta pay me 5.`,
     options: [{
       option: 'Nah man',
       nextPage: undefined,
@@ -1606,7 +1605,7 @@ const pages = [{
   {
     character: 'me',
     page: 3014,
-    narrative: `Joe: Yo you ain't got 2 bucks shiiiit...`,
+    narrative: `Joe: Yo you ain't got 5 bucks shiiiit...`,
     options: [{
       option: 'Fuck',
       nextPage: undefined,
@@ -1637,7 +1636,7 @@ const pages = [{
   {
     character: 'me',
     page: 3020,
-    narrative: `James: Yo if you can get 3 points in 3 minutes, I'll give you 5 bucks. Otherwise you give me 1. Deal?`,
+    narrative: `James: Yo if you can get 3 points in 3 minutes, I'll give you 5 bucks. Otherwise you give me 3. Deal?`,
     options: [{
       option: 'Hell yeah',
       nextPage: undefined,
@@ -1652,7 +1651,7 @@ const pages = [{
   {
     character: 'me',
     page: 3024,
-    narrative: `James: You ain't got a buck haha how'd you get so broke...`,
+    narrative: `James: You ain't got 3 bucks haha how'd you get so broke...`,
     options: [{
       option: 'God damn it',
       nextPage: undefined,
@@ -1673,7 +1672,7 @@ const pages = [{
   {
     character: 'me',
     page: 3026,
-    narrative: `James: Haha pretty close but you owe me a dollar.`,
+    narrative: `James: Haha pretty close but you owe me three bucks.`,
     options: [{
       option: 'Shiiit',
       nextPage: undefined,

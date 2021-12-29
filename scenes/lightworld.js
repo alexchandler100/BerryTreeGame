@@ -176,6 +176,7 @@ var LightWorld = new Phaser.Class({
   },
   init: function(data) {},
   wake: function() {
+    this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
     this.scene.sleep("PoolScore");
     if (loadedIndoorsThemes) {
       gameStateApt.indoors0.stop()
@@ -489,6 +490,8 @@ var LightWorld = new Phaser.Class({
     this.load.tilemapTiledJSON("map", "assets/east_lansing.json");
   },
   create: function() {
+    //default pointer
+    this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
     //camera controls
     const camera = this.cameras.main;
     camera.zoom = 2;
@@ -666,6 +669,9 @@ var LightWorld = new Phaser.Class({
     const below = map.createStaticLayer("Below2", tileset2, 0, 0);
     const buildingtops = map.createStaticLayer("BuildingTops", tileset1, 0, 0);
     //defining spawn points
+    gameState.YogaGirlSpawnPoint1 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 1");
+    gameState.YogaGirlSpawnPoint2 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 2");
+
     const NetSpawnPoint = map.findObject("Objects", obj => obj.name === "net spawn point");
     const KeysSpawnPoint = map.findObject("Objects", obj => obj.name === "keys spawn point");
     const PhoneSpawnPoint = map.findObject("Objects", obj => obj.name === "phone spawn point");
@@ -837,9 +843,7 @@ var LightWorld = new Phaser.Class({
     //bikinigirl2=this.physics.add.sprite(BurchamPoolSpawnPoint.x+100+64, BurchamPoolSpawnPoint.y+220+64, 'bikinigirl2')
     //bikinigirl2.angle=180;
     //bikinigirl2.setScale(.23)
-    adeline = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 50 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'adeline');
-    adeline.setScale(.16)
-    adeline.body.immovable = true;
+
     //bikinigirl2.body.immovable = true;
     //adeline anims
     this.anims.create({
@@ -851,7 +855,6 @@ var LightWorld = new Phaser.Class({
       frameRate: 10,
       repeat: -1
     });
-    adeline.anims.play('adeline_party', true)
 
     /*
     dancingGirl = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 165, BurchamPoolSpawnPoint.y + 280, 'dancinggirl');
@@ -871,7 +874,7 @@ var LightWorld = new Phaser.Class({
     */
 
     yogamat = this.add.image(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 220 + 10, 'yogamat');
-    yogagirl = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 220 - 7, 'yogagirl');
+    yogagirl = this.physics.add.sprite(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogagirl');
     yogagirl.setScale(.22)
     yogagirl.body.immovable = true;
     //yogagirl anims
@@ -996,10 +999,17 @@ var LightWorld = new Phaser.Class({
     gameState.Girl3SpawnPoint = map.findObject("Objects", obj => obj.name === "girl3 spawn point");
     gameState.Girl4SpawnPoint = map.findObject("Objects", obj => obj.name === "girl4 spawn point");
     grls = this.physics.add.group();
-    girl1 = grls.create(gameState.Girl1SpawnPoint.x, gameState.Girl1SpawnPoint.y, 'girl1');
+    girl1 = grls.create(gameState.Girl1SpawnPoint.x+20, gameState.Girl1SpawnPoint.y, 'girl1');
     girl3 = grls.create(gameState.Girl3SpawnPoint.x + 4, gameState.Girl3SpawnPoint.y, 'girl3');
     girl4 = grls.create(gameState.Girl4SpawnPoint.x + 7, gameState.Girl4SpawnPoint.y, 'girl4');
     girl2 = grls.create(gameState.Girl2SpawnPoint.x - 5, gameState.Girl2SpawnPoint.y, 'girl2');
+
+    adeline = this.physics.add.sprite(gameState.Girl1SpawnPoint.x-25, gameState.Girl1SpawnPoint.y + 32, 'adeline');
+    adeline.setSize(120, 130);
+    adeline.setOffset(0, 20);
+    adeline.setScale(.16)
+    adeline.body.immovable = true;
+    adeline.anims.play('adeline_party', true)
 
     grls.children.iterate(function(child) {
       child.setCircle(20);
@@ -2532,11 +2542,13 @@ var LightWorld = new Phaser.Class({
       displayPage(this, firstPage);
     }
     //stamina
-    if (playerTexture === 0 && speed === 3 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100) {
+    if (playerTexture === 0 && speed === 3 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
       stamina -= .02
-    } else if (playerTexture === 0 && speed === 4 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100) {
+    } else if (playerTexture === 0 && speed === 4 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
       stamina -= .05
-    } else if (playerTexture === 0 && speed === 1 || me.body.velocity.x ** 2 + me.body.velocity.y ** 2 < 100 ** 2) {
+    } else if (playerTexture === 'race' && speed === 4 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
+      stamina -= .07
+    } else if (playerTexture === 0 && speed === 1 || me.body.velocity.x ** 2 + me.body.velocity.y ** 2 < 100 ** 2 && pause === false) {
       stamina += .07
     }
     if (stamina <= 0) {
@@ -2661,6 +2673,7 @@ var LightWorld = new Phaser.Class({
       initializePage(this);
       let firstPage = fetchPage(37);
       displayPage(this, firstPage);
+      completeQuest('Beat Bennett in a Race')
     } else if (wonRace === 2) {
       wonRace = 0
       playerTexture = 0
@@ -3209,7 +3222,7 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for adeline
-    if (distance(me, adeline) < 30 && adelineFirstTalk === 0 && trevor.following && girl1FirstDialogue >= 1) {
+    if (distance(me, adeline) < 30 && adelineFirstTalk === 0 && trevor.following && girl2FirstDialogue >= 1) {
       console.log(`adeline talking`)
       adelineFirstTalk = 1
       initializePage(this)
@@ -3231,14 +3244,14 @@ var LightWorld = new Phaser.Class({
       adelineFirstTalk = 2
     }
 
-    //dialogue ai for girl1 (Jennay)
+    //dialogue ai for girl1 (Juanita)
     if (distance(me, girl1) < 10 && girl1FirstDialogue === 0 && distance(girl1, volleyball) > 300 && trevor.joinParameter) {
       gameState.hello.play()
       initializePage(this)
       let firstPage = fetchPage(120)
       displayPage(this, firstPage)
       girl1FirstDialogue = 1
-      activeQuests["Girls Wanna Play Volleyball"] = "Jennay wants me to get the volleyball so they can play. She said some crazy guy grabbed it and headed to the field behind 731 Burcham and St. Aquinas. Prolly Homeboy Jon, shiiit."
+      activeQuests["Girls Wanna Play Volleyball"] = "Juanita wants me to get the volleyball so they can play. She said some crazy guy grabbed it and headed to the field behind 731 Burcham and St. Aquinas. Prolly Homeboy Jon, shiiit."
     } else if (distance(me, girl1) < 10 && distance(girl1, volleyball) < 300 && girl1FirstDialogue === 1 && trevor.joinParameter) {
       gameState.ooo.play()
       initializePage(this)
@@ -3273,7 +3286,7 @@ var LightWorld = new Phaser.Class({
       displayPage(this, firstPage)
       girl2FirstDialogue = 1
       activeQuests["Becca Wants Some Smokes"] = "Becca seems drunk and asked me to get some smokes. She gave me about 3.50$. I can usually get some for free from Homeboy Jon. I wonder where he is..."
-    } else if (distance(me, girl1) < 10 && girl2FirstDialogue === 1 && items.includes('Marlboro lights') && trevor.joinParameter) {
+    } else if (distance(me, girl2) < 10 && girl2FirstDialogue === 1 && items.includes('Marlboro lights') && trevor.joinParameter) {
       //hamms -= 2
       initializePage(this)
       let firstPage = fetchPage(110)
@@ -3325,7 +3338,7 @@ var LightWorld = new Phaser.Class({
       }
       adeline.enableBody(true, adeline.x, adeline.y, true, true);
       yogagirl.disableBody(true, true);
-      yogagirl.enableBody(true, adeline.x - 3 * 32, adeline.y - 19 * 32, true, true);
+      yogagirl.enableBody(true, gameState.YogaGirlSpawnPoint2.x, gameState.YogaGirlSpawnPoint2.y, true, true);
       yogamat.x = yogagirl.x;
       yogamat.y = yogagirl.y + 20;
       //dancingGirl.enableBody(true, dancingGirl.x, dancingGirl.y, true, true);
@@ -3486,20 +3499,20 @@ var LightWorld = new Phaser.Class({
       }
       if (bennett.y <= 290 && bennett.y >= 256 && bennett.x >= 96 && bennett.x <= 14528) {
         //bennett.y+=100;
-        bennett.body.velocity.x = 250;
+        bennett.body.velocity.x = 278;
         bennett.body.velocity.y = 0;
       } else if (bennett.y <= 10304 && bennett.y >= 10272 && bennett.x >= 160 && bennett.x <= 14528) {
         //bennett.y+=100;
-        bennett.body.velocity.x = -250;
+        bennett.body.velocity.x = -278;
         bennett.body.velocity.y = 0;
       } else if (bennett.x >= 96 && bennett.x <= 160 && bennett.y >= 256 && bennett.y <= 10304) {
         //bennett.x+=100;
         bennett.body.velocity.x = 0;
-        bennett.body.velocity.y = -250;
+        bennett.body.velocity.y = -278;
       } else if (bennett.x >= 14528 && bennett.x <= 14592 && bennett.y >= 256 && bennett.y <= 10240) {
         //bennett.x-=100;
         bennett.body.velocity.x = 0;
-        bennett.body.velocity.y = 250;
+        bennett.body.velocity.y = 278;
       } else {
         bennett.body.velocity.x += Phaser.Math.FloatBetween(-50, 50);
         bennett.body.velocity.y += Phaser.Math.FloatBetween(-50, 50);
@@ -3515,6 +3528,10 @@ var LightWorld = new Phaser.Class({
         displayPage(this, page)
         bennettFirstTalk = 1
         gameState.arnold_bennett.play()
+        if (!activeQuests['Beat Bennett in a Race']){
+          activeQuests['Beat Bennett in a Race']='I saw Bennett running along the road. If I can beat him in a race, maybe he will help me out. Remember if I always go full speed, I will run out of stamina real fast.'
+        }
+
       } else if (distance(me, bennett) > 100) {
         bennettFirstTalk = 0
       }
@@ -3635,7 +3652,7 @@ var LightWorld = new Phaser.Class({
       if (keepaway === 400) {
         trevor.joinParameter = true;
         potentialParty["Jimmy"] = true;
-        completeQuest('Go Pro in Kick-The-Ball');
+        completeQuest('Go Pro at Kick-The-Ball');
         //this.scene.scene.events.emit("Message", "You went pro.", me.x, me.y);
         /*
         highScoreText = this.add.text(me.x - 100, me.y - 50, 'You went pro', {
@@ -4107,6 +4124,8 @@ var LightWorld = new Phaser.Class({
       if (this.cursors.left.isDown) {
         if (speed > 2) {
           me.anims.play('leftsprint', true);
+        } else {
+          me.anims.play('leftwalk', true);
         }
       }
       if (me.body.velocity.x === 0 && me.body.velocity.y === 0) {

@@ -16,7 +16,7 @@ var TitleScreen = new Phaser.Class({
     this.load.image('quil', "assets/quil.png");
   },
   create: function() {
-
+    this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
