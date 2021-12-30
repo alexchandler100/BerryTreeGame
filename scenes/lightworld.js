@@ -232,6 +232,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('ball1', ['assets/ball1.wav']);
     this.load.audio('ball2', ['assets/ball2.wav']);
     this.load.audio('bennett_run', ['assets/bennett.wav']);
+    this.load.audio('me_walking', ['assets/me_walking.mp3']);
     this.load.audio('arnold_bennett', ['assets/arnold_bennett.mp3']);
     this.load.audio('heyy', ['assets/heyy.wav']);
     this.load.audio('erggh', ['assets/erggh.wav']);
@@ -535,8 +536,16 @@ var LightWorld = new Phaser.Class({
       volume: .4
     });
     gameState.bennettSound = this.sound.add('bennett_run', {
-      volume: 2
+      volume: 1.5
     });
+    gameState.meWalkingSound = this.sound.add('me_walking', {
+      volume: .3
+    });
+    gameState.meWalkingSound.loop=true
+    gameState.meRunningSound = this.sound.add('bennett_run', {
+      volume: .5
+    });
+    gameState.meRunningSound.loop=true
     gameState.ball1 = this.sound.add('ball1', {
       volume: .6
     });
@@ -544,7 +553,7 @@ var LightWorld = new Phaser.Class({
       volume: .6
     });
     gameState.outOfBreath = this.sound.add('outOfBreath', {
-      volume: 1.5
+      volume: 1
     });
     gameState.outOfBreath.loop = true;
     gameState.alSound = this.sound.add('al');
@@ -672,6 +681,9 @@ var LightWorld = new Phaser.Class({
     gameState.YogaGirlSpawnPoint1 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 1");
     gameState.YogaGirlSpawnPoint2 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 2");
 
+    const CanJamSpawnPoint = map.findObject("Objects", obj => obj.name === "canjam spawn point");
+    gameState.evanSpawnPoint={x:CanJamSpawnPoint.x, y: CanJamSpawnPoint.y-32}
+    gameState.anthonySpawnPoint={x:CanJamSpawnPoint.x, y: CanJamSpawnPoint.y+64}
     const NetSpawnPoint = map.findObject("Objects", obj => obj.name === "net spawn point");
     const KeysSpawnPoint = map.findObject("Objects", obj => obj.name === "keys spawn point");
     const PhoneSpawnPoint = map.findObject("Objects", obj => obj.name === "phone spawn point");
@@ -724,7 +736,8 @@ var LightWorld = new Phaser.Class({
     gameState.volleyballTL = map.findObject("Objects", obj => obj.name === "volleyball top left")
     gameState.volleyballBR = map.findObject("Objects", obj => obj.name === "volleyball bottom right")
 
-    canjam = this.physics.add.sprite(VolleyballNetSpawnPoint.x + 170, VolleyballNetSpawnPoint.y - 200, 'canjam-0');
+    canjam = this.physics.add.sprite(CanJamSpawnPoint.x, CanJamSpawnPoint.y, 'canjam-0');
+    canjam.body.immovable = true;
     canjam.setScale(.1)
 
 
@@ -873,10 +886,12 @@ var LightWorld = new Phaser.Class({
     dancingGirl.anims.play('dancinggirldancing', true)
     */
 
-    yogamat = this.add.image(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 220 + 10, 'yogamat');
+    yogamat = this.add.image(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogamat');
     yogagirl = this.physics.add.sprite(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogagirl');
     yogagirl.setScale(.22)
     yogagirl.body.immovable = true;
+    yogamat.x = yogagirl.x;
+    yogamat.y = yogagirl.y + 20;
     //yogagirl anims
     this.anims.create({
       key: 'yogagirlyoga',
@@ -1108,6 +1123,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(bennett, al);
     //collisions with pool chairs
     this.physics.add.collider(me, goalieZone);
+    this.physics.add.collider(me, canjam);
     //this.physics.add.collider(me, dancingGirl);
     this.physics.add.collider(me, yogagirl);
     this.physics.add.collider(me, adeline);
@@ -2524,6 +2540,19 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    //dialogue with evan and anthony
+    if (distance(me,gameState.anthonySpawnPoint)<30 && anthonyFirstDialogue===0) {
+      anthonyFirstDialogue=1
+      initializePage(this);
+      let firstPage = fetchPage(6000);
+      displayPage(this, firstPage);
+    } else if (distance(me,gameState.evanSpawnPoint)<30 && evanFirstDialogue===0) {
+      evanFirstDialogue=1
+      initializePage(this);
+      let firstPage = fetchPage(7000);
+      displayPage(this, firstPage);
+      activeQuests['Frat Boy Wants to Stab']='Evan told me there is some frat guy with a knife waiting for me at the Burcham and Division intersection. Better not go until I got my crew together...'
+    }
     if (numberOfFights === 1 && openFightDialogue === true) {
       openFightDialogue = false
       initializePage(this);
@@ -2834,7 +2863,7 @@ var LightWorld = new Phaser.Class({
       child.body.velocity.x = 0
     });
 
-    //swim noise and swimming animation breaks and swimming size and offset
+    //run, walk, swim noise and swimming animation breaks and swimming size and offset
     if (ballInPool) {
       beachball.body.velocity.x /= 1.1;
       beachball.body.velocity.y /= 1.1;
@@ -2849,6 +2878,21 @@ var LightWorld = new Phaser.Class({
       swimNoisePlaying = false
       me.body.setSize(70, 90);
       me.body.setOffset(60, 100);
+    }
+
+    if (speed===1 && walkNoisePlaying === false && (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 > 40) {
+      gameState.meWalkingSound.play()
+      walkNoisePlaying = true
+    } else if (speed>1 || (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 ===0){
+      gameState.meWalkingSound.stop()
+      walkNoisePlaying = false
+    }
+      if (speed>1 && runNoisePlaying === false && (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 > 40){
+        gameState.meRunningSound.play()
+        runNoisePlaying = true
+    } else if (speed===1 || (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 ===0){
+      gameState.meRunningSound.stop()
+      runNoisePlaying = false
     }
 
     //to restart the scene
@@ -2882,9 +2926,11 @@ var LightWorld = new Phaser.Class({
     } else if (bossType === 'fratboy2prime' && bossBattleParameter === 1) {
       this.scene.switch('BattleScene');
       bossBattleParameter = 0
+      completeQuest('Frat Boy Wants to Stab')
     } else if (bossType === 'darkboy' && bossBattleParameter === 1) {
       this.scene.switch('BattleScene');
       bossBattleParameter = 0
+      activeQuests['Back to the Dark World']='After I dosed some tussin, I wound up in some kind of dark version of East Lansing. And when I saw that tussin bottle, I swear it looked at first like some sort of gnome or some little fucker fucking with me. I gotta go back somehow and check it out. More tussin?'
     } else if (bossType === 'frank' && bossBattleParameter === 1) {
       this.scene.switch('BattleScene');
       bossBattleParameter = 0

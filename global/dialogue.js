@@ -1259,13 +1259,13 @@ const pages = [{
   {
     character: 'me',
     page: 1600,
-    narrative: `Stripper: Heyyy how are you :).`,
+    narrative: `Chardonnay: Heyyy sweetie.`,
     options: [{
-      option: 'Shiiiit you know',
+      option: 'Yoooo',
       nextPage: 1601,
     },
     {
-      option: '...',
+      option: "What's up?",
       nextPage: 1601,
     },]
   },
@@ -1273,7 +1273,7 @@ const pages = [{
   {
     character: 'me',
     page: 1601,
-    narrative: `Stripper: Coool so like do you know where I could get some coke?`,
+    narrative: `Chardonnay: So like do you know where I could get some coke?`,
     options: [
     {
       option: 'Uhh possibly',
@@ -1285,7 +1285,7 @@ const pages = [{
   {
     character: 'me',
     page: 1603,
-    narrative: `Stripper: Holy fucking shit thank you so much. Here take these brass knuckles. You can fuck people up with these, they're my boyfriend's they hurt super bad. He takes care of me though...`,
+    narrative: `Chardonnay: Holy fuckin shit thank you so much. Here take these brass knuckles. You can fuck people up with these, they're my boyfriend's they hurt super bad. He takes care of me though...`,
     options: [{
       option: 'Shiiit badass',
       nextPage: undefined,
@@ -1295,7 +1295,7 @@ const pages = [{
   {
     character: 'me',
     page: 1602,
-    narrative: `Stripper: So did you get some coke or what?`,
+    narrative: `Chardonnay: So did you get some coke or what?`,
     options: [{
       option: 'Yeah here you go',
       nextPage: 1603,
@@ -1305,7 +1305,7 @@ const pages = [{
   {
     character: 'me',
     page: 1500,
-    narrative: `Yoga girl: Why is there a stripper just like randomly walking around?`,
+    narrative: `River: Why is there a stripper just like randomly walking around?`,
     options: [{
       option: 'hmmmm',
       nextPage: 1501,
@@ -1319,7 +1319,7 @@ const pages = [{
   {
     character: 'me',
     page: 1501,
-    narrative: `Yoga girl: Idk like anyway I'm like doing yoga. But if you could like find me some yoga blocks, that would be like super awesome!`,
+    narrative: `River: Idk like anyway I'm like doing yoga. But if you could like find me some yoga blocks, that would be like super awesome... Namaste.`,
     options: [{
       option: 'Shiiit',
       nextPage: undefined,
@@ -1335,7 +1335,7 @@ const pages = [{
   {
     character: 'me',
     page: 1502,
-    narrative: `Yoga girl: Oh my god like thank you so much. Here, take this gold duck tape. I like found it over there near the woods.`,
+    narrative: `River: Oh my god like thank you so much. Here, take this gold duck tape. I like found it over there near the woods. Namaste!!`,
     options: [{
       option: 'Okayy',
       nextPage: undefined,
@@ -1756,6 +1756,27 @@ const pages = [{
     options: [{
       option: 'Well Goddamn',
       nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 6000,
+    narrative: `Anthony: Yooooo wanna play some canjam?`,
+    options: [{
+      option: 'Maybe later man',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 7000,
+    narrative: `Evan: Yoo some frat dude was looking for you. Seemed pissed, pretty sure he had a knife. He said he'd be at burcham and Division avenue waiting.`,
+    options: [{
+      option: 'Right on man',
+      nextPage: undefined,
+      aftermath: openQuestLog
     },]
   },
 ]

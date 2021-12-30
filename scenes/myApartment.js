@@ -946,8 +946,8 @@ var MyApartment = new Phaser.Class({
       else if (meApt.x > gameState.clubhouseInside731Entrance.x - 30 && meApt.x < gameState.clubhouseInside731Entrance.x + 30 && meApt.y > gameState.clubhouseInside731Entrance.y - 30 && meApt.y < gameState.clubhouseInside731Entrance.y + 30) {
         this.scene.switch("LightWorld");
         this.scene.sleep("PoolScore");
-        me.x = gameState.clubhouse731BR.x;
-        me.y = gameState.clubhouse731BR.y - 74;
+        me.x = gameState.clubhouse731BR.x-16;
+        me.y = gameState.clubhouse731BR.y - 100;
         console.log(`switched to lightworld from clubhouse 731 entrance`)
       }
       //switch to light world from clubhouse burcham woods entrance

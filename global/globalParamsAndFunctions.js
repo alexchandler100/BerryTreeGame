@@ -57,6 +57,8 @@ let blocked = 0;
 let newGame = true;
 let moneyPlus = false;
 let checkLevelDialogue = 0;
+let evanFirstDialogue = 0;
+let anthonyFirstDialogue = 0;
 let girl1FirstDialogue = 0;
 let girl2FirstDialogue = 0;
 let girl3FirstDialogue = 0;
@@ -113,6 +115,8 @@ let shakeTheWorld = false;
 let bennettGet = false;
 let alGet = false;
 let swimNoisePlaying = false;
+let walkNoisePlaying = false;
+let runNoisePlaying = false;
 let inPool = false;
 let nearPool = false;
 let nearVolleyballCourt = false;
@@ -1100,6 +1104,8 @@ function onMeetEnemy2() {
   if (worldTheme === 'light' && playerTexture === 0) {
     //this.cameras.main.flash(1000)
     gameState.swimNoise.stop();
+    gameState.meWalkingSound.stop();
+    gameState.meRunningSound.stop();
     gameState.music.stop();
     gameState.marioWoods.stop();
     gameState.linkWoods.stop();
