@@ -778,6 +778,7 @@ var LightWorld = new Phaser.Class({
     net2 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
     net3 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
     net4 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
+    net1.visible = false;
     net2.visible = false;
     net3.visible = false;
     net4.visible = false;
@@ -789,18 +790,6 @@ var LightWorld = new Phaser.Class({
     net3.setOffset(0, 0)
     net4.setSize(88, 20);
     net4.setOffset(20, 20);
-
-    //creating volleyball net
-    volleyballnet = net.create(VolleyballNetSpawnPoint.x, VolleyballNetSpawnPoint.y, 'volleyballnet');
-    volleyballnet.setOrigin(0, 0);
-    volleyballnet.setSize(12, 128);
-    volleyballnet.setOffset(0, 0);
-
-    net.children.iterate(function(child) {
-      child.visible = false;
-      child.body.immovable = true;
-      child.body.moves = false;
-    });
 
     //animations
 
@@ -1859,6 +1848,17 @@ var LightWorld = new Phaser.Class({
     const special = map.createStaticLayer("Special", tileset4, 0, 0);
     const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
 
+    //creating volleyball net
+    volleyballnet = net.create(VolleyballNetSpawnPoint.x, VolleyballNetSpawnPoint.y, 'volleyballnet');
+    volleyballnet.setOrigin(0, 0);
+    volleyballnet.setSize(12, 128);
+    volleyballnet.setOffset(0, 0);
+
+    net.children.iterate(function(child) {
+      child.body.immovable = true;
+      child.body.moves = false;
+    });
+
     //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue)
     bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennett_run", potentialParty["Bennett"]);
     al = new NPC(this, "al spawn point", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "holdon", potentialParty["Al"]);
@@ -1983,7 +1983,6 @@ var LightWorld = new Phaser.Class({
     this.input.on('pointerup', function(pointer) {
       this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
     }, this);
-
 
     //spawning layers which are above the player
     const above = map.createStaticLayer("Above", tileset2, 0, 0);
