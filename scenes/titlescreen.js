@@ -1,5 +1,5 @@
 const gameState0 = {};
-let titletime=0
+let titletime = 0
 
 var TitleScreen = new Phaser.Class({
   Extends: Phaser.Scene,
@@ -17,6 +17,14 @@ var TitleScreen = new Phaser.Class({
   },
   create: function() {
     this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
+    this.input.on('pointerdown', function(pointer) {
+      this.input.setDefaultCursor('url(assets/handPointerClosed.png), pointer');
+    }, this);
+
+    this.input.on('pointerup', function(pointer) {
+      this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
+    }, this);
+
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
@@ -35,18 +43,16 @@ var TitleScreen = new Phaser.Class({
       }, 3000);
       pause = false;
     }, this);
-    newText = this.add.text(600-37, 400-15, 'begin', {
+    newText = this.add.text(600 - 37, 400 - 15, 'begin', {
       fontSize: '25px',
       fill: '#b39c0e'
     });
     gameState0.new_button.on('pointerover', function() {
       gameState0.new_button.setStrokeStyle(2, 0xffe014, 1);
-    }, {
-    });
+    }, {});
     gameState0.new_button.on('pointerout', function() {
       gameState0.new_button.setStrokeStyle(1, 0x000, 1);
-    }, {
-    });
+    }, {});
 
     titleText = this.add.text(600, 210, "Berry Tree", {
       fontFamily: 'Academy Engraved LET',
@@ -62,8 +68,8 @@ var TitleScreen = new Phaser.Class({
     }).setOrigin(0.5);
     */
 
-    let xx=Phaser.Math.RND.between(100, 1100);
-    let yy=Phaser.Math.RND.between(300, 550);
+    let xx = Phaser.Math.RND.between(100, 1100);
+    let yy = Phaser.Math.RND.between(300, 550);
 
     hausdorfs = this.physics.add.group()
     hausdorfTitle = hausdorfs.create(xx, yy, 'hausdorf');
@@ -71,32 +77,29 @@ var TitleScreen = new Phaser.Class({
 
   },
   update: function() {
-    titletime+=1;
-    if (titletime%100==0){
+    titletime += 1;
+    if (titletime % 100 == 0) {
       hausdorfs.children.iterate(function(child) {
         child.setInteractive();
         child.on('pointerover', function() {
-          xx=Phaser.Math.RND.between(100, 1100);
-          yy=Phaser.Math.RND.between(300, 550);
-          child.x=xx;
-          child.y=yy;
+          xx = Phaser.Math.RND.between(100, 1100);
+          yy = Phaser.Math.RND.between(300, 550);
+          child.x = xx;
+          child.y = yy;
           child.setTexture('quil', 0)
           child.setScale(.25)
-          xx=Phaser.Math.RND.between(100, 1100);
-          yy=Phaser.Math.RND.between(300, 550);
+          xx = Phaser.Math.RND.between(100, 1100);
+          yy = Phaser.Math.RND.between(300, 550);
           newone = hausdorfs.create(xx, yy, 'hausdorf');
-          newone.setScale(Math.random()+.8)
-        }, {
-        });
+          newone.setScale(Math.random() + .8)
+        }, {});
       });
     }
     if (scene_number === 1) {
       this.scene.switch('PauseMenu');
-    }
-    else if (scene_number === 7) {
+    } else if (scene_number === 7) {
       this.scene.switch('CharacterMenu');
-    }
-    else if (scene_number === 8) {
+    } else if (scene_number === 8) {
       this.scene.switch('EquipmentMenu');
     }
   }

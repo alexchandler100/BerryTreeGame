@@ -29,7 +29,6 @@ var OnScreenMessage = new Phaser.Class({
     this.visible = false;
   },
   showMessage: function(text) {
-    console.log(`calling show message at this.x=${this.x} and this.y=${this.y}`)
     this.text.setText(text);
     this.visible = true;
     if (this.hideEvent)
@@ -270,7 +269,6 @@ var LightWorld = new Phaser.Class({
     this.load.image('larrySpecialIcon', "assets/larrySpecial.png");
     this.load.image('gatoradeIcon', "assets/gatorade.png");
     //loading sprite images
-    //this.load.image('bikinigirl2', "assets/bikinigirl2.png");
     this.load.image('towel1', "assets/towel1.png");
     this.load.image('towel2', "assets/towel2.png");
     this.load.image('poolchair1', "assets/poolchair1.png");
@@ -279,7 +277,6 @@ var LightWorld = new Phaser.Class({
     this.load.image('quil', "assets/quil.png");
     this.load.image('dioshrine', "assets/dio_statue.png");
     this.load.image('car_keys', "assets/car_keys.png");
-    //this.load.image('girl3', "assets/girl3.png");
     this.load.image('girl4', "assets/girl4.png");
     this.load.image('net', "assets/net.png");
     this.load.image('volleyballnet', "assets/volleyballnet.png");
@@ -298,11 +295,11 @@ var LightWorld = new Phaser.Class({
         frameWidth: 128,
         frameHeight: 128
       });
-      this.load.spritesheet('blonde',
-        'assets/blonde.png', {
-          frameWidth: 96,
-          frameHeight: 115
-        });
+    this.load.spritesheet('blonde',
+      'assets/blonde.png', {
+        frameWidth: 96,
+        frameHeight: 115
+      });
     this.load.spritesheet('stripper',
       'assets/stripper.png', {
         frameWidth: 120,
@@ -318,13 +315,6 @@ var LightWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 200
       });
-      /*
-    this.load.spritesheet('dancinggirl',
-      'assets/girl_dancing.png', {
-        frameWidth: 68,
-        frameHeight: 96
-      });
-      */
     this.load.spritesheet('meSwimming',
       'assets/me_swimming.png', {
         frameWidth: 200,
@@ -539,13 +529,13 @@ var LightWorld = new Phaser.Class({
       volume: 1.5
     });
     gameState.meWalkingSound = this.sound.add('me_walking', {
-      volume: .3
+      volume: .2
     });
-    gameState.meWalkingSound.loop=true
+    gameState.meWalkingSound.loop = true
     gameState.meRunningSound = this.sound.add('bennett_run', {
-      volume: .5
+      volume: .4
     });
-    gameState.meRunningSound.loop=true
+    gameState.meRunningSound.loop = true
     gameState.ball1 = this.sound.add('ball1', {
       volume: .6
     });
@@ -557,7 +547,6 @@ var LightWorld = new Phaser.Class({
     });
     gameState.outOfBreath.loop = true;
     gameState.alSound = this.sound.add('al');
-    //gameState.holdOn = this.sound.add('holdon');
     gameState.beatbox = this.sound.add('beatbox', {
       volume: 1.5
     });
@@ -677,13 +666,32 @@ var LightWorld = new Phaser.Class({
     const tileset4 = map.addTilesetImage("buildings1", "buildings1");
     const below = map.createStaticLayer("Below2", tileset2, 0, 0);
     const buildingtops = map.createStaticLayer("BuildingTops", tileset1, 0, 0);
+
     //defining spawn points
     gameState.YogaGirlSpawnPoint1 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 1");
     gameState.YogaGirlSpawnPoint2 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 2");
+    gameState.fratboy1SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy1 spawn point");
+    gameState.fratboy2SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy3 spawn point");
+    gameState.fratboy3SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy4 spawn point");
+    gameState.fratboy4SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy5 spawn point");
+    gameState.JonSpawnPoint = map.findObject("Objects", obj => obj.name === "jon spawn point");
+    const Fratboy2PrimeSpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy2prime spawn point");
+    gameState.Girl1SpawnPoint = map.findObject("Objects", obj => obj.name === "girl1 spawn point");
+    gameState.Girl2SpawnPoint = map.findObject("Objects", obj => obj.name === "girl2 spawn point");
+    gameState.Girl3SpawnPoint = map.findObject("Objects", obj => obj.name === "girl3 spawn point");
+    gameState.Girl4SpawnPoint = map.findObject("Objects", obj => obj.name === "girl4 spawn point");
+    const BlondeSpawnPoint = map.findObject("Objects", obj => obj.name === "blonde spawn point");
+    gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "player spawn point");
 
     const CanJamSpawnPoint = map.findObject("Objects", obj => obj.name === "canjam spawn point");
-    gameState.evanSpawnPoint={x:CanJamSpawnPoint.x, y: CanJamSpawnPoint.y-32}
-    gameState.anthonySpawnPoint={x:CanJamSpawnPoint.x, y: CanJamSpawnPoint.y+64}
+    gameState.evanSpawnPoint = {
+      x: CanJamSpawnPoint.x,
+      y: CanJamSpawnPoint.y - 32
+    }
+    gameState.anthonySpawnPoint = {
+      x: CanJamSpawnPoint.x,
+      y: CanJamSpawnPoint.y + 64
+    }
     const NetSpawnPoint = map.findObject("Objects", obj => obj.name === "net spawn point");
     const KeysSpawnPoint = map.findObject("Objects", obj => obj.name === "keys spawn point");
     const PhoneSpawnPoint = map.findObject("Objects", obj => obj.name === "phone spawn point");
@@ -692,7 +700,6 @@ var LightWorld = new Phaser.Class({
     gameState.VolleyballSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyball spawn point");
     const CarSpawnPoint = map.findObject("Objects", obj => obj.name === "car spawn point");
     const DioShrineSpawnPoint = map.findObject("Objects", obj => obj.name === "dioshrine spawn point");
-    car = this.physics.add.sprite(CarSpawnPoint.x - 200, CarSpawnPoint.y, 'car4');
     const VolleyballNetSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyballnet spawn point");
     const BurchamPoolSpawnPoint = map.findObject("Objects", obj => obj.name === "burchampool spawn point");
 
@@ -736,10 +743,10 @@ var LightWorld = new Phaser.Class({
     gameState.volleyballTL = map.findObject("Objects", obj => obj.name === "volleyball top left")
     gameState.volleyballBR = map.findObject("Objects", obj => obj.name === "volleyball bottom right")
 
+    //making canjam evan and anthony
     canjam = this.physics.add.sprite(CanJamSpawnPoint.x, CanJamSpawnPoint.y, 'canjam-0');
     canjam.body.immovable = true;
     canjam.setScale(.1)
-
 
     //spawning phone wallet and keys
     if (phoneGet === 0) {
@@ -790,13 +797,12 @@ var LightWorld = new Phaser.Class({
     volleyballnet.setOffset(0, 0);
 
     net.children.iterate(function(child) {
+      child.visible = false;
       child.body.immovable = true;
       child.body.moves = false;
     });
 
-    //canjam animations
-
-    //bldne animations
+    //animations
 
     this.anims.create({
       key: 'blnde_turn',
@@ -811,13 +817,12 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'blondeJumping',
       frames: this.anims.generateFrameNumbers('blonde', {
-        frames: [1,2,3,2]
+        frames: [1, 2, 3, 2]
       }),
       frameRate: 6,
       repeat: -1
     });
 
-    //canjam animations
     this.anims.create({
       key: 'canjamplay',
       frames: this.anims.generateFrameNumbers('canjam-0', {
@@ -827,8 +832,6 @@ var LightWorld = new Phaser.Class({
       frameRate: 10,
       repeat: -1
     });
-
-    //canjam animations
     this.anims.create({
       key: 'canjamplay1',
       frames: this.anims.generateFrameNumbers('canjam-1', {
@@ -839,7 +842,6 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
 
-    //pool water animation
     this.anims.create({
       key: 'poolwaves',
       frames: this.anims.generateFrameNumbers('pool', {
@@ -848,17 +850,7 @@ var LightWorld = new Phaser.Class({
       frameRate: 3,
       repeat: -1
     });
-    burchamPool = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 16, BurchamPoolSpawnPoint.y + 16, 'pool')
-    burchamPool.setOrigin(0, 0);
-    burchamPool.anims.play('poolwaves', true);
-    towel1 = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 50 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel1')
-    towel2 = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 100 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel2')
-    //bikinigirl2=this.physics.add.sprite(BurchamPoolSpawnPoint.x+100+64, BurchamPoolSpawnPoint.y+220+64, 'bikinigirl2')
-    //bikinigirl2.angle=180;
-    //bikinigirl2.setScale(.23)
 
-    //bikinigirl2.body.immovable = true;
-    //adeline anims
     this.anims.create({
       key: 'adeline_party',
       frames: this.anims.generateFrameNumbers('adeline', {
@@ -869,30 +861,6 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
 
-    /*
-    dancingGirl = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 165, BurchamPoolSpawnPoint.y + 280, 'dancinggirl');
-    dancingGirl.setScale(.35)
-    dancingGirl.body.immovable = true;
-    //dancing girl anims
-    this.anims.create({
-      key: 'dancinggirldancing',
-      frames: this.anims.generateFrameNumbers('dancinggirl', {
-        start: 0,
-        end: 7
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
-    dancingGirl.anims.play('dancinggirldancing', true)
-    */
-
-    yogamat = this.add.image(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogamat');
-    yogagirl = this.physics.add.sprite(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogagirl');
-    yogagirl.setScale(.22)
-    yogagirl.body.immovable = true;
-    yogamat.x = yogagirl.x;
-    yogamat.y = yogagirl.y + 20;
-    //yogagirl anims
     this.anims.create({
       key: 'yogagirlyoga',
       frames: this.anims.generateFrameNumbers('yogagirl', {
@@ -901,387 +869,7 @@ var LightWorld = new Phaser.Class({
       frameRate: 1,
       repeat: -1
     });
-    yogagirl.anims.play('yogagirlyoga', true)
 
-    poolchairs = this.physics.add.group()
-    poolchair1 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 40, 'poolchair1')
-    poolchair2 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 70, 'poolchair2')
-    poolchair3 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 90, 'poolchair2')
-    poolchair4 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 110, 'poolchair2')
-    poolchair5 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 140, 'poolchair1')
-    poolchair6 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 170, 'poolchair1')
-
-    poolchairs.children.iterate(function(child) {
-      child.setScale(.6);
-      child.body.immovable = true;
-      child.body.moves = false;
-    });
-
-    flowers = this.physics.add.sprite(gameState.altonBR.x-16, gameState.altonBR.y+16, 'flowers');
-    flowers.setScale(.3);
-
-    liquor = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 25 + 64, BurchamPoolSpawnPoint.y + 300 + 5, 'liquor');
-    liquor.setScale(.1);
-
-    //creating the soccer ball
-    ball = this.physics.add.sprite(gameState.BallSpawnPoint.x + 16, gameState.BallSpawnPoint.y - 16, 'ball');
-    ball.setScale(.75);
-    ball.setBounce(.8);
-    ball.body.setCircle(8);
-    ball.body.setOffset(0, 0);
-    //creating the volleyball
-    volleyball = this.physics.add.sprite(gameState.VolleyballSpawnPoint.x - 31, gameState.VolleyballSpawnPoint.y - 500, 'volleyball');
-    volleyball.setScale(1.2);
-    volleyball.setBounce(1);
-    volleyball.disableBody(true, true);
-    volleyball.body.setCircle(3);
-    volleyball.body.setOffset(8, 9);
-    volleyball.setFrictionX(100)
-    volleyball.setFrictionY(100)
-    //creating the beachball
-    beachball = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 50, BurchamPoolSpawnPoint.y + 80, 'beachball');
-    beachball.setBounce(.3);
-    beachball.body.setCircle(10);
-    beachball.body.setOffset(6, 6);
-
-    //spawning map layers which are under player and npcs (should this be static? fix needed...)
-    const world = map.createDynamicLayer("World", tileset1, 0, 0);
-    const world3 = map.createDynamicLayer("World3", tileset33, 0, 0);
-    const world2 = map.createDynamicLayer("World2", tileset22, 0, 0);
-    const special = map.createStaticLayer("Special", tileset4, 0, 0);
-    const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
-    //spawning npcs
-    //NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue)
-    bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennett_run", potentialParty["Bennett"]);
-    al = new NPC(this, "al spawn point", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "holdon", potentialParty["Al"]);
-    joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "punch", false);
-    jon = new NPC(this, "jon spawn point", "jon", 0, "Homeboy Jon", "jonleft", "jonright", "jonleft", "jonright", "bitenoise", false);
-    jon.body.setSize(120, 20);
-    jon.body.setOffset(40, 150); //overriding scale given by NPC class
-    james = new NPC(this, "james spawn point", "james", 0, "Homeboy Jon", "jamesleft", "jamesright", "jamesup", "jamesdown", "bitenoise", false);
-    james.body.setCircle(180);
-    james.body.setOffset(50, 100); //overriding scale given by NPC class
-    oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke", "bong", false);
-    oghomeboy.body.immovable = true;
-    oghomeboy.body.moves = false;
-    trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorleft", "trevorright", "trevorleft", "trevorright", "bong", potentialParty["Jimmy"]);
-    trevor.body.setCircle(60);
-    trevor.body.setOffset(60, 180);
-    hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false);
-    stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
-
-    chasersGroup = this.physics.add.group()
-    for (let i = 0; i < enemsForChasers.length; i++) {
-      chasers[i] = chasersGroup.create(1200 + 100, 600 + 300, enemsForChasers[i][0]);
-      chasers[i].disableBody(true, true);
-      chasers[i].setScale(enemsForChasers[i][3])
-      chasers[i].body.setCircle(enemsForChasers[i][4]);
-      chasers[i].body.setOffset(enemsForChasers[i][5], enemsForChasers[i][6]);
-    }
-
-    fratboys = this.physics.add.group()
-    //fratboys
-    gameState.fratboy1SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy1 spawn point");
-    gameState.fratboy2SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy3 spawn point");
-    gameState.fratboy3SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy4 spawn point");
-    gameState.fratboy4SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy5 spawn point");
-    crackhead = fratboys.create(gameState.fratboy1SpawnPoint.x - 100, gameState.fratboy1SpawnPoint.y - 2000, 'crackhead');
-    ex_junkie = fratboys.create(gameState.fratboy1SpawnPoint.x - 100, gameState.fratboy1SpawnPoint.y + 200, 'ex_junkie');
-    junkie = fratboys.create(gameState.fratboy1SpawnPoint.x + 100, gameState.fratboy1SpawnPoint.y - 200, 'junkie');
-    fratboy1 = fratboys.create(gameState.fratboy1SpawnPoint.x, gameState.fratboy1SpawnPoint.y, 'fratboy1');
-    fratboy2 = fratboys.create(gameState.fratboy2SpawnPoint.x, gameState.fratboy2SpawnPoint.y, 'fratboy2');
-    fratboy3 = fratboys.create(gameState.fratboy3SpawnPoint.x, gameState.fratboy3SpawnPoint.y, 'fratboy3');
-    fratboy4 = fratboys.create(gameState.fratboy4SpawnPoint.x, gameState.fratboy4SpawnPoint.y, 'fratboy4');
-    fratboy5 = fratboys.create(gameState.fratboy4SpawnPoint.x + 120, gameState.fratboy4SpawnPoint.y + 200, 'fratboy5');
-
-    fratboys.children.iterate(function(child) {
-      child.setScale(.16);
-      child.setCircle(40);
-      child.setOffset(110, 80);
-    });
-
-    //fratboy2
-    gameState.JonSpawnPoint = map.findObject("Objects", obj => obj.name === "jon spawn point");
-    const Fratboy2PrimeSpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy2prime spawn point");
-    fratboy2prime = fratboys.create(Fratboy2PrimeSpawnPoint.x, Fratboy2PrimeSpawnPoint.y, 'fratboy2prime');
-    fratboy2prime.setScale(.14)
-    fratboy2prime.body.setCircle(20);
-    fratboy2prime.body.setOffset(60, 100);
-
-    //spawning girls
-    gameState.Girl1SpawnPoint = map.findObject("Objects", obj => obj.name === "girl1 spawn point");
-    gameState.Girl2SpawnPoint = map.findObject("Objects", obj => obj.name === "girl2 spawn point");
-    gameState.Girl3SpawnPoint = map.findObject("Objects", obj => obj.name === "girl3 spawn point");
-    gameState.Girl4SpawnPoint = map.findObject("Objects", obj => obj.name === "girl4 spawn point");
-    grls = this.physics.add.group();
-    girl1 = grls.create(gameState.Girl1SpawnPoint.x+20, gameState.Girl1SpawnPoint.y, 'girl1');
-    girl3 = grls.create(gameState.Girl3SpawnPoint.x + 4, gameState.Girl3SpawnPoint.y, 'girl3');
-    girl4 = grls.create(gameState.Girl4SpawnPoint.x + 7, gameState.Girl4SpawnPoint.y, 'girl4');
-    girl2 = grls.create(gameState.Girl2SpawnPoint.x - 5, gameState.Girl2SpawnPoint.y, 'girl2');
-
-    adeline = this.physics.add.sprite(gameState.Girl1SpawnPoint.x-25, gameState.Girl1SpawnPoint.y + 32, 'adeline');
-    adeline.setSize(120, 130);
-    adeline.setOffset(0, 20);
-    adeline.setScale(.16)
-    adeline.body.immovable = true;
-    adeline.anims.play('adeline_party', true)
-
-    grls.children.iterate(function(child) {
-      child.setCircle(20);
-      child.setScale(.2)
-    });
-
-    //spawn blnde
-    const BlondeSpawnPoint = map.findObject("Objects", obj => obj.name === "blonde spawn point");
-    blonde = grls.create(BlondeSpawnPoint.x, BlondeSpawnPoint.y, 'blonde');
-    blonde.x = gameState.fratboy4SpawnPoint.x + 120
-    blonde.y = gameState.fratboy4SpawnPoint.y + 220
-    blonde.setScale(.25);
-    blonde.setSize(1, 80);
-    blonde.setOffset(30, 80);
-
-    //spawning player and setting properties
-    gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "player spawn point");
-    //to start at level i and get skill at level i
-    //levelObject["Mac"]=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
-    //to spawn at pool area
-    //gameState.PlayerSpawnPoint=BurchamPoolSpawnPoint
-    //to spawn at fratboy5
-    //gameState.PlayerSpawnPoint.x=gameState.fratboy4SpawnPoint.x+50
-    //gameState.PlayerSpawnPoint.y=gameState.fratboy4SpawnPoint.y+50
-
-    //to spawn at highschool roof
-    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
-    //to spawn at soccer net
-    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "jon spawn point").x
-    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "jon spawn point").y+50
-    //to spawn at oghomeboy spawn point
-    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "homeboy spawn point").x-40
-    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "homeboy spawn point").y
-    //to spawn at race start
-    //raceBegin=true; athletics=1.3
-    //to spawn at bottom left corner of map
-    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "abbott bottom right")
-    //to spawn at marathon
-    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "marathon top left").x+200
-    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "marathon top left").y+650
-    //to spawn at pool table
-    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").x+10
-    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").y+10
-    //to spawn at fratboy2primestab
-    //gameState.PlayerSpawnPoint.x=Fratboy2PrimeSpawnPoint.x
-    //gameState.PlayerSpawnPoint.y=Fratboy2PrimeSpawnPoint.y-50
-
-    me = this.physics.add.sprite(gameState.PlayerSpawnPoint.x, gameState.PlayerSpawnPoint.y, 'me');
-    me.setScale(.17);
-    me.body.setSize(70, 90);
-    me.body.setOffset(60, 100);
-
-    gameState.pointer = this.input.activePointer;
-
-    /*
-    this.input.on('pointerdown', function(pointer){
-    console.log(gameState.pointer)
-    centerPoint={x: 600, y: 300}
-    pointerDirection = directionVector(pointer,centerPoint)
-    pointerLocation = pointer
-    pointerSet = true
- });
-
- this.input.on('pointerup', function(pointer){
- //var touchX = pointer.x;
- //var touchY = pointer.y;
- pointerDirection = [0,0]
- pointerLocation = [me.x,me.y]
- pointerSet = false
-});
-*/
-
-    const above = map.createStaticLayer("Above", tileset2, 0, 0);
-    // create a boolean for tiles in Tiled called ''collides'' in the tileset editor and set collides = 'true'
-    world.setCollisionByProperty({
-      collides: true
-    });
-    world2.setCollisionByProperty({
-      collides: true
-    });
-    world3.setCollisionByProperty({
-      collides: true
-    });
-    cars.setCollisionByProperty({
-      collides: true
-    });
-    special.setCollisionByProperty({
-      collides: true
-    });
-    above.setCollisionByProperty({
-      collides: true
-    });
-    //followers colliding
-    this.physics.add.collider(trevor, al);
-    this.physics.add.collider(trevor, bennett);
-    this.physics.add.collider(bennett, al);
-    //collisions with pool chairs
-    this.physics.add.collider(me, goalieZone);
-    this.physics.add.collider(me, canjam);
-    //this.physics.add.collider(me, dancingGirl);
-    this.physics.add.collider(me, yogagirl);
-    this.physics.add.collider(me, adeline);
-    //this.physics.add.collider(me,bikinigirl2);
-    this.physics.add.collider(me, poolchairs);
-    this.physics.add.collider(beachball, poolchairs);
-    this.physics.add.collider(poolchairs, poolchairs);
-    this.physics.add.collider(poolchairs, world);
-    //collisions with net
-    this.physics.add.collider(me, net);
-    this.physics.add.collider(volleyball, net);
-    this.physics.add.collider(jon, net);
-    this.physics.add.collider(ball, net);
-    this.physics.add.collider(net, trevor);
-    this.physics.add.collider(net, al);
-    this.physics.add.collider(net, bennett);
-    //collisions with player and world
-    this.physics.add.collider(me, grls);
-    this.physics.add.collider(me, blonde);
-    this.physics.add.collider(me, world);
-    this.physics.add.collider(me, world2);
-    this.physics.add.collider(me, world3);
-    this.physics.add.collider(me, special);
-    this.physics.add.collider(me, above);
-    this.physics.add.collider(me, cars);
-    this.physics.add.collider(me, ball);
-    this.physics.add.collider(me, volleyball);
-    this.physics.add.collider(me, beachball);
-    this.physics.add.collider(me, oghomeboy);
-    this.physics.add.collider(me, james);
-    //this.physics.add.collider(me, joe);
-    this.physics.add.collider(me, fratboys);
-    //colliders for grls
-    this.physics.add.collider(grls, special);
-    this.physics.add.collider(grls, grls);
-    this.physics.add.collider(grls, me);
-    this.physics.add.collider(grls, world);
-    this.physics.add.collider(grls, world2);
-    this.physics.add.collider(grls, world3);
-    this.physics.add.collider(grls, cars);
-    this.physics.add.collider(grls, trevor);
-    this.physics.add.collider(grls, ball);
-    this.physics.add.collider(grls, volleyball);
-    //colliders for fratboys
-    this.physics.add.collider(fratboys, special);
-    this.physics.add.collider(fratboys, fratboys);
-    this.physics.add.collider(fratboys, me);
-    this.physics.add.collider(fratboys, world);
-    this.physics.add.collider(fratboys, world2);
-    this.physics.add.collider(fratboys, world3);
-    this.physics.add.collider(fratboys, cars);
-    this.physics.add.collider(fratboys, trevor);
-    this.physics.add.collider(fratboys, ball);
-    this.physics.add.collider(fratboys, volleyball);
-    //colliders for world
-    this.physics.add.collider(oghomeboy, world);
-    this.physics.add.collider(oghomeboy, world2);
-    this.physics.add.collider(oghomeboy, world3);
-    this.physics.add.collider(world, world);
-    this.physics.add.collider(world2, world2);
-    this.physics.add.collider(world, ball);
-    this.physics.add.collider(world2, ball);
-    this.physics.add.collider(world3, ball);
-    this.physics.add.collider(world, volleyball);
-    this.physics.add.collider(world2, volleyball);
-    this.physics.add.collider(world3, volleyball);
-    this.physics.add.collider(world, beachball);
-    this.physics.add.collider(world2, beachball);
-    this.physics.add.collider(world3, beachball);
-    this.physics.add.collider(oghomeboy, ball);
-    this.physics.add.collider(oghomeboy, volleyball);
-    this.physics.add.collider(cars, ball);
-    this.physics.add.collider(cars, volleyball);
-    //colliders for bennett
-    this.physics.add.collider(bennett, ball)
-    this.physics.add.collider(bennett, volleyball)
-    this.physics.add.collider(bennett, world)
-    this.physics.add.collider(bennett, world2)
-    this.physics.add.collider(bennett, world3)
-    this.physics.add.collider(bennett, cars)
-    this.physics.add.collider(bennett, jon)
-    //colliders for stripper
-    this.physics.add.collider(stripper, ball)
-    this.physics.add.collider(stripper, volleyball)
-    this.physics.add.collider(stripper, world)
-    this.physics.add.collider(stripper, world2)
-    this.physics.add.collider(stripper, world3)
-    this.physics.add.collider(stripper, cars)
-    this.physics.add.collider(stripper, jon)
-    //colliders for trevor
-    this.physics.add.collider(trevor, ball)
-    this.physics.add.collider(trevor, volleyball)
-    this.physics.add.collider(trevor, world)
-    this.physics.add.collider(trevor, world2)
-    this.physics.add.collider(trevor, world3)
-    this.physics.add.collider(trevor, cars)
-    this.physics.add.collider(trevor, jon)
-    //colliders for joe
-    this.physics.add.collider(joe, ball)
-    this.physics.add.collider(joe, volleyball)
-    this.physics.add.collider(joe, world)
-    this.physics.add.collider(joe, world2)
-    this.physics.add.collider(joe, world3)
-    this.physics.add.collider(joe, cars)
-    this.physics.add.collider(joe, jon)
-    //colliders for jon
-    this.physics.add.collider(jon, ball)
-    this.physics.add.collider(jon, volleyball)
-    this.physics.add.collider(jon, world)
-    this.physics.add.collider(jon, world2)
-    this.physics.add.collider(jon, world3)
-    this.physics.add.collider(jon, cars)
-    //colliders for al
-    this.physics.add.collider(al, world)
-    this.physics.add.collider(al, world2)
-    this.physics.add.collider(al, world3)
-    this.physics.add.collider(al, cars)
-    //colliders for james
-    this.physics.add.collider(james, ball)
-    this.physics.add.collider(james, volleyball)
-    this.physics.add.collider(james, world)
-    this.physics.add.collider(james, world2)
-    this.physics.add.collider(james, world3)
-    this.physics.add.collider(james, cars)
-    this.physics.add.collider(james, jon)
-    //colliders for car
-    this.physics.add.collider(car, world)
-    this.physics.add.collider(car, world2)
-    this.physics.add.collider(car, world3)
-    //colliders for chasersGroup
-    this.physics.add.collider(chasersGroup, world)
-    this.physics.add.collider(chasersGroup, world2)
-    this.physics.add.collider(chasersGroup, world3)
-    this.physics.add.collider(chasersGroup, cars)
-    this.physics.add.collider(chasersGroup, ball)
-    //colliders for special
-    this.physics.add.collider(volleyball, special)
-    this.physics.add.collider(ball, special)
-    this.physics.add.collider(beachball, special)
-
-    //setting world bounds and setting objects to collide with world bounds
-    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true, true, true, true);
-    me.setCollideWorldBounds(true);
-    trevor.setCollideWorldBounds(true);
-    jon.setCollideWorldBounds(true);
-    joe.setCollideWorldBounds(true);
-    james.setCollideWorldBounds(true);
-    bennett.setCollideWorldBounds(true);
-    al.setCollideWorldBounds(true);
-    ball.setCollideWorldBounds(true);
-    volleyball.setCollideWorldBounds(true);
-    beachball.setCollideWorldBounds(true);
-
-    //set camera to follow main character but stay inside world bounds
-    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    camera.startFollow(me, true);
-
-    //stripper animations
     this.anims.create({
       key: 'stripperleft',
       frames: this.anims.generateFrameNumbers('stripper', {
@@ -1291,6 +879,7 @@ var LightWorld = new Phaser.Class({
       frameRate: 5,
       repeat: -1
     });
+
     this.anims.create({
       key: 'stripperup',
       frames: this.anims.generateFrameNumbers('stripper', {
@@ -1300,6 +889,7 @@ var LightWorld = new Phaser.Class({
       frameRate: 5,
       repeat: -1
     });
+
     this.anims.create({
       key: 'stripperdown',
       frames: this.anims.generateFrameNumbers('stripper', {
@@ -1309,7 +899,7 @@ var LightWorld = new Phaser.Class({
       frameRate: 5,
       repeat: -1
     });
-    //car explosion animation
+
     this.anims.create({
       key: 'carexplosion',
       frames: this.anims.generateFrameNumbers('explosion', {
@@ -1319,7 +909,7 @@ var LightWorld = new Phaser.Class({
       frameRate: 5,
       repeat: 0
     });
-    //swimming animations
+
     this.anims.create({
       key: 'leftswim',
       frames: this.anims.generateFrameNumbers('meSwimming', {
@@ -1329,7 +919,6 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
 
-    //swimming animations
     this.anims.create({
       key: 'rightswim',
       frames: this.anims.generateFrameNumbers('meSwimming', {
@@ -1339,7 +928,6 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
 
-    //dio animations
     this.anims.create({
       key: 'diofloat',
       frames: this.anims.generateFrameNumbers('dio', {
@@ -1360,9 +948,6 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
-
-
-    //fratboy2prime animations
     this.anims.create({
       key: 'fratboy2primestab',
       frames: this.anims.generateFrameNumbers('fratboy2prime', {
@@ -1383,7 +968,6 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
 
-    //crackhead anims
     this.anims.create({
       key: 'crackheadleft',
       frames: this.anims.generateFrameNumbers('crackhead', {
@@ -1424,7 +1008,6 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
-    //junkie anims
     this.anims.create({
       key: 'junkieleft',
       frames: this.anims.generateFrameNumbers('junkie', {
@@ -1465,7 +1048,6 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
-    //junkie anims
     this.anims.create({
       key: 'ex_junkieleft',
       frames: this.anims.generateFrameNumbers('ex_junkie', {
@@ -1506,7 +1088,6 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
-    //fratboy anims
     this.anims.create({
       key: 'frat1left',
       frames: this.anims.generateFrameNumbers('fratboy1', {
@@ -1676,7 +1257,6 @@ var LightWorld = new Phaser.Class({
       frameRate: 5,
       repeat: 0
     });
-    //girl animations
 
     this.anims.create({
       key: 'girl1dnc',
@@ -1706,7 +1286,6 @@ var LightWorld = new Phaser.Class({
       frameRate: 2,
       repeat: -1
     });
-    //bennett animations
     this.anims.create({
       key: 'bennett_walk',
       frames: this.anims.generateFrameNumbers('bennettattack', {
@@ -1771,7 +1350,6 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
 
-    //joe animations
     this.anims.create({
       key: 'joeleft',
       frames: this.anims.generateFrameNumbers('joe', {
@@ -1791,8 +1369,6 @@ var LightWorld = new Phaser.Class({
       frameRate: 4,
       repeat: -1
     });
-
-    //jon animations
 
     this.anims.create({
       key: 'jonleft',
@@ -1823,8 +1399,6 @@ var LightWorld = new Phaser.Class({
       frameRate: 1,
       repeat: 0
     });
-
-    //james animations
 
     this.anims.create({
       key: 'jamesleft',
@@ -1865,12 +1439,6 @@ var LightWorld = new Phaser.Class({
       frameRate: 1,
       repeat: -1
     });
-
-
-
-
-
-    //trevor animations
 
     this.anims.create({
       key: 'trevorleft',
@@ -2027,8 +1595,6 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
-
-
     this.anims.create({
       key: 'turn',
       frames: [{
@@ -2127,8 +1693,6 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
-    //me boxing animations
-
     this.anims.create({
       key: 'attack_improved',
       frames: this.anims.generateFrameNumbers('me_boxing', {
@@ -2223,6 +1787,404 @@ var LightWorld = new Phaser.Class({
       frameRate: 3,
       repeat: -1
     });
+
+    burchamPool = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 16, BurchamPoolSpawnPoint.y + 16, 'pool')
+    burchamPool.setOrigin(0, 0);
+    burchamPool.anims.play('poolwaves', true);
+    towel1 = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 50 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel1')
+    towel2 = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 100 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel2')
+
+    yogamat = this.add.image(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogamat');
+    yogagirl = this.physics.add.sprite(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogagirl');
+    yogagirl.setScale(.22)
+    yogagirl.body.immovable = true;
+    yogamat.x = yogagirl.x;
+    yogamat.y = yogagirl.y + 20;
+    yogagirl.anims.play('yogagirlyoga', true)
+
+    poolchairs = this.physics.add.group()
+    poolchair1 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 40, 'poolchair1')
+    poolchair2 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 70, 'poolchair2')
+    poolchair3 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 90, 'poolchair2')
+    poolchair4 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 110, 'poolchair2')
+    poolchair5 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 140, 'poolchair1')
+    poolchair6 = poolchairs.create(BurchamPoolSpawnPoint.x + 220, BurchamPoolSpawnPoint.y + 170, 'poolchair1')
+
+    poolchairs.children.iterate(function(child) {
+      child.setScale(.6);
+      child.body.immovable = true;
+      child.body.moves = false;
+    });
+
+    //spawning interactable objects
+
+    //spawning car
+    car = this.physics.add.sprite(CarSpawnPoint.x - 200, CarSpawnPoint.y, 'car4');
+
+    //spawning flowers
+    flowers = this.physics.add.sprite(gameState.altonBR.x - 16, gameState.altonBR.y + 16, 'flowers');
+    flowers.setScale(.3);
+
+    //spawning liquor
+    liquor = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 25 + 64, BurchamPoolSpawnPoint.y + 300 + 5, 'liquor');
+    liquor.setScale(.1);
+
+    //creating the soccer ball
+    ball = this.physics.add.sprite(gameState.BallSpawnPoint.x + 16, gameState.BallSpawnPoint.y - 16, 'ball');
+    ball.setScale(.75);
+    ball.setBounce(.8);
+    ball.body.setCircle(8);
+    ball.body.setOffset(0, 0);
+
+    //creating the volleyball
+    volleyball = this.physics.add.sprite(gameState.VolleyballSpawnPoint.x - 31, gameState.VolleyballSpawnPoint.y - 500, 'volleyball');
+    volleyball.setScale(1.2);
+    volleyball.setBounce(1);
+    volleyball.disableBody(true, true);
+    volleyball.body.setCircle(3);
+    volleyball.body.setOffset(8, 9);
+    volleyball.setFrictionX(100)
+    volleyball.setFrictionY(100)
+
+    //creating the beachball
+    beachball = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 50, BurchamPoolSpawnPoint.y + 80, 'beachball');
+    beachball.setBounce(.3);
+    beachball.body.setCircle(10);
+    beachball.body.setOffset(6, 6);
+
+    //spawning map layers which are under player and npcs (should this be static? fix needed...)
+    const world = map.createDynamicLayer("World", tileset1, 0, 0);
+    const world3 = map.createDynamicLayer("World3", tileset33, 0, 0);
+    const world2 = map.createDynamicLayer("World2", tileset22, 0, 0);
+    const special = map.createStaticLayer("Special", tileset4, 0, 0);
+    const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
+
+    //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue)
+    bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennett_run", potentialParty["Bennett"]);
+    al = new NPC(this, "al spawn point", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "holdon", potentialParty["Al"]);
+    joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "punch", false);
+    jon = new NPC(this, "jon spawn point", "jon", 0, "Homeboy Jon", "jonleft", "jonright", "jonleft", "jonright", "bitenoise", false);
+    jon.body.setSize(120, 20);
+    jon.body.setOffset(40, 150); //overriding scale given by NPC class
+    james = new NPC(this, "james spawn point", "james", 0, "Homeboy Jon", "jamesleft", "jamesright", "jamesup", "jamesdown", "bitenoise", false);
+    james.body.setCircle(180);
+    james.body.setOffset(50, 100); //overriding scale given by NPC class
+    oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke", "bong", false);
+    oghomeboy.body.immovable = true;
+    oghomeboy.body.moves = false;
+    trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorleft", "trevorright", "trevorleft", "trevorright", "bong", potentialParty["Jimmy"]);
+    trevor.body.setCircle(60);
+    trevor.body.setOffset(60, 180);
+    hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false);
+    stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
+
+    chasersGroup = this.physics.add.group()
+    for (let i = 0; i < enemsForChasers.length; i++) {
+      chasers[i] = chasersGroup.create(1200 + 100, 600 + 300, enemsForChasers[i][0]);
+      chasers[i].disableBody(true, true);
+      chasers[i].setScale(enemsForChasers[i][3])
+      chasers[i].body.setCircle(enemsForChasers[i][4]);
+      chasers[i].body.setOffset(enemsForChasers[i][5], enemsForChasers[i][6]);
+    }
+
+    //fratboys
+    fratboys = this.physics.add.group()
+
+    crackhead = fratboys.create(gameState.fratboy1SpawnPoint.x - 100, gameState.fratboy1SpawnPoint.y - 2000, 'crackhead');
+    ex_junkie = fratboys.create(gameState.fratboy1SpawnPoint.x - 100, gameState.fratboy1SpawnPoint.y + 200, 'ex_junkie');
+    junkie = fratboys.create(gameState.fratboy1SpawnPoint.x + 100, gameState.fratboy1SpawnPoint.y - 200, 'junkie');
+    fratboy1 = fratboys.create(gameState.fratboy1SpawnPoint.x, gameState.fratboy1SpawnPoint.y, 'fratboy1');
+    fratboy2 = fratboys.create(gameState.fratboy2SpawnPoint.x, gameState.fratboy2SpawnPoint.y, 'fratboy2');
+    fratboy3 = fratboys.create(gameState.fratboy3SpawnPoint.x, gameState.fratboy3SpawnPoint.y, 'fratboy3');
+    fratboy4 = fratboys.create(gameState.fratboy4SpawnPoint.x, gameState.fratboy4SpawnPoint.y, 'fratboy4');
+    fratboy5 = fratboys.create(gameState.fratboy4SpawnPoint.x + 120, gameState.fratboy4SpawnPoint.y + 200, 'fratboy5');
+
+    fratboys.children.iterate(function(child) {
+      child.setScale(.16);
+      child.setCircle(40);
+      child.setOffset(110, 80);
+    });
+
+    //fratboy2
+    fratboy2prime = fratboys.create(Fratboy2PrimeSpawnPoint.x, Fratboy2PrimeSpawnPoint.y, 'fratboy2prime');
+    fratboy2prime.setScale(.14)
+    fratboy2prime.body.setCircle(20);
+    fratboy2prime.body.setOffset(60, 100);
+
+    //spawning girls
+    grls = this.physics.add.group();
+    girl1 = grls.create(gameState.Girl1SpawnPoint.x + 20, gameState.Girl1SpawnPoint.y, 'girl1');
+    girl3 = grls.create(gameState.Girl3SpawnPoint.x + 4, gameState.Girl3SpawnPoint.y, 'girl3');
+    girl4 = grls.create(gameState.Girl4SpawnPoint.x + 7, gameState.Girl4SpawnPoint.y, 'girl4');
+    girl2 = grls.create(gameState.Girl2SpawnPoint.x - 5, gameState.Girl2SpawnPoint.y, 'girl2');
+
+    adeline = this.physics.add.sprite(gameState.Girl1SpawnPoint.x - 25, gameState.Girl1SpawnPoint.y + 32, 'adeline');
+    adeline.setSize(120, 130);
+    adeline.setOffset(0, 20);
+    adeline.setScale(.16)
+    adeline.body.immovable = true;
+    adeline.anims.play('adeline_party', true)
+
+    grls.children.iterate(function(child) {
+      child.setCircle(20);
+      child.setScale(.2)
+    });
+
+    //spawn blnde
+    blonde = grls.create(BlondeSpawnPoint.x, BlondeSpawnPoint.y, 'blonde');
+    blonde.x = gameState.fratboy4SpawnPoint.x + 120
+    blonde.y = gameState.fratboy4SpawnPoint.y + 220
+    blonde.setScale(.25);
+    blonde.setSize(1, 80);
+    blonde.setOffset(30, 80);
+
+    //spawning player and setting properties
+    //to start at level i and get skill at level i
+    //levelObject["Mac"]=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
+    //to spawn at pool area
+    //gameState.PlayerSpawnPoint=BurchamPoolSpawnPoint
+    //to spawn at fratboy5
+    //gameState.PlayerSpawnPoint.x=gameState.fratboy4SpawnPoint.x+50
+    //gameState.PlayerSpawnPoint.y=gameState.fratboy4SpawnPoint.y+50
+
+    //to spawn at highschool roof
+    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
+    //to spawn at soccer net
+    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "jon spawn point").x
+    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "jon spawn point").y+50
+    //to spawn at oghomeboy spawn point
+    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "homeboy spawn point").x-40
+    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "homeboy spawn point").y
+    //to spawn at race start
+    //raceBegin=true; athletics=1.3
+    //to spawn at bottom left corner of map
+    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "abbott bottom right")
+    //to spawn at marathon
+    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "marathon top left").x+200
+    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "marathon top left").y+650
+    //to spawn at pool table
+    //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").x+10
+    //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").y+10
+    //to spawn at fratboy2primestab
+    //gameState.PlayerSpawnPoint.x=Fratboy2PrimeSpawnPoint.x
+    //gameState.PlayerSpawnPoint.y=Fratboy2PrimeSpawnPoint.y-50
+
+    me = this.physics.add.sprite(gameState.PlayerSpawnPoint.x, gameState.PlayerSpawnPoint.y, 'me');
+    me.setScale(.17);
+    me.body.setSize(70, 90);
+    me.body.setOffset(60, 100);
+
+    gameState.pointer = this.input.activePointer;
+
+    this.input.on('pointerdown', function(pointer) {
+      this.input.setDefaultCursor('url(assets/handPointerClosed.png), pointer');
+    }, this);
+
+    this.input.on('pointerup', function(pointer) {
+      this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
+    }, this);
+
+
+    //spawning layers which are above the player
+    const above = map.createStaticLayer("Above", tileset2, 0, 0);
+
+    // Collisions. Note: must create a boolean for tiles in Tiled called ''collides'' in the tileset editor and set collides = 'true'
+    world.setCollisionByProperty({
+      collides: true
+    });
+    world2.setCollisionByProperty({
+      collides: true
+    });
+    world3.setCollisionByProperty({
+      collides: true
+    });
+    cars.setCollisionByProperty({
+      collides: true
+    });
+    special.setCollisionByProperty({
+      collides: true
+    });
+    above.setCollisionByProperty({
+      collides: true
+    });
+
+    //followers colliding
+    this.physics.add.collider(trevor, al);
+    this.physics.add.collider(trevor, bennett);
+    this.physics.add.collider(bennett, al);
+
+    //collisions with pool chairs
+    this.physics.add.collider(me, goalieZone);
+    this.physics.add.collider(me, canjam);
+    this.physics.add.collider(me, yogagirl);
+    this.physics.add.collider(me, adeline);
+    this.physics.add.collider(me, poolchairs);
+    this.physics.add.collider(beachball, poolchairs);
+    this.physics.add.collider(poolchairs, poolchairs);
+    this.physics.add.collider(poolchairs, world);
+
+    //collisions with net
+    this.physics.add.collider(me, net);
+    this.physics.add.collider(volleyball, net);
+    this.physics.add.collider(jon, net);
+    this.physics.add.collider(ball, net);
+    this.physics.add.collider(net, trevor);
+    this.physics.add.collider(net, al);
+    this.physics.add.collider(net, bennett);
+
+    //collisions with player and world
+    this.physics.add.collider(me, grls);
+    this.physics.add.collider(me, blonde);
+    this.physics.add.collider(me, world);
+    this.physics.add.collider(me, world2);
+    this.physics.add.collider(me, world3);
+    this.physics.add.collider(me, special);
+    this.physics.add.collider(me, above);
+    this.physics.add.collider(me, cars);
+    this.physics.add.collider(me, ball);
+    this.physics.add.collider(me, volleyball);
+    this.physics.add.collider(me, beachball);
+    this.physics.add.collider(me, oghomeboy);
+    this.physics.add.collider(me, james);
+    this.physics.add.collider(me, fratboys);
+
+    //colliders for grls
+    this.physics.add.collider(grls, special);
+    this.physics.add.collider(grls, grls);
+    this.physics.add.collider(grls, me);
+    this.physics.add.collider(grls, world);
+    this.physics.add.collider(grls, world2);
+    this.physics.add.collider(grls, world3);
+    this.physics.add.collider(grls, cars);
+    this.physics.add.collider(grls, trevor);
+    this.physics.add.collider(grls, ball);
+    this.physics.add.collider(grls, volleyball);
+
+    //colliders for fratboys
+    this.physics.add.collider(fratboys, special);
+    this.physics.add.collider(fratboys, fratboys);
+    this.physics.add.collider(fratboys, me);
+    this.physics.add.collider(fratboys, world);
+    this.physics.add.collider(fratboys, world2);
+    this.physics.add.collider(fratboys, world3);
+    this.physics.add.collider(fratboys, cars);
+    this.physics.add.collider(fratboys, trevor);
+    this.physics.add.collider(fratboys, ball);
+    this.physics.add.collider(fratboys, volleyball);
+
+    //colliders for world
+    this.physics.add.collider(oghomeboy, world);
+    this.physics.add.collider(oghomeboy, world2);
+    this.physics.add.collider(oghomeboy, world3);
+    this.physics.add.collider(world, world);
+    this.physics.add.collider(world2, world2);
+    this.physics.add.collider(world, ball);
+    this.physics.add.collider(world2, ball);
+    this.physics.add.collider(world3, ball);
+    this.physics.add.collider(world, volleyball);
+    this.physics.add.collider(world2, volleyball);
+    this.physics.add.collider(world3, volleyball);
+    this.physics.add.collider(world, beachball);
+    this.physics.add.collider(world2, beachball);
+    this.physics.add.collider(world3, beachball);
+    this.physics.add.collider(oghomeboy, ball);
+    this.physics.add.collider(oghomeboy, volleyball);
+    this.physics.add.collider(cars, ball);
+    this.physics.add.collider(cars, volleyball);
+
+    //colliders for bennett
+    this.physics.add.collider(bennett, ball)
+    this.physics.add.collider(bennett, volleyball)
+    this.physics.add.collider(bennett, world)
+    this.physics.add.collider(bennett, world2)
+    this.physics.add.collider(bennett, world3)
+    this.physics.add.collider(bennett, cars)
+    this.physics.add.collider(bennett, jon)
+
+    //colliders for stripper
+    this.physics.add.collider(stripper, ball)
+    this.physics.add.collider(stripper, volleyball)
+    this.physics.add.collider(stripper, world)
+    this.physics.add.collider(stripper, world2)
+    this.physics.add.collider(stripper, world3)
+    this.physics.add.collider(stripper, cars)
+    this.physics.add.collider(stripper, jon)
+
+    //colliders for trevor
+    this.physics.add.collider(trevor, ball)
+    this.physics.add.collider(trevor, volleyball)
+    this.physics.add.collider(trevor, world)
+    this.physics.add.collider(trevor, world2)
+    this.physics.add.collider(trevor, world3)
+    this.physics.add.collider(trevor, cars)
+    this.physics.add.collider(trevor, jon)
+
+    //colliders for joe
+    this.physics.add.collider(joe, ball)
+    this.physics.add.collider(joe, volleyball)
+    this.physics.add.collider(joe, world)
+    this.physics.add.collider(joe, world2)
+    this.physics.add.collider(joe, world3)
+    this.physics.add.collider(joe, cars)
+    this.physics.add.collider(joe, jon)
+
+    //colliders for jon
+    this.physics.add.collider(jon, ball)
+    this.physics.add.collider(jon, volleyball)
+    this.physics.add.collider(jon, world)
+    this.physics.add.collider(jon, world2)
+    this.physics.add.collider(jon, world3)
+    this.physics.add.collider(jon, cars)
+
+    //colliders for al
+    this.physics.add.collider(al, world)
+    this.physics.add.collider(al, world2)
+    this.physics.add.collider(al, world3)
+    this.physics.add.collider(al, cars)
+
+    //colliders for james
+    this.physics.add.collider(james, ball)
+    this.physics.add.collider(james, volleyball)
+    this.physics.add.collider(james, world)
+    this.physics.add.collider(james, world2)
+    this.physics.add.collider(james, world3)
+    this.physics.add.collider(james, cars)
+    this.physics.add.collider(james, jon)
+
+    //colliders for car
+    this.physics.add.collider(car, world)
+    this.physics.add.collider(car, world2)
+    this.physics.add.collider(car, world3)
+
+    //colliders for chasersGroup
+    this.physics.add.collider(chasersGroup, world)
+    this.physics.add.collider(chasersGroup, world2)
+    this.physics.add.collider(chasersGroup, world3)
+    this.physics.add.collider(chasersGroup, cars)
+    this.physics.add.collider(chasersGroup, ball)
+
+    //colliders for special
+    this.physics.add.collider(volleyball, special)
+    this.physics.add.collider(ball, special)
+    this.physics.add.collider(beachball, special)
+
+    //setting world bounds and setting objects to collide with world bounds
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true, true, true, true);
+    me.setCollideWorldBounds(true);
+    trevor.setCollideWorldBounds(true);
+    jon.setCollideWorldBounds(true);
+    joe.setCollideWorldBounds(true);
+    james.setCollideWorldBounds(true);
+    bennett.setCollideWorldBounds(true);
+    al.setCollideWorldBounds(true);
+    ball.setCollideWorldBounds(true);
+    volleyball.setCollideWorldBounds(true);
+    beachball.setCollideWorldBounds(true);
+
+    //set camera to follow main character but stay inside world bounds
+    camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    camera.startFollow(me, true);
+
     //keyboard commands
     this.input.keyboard.on("keydown", this.onKeyInput, this);
     //adjusting camera zoom with 1,2,3 buttons
@@ -2515,6 +2477,7 @@ var LightWorld = new Phaser.Class({
     });
     goalZone.create(net4.x, net4.y + 10, 88, 10)
     this.physics.add.overlap(volleyball, goalZone, scoreGoal, false, this);
+
     //battlescene zones
     spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone
@@ -2529,7 +2492,6 @@ var LightWorld = new Phaser.Class({
     this.physics.add.overlap(me, chasersGroup, onMeetEnemy2, false, this);
 
     this.scene.launch('Navigator');
-    //end of create
     this.sys.events.on('wake', this.wake, this);
     //do this so that if you die without saving and press load game, you don't have 0 health.
     if (saveFileExists === false) {
@@ -2541,17 +2503,17 @@ var LightWorld = new Phaser.Class({
 
   update: function() {
     //dialogue with evan and anthony
-    if (distance(me,gameState.anthonySpawnPoint)<30 && anthonyFirstDialogue===0) {
-      anthonyFirstDialogue=1
+    if (distance(me, gameState.anthonySpawnPoint) < 30 && anthonyFirstDialogue === 0) {
+      anthonyFirstDialogue = 1
       initializePage(this);
       let firstPage = fetchPage(6000);
       displayPage(this, firstPage);
-    } else if (distance(me,gameState.evanSpawnPoint)<30 && evanFirstDialogue===0) {
-      evanFirstDialogue=1
+    } else if (distance(me, gameState.evanSpawnPoint) < 30 && evanFirstDialogue === 0) {
+      evanFirstDialogue = 1
       initializePage(this);
       let firstPage = fetchPage(7000);
       displayPage(this, firstPage);
-      activeQuests['Frat Boy Wants to Stab']='Evan told me there is some frat guy with a knife waiting for me at the Burcham and Division intersection. Better not go until I got my crew together...'
+      activeQuests['Frat Boy Wants to Stab'] = 'Evan told me there is some frat guy with a knife waiting for me at the Burcham and Division intersection. Better not go until I got my crew together...'
     }
     if (numberOfFights === 1 && openFightDialogue === true) {
       openFightDialogue = false
@@ -2880,17 +2842,17 @@ var LightWorld = new Phaser.Class({
       me.body.setOffset(60, 100);
     }
 
-    if (speed===1 && walkNoisePlaying === false && (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 > 40) {
+    if (speed === 1 && walkNoisePlaying === false && (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 > 40) {
       gameState.meWalkingSound.play()
       walkNoisePlaying = true
-    } else if (speed>1 || (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 ===0){
+    } else if (speed > 1 || (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 === 0) {
       gameState.meWalkingSound.stop()
       walkNoisePlaying = false
     }
-      if (speed>1 && runNoisePlaying === false && (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 > 40){
-        gameState.meRunningSound.play()
-        runNoisePlaying = true
-    } else if (speed===1 || (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 ===0){
+    if (speed > 1 && runNoisePlaying === false && (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 > 40) {
+      gameState.meRunningSound.play()
+      runNoisePlaying = true
+    } else if (speed === 1 || (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 === 0) {
       gameState.meRunningSound.stop()
       runNoisePlaying = false
     }
@@ -2930,7 +2892,7 @@ var LightWorld = new Phaser.Class({
     } else if (bossType === 'darkboy' && bossBattleParameter === 1) {
       this.scene.switch('BattleScene');
       bossBattleParameter = 0
-      activeQuests['Back to the Dark World']='After I dosed some tussin, I wound up in some kind of dark version of East Lansing. And when I saw that tussin bottle, I swear it looked at first like some sort of gnome or some little fucker fucking with me. I gotta go back somehow and check it out. More tussin?'
+      activeQuests['Back to the Dark World'] = 'After I dosed some tussin, I wound up in some kind of dark version of East Lansing. And when I saw that tussin bottle, I swear it looked at first like some sort of gnome or some little fucker fucking with me. I gotta go back somehow and check it out. More tussin?'
     } else if (bossType === 'frank' && bossBattleParameter === 1) {
       this.scene.switch('BattleScene');
       bossBattleParameter = 0
@@ -3245,7 +3207,7 @@ var LightWorld = new Phaser.Class({
       initializePage(this)
       let page = fetchPage(1500)
       displayPage(this, page)
-      if (!activeQuests["Yoga girl needs blocks"]){
+      if (!activeQuests["Yoga girl needs blocks"]) {
         activeQuests["Yoga girl needs blocks"] = "I was talking to this hot girl doing yoga. She was complaining about some stripper and asked if I had any yoga blocks. Maybe she'll give me something cool if I can find some."
       }
     } else if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 2 && items.includes("Yoga Blocks")) {
@@ -3257,7 +3219,7 @@ var LightWorld = new Phaser.Class({
       gameState.itemget.play()
       equipment.push("Gold Duck Tape")
       removeAll(items, "Yoga Blocks")
-    } else if (distance(me, yogagirl) > 200 && yogagirlFirstTalk === 1 ){
+    } else if (distance(me, yogagirl) > 200 && yogagirlFirstTalk === 1) {
       yogagirlFirstTalk = 2
     }
 
@@ -3268,7 +3230,7 @@ var LightWorld = new Phaser.Class({
       initializePage(this)
       let page = fetchPage(3500)
       displayPage(this, page)
-      if (!activeQuests["Adeline is pissed"]){
+      if (!activeQuests["Adeline is pissed"]) {
         activeQuests["Adeline is pissed"] = "My lady friend Adeline is pissed because she heard me hitting on some girls by the pool. I should get her flowers or something... I think I saw some by the road at the Alton and Burcham intersection."
       }
     } else if (distance(me, adeline) < 30 && adelineFirstTalk === 2 && items.includes("Flowers")) {
@@ -3280,7 +3242,7 @@ var LightWorld = new Phaser.Class({
       gameState.itemget.play()
       equipment.push("Camo Duck Tape")
       removeAll(items, "Flowers")
-    } else if (distance(me, adeline) > 200 && adelineFirstTalk === 1 ){
+    } else if (distance(me, adeline) > 200 && adelineFirstTalk === 1) {
       adelineFirstTalk = 2
     }
 
@@ -3367,7 +3329,6 @@ var LightWorld = new Phaser.Class({
       girl4.disableBody(true, true)
       liquor.disableBody(true, true)
       adeline.disableBody(true, true)
-      //dancingGirl.disableBody(true, true)
     } else if (trevor.joinParameter) {
       girl1.enableBody(true, gameState.Girl1SpawnPoint.x, gameState.Girl1SpawnPoint.y, true, true);
       girl3.enableBody(true, gameState.Girl3SpawnPoint.x + 4, gameState.Girl3SpawnPoint.y, true, true);
@@ -3381,7 +3342,6 @@ var LightWorld = new Phaser.Class({
       yogagirl.enableBody(true, gameState.YogaGirlSpawnPoint2.x, gameState.YogaGirlSpawnPoint2.y, true, true);
       yogamat.x = yogagirl.x;
       yogamat.y = yogagirl.y + 20;
-      //dancingGirl.enableBody(true, dancingGirl.x, dancingGirl.y, true, true);
     }
 
     //dialogue for finding phone and wallet
@@ -3488,7 +3448,7 @@ var LightWorld = new Phaser.Class({
         let page = fetchPage(40)
         displayPage(this, page)
         jamesFirstTalk = 1
-        activeQuests['High School Roof']='James said he saw some lights or aliens or something up on the high school roof. He is most likely just high as shit but I may as well get up there anyway.'
+        activeQuests['High School Roof'] = 'James said he saw some lights or aliens or something up on the high school roof. He is most likely just high as shit but I may as well get up there anyway.'
       }
     }
 
@@ -3511,7 +3471,7 @@ var LightWorld = new Phaser.Class({
       }
       joe.animate();
       joe.getUnstuck();
-      if (!trevor.following){
+      if (!trevor.following) {
         joe.randomWalk()
       }
 
@@ -3568,8 +3528,8 @@ var LightWorld = new Phaser.Class({
         displayPage(this, page)
         bennettFirstTalk = 1
         gameState.arnold_bennett.play()
-        if (!activeQuests['Beat Bennett in a Race']){
-          activeQuests['Beat Bennett in a Race']='I saw Bennett running along the road. If I can beat him in a race, maybe he will help me out. Remember if I always go full speed, I will run out of stamina real fast.'
+        if (!activeQuests['Beat Bennett in a Race']) {
+          activeQuests['Beat Bennett in a Race'] = 'I saw Bennett running along the road. If I can beat him in a race, maybe he will help me out. Remember if I always go full speed, I will run out of stamina real fast.'
         }
 
       } else if (distance(me, bennett) > 100) {
@@ -3633,7 +3593,7 @@ var LightWorld = new Phaser.Class({
         initializePage(this)
         let page = fetchPage(80)
         displayPage(this, page)
-        activeQuests['Get Weed From OG Homeboy']='I ran into OG homeboy in the woods. He said if I can beat his high score on his video game, I can get a discount on weed (2g for 10 bucks).'
+        activeQuests['Get Weed From OG Homeboy'] = 'I ran into OG homeboy in the woods. He said if I can beat his high score on his video game, I can get a discount on weed (2g for 10 bucks).'
       } else if (distance(me, oghomeboy) > 200) {
         ogFirstTalk = 0
       }
@@ -3727,7 +3687,7 @@ var LightWorld = new Phaser.Class({
         initializePage(this)
         let page = fetchPage(70)
         displayPage(this, page)
-        activeQuests["Score Goals on Homeboy Jon"]='I found homeboy Jon in the field behind 731. He said if I can score a goal on him he will give me smokes. If I score on his GOD MODE he might give me something real good.'
+        activeQuests["Score Goals on Homeboy Jon"] = 'I found homeboy Jon in the field behind 731. He said if I can score a goal on him he will give me smokes. If I score on his GOD MODE he might give me something real good.'
         jonFirstTalk = 1
         jon.y = gameState.JonSpawnPoint.y - 60
         volleyball.enableBody(true, gameState.VolleyballSpawnPoint.x - 32, gameState.VolleyballSpawnPoint.y - 250, true, true);
@@ -3827,8 +3787,8 @@ var LightWorld = new Phaser.Class({
         crackhead.anims.play('crackheadleft', true)
       }
       if (distance(me, crackhead) < 30 && crackheadFirstTalk === 0) {
-        if (!activeQuests["Crackhead wants some change"]){
-          activeQuests["Crackhead wants some change"]='That one crackhead wants some money. He says he needs 10 bucks. Maybe if I give it to him, he will help me out instead of attacking me all the time...'
+        if (!activeQuests["Crackhead wants some change"]) {
+          activeQuests["Crackhead wants some change"] = 'That one crackhead wants some money. He says he needs 10 bucks. Maybe if I give it to him, he will help me out instead of attacking me all the time...'
         }
         gameState.iwantsomecrack.play()
         if (moneyToCrackhead >= 10 && crackheadFirstJoin) {
