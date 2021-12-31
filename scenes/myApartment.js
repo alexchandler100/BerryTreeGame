@@ -544,7 +544,6 @@ var MyApartment = new Phaser.Class({
     joeApt.body.setSize(80, 50);
     joeApt.body.setOffset(60, 140);
 
-
     //collisions with walls and stuff
     this.physics.add.collider(meApt, blondeApt);
     this.physics.add.collider(meApt, under0room);
@@ -1001,6 +1000,23 @@ var MyApartment = new Phaser.Class({
   },
 
   update: function() {
+    //spawn joe if you spoke outside
+    if (joeGet==='initial'){
+      joeApt.disableBody(true, true)
+      joeGet='waiting'
+    } else if (joeGet==='spoke'){
+      joeApt.enableBody(true, gameState.clubhouseInside731Entrance.x + 480, gameState.clubhouseInside731Entrance.y - 50, true, true);
+      joeGet='spawned'
+    }
+
+    //spawn joe if you spoke outside
+    if (jamesGet==='initial'){
+      jamesApt.disableBody(true, true)
+      jamesGet='waiting'
+    } else if (jamesGet==='spoke'){
+      jamesApt.enableBody(true, gameState.clubhouseInside731Entrance.x + 470, gameState.clubhouseInside731Entrance.y + 50, true, true);
+      jamesGet='spawned'
+    }
     //launch keyboard dialogue
     if (keyboardDialogue){
       keyboardDialogue=false;

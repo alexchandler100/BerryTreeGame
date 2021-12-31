@@ -2306,14 +2306,6 @@ var LightWorld = new Phaser.Class({
         if (al.following) {
           al.enableBody(true, me.x - 20, me.y - 20, true, true);
         }
-      } else if (distance(phone, me) < 30 && phoneGet === 0) {
-        phone.disableBody(true, true);
-        items.push("Phone");
-        this.message.x = me.x;
-        this.message.y = me.y;
-        this.scene.scene.events.emit("Message", "You found your phone", me.x, me.y);
-        phoneGet = 1;
-        gameState.itemget.play();
       } else if (darkWorld === 0 && distance(hausdorf, me) < 30 && worldTheme === 'light') {
         completeQuest('Robo-Trip')
         completeQuest('High School Roof')
@@ -2337,6 +2329,14 @@ var LightWorld = new Phaser.Class({
         this.message.y = me.y;
         items.push("Flowers")
         this.scene.scene.events.emit("Message", "You found some flowers", me.x, me.y);
+      } else if (distance(phone, me) < 30 && phoneGet === 0) {
+        phone.disableBody(true, true);
+        items.push("Phone");
+        this.message.x = me.x;
+        this.message.y = me.y;
+        this.scene.scene.events.emit("Message", "You found your phone", me.x, me.y);
+        phoneGet = 1;
+        gameState.itemget.play();
       } else if (distance(wallet, me) < 30 && walletGet === 0) {
         wallet.disableBody(true, true);
         items.push("Wallet");
@@ -2344,7 +2344,7 @@ var LightWorld = new Phaser.Class({
         this.message.y = me.y;
         this.scene.scene.events.emit("Message", "You found your wallet", me.x, me.y);
         walletGet = 1;
-        moneyPlus = true;
+        getTreeFitty();
         gameState.itemget.play()
       } else if (distance(keys, me) < 30 && keysGet === 0) {
         this.message.x = me.x;
@@ -3081,12 +3081,6 @@ var LightWorld = new Phaser.Class({
       itemReward = '';
     }
 
-    //getting money
-    if (moneyPlus) {
-      getTreeFitty();
-      moneyPlus = false;
-    }
-
     //camera and cursors
     this.cameras.main.zoom = zoom;
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -3446,7 +3440,8 @@ var LightWorld = new Phaser.Class({
         initializePage(this)
         let page = fetchPage(40)
         displayPage(this, page)
-        jamesFirstTalk = 1
+        jamesFirstTalk = 1;
+        jamesGet='spoke';
         activeQuests['High School Roof'] = 'James said he saw some lights or aliens or something up on the high school roof. He is most likely just high as shit but I may as well get up there anyway.'
       }
     }
@@ -3478,7 +3473,8 @@ var LightWorld = new Phaser.Class({
         initializePage(this)
         let page = fetchPage(50)
         displayPage(this, page)
-        joeFirstTalk = 1
+        joeFirstTalk = 1;
+        joeGet='spoke';
         activeQuests["Bets with Joe"] = "Joe wants to bet on pool. I should meet him in the leasing office at 731 Burcham."
       }
     }

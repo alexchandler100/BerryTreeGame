@@ -324,7 +324,7 @@ const pages = [{
   {
     character: 'me',
     page: 42,
-    narrative: "James: Anyway dude, take these monsters I drank like 3 already. Yo by the way we should head to the clubhouse and play some pool.",
+    narrative: "James: Anyway dude, take these monsters I drank like 3 already. Yo by the way we should head to the clubhouse and play some pool. I'm down to make some bets.",
     options: [{
       option: 'Shiit alright, alright',
       nextPage: undefined,
@@ -1772,7 +1772,7 @@ const pages = [{
   {
     character: 'me',
     page: 7000,
-    narrative: `Evan: Yoo some frat dude was looking for you. Seemed pissed, pretty sure he had a knife. He said he'd be at burcham and Division avenue waiting.`,
+    narrative: `Evan: Yoo some frat dude was looking for you. Seemed pissed, pretty sure he had a knife. He said he'd be at Burcham Road and Division Avenue waiting.`,
     options: [{
       option: 'Right on man',
       nextPage: undefined,
