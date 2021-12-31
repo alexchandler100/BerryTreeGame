@@ -1000,23 +1000,7 @@ var MyApartment = new Phaser.Class({
   },
 
   update: function() {
-    //spawn joe if you spoke outside
-    if (joeGet==='initial'){
-      joeApt.disableBody(true, true)
-      joeGet='waiting'
-    } else if (joeGet==='spoke'){
-      joeApt.enableBody(true, gameState.clubhouseInside731Entrance.x + 480, gameState.clubhouseInside731Entrance.y - 50, true, true);
-      joeGet='spawned'
-    }
 
-    //spawn joe if you spoke outside
-    if (jamesGet==='initial'){
-      jamesApt.disableBody(true, true)
-      jamesGet='waiting'
-    } else if (jamesGet==='spoke'){
-      jamesApt.enableBody(true, gameState.clubhouseInside731Entrance.x + 470, gameState.clubhouseInside731Entrance.y + 50, true, true);
-      jamesGet='spawned'
-    }
     //launch keyboard dialogue
     if (keyboardDialogue){
       keyboardDialogue=false;
@@ -1248,7 +1232,26 @@ var MyApartment = new Phaser.Class({
     } else if (distance(meApt, blondeApt) > 40) {
       blondeTalk = false
     }
-    if (distance(meApt, joeApt) < 10 && joePoolTalk === false) {
+
+    //spawn joe if you spoke outside
+    if (joeGet==='initial'){
+      joeApt.disableBody(true, true)
+      joeGet='waiting'
+    } else if (joeGet==='spoke'){
+      joeApt.enableBody(true, gameState.clubhouseInside731Entrance.x + 480, gameState.clubhouseInside731Entrance.y - 50, true, true);
+      joeGet='spawned'
+    }
+
+    //spawn joe if you spoke outside
+    if (jamesGet==='initial'){
+      jamesApt.disableBody(true, true)
+      jamesGet='waiting'
+    } else if (jamesGet==='spoke'){
+      jamesApt.enableBody(true, gameState.clubhouseInside731Entrance.x + 470, gameState.clubhouseInside731Entrance.y + 50, true, true);
+      jamesGet='spawned'
+    }
+    //dialogue for joe and james
+    if (distance(meApt, joeApt) < 10 && joePoolTalk === false && joeGet==='spawned') {
       joePoolTalk = true;
       initializePageApt(this);
       let firstPage = fetchPageApt(3010);
@@ -1256,7 +1259,7 @@ var MyApartment = new Phaser.Class({
     } else if (distance(meApt, joeApt) > 40) {
       joePoolTalk = false
     }
-    if (distance(meApt, jamesApt) < 10 && jamesPoolTalk === false) {
+    if (distance(meApt, jamesApt) < 10 && jamesPoolTalk === false  && jamesGet==='spawned') {
       jamesPoolTalk = true;
       initializePageApt(this);
       let firstPage = fetchPageApt(3020);

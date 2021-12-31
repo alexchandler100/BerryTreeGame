@@ -1481,7 +1481,6 @@ function getCigarettes() { //jon gives you cigarettes
 function getTreeFitty() { //girl gives you 3.50 for beer
   money += 3.50
   gameState.itemget.play()
-  openQuestLog()
 }
 
 function getOneSPMac() { //level up increase SP
