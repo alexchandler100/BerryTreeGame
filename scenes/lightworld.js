@@ -279,7 +279,7 @@ var LightWorld = new Phaser.Class({
     this.load.image('car_keys', "assets/car_keys.png");
     this.load.image('girl4', "assets/girl4.png");
     this.load.image('net', "assets/net.png");
-    this.load.image('volleyballnet', "assets/volleyballnet.png");
+    //this.load.image('volleyballnet', "assets/volleyballnet.png");
     this.load.image('phone', "assets/phone.png");
     this.load.image('wallet', "assets/wallet.png");
     this.load.image('liquor', "assets/liquor.png");
@@ -287,8 +287,8 @@ var LightWorld = new Phaser.Class({
     //loading spritesheets
     this.load.spritesheet('pool',
       'assets/burcham_pool_animated.png', {
-        frameWidth: 224,
-        frameHeight: 288
+        frameWidth: 112,
+        frameHeight: 176
       });
     this.load.spritesheet('explosion',
       'assets/explosion-4.png', {
@@ -676,6 +676,7 @@ var LightWorld = new Phaser.Class({
     gameState.fratboy4SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy5 spawn point");
     gameState.JonSpawnPoint = map.findObject("Objects", obj => obj.name === "jon spawn point");
     const Fratboy2PrimeSpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy2prime spawn point");
+    gameState.AdelineSpawnPoint = map.findObject("Objects", obj => obj.name === "adeline spawn point");
     gameState.Girl1SpawnPoint = map.findObject("Objects", obj => obj.name === "girl1 spawn point");
     gameState.Girl2SpawnPoint = map.findObject("Objects", obj => obj.name === "girl2 spawn point");
     gameState.Girl3SpawnPoint = map.findObject("Objects", obj => obj.name === "girl3 spawn point");
@@ -700,7 +701,7 @@ var LightWorld = new Phaser.Class({
     gameState.VolleyballSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyball spawn point");
     const CarSpawnPoint = map.findObject("Objects", obj => obj.name === "car spawn point");
     const DioShrineSpawnPoint = map.findObject("Objects", obj => obj.name === "dioshrine spawn point");
-    const VolleyballNetSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyballnet spawn point");
+    //const VolleyballNetSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyballnet spawn point");
     const BurchamPoolSpawnPoint = map.findObject("Objects", obj => obj.name === "burchampool spawn point");
 
     //location zone points
@@ -778,7 +779,7 @@ var LightWorld = new Phaser.Class({
     net2 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
     net3 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
     net4 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
-    net1.visible = false;
+    //net1.visible = false;
     net2.visible = false;
     net3.visible = false;
     net4.visible = false;
@@ -834,7 +835,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'poolwaves',
       frames: this.anims.generateFrameNumbers('pool', {
-        frames: [0, 1, 2, 1]
+        frames: [0, 1]
       }),
       frameRate: 3,
       repeat: -1
@@ -1777,7 +1778,7 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
 
-    burchamPool = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 16, BurchamPoolSpawnPoint.y + 16, 'pool')
+    burchamPool = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 16 + 60, BurchamPoolSpawnPoint.y + 16+40, 'pool')
     burchamPool.setOrigin(0, 0);
     burchamPool.anims.play('poolwaves', true);
     towel1 = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 50 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel1')
@@ -1786,6 +1787,8 @@ var LightWorld = new Phaser.Class({
     yogamat = this.add.image(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogamat');
     yogagirl = this.physics.add.sprite(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogagirl');
     yogagirl.setScale(.22)
+    yogagirl.setSize(64,64);
+    yogagirl.setOffset(64,64);
     yogagirl.body.immovable = true;
     yogamat.x = yogagirl.x;
     yogamat.y = yogagirl.y + 20;
@@ -1815,7 +1818,7 @@ var LightWorld = new Phaser.Class({
     flowers.setScale(.3);
 
     //spawning liquor
-    liquor = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 25 + 64, BurchamPoolSpawnPoint.y + 300 + 5, 'liquor');
+    liquor = this.physics.add.sprite(gameState.AdelineSpawnPoint.x + 32, gameState.AdelineSpawnPoint.y + 16, 'liquor');
     liquor.setScale(.1);
 
     //creating the soccer ball
@@ -1849,10 +1852,10 @@ var LightWorld = new Phaser.Class({
     const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
 
     //creating volleyball net
-    volleyballnet = net.create(VolleyballNetSpawnPoint.x, VolleyballNetSpawnPoint.y, 'volleyballnet');
-    volleyballnet.setOrigin(0, 0);
-    volleyballnet.setSize(12, 128);
-    volleyballnet.setOffset(0, 0);
+    //volleyballnet = net.create(VolleyballNetSpawnPoint.x, VolleyballNetSpawnPoint.y, 'volleyballnet');
+    //volleyballnet.setOrigin(0, 0);
+    //volleyballnet.setSize(12, 128);
+    //volleyballnet.setOffset(0, 0);
 
     net.children.iterate(function(child) {
       child.body.immovable = true;
@@ -1913,12 +1916,12 @@ var LightWorld = new Phaser.Class({
 
     //spawning girls
     grls = this.physics.add.group();
-    girl1 = grls.create(gameState.Girl1SpawnPoint.x + 20, gameState.Girl1SpawnPoint.y, 'girl1');
-    girl3 = grls.create(gameState.Girl3SpawnPoint.x + 4, gameState.Girl3SpawnPoint.y, 'girl3');
-    girl4 = grls.create(gameState.Girl4SpawnPoint.x + 7, gameState.Girl4SpawnPoint.y, 'girl4');
-    girl2 = grls.create(gameState.Girl2SpawnPoint.x - 5, gameState.Girl2SpawnPoint.y, 'girl2');
+    girl1 = grls.create(gameState.Girl1SpawnPoint.x, gameState.Girl1SpawnPoint.y, 'girl1');
+    girl3 = grls.create(gameState.Girl3SpawnPoint.x, gameState.Girl3SpawnPoint.y, 'girl3');
+    girl4 = grls.create(gameState.Girl4SpawnPoint.x, gameState.Girl4SpawnPoint.y, 'girl4');
+    girl2 = grls.create(gameState.Girl2SpawnPoint.x, gameState.Girl2SpawnPoint.y, 'girl2');
 
-    adeline = this.physics.add.sprite(gameState.Girl1SpawnPoint.x - 25, gameState.Girl1SpawnPoint.y + 32, 'adeline');
+    adeline = this.physics.add.sprite(gameState.AdelineSpawnPoint.x, gameState.AdelineSpawnPoint.y, 'adeline');
     adeline.setSize(120, 130);
     adeline.setOffset(0, 20);
     adeline.setScale(.16)
@@ -1926,8 +1929,9 @@ var LightWorld = new Phaser.Class({
     adeline.anims.play('adeline_party', true)
 
     grls.children.iterate(function(child) {
-      child.setCircle(20);
       child.setScale(.2)
+      child.setSize(50, 80);
+      child.setOffset(0, 40);
     });
 
     //spawn blnde
@@ -2433,19 +2437,22 @@ var LightWorld = new Phaser.Class({
     });
     raceZoneBR = map.findObject("Objects", obj => obj.name === "abbott bottom right")
     raceFinished = raceFinish.create(raceZoneBR.x - 50, raceZoneBR.y + 100, 20, 400).setOrigin(0, 0);
+
+    this.physics.add.overlap(raceFinish, me, meWinRace, false, this);
+    this.physics.add.overlap(raceFinish, bennett, bennettWinRace, false, this);
     //zone for the burcham pool
     enterPoolZones = this.physics.add.group({
       classType: Phaser.GameObjects.Zone
     });
-    poolZoneEnter1 = enterPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 64, BurchamPoolSpawnPoint.y + 16 + 64, 224 - 128, 288 - 128).setOrigin(0, 0);
+    poolZoneEnter1 = enterPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 64, BurchamPoolSpawnPoint.y + 64 + 10, 224 - 128, 288 - 128 + 6).setOrigin(0, 0);
 
     exitPoolZones = this.physics.add.group({
       classType: Phaser.GameObjects.Zone
     });
-    poolZoneExit1 = exitPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 32, BurchamPoolSpawnPoint.y + 16 + 32, 160, 10).setOrigin(0, 0);
-    poolZoneExit2 = exitPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 32 + 32, BurchamPoolSpawnPoint.y + 16 + 32, 2, 224).setOrigin(0, 0);
-    poolZoneExit3 = exitPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 32, BurchamPoolSpawnPoint.y + 16 + 224, 160, 2).setOrigin(0, 0);
-    poolZoneExit4 = exitPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 160 + 12, BurchamPoolSpawnPoint.y + 16 + 32, 2, 224).setOrigin(0, 0);
+    poolZoneExit1 = exitPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 32 + 32, BurchamPoolSpawnPoint.y + 42, 110, 2).setOrigin(0, 0);
+    poolZoneExit2 = exitPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 32 + 32, BurchamPoolSpawnPoint.y + 16 + 32, 2, 190).setOrigin(0, 0);
+    poolZoneExit3 = exitPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 32 + 32, BurchamPoolSpawnPoint.y + 16 + 224, 110, 2).setOrigin(0, 0);
+    poolZoneExit4 = exitPoolZones.create(BurchamPoolSpawnPoint.x + 16 + 160 + 12, BurchamPoolSpawnPoint.y + 16 + 32, 2, 190).setOrigin(0, 0);
 
     exitPoolZones.children.iterate(function(child) {
       child.body.immovable = true;
@@ -2460,12 +2467,13 @@ var LightWorld = new Phaser.Class({
     this.physics.add.overlap(exitPoolZones, me, exitPool, false, this);
     this.physics.add.overlap(enterPoolZones, beachball, ballGoInPool, false, this);
     this.physics.add.overlap(exitPoolZones, beachball, ballExitPool, false, this);
-    this.physics.add.overlap(raceFinish, me, meWinRace, false, this);
-    this.physics.add.overlap(raceFinish, bennett, bennettWinRace, false, this);
 
-    this.physics.add.collider(trevor, enterPoolZones);
-    this.physics.add.collider(al, enterPoolZones);
-    this.physics.add.collider(bennett, enterPoolZones);
+
+    this.physics.add.collider(trevor, exitPoolZones);
+    this.physics.add.collider(al, exitPoolZones);
+    this.physics.add.collider(bennett, exitPoolZones);
+    this.physics.add.collider(chasersGroup, exitPoolZones)
+    this.physics.add.collider(chasersGroup, beachball)
     this.physics.add.collider(trevor, beachball);
     this.physics.add.collider(al, beachball);
     this.physics.add.collider(bennett, beachball);
@@ -2533,7 +2541,7 @@ var LightWorld = new Phaser.Class({
     } else if (playerTexture === 'race' && speed === 4 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
       stamina -= .07
     } else if (playerTexture === 0 && speed === 1 || me.body.velocity.x ** 2 + me.body.velocity.y ** 2 < 100 ** 2 && pause === false) {
-      stamina += .07
+      stamina += .1
     }
     if (stamina <= 0) {
       stamina = 0
@@ -2830,6 +2838,7 @@ var LightWorld = new Phaser.Class({
       beachball.body.velocity.y /= 1.1;
     }
     if (inPool && swimNoisePlaying === false) {
+      speed=4;
       gameState.swimNoise.play()
       swimNoisePlaying = true
       me.body.setSize(70, 70);
@@ -3116,7 +3125,7 @@ var LightWorld = new Phaser.Class({
     chasersGroup.children.iterate(function(child) {
       if (chasersEnabled) {
         let rr = Math.random() * 6 - 3
-        if (distance(child, me) < 300) {
+        if (distance(child, me) < 300 && !runaway) {
           chase(child, me, 4.5 + rr) //use 3 for laptop and 4.5 for desktop (I think because my macbook has faster refresh rate)
         }
       }
@@ -3217,7 +3226,7 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for adeline
-    if (distance(me, adeline) < 30 && adelineFirstTalk === 0 && trevor.following && girl2FirstDialogue >= 1) {
+    if (distance(me, adeline) < 40 && adelineFirstTalk === 0 && trevor.joinParameter && girl2FirstDialogue >= 1) {
       console.log(`adeline talking`)
       adelineFirstTalk = 1
       initializePage(this)
@@ -3324,9 +3333,9 @@ var LightWorld = new Phaser.Class({
       adeline.disableBody(true, true)
     } else if (trevor.joinParameter) {
       girl1.enableBody(true, gameState.Girl1SpawnPoint.x, gameState.Girl1SpawnPoint.y, true, true);
-      girl3.enableBody(true, gameState.Girl3SpawnPoint.x + 4, gameState.Girl3SpawnPoint.y, true, true);
-      girl4.enableBody(true, gameState.Girl4SpawnPoint.x + 7, gameState.Girl4SpawnPoint.y, true, true);
-      girl2.enableBody(true, gameState.Girl2SpawnPoint.x - 5, gameState.Girl2SpawnPoint.y, true, true);
+      girl3.enableBody(true, gameState.Girl3SpawnPoint.x , gameState.Girl3SpawnPoint.y, true, true);
+      girl4.enableBody(true, gameState.Girl4SpawnPoint.x , gameState.Girl4SpawnPoint.y, true, true);
+      girl2.enableBody(true, gameState.Girl2SpawnPoint.x , gameState.Girl2SpawnPoint.y, true, true);
       if (liquorGet === 0) {
         liquor.enableBody(true, liquor.x, liquor.y, true, true);
       }

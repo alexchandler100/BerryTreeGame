@@ -103,6 +103,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let runaway=false;
 let pointerDirection = [0,0]
 let pointerLocation = [0,0]
 let pointerSet = false
@@ -1056,7 +1057,7 @@ function ballExitPool() {
 }
 
 function onMeetEnemy1(player, zone) {
-  if (worldTheme === 'light' && playerTexture === 0 && inPool === false) {
+  if (worldTheme === 'light' && playerTexture === 0 && inPool === false && !chasersEnabled) {
     chasersEnabled = true;
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
@@ -1074,35 +1075,44 @@ function onMeetEnemy1(player, zone) {
     if (set1.size === 2) {
       chasersIndexArray.push(ss)
     }
-    if (set2.size === 3) {
+    if (set2.size === 3 && numberOfPlayers>=2) {
       chasersIndexArray.push(tt)
     }
-    if (set3.size === 4 && trevor.joinParameter) {
+    if (set3.size === 4 && numberOfPlayers>=2) {
       chasersIndexArray.push(pp)
     }
-    if (set4.size === 5 && al.joinParameter) {
+    if (set4.size === 5 && numberOfPlayers>=3) {
       chasersIndexArray.push(qq)
     }
     //let chasersGuys=[]
     for (const i of chasersIndexArray) {
       let theta = Math.random() * 2 * 3.1415;
       //I need to make these only exist during the chasing and then destroy to optimize memory usage (fix needed...)
-      chasers[i].enableBody(true, me.x + 200 * Math.cos(theta), me.y + 200 * Math.sin(theta), true, true);
+      chasers[i].enableBody(true, me.x + 250 * Math.cos(theta), me.y + 250 * Math.sin(theta), true, true);
       //chasersGuys[i]=chasersGroup.create(me.x + 200 * Math.cos(theta), me.y + 200 * Math.sin(theta), enemsForChasers[i][0]);
     }
     window.setTimeout(() => {
       for (const i of chasersIndexArray) {
         //chasers[i].destroy()
+        runaway=true;
+        //chasersGuys[i].destroy()
+      }
+    }, 7000);
+    window.setTimeout(() => {
+      for (const i of chasersIndexArray) {
+        //chasers[i].destroy()
+        runaway=false;
         chasers[i].disableBody(true, true);
         chasersEnabled = false;
         //chasersGuys[i].destroy()
       }
-    }, 10000);
+    }, 14000);
   }
 }
 
 function onMeetEnemy2() {
-  if (worldTheme === 'light' && playerTexture === 0) {
+  //keepaway<400 because otherwise fight can disrupt quest dialogue for jimmy
+  if (worldTheme === 'light' && playerTexture === 0 && keepaway<400) {
     //this.cameras.main.flash(1000)
     gameState.swimNoise.stop();
     gameState.meWalkingSound.stop();

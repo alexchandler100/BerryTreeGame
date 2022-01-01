@@ -1259,7 +1259,7 @@ const pages = [{
   {
     character: 'me',
     page: 1600,
-    narrative: `Chardonnay: Heyyy sweetie.`,
+    narrative: `Diamond: Heyyy sweetie.`,
     options: [{
       option: 'Yoooo',
       nextPage: 1601,
@@ -1273,7 +1273,7 @@ const pages = [{
   {
     character: 'me',
     page: 1601,
-    narrative: `Chardonnay: So like do you know where I could get some coke?`,
+    narrative: `Diamond: So like do you know where I could get some coke?`,
     options: [
     {
       option: 'Uhh possibly',
@@ -1285,7 +1285,7 @@ const pages = [{
   {
     character: 'me',
     page: 1603,
-    narrative: `Chardonnay: Holy fuckin shit thank you so much. Here take these brass knuckles. You can fuck people up with these, they're my boyfriend's they hurt super bad. He takes care of me though...`,
+    narrative: `Diamond: Holy fuckin shit thank you so much. Here take these brass knuckles. You can fuck people up with these, they're my boyfriend's they hurt super bad. He takes care of me though...`,
     options: [{
       option: 'Shiiit badass',
       nextPage: undefined,
@@ -1295,7 +1295,7 @@ const pages = [{
   {
     character: 'me',
     page: 1602,
-    narrative: `Chardonnay: So did you get some coke or what?`,
+    narrative: `Diamond: So did you get some coke or what?`,
     options: [{
       option: 'Yeah here you go',
       nextPage: 1603,

@@ -20,9 +20,6 @@ var Navigator = new Phaser.Class({
       align: 'right',
       wordWrap: { width: 190 }
     });
-
-    console.log(gameStateNav.staminaDisplayFront)
-
     gameStateNav.location = this.add.text(1200-200, 10, '', {
       fontSize: '15px',
       fill: '#fff',

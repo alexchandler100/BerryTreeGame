@@ -901,11 +901,11 @@ var BattleScene = new Phaser.Class({
       this.add.existing(gameStateBattle.enem1);
     } else {
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)
-      if (set3.size === 4 && trevor.following) {
+      if (set3.size === 4 && numberOfPlayers>=2) {
         gameStateBattle.enem4 = new Enemy(this, 300, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (levelObject['Mac'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem4);
       }
-      if (set4.size === 5 && al.following) {
+      if (set4.size === 5 && numberOfPlayers>=2) {
         gameStateBattle.enem5 = new Enemy(this, 250, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (levelObject['Mac'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem5);
       }
@@ -917,7 +917,7 @@ var BattleScene = new Phaser.Class({
         this.add.existing(gameStateBattle.enem2);
       }
 
-      if (set2.size === 3) {
+      if (set2.size === 3 && numberOfPlayers>=2) {
         gameStateBattle.enem3 = new Enemy(this, 350, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (levelObject['Mac'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem3);
       }
@@ -995,13 +995,13 @@ var BattleScene = new Phaser.Class({
       if (set1.size === 2) {
         gameStateBattle.enem2.anims.play(enems[ss][5], true);
       }
-      if (set2.size === 3) {
+      if (set2.size === 3 && numberOfPlayers>=2) {
         gameStateBattle.enem3.anims.play(enems[tt][5], true);
       }
-      if (set3.size === 4 && trevor.following) {
+      if (set3.size === 4 && numberOfPlayers>=2) {
         gameStateBattle.enem4.anims.play(enems[pp][5], true);
       }
-      if (set4.size === 5 && al.following) {
+      if (set4.size === 5 && numberOfPlayers>=2) {
         gameStateBattle.enem5.anims.play(enems[qq][5], true);
       }
     }
@@ -1043,13 +1043,13 @@ var BattleScene = new Phaser.Class({
       if (set1.size === 2) {
         this.enemies.push(gameStateBattle.enem2)
       }
-      if (set2.size === 3) {
+      if (set2.size === 3 && numberOfPlayers>=2) {
         this.enemies.push(gameStateBattle.enem3)
       }
-      if (set3.size === 4 && trevor.following) {
+      if (set3.size === 4 && numberOfPlayers>=2) {
         this.enemies.push(gameStateBattle.enem4)
       }
-      if (set4.size === 5 && al.following) {
+      if (set4.size === 5 && numberOfPlayers>=2) {
         this.enemies.push(gameStateBattle.enem5)
       }
     }
