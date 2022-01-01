@@ -16,3 +16,5 @@ Then go to a web browser and type in:
 localhost:8910
 
 If localhost:8910 gets messed up somehow just change 8910 to 8911 or anything really (just run both lines of code with the new server number).
+
+Note: You should set your monitor refresh rate to 60hz. If it is faster than this, the update function will run twice the normal speed and the game will be almost unplayable (this seems to be an issue with phaser 3).

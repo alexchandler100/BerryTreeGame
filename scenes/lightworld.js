@@ -2468,7 +2468,6 @@ var LightWorld = new Phaser.Class({
     this.physics.add.overlap(enterPoolZones, beachball, ballGoInPool, false, this);
     this.physics.add.overlap(exitPoolZones, beachball, ballExitPool, false, this);
 
-
     this.physics.add.collider(trevor, exitPoolZones);
     this.physics.add.collider(al, exitPoolZones);
     this.physics.add.collider(bennett, exitPoolZones);
