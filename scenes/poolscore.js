@@ -11,23 +11,20 @@ var PoolScore = new Phaser.Class({
   preload: function() {},
   create: function() {
     console.log(`launched pool score scene`)
-    gameStateApt.poolscore = this.add.text(1200-200, 10, '', {
+    gameStateApt.poolscore = this.add.text(1200-230, 10, '', {
       fontSize: '30px',
       fill: '#fff',
       align: 'right',
-      wordWrap: { width: 190 }
     });
-    gameStateApt.money = this.add.text(1200-200, 40, '', {
+    gameStateApt.money = this.add.text(1200-230, 40, '', {
       fontSize: '30px',
       fill: '#fff',
       align: 'right',
-      wordWrap: { width: 190 }
     });
-    gameStateApt.pooltimer = this.add.text(1200-200, 70, '', {
+    gameStateApt.pooltimer = this.add.text(1200-230, 70, '', {
       fontSize: '30px',
       fill: '#fff',
       align: 'right',
-      wordWrap: { width: 190 }
     });
     cueballIndicator = this.add.image(100, 500, 'poolballs');
     cueballIndicator.setFrame(15)
