@@ -435,7 +435,7 @@ let darkWorld = 0;
 let hausdorfTexture = 0;
 
 //item parameters
-let gas = 4;
+let gas = 6;
 let phoneGet = 0;
 let walletGet = 0;
 let liquorGet = 0;
@@ -1213,7 +1213,26 @@ function hitRightRail() {
 
 //direction vector
 function directionVector(obj1, obj2) {
-  return [(obj2.x - obj1.x) / distance(obj1, obj2), (obj2.y - obj1.y) / distance(obj1, obj2)]
+  if (distance(obj1,obj2)===0){
+    return [(obj2.x - obj1.x) / .01, (obj2.y - obj1.y) / .01]
+  } else {
+    return [(obj2.x - obj1.x) / distance(obj1,obj2), (obj2.y - obj1.y) / distance(obj1,obj2)]
+  }
+}
+
+function followPath (unit, path, speed=50){
+  if (distance(unit,path[unit.position])<20 && !unit.changeDirection){
+    unit.position+=1
+    unit.changeDirection=true
+    window.setTimeout(() => {
+      unit.changeDirection=false
+    }, 1000);
+  }
+  if (unit.position === path.length){
+    unit.position=0
+  }
+  unit.body.setVelocityX(directionVector(unit,path[unit.position])[0]*speed)
+  unit.body.setVelocityY(directionVector(unit,path[unit.position])[1]*speed)
 }
 
 //direction vector

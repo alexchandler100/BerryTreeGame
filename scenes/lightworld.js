@@ -62,6 +62,8 @@ var NPC = new Phaser.Class({
     this.up = up;
     this.down = down;
     this.dialogue = dialogue;
+    this.position = 0;
+    this.changeDirection = false;
     this.setInteractive().on('pointerup', function() {
       if (this.following === false && this.joinParameter) {
         this.following = true;
@@ -75,10 +77,12 @@ var NPC = new Phaser.Class({
     this.setSize(sizeAndOffset[this.texture.key].size[0], sizeAndOffset[this.texture.key].size[1])
     this.setOffset(sizeAndOffset[this.texture.key].offset[0], sizeAndOffset[this.texture.key].offset[1])
     this.sound0 = scene.sound.add(this.dialogue);
+    /*
     if (loading) {
       loading = false;
       loadGame2();
     }
+    */
   },
   // to follow player and join party
   follow: function(player, strength = 1) {
@@ -162,6 +166,37 @@ var NPC = new Phaser.Class({
       this.anims.play(this.down, true)
     } else if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y < -1 * thresh) {
       this.anims.play(this.up, true)
+    }
+  },
+});
+
+var Car = new Phaser.Class({
+  Extends: Phaser.Physics.Arcade.Sprite,
+  //notes: dialogue is a dictionary of audio objects like {"al": alSound} (fix needed...)
+  // left, right, up, down are strings like 'alright' or 'jonleft'
+  initialize: function NPC(scene, spawnPoint, frame, position=0) {
+    let point = map.findObject("Objects", obj => obj.name === spawnPoint);
+    point.x+=1;
+    point.y+=1;
+    Phaser.GameObjects.Sprite.call(this, scene, point.x, point.y, 'cars', frame);
+    scene.add.existing(this)
+    scene.physics.add.existing(this)
+    this.position = position;
+    this.changeDirection = false;
+    this.body.setCircle(16);
+    this.body.setOffset(0,16);
+  },
+  animate: function() {
+    if (this.body.velocity.x > 50 && this.body.velocity.y**2<100) {
+      this.angle = 90
+      this.body.setOffset(0,16);
+    } else if (this.body.velocity.x < -50 && this.body.velocity.y**2<100) {
+      this.angle = 270
+    }
+    if (this.body.velocity.y > 50 && this.body.velocity.x**2<100) {
+      this.angle = 180
+    } else if (this.body.velocity.y < -50 && this.body.velocity.x**2<100) {
+      this.angle = 0
     }
   },
 });
@@ -285,6 +320,11 @@ var LightWorld = new Phaser.Class({
     this.load.image('liquor', "assets/liquor.png");
     this.load.image('yogamat', "assets/yogamat.png");
     //loading spritesheets
+    this.load.spritesheet('cars',
+      'assets/tilesets/car_tiles.png', {
+        frameWidth: 32,
+        frameHeight: 64
+      });
     this.load.spritesheet('pool',
       'assets/burcham_pool_animated.png', {
         frameWidth: 112,
@@ -667,6 +707,38 @@ var LightWorld = new Phaser.Class({
     const below = map.createStaticLayer("Below2", tileset2, 0, 0);
     const buildingtops = map.createStaticLayer("BuildingTops", tileset1, 0, 0);
 
+    //defining NPC paths
+
+    alPath = [map.findObject("Objects", obj => obj.name === "alPath0"), map.findObject("Objects", obj => obj.name === "alPath1"), map.findObject("Objects", obj => obj.name === "alPath2"), map.findObject("Objects", obj => obj.name === "alPath3"), map.findObject("Objects", obj => obj.name === "alPath4"), map.findObject("Objects", obj => obj.name === "alPath5"), map.findObject("Objects", obj => obj.name === "alPath6"), map.findObject("Objects", obj => obj.name === "alPath7")]
+    stripperPath = [map.findObject("Objects", obj => obj.name === "stripperPath0"), map.findObject("Objects", obj => obj.name === "stripperPath1"), map.findObject("Objects", obj => obj.name === "stripperPath2"), map.findObject("Objects", obj => obj.name === "stripperPath3"), map.findObject("Objects", obj => obj.name === "stripperPath4"), map.findObject("Objects", obj => obj.name === "stripperPath5"), map.findObject("Objects", obj => obj.name === "stripperPath6"), map.findObject("Objects", obj => obj.name === "stripperPath7"), map.findObject("Objects", obj => obj.name === "stripperPath8"), map.findObject("Objects", obj => obj.name === "stripperPath9"), map.findObject("Objects", obj => obj.name === "stripperPath10"), map.findObject("Objects", obj => obj.name === "stripperPath11"), map.findObject("Objects", obj => obj.name === "stripperPath12"), map.findObject("Objects", obj => obj.name === "stripperPath13"), map.findObject("Objects", obj => obj.name === "stripperPath14"), map.findObject("Objects", obj => obj.name === "stripperPath15"), map.findObject("Objects", obj => obj.name === "stripperPath16"), map.findObject("Objects", obj => obj.name === "stripperPath17")]
+    joePath = []
+    for (let i=0; i<38; i++){
+      let stri = "joePath"+i.toString()
+      joePath.push(map.findObject("Objects", obj => obj.name === stri));
+    }
+    jamesPath = []
+    for (let i=0; i<29; i++){
+      let stri = "jamesPath"+i.toString()
+      jamesPath.push(map.findObject("Objects", obj => obj.name === stri));
+    }
+    bennettPath = []
+    for (let i=0; i<19; i++){
+      let stri = "bennettPath"+i.toString()
+      bennettPath.push(map.findObject("Objects", obj => obj.name === stri));
+    }
+
+    cwCarPath = []
+    for (let i=0; i<13; i++){
+      let stri = "cwCarPath"+i.toString()
+      cwCarPath.push(map.findObject("Objects", obj => obj.name === stri));
+    }
+
+    ccwCarPath = []
+    for (let i=0; i<12; i++){
+      let stri = "ccwCarPath"+i.toString()
+      ccwCarPath.push(map.findObject("Objects", obj => obj.name === stri));
+    }
+
     //defining spawn points
     gameState.YogaGirlSpawnPoint1 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 1");
     gameState.YogaGirlSpawnPoint2 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 2");
@@ -683,6 +755,8 @@ var LightWorld = new Phaser.Class({
     gameState.Girl4SpawnPoint = map.findObject("Objects", obj => obj.name === "girl4 spawn point");
     const BlondeSpawnPoint = map.findObject("Objects", obj => obj.name === "blonde spawn point");
     gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "player spawn point");
+
+    gameState.gasStationEnter = map.findObject("Objects", obj => obj.name === "gas station enter");
 
     const CanJamSpawnPoint = map.findObject("Objects", obj => obj.name === "canjam spawn point");
     gameState.evanSpawnPoint = {
@@ -1864,8 +1938,11 @@ var LightWorld = new Phaser.Class({
 
     //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue)
     bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennett_run", potentialParty["Bennett"]);
-    al = new NPC(this, "al spawn point", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "holdon", potentialParty["Al"]);
+    al = new NPC(this, "alPath0", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "holdon", potentialParty["Al"]);
+    al.x+=10
     joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "punch", false);
+    joe.body.setCircle(30);
+    joe.body.setOffset(45,55);
     jon = new NPC(this, "jon spawn point", "jon", 0, "Homeboy Jon", "jonleft", "jonright", "jonleft", "jonright", "bitenoise", false);
     jon.body.setSize(120, 20);
     jon.body.setOffset(40, 150); //overriding scale given by NPC class
@@ -1880,6 +1957,20 @@ var LightWorld = new Phaser.Class({
     trevor.body.setOffset(60, 180);
     hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false);
     stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
+    stripper.body.setCircle(30);
+    stripper.body.setOffset(25,25);
+
+    //recall it goes (scene, spawn point, texture, position) and position should coincide with spawn point on path
+    roadCar1 = new Car(this, "cwCarPath0", 4, 0);
+    roadCar2 = new Car(this, "cwCarPath8", 6, 8);
+    roadCar3 = new Car(this, "cwCarPath5", 7, 5);
+    roadCar4 = new Car(this, "cwCarPath11", 8, 11);
+
+    roadCar5 = new Car(this, "ccwCarPath7", 9, 7);
+    roadCar6 = new Car(this, "ccwCarPath4", 10, 4);
+    roadCar7 = new Car(this, "ccwCarPath9", 11, 9);
+    roadCar8 = new Car(this, "ccwCarPath6", 12, 6);
+
 
     chasersGroup = this.physics.add.group()
     for (let i = 0; i < enemsForChasers.length; i++) {
@@ -1950,7 +2041,8 @@ var LightWorld = new Phaser.Class({
     //to spawn at fratboy5
     //gameState.PlayerSpawnPoint.x=gameState.fratboy4SpawnPoint.x+50
     //gameState.PlayerSpawnPoint.y=gameState.fratboy4SpawnPoint.y+50
-
+    //to spawn at cwCarPath points
+    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "cwCarPath8")
     //to spawn at highschool roof
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
     //to spawn at soccer net
@@ -2010,6 +2102,18 @@ var LightWorld = new Phaser.Class({
     above.setCollisionByProperty({
       collides: true
     });
+
+    //cars collisions
+
+    this.physics.add.collider(roadCar1, me);
+    this.physics.add.collider(roadCar2, me);
+    this.physics.add.collider(roadCar3, me);
+    this.physics.add.collider(roadCar4, me);
+    this.physics.add.collider(roadCar5, me);
+    this.physics.add.collider(roadCar6, me);
+    this.physics.add.collider(roadCar7, me);
+    this.physics.add.collider(roadCar8, me);
+
 
     //followers colliding
     this.physics.add.collider(trevor, al);
@@ -2358,7 +2462,7 @@ var LightWorld = new Phaser.Class({
         items.push("Keys");
         keysGet = 1;
         gameState.itemget.play()
-      } else if (me.x < 45 * 32 && me.x > 15 * 32 && me.y < 45 * 32 && me.y > 15 * 32 && gasStation === 0) {
+      } else if (distance(me, gameState.gasStationEnter)<30 && gasStation === 0) {
         scene_number = 3;
         gasStation = 1
       } else if (distance(me, volleyball) < 20) {
@@ -2508,6 +2612,9 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    if (gas>=12){
+      gas = 12
+    }
     //dialogue with evan and anthony
     if (distance(me, gameState.anthonySpawnPoint) < 30 && anthonyFirstDialogue === 0) {
       anthonyFirstDialogue = 1
@@ -2620,6 +2727,25 @@ var LightWorld = new Phaser.Class({
     if (distance(me, bennett) > 1200 && playerTexture === 0) {
       bennett.following = false;
     }
+
+    //ai for cars
+    roadCar1.animate()
+    followPath(roadCar1, cwCarPath, 400)
+    roadCar2.animate()
+    followPath(roadCar2, cwCarPath, 400)
+    roadCar3.animate()
+    followPath(roadCar3, cwCarPath, 400)
+    roadCar4.animate()
+    followPath(roadCar4, cwCarPath, 400)
+
+    roadCar5.animate()
+    followPath(roadCar5, ccwCarPath, 400)
+    roadCar6.animate()
+    followPath(roadCar6, ccwCarPath, 400)
+    roadCar7.animate()
+    followPath(roadCar7, ccwCarPath, 400)
+    roadCar8.animate()
+    followPath(roadCar8, ccwCarPath, 400)
     //ai for race with bennett
     if (raceBegin) {
       zoom = .76
@@ -2642,6 +2768,7 @@ var LightWorld = new Phaser.Class({
     if (winRace === 1 && raceOngoing) {
       this.cameras.main.fade(1000);
       this.cameras.main.fadeIn(1000, 0, 0, 0)
+      bennett.position = 5;
       bennett.x = me.x + 200;
       raceOngoing = false;
       winRace = 0
@@ -2652,6 +2779,7 @@ var LightWorld = new Phaser.Class({
       this.cameras.main.fade(1000);
       this.cameras.main.fadeIn(1000, 0, 0, 0)
       me.x = bennett.x
+      bennett.position = 5;
       raceOngoing = false;
       winRace = 0
       initializePage(this);
@@ -2909,7 +3037,6 @@ var LightWorld = new Phaser.Class({
       devMode1 = 0
       devMode2 = 0
       devMode3 = 0
-      gas = 4;
       keysGet = 1;
       keyboardGet = true;
       trevor.joinParameter = true;
@@ -3172,11 +3299,11 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for stripper
-    if (distance(stripper, me) < 1000) {
-      //stripper.getUnstuck()
+      stripper.getUnstuck()
       //seemed to just be getting her stuck strangely enough...
-      stripper.randomWalk()
-      stripper.animate(6)
+      followPath(stripper, stripperPath)
+      //stripper.randomWalk()
+      stripper.animate(5)
       if (stripper.body.velocity.x > 3) {
         stripper.flipX = true;
       } else if (stripper.body.velocity.x < -3) {
@@ -3200,7 +3327,6 @@ var LightWorld = new Phaser.Class({
       } else if (distance(me, stripper) > 200 && stripperFirstTalk === 1) {
         stripperFirstTalk = 2
       }
-    }
 
     //ai for yoga girl
     if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 0) {
@@ -3430,19 +3556,9 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for james
-    if (distance(james, me) < 1000) {
-      if (distance(james, me) < 600 && distance(james, me) > 100) {
-        james.chase(me, 1)
-      }
-      if (distance(james, ball) < 200) {
-        james.chase(ball, 3)
-      }
-      if (distance(james, volleyball) < 200) {
-        james.chase(volleyball, 2)
-      }
       james.animate(40);
       james.getUnstuck();
-      james.randomWalk(3)
+      followPath(james,jamesPath,125)
 
       if (distance(me, james) < 30 && jamesFirstTalk === 0) {
         initializePage(this)
@@ -3452,7 +3568,6 @@ var LightWorld = new Phaser.Class({
         jamesGet='spoke';
         activeQuests['High School Roof'] = 'James said he saw some lights or aliens or something up on the high school roof. He is most likely just high as shit but I may as well get up there anyway.'
       }
-    }
 
     //ai for joe
     if (trevor.following) {
@@ -3465,16 +3580,10 @@ var LightWorld = new Phaser.Class({
       joe.chase(ball, 2)
     }
     if (distance(joe, me) < 1000) {
-      if (distance(joe, me) < 200 && distance(joe, me) > 50 && !trevor.following) {
-        joe.chase(me, .5)
-      }
-      if (distance(joe, volleyball) < 300) {
-        joe.chase(volleyball, 3)
-      }
       joe.animate();
       joe.getUnstuck();
       if (!trevor.following) {
-        joe.randomWalk()
+        followPath(joe,joePath, 75)
       }
 
       if (distance(me, joe) < 30 && joeFirstTalk === 0) {
@@ -3488,18 +3597,10 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for bennett
-    bennett.animate()
     bennett.follow(me, 1.4)
+    bennett.animate()
     if (bennett.following === false) {
-      if (distance(bennett, me) < 150 && distance(bennett, me) > 50) {
-        bennett.chase(me, .5)
-      }
-      if (distance(bennett, ball) < 100) {
-        bennett.chase(ball, 3)
-      }
-      if (distance(bennett, volleyball) < 100) {
-        bennett.chase(volleyball, 5)
-      }
+      /*
       if (bennett.y <= 290 && bennett.y >= 256 && bennett.x >= 96 && bennett.x <= 14528) {
         //bennett.y+=100;
         bennett.body.velocity.x = 278;
@@ -3519,6 +3620,10 @@ var LightWorld = new Phaser.Class({
       } else {
         bennett.body.velocity.x += Phaser.Math.FloatBetween(-50, 50);
         bennett.body.velocity.y += Phaser.Math.FloatBetween(-50, 50);
+      }
+      */
+      if (!raceOngoing){
+          followPath(bennett,bennettPath, 278)
       }
       if (distance(me, bennett) < 600 && distance(me, bennett) > 580) {
         gameState.bennettSound.play()
@@ -3549,10 +3654,10 @@ var LightWorld = new Phaser.Class({
 
     //ai for al
     al.follow(me, 1.2);
-    if (distance(al, me) < 1000) {
       al.getUnstuck();
-      al.randomWalk();
-      al.animate()
+      followPath(al,alPath)
+      //al.randomWalk();
+      al.animate(3)
       if (holdon === 1) {
         al.sound0.play();
         holdon = 0
@@ -3580,7 +3685,6 @@ var LightWorld = new Phaser.Class({
       } else if (distance(me, al) > 300 && alFirstTalk === 1) {
         alFirstTalk = 0
       }
-    }
 
     if (alGet === 1) {
       alGet = 2;
@@ -3592,6 +3696,7 @@ var LightWorld = new Phaser.Class({
     if (distance(oghomeboy, me) < 1000) {
       oghomeboy.anims.play('smoke', true);
       if (distance(me, oghomeboy) < 30 && ogFirstTalk === 0) {
+        gameState.bongSound.play()
         ogFirstTalk = 1
         initializePage(this)
         let page = fetchPage(80)
@@ -4117,6 +4222,9 @@ var LightWorld = new Phaser.Class({
         me.angle = 180;
         me.setSize(32, 64);
         me.setOffset(16, 0)
+      } else {
+        me.setSize(32, 32);
+        me.setOffset(0, 16)
       }
     } else if (playerTexture === 'race') {
       // player Horizontal movement

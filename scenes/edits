@@ -1,0 +1,8 @@
+gameStateNav.gasDisplay = this.add.rectangle(50-2, 50-2, 104, 24, 0xffffff).setOrigin(0);
+gameStateNav.gasDisplayFront = this.add.rectangle(50, 50, 100, 20, 0x70ff00).setOrigin(0);
+gameStateNav.gasText = this.add.text(50, 30, 'Gas', {
+  fontSize: '15px',
+  fill: '#fff',
+  align: 'right',
+  wordWrap: { width: 190 }
+});
