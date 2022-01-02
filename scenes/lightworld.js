@@ -2219,6 +2219,7 @@ var LightWorld = new Phaser.Class({
 
     //colliders for trevor
     this.physics.add.collider(trevor, ball)
+    this.physics.add.collider(trevor, above)
     this.physics.add.collider(trevor, volleyball)
     this.physics.add.collider(trevor, world)
     this.physics.add.collider(trevor, world2)
@@ -2228,6 +2229,7 @@ var LightWorld = new Phaser.Class({
 
     //colliders for joe
     this.physics.add.collider(joe, ball)
+    this.physics.add.collider(joe, above)
     this.physics.add.collider(joe, volleyball)
     this.physics.add.collider(joe, world)
     this.physics.add.collider(joe, world2)
@@ -2237,6 +2239,7 @@ var LightWorld = new Phaser.Class({
 
     //colliders for jon
     this.physics.add.collider(jon, ball)
+    this.physics.add.collider(jon, above)
     this.physics.add.collider(jon, volleyball)
     this.physics.add.collider(jon, world)
     this.physics.add.collider(jon, world2)
@@ -2245,6 +2248,7 @@ var LightWorld = new Phaser.Class({
 
     //colliders for al
     this.physics.add.collider(al, world)
+    this.physics.add.collider(al, above)
     this.physics.add.collider(al, world2)
     this.physics.add.collider(al, world3)
     this.physics.add.collider(al, cars)
@@ -2252,6 +2256,7 @@ var LightWorld = new Phaser.Class({
     //colliders for james
     this.physics.add.collider(james, ball)
     this.physics.add.collider(james, volleyball)
+    this.physics.add.collider(james, above)
     this.physics.add.collider(james, world)
     this.physics.add.collider(james, world2)
     this.physics.add.collider(james, world3)
@@ -2262,8 +2267,12 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(car, world)
     this.physics.add.collider(car, world2)
     this.physics.add.collider(car, world3)
+    this.physics.add.collider(car, above)
+
 
     //colliders for chasersGroup
+    this.physics.add.collider(chasersGroup, above)
+
     this.physics.add.collider(chasersGroup, world)
     this.physics.add.collider(chasersGroup, world2)
     this.physics.add.collider(chasersGroup, world3)
@@ -2272,7 +2281,9 @@ var LightWorld = new Phaser.Class({
 
     //colliders for special
     this.physics.add.collider(volleyball, special)
+    this.physics.add.collider(volleyball, above)
     this.physics.add.collider(ball, special)
+    this.physics.add.collider(ball, above)
     this.physics.add.collider(beachball, special)
 
     //setting world bounds and setting objects to collide with world bounds

@@ -295,6 +295,7 @@ var Unit = new Phaser.Class({
     let extra_damage;
     let dd;
     let rnd = Math.floor(Math.random() * 10)
+    console.log(`rnd: ${rnd}`)
     // decrease chance of landing if stamina is low
     if (stamina <= 30 && Object.keys(hpObject).includes(this.type)) {
       rnd -= 2
@@ -319,7 +320,8 @@ var Unit = new Phaser.Class({
     } else {
       extra_damage = Math.ceil(Math.random() * this.damage / 4) - Math.floor(this.damage / 8)
     }
-    if (rnd <= 0) {
+    //this makes it so that if you have the never miss property, you do not miss even if you roll 0
+    if (rnd <= 0 && !neverMissObject[this.type]) {
       dd = 0;
     } else if (defenseObject[target.type]) {
       dd = this.damage - defenseObject[target.type] + extra_damage;

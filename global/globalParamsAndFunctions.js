@@ -336,6 +336,13 @@ let bleedProofObject = {
   'Bennett': false,
 }
 
+let neverMissObject = {
+  'Mac': false,
+  'Al': false,
+  'Jimmy': false,
+  'Bennett': false,
+}
+
 let blindProofObject = {
   'Mac': false,
   'Al': false,
@@ -589,7 +596,7 @@ let equipmentDescriptions = {
   "Damage Booster": {
     type: "Accessory",
     def: 0,
-    effect: "Damage +4",
+    effect: "Damage +4, NEVER MISS",
     color: '#fff'
   },
   "Camo Hoody": {
@@ -776,8 +783,10 @@ function hpBooster(player, bool) {
 
 function damageBooster(player, bool) {
   if (bool === true) {
+    neverMissObject[player]=true
     damageObject[player] += 4
   } else {
+    neverMissObject[player]=false
     damageObject[player] -= 4
   }
 }

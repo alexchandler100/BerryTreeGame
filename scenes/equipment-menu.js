@@ -121,8 +121,8 @@ var EquipmentMenu = new Phaser.Class({
 
   this.input.on('pointerover', function (pointer, justOver) {
     if (equipmentDescriptions[justOver[0]._text]){
-      gameState4.tempBackground.x=pointer.x+150;
-      gameState4.tempBackground.y=pointer.y-15;
+      gameState4.tempBackground.x=pointer.x + 10;
+      gameState4.tempBackground.y=pointer.y - 15;
       gameState4.tempBackground.visible=true;
       gameState4.tempText.visible=true;
       gameState4.tempText.setText(`Type: ${equipmentDescriptions[justOver[0]._text].type} \nDef: ${equipmentDescriptions[justOver[0]._text].def} \nEffect: ${equipmentDescriptions[justOver[0]._text].effect}`);
