@@ -1855,8 +1855,8 @@ var LightWorld = new Phaser.Class({
     burchamPool = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 16 + 60, BurchamPoolSpawnPoint.y + 16+40, 'pool')
     burchamPool.setOrigin(0, 0);
     burchamPool.anims.play('poolwaves', true);
-    towel1 = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 50 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel1')
-    towel2 = this.physics.add.sprite(BurchamPoolSpawnPoint.x + 100 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel2')
+    towel1 = this.add.image(BurchamPoolSpawnPoint.x + 50 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel1')
+    towel2 = this.add.image(BurchamPoolSpawnPoint.x + 100 + 64, BurchamPoolSpawnPoint.y + 220 + 64, 'towel2')
 
     yogamat = this.add.image(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogamat');
     yogagirl = this.physics.add.sprite(gameState.YogaGirlSpawnPoint1.x, gameState.YogaGirlSpawnPoint1.y, 'yogagirl');
@@ -2586,6 +2586,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(trevor, exitPoolZones);
     this.physics.add.collider(al, exitPoolZones);
     this.physics.add.collider(bennett, exitPoolZones);
+    this.physics.add.collider(jon, exitPoolZones);
     this.physics.add.collider(chasersGroup, exitPoolZones)
     this.physics.add.collider(chasersGroup, beachball)
     this.physics.add.collider(trevor, beachball);
@@ -3304,6 +3305,9 @@ var LightWorld = new Phaser.Class({
     if (ergh === 1) {
       gameState.erggh.play();
       ergh = 0
+      window.setTimeout(()=>{
+          girl2FirstDialogue = 0
+      }, 1000);
     } else if (blocked === 1) {
       gameState.block.play();
       blocked = 0
@@ -3799,7 +3803,7 @@ var LightWorld = new Phaser.Class({
       }
     }
 
-    //ai for jon
+    //ai for jon (soccer game) (football) (score goals)
     if (distance(net1, me) < 10000) {
       jon.animate()
       if (distance(me, jon) < 30 && jonFirstTalk === 0) {

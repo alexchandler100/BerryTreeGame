@@ -358,7 +358,7 @@ var Unit = new Phaser.Class({
       }
       if (rnd >= 9) {
         this.scene.events.emit("Message", "Critical hit! ");
-      } else if (rnd <= 0) {
+      } else if (rnd <= 0 && !neverMissObject[this.type]) {
         this.scene.events.emit("Message", this.type + " tries to attack " + target.type + " but fucks it up and misses");
       } else {
         this.scene.events.emit("Message", this.type + " attacks " + target.type);

@@ -1,6 +1,7 @@
 const gameStateHB = {};
 
-let highScore = 70;
+let highScore = 0;
+let highScoreToBeat = 70;
 let score = 0;
 let buzz = 1;
 let health = 2;
@@ -176,7 +177,7 @@ var HomeboyGame = new Phaser.Class({
       fill: '#001'
     });
 
-    highScoreText = this.add.text(1050, 70, `PBR: ${highScore}`, {
+    highScoreText = this.add.text(1050, 70, `PB: ${highScoreToBeat}`, {
       fontSize: '25px',
       fill: '#001'
     });
@@ -217,9 +218,11 @@ var HomeboyGame = new Phaser.Class({
         //this.registry.destroy();
         //this.events.off();﻿
         //gameOver = true;
+        if (score > highScore && score > highScoreToBeat){
+          highScoreText.setText(`PBR: ${highScore}`)
+        }
         if (score > highScore) {
           highScore = score
-          highScoreText.setText(`PBR: ${highScore}`)
         }
         window.setTimeout(() => {
           health = 2;

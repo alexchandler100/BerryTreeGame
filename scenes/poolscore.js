@@ -17,7 +17,13 @@ var PoolScore = new Phaser.Class({
       align: 'right',
       wordWrap: { width: 190 }
     });
-    gameStateApt.pooltimer = this.add.text(1200-200, 40, '', {
+    gameStateApt.money = this.add.text(1200-200, 40, '', {
+      fontSize: '30px',
+      fill: '#fff',
+      align: 'right',
+      wordWrap: { width: 190 }
+    });
+    gameStateApt.pooltimer = this.add.text(1200-200, 70, '', {
       fontSize: '30px',
       fill: '#fff',
       align: 'right',
@@ -33,6 +39,7 @@ var PoolScore = new Phaser.Class({
 
   },
   update: function() {
+    gameStateApt.money.setText(`Money: $${Math.round(money*100)/100}`)
     if (dragging){
       cueballIndicator.visible=true
       a_circle.visible=true
