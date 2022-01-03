@@ -1670,6 +1670,24 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
+      key: 'kick',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [13,14, 14]
+      }),
+      frameRate: 10,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'kickup',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [13,15, 15]
+      }),
+      frameRate: 10,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: 'drink_monster',
       frames: this.anims.generateFrameNumbers('me', {
         frames: [0, 18, 18, 0, 18, 18, 0, 18, 18, 0]
@@ -2073,6 +2091,9 @@ var LightWorld = new Phaser.Class({
     //spawning player and setting properties
     //to start at level i and get skill at level i
     //levelObject["Mac"]=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
+    //to spawn at soccer game
+    gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "jon spawn point")
+    //gameState.PlayerSpawnPoint.y+=100
     //to spawn at pool area
     //gameState.PlayerSpawnPoint=BurchamPoolSpawnPoint
     //to spawn at fratboy5
@@ -2524,14 +2545,46 @@ var LightWorld = new Phaser.Class({
       } else if (distance(me, gameState.gasStationEnter)<30 && gasStation === 0) {
         scene_number = 3;
         gasStation = 1
-      } else if (distance(me, volleyball) < 20) {
-        volleyball.body.velocity.x += directionVector(me, volleyball)[0] * 40 * (1 + spriteSpeed(me) / 35);
-        volleyball.body.velocity.y += directionVector(me, volleyball)[1] * 40 * (1 + spriteSpeed(me) / 35);
-        gameState.ball1.play()
-      } else if (distance(me, ball) < 20) {
-        ball.body.velocity.x += directionVector(me, ball)[0] * 25 * (1 + spriteSpeed(me) / 40);
-        ball.body.velocity.y += directionVector(me, ball)[1] * 25 * (1 + spriteSpeed(me) / 40);
-        gameState.ball1.play();
+      } else if (distance(me, volleyball) < 20 && kicking===false) {
+        stamina-=5;
+        kicking = true;
+        if (me.body.velocity.y<-50){
+          me.anims.play('kickup', true);
+        } else{
+          me.anims.play('kick', true);
+        }
+        window.setTimeout(()=>{
+          kicking = false
+          volleyball.body.velocity.x += directionVector(me, volleyball)[0] * 40 * (1 + spriteSpeed(me) / 35);
+          volleyball.body.velocity.y += directionVector(me, volleyball)[1] * 40 * (1 + spriteSpeed(me) / 35);
+          gameState.ball1.play()
+        }, 151);
+        if (me.body.velocity.x>0){
+          me.flipX = true;
+          window.setTimeout(()=>{
+            me.flipX = false;
+          }, 151);
+        }
+      } else if (distance(me, ball) < 20 && kicking===false) {
+        stamina-=5;
+        kicking = true;
+        if (me.body.velocity.y<-50){
+          me.anims.play('kickup', true);
+        } else{
+          me.anims.play('kick', true);
+        }
+        window.setTimeout(()=>{
+          kicking = false
+          ball.body.velocity.x += directionVector(me, ball)[0] * 25 * (1 + spriteSpeed(me) / 40);
+          ball.body.velocity.y += directionVector(me, ball)[1] * 25 * (1 + spriteSpeed(me) / 40);
+          gameState.ball1.play();
+        }, 151);
+        if (me.body.velocity.x>0){
+          me.flipX = true;
+          window.setTimeout(()=>{
+            me.flipX = false;
+          }, 151);
+        }
         //problem here if you go in apartment and then go in pool room, you warp to the wrong place when you change scenes
       } else if (me.x > gameState.PlayerSpawnPoint.x - 64 && me.x < gameState.PlayerSpawnPoint.x - 32 && me.y > gameState.PlayerSpawnPoint.y - 84 && me.y < gameState.PlayerSpawnPoint.y - 32 && keysGet === 0) {
         cantGetIn = 1;
@@ -2728,7 +2781,7 @@ var LightWorld = new Phaser.Class({
     } else if (playerTexture === 'race' && speed === 4 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
       stamina -= .07
     } else if (playerTexture === 0 && speed === 1 || me.body.velocity.x ** 2 + me.body.velocity.y ** 2 < 100 ** 2 && pause === false) {
-      stamina += .1
+      stamina += .13
     }
     if (stamina <= 0) {
       stamina = 0
@@ -3053,8 +3106,9 @@ var LightWorld = new Phaser.Class({
       beachball.body.velocity.x /= 1.1;
       beachball.body.velocity.y /= 1.1;
     }
-    if (inPool && swimNoisePlaying === false && !diving) {
+    if (inPool && swimNoisePlaying === false && !diving && !kicking) {
       diving = false;
+      kicking = false;
       speed=4;
       gameState.swimNoise.play()
       swimNoisePlaying = true
@@ -4211,7 +4265,7 @@ var LightWorld = new Phaser.Class({
         me.body.setVelocityY(50 * speed * athletics);
       }
       //player walking running animations
-      if (this.cursors.left.isDown && !diving) {
+      if (this.cursors.left.isDown && !diving && !kicking) {
         if (speed === 1) {
           me.anims.play('leftwalk', true);
         } else if (speed === 2 || speed === 3) {
@@ -4219,7 +4273,7 @@ var LightWorld = new Phaser.Class({
         } else if (speed > 3) {
           me.anims.play('leftsprint', true);
         }
-      } else if (this.cursors.right.isDown && !diving) {
+      } else if (this.cursors.right.isDown && !diving && !kicking) {
         if (speed === 1) {
           me.anims.play('rightwalk', true);
         } else if (speed === 2 || speed === 3) {
@@ -4228,7 +4282,7 @@ var LightWorld = new Phaser.Class({
           me.anims.play('rightsprint', true);
         }
       }
-      if (this.cursors.up.isDown && !(this.cursors.right.isDown) && !diving) {
+      if (this.cursors.up.isDown && !(this.cursors.right.isDown) && !diving && !kicking) {
         if (speed === 1) {
           me.anims.play('leftwalk', true);
         } else if (speed === 2 || speed === 3) {
@@ -4236,7 +4290,7 @@ var LightWorld = new Phaser.Class({
         } else if (speed > 3) {
           me.anims.play('leftsprint', true);
         }
-      } else if (this.cursors.down.isDown && !(this.cursors.left.isDown) && !diving) {
+      } else if (this.cursors.down.isDown && !(this.cursors.left.isDown) && !diving && !kicking) {
         if (speed === 1) {
           me.anims.play('rightwalk', true);
         } else if (speed === 2 || speed === 3) {

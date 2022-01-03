@@ -104,6 +104,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let kicking = false;
 let diving = false;
 let runaway=false;
 let pointerDirection = [0,0]
