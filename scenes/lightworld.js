@@ -909,7 +909,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'blondeJumping',
       frames: this.anims.generateFrameNumbers('blonde', {
-        frames: [1, 2, 3, 2]
+        frames: [3,2,1, 2, 3, 2,1,2,3,2,1,2,3,2,1,2,3,2,1,2,3,2,1,2,3,2,1,2,3,2,1,2,3,2,1,2,3,3,5,5,4,4,5,5,4,4,5,5,4,4,5,5,4,4,5,5,4,4,4,5,5,5,4,4,4,5,5,5,4,4,4,5,5,5,5,5,4,4,5,5]
       }),
       frameRate: 6,
       repeat: -1
