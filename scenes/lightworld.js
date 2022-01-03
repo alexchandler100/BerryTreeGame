@@ -185,6 +185,22 @@ var Car = new Phaser.Class({
     this.changeDirection = false;
     this.body.setCircle(16);
     this.body.setOffset(0,16);
+    this.honking = false;
+  },
+  honk: function(){
+    if (distance(me,this)<100 && playerTexture===0 && !this.honking){
+      this.honking = true
+      rnd = Math.floor(Math.random() * 3);
+      if (rnd===0){
+        gameState.honk1.play()
+      } else if (rnd===1){
+        gameState.honk2.play()
+      } else if (rnd===2){
+        gameState.honk3.play()
+      }
+    } else if (distance(me,this)>200) {
+      this.honking = false;
+    }
   },
   animate: function() {
     if (this.body.velocity.x > 50 && this.body.velocity.y**2<100) {
@@ -276,6 +292,9 @@ var LightWorld = new Phaser.Class({
     this.load.audio('block', ['assets/block.wav']);
     this.load.audio('iwantsomecrack', ['assets/iwantsomecrack.mp3']);
     this.load.audio('itemget', ['assets/itemget.wav']);
+    this.load.audio('honk1', ['assets/honk1.wav']);
+    this.load.audio('honk2', ['assets/honk2.wav']);
+    this.load.audio('honk3', ['assets/honk3.wav']);
     this.load.audio('dead', ['assets/dead.wav']);
     this.load.audio('poolhit', ['assets/poolhit.wav']);
     this.load.audio('poolcollide', ['assets/poolcollide.wav']);
@@ -619,6 +638,15 @@ var LightWorld = new Phaser.Class({
       volume: 1
     });
     gameState.itemget = this.sound.add('itemget', {
+      volume: 0.6
+    });
+    gameState.honk1 = this.sound.add('honk1', {
+      volume: 0.6
+    });
+    gameState.honk2 = this.sound.add('honk2', {
+      volume: 0.6
+    });
+    gameState.honk3 = this.sound.add('honk3', {
       volume: 0.6
     });
     gameState.dead = this.sound.add('dead', {
@@ -1633,6 +1661,15 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
+      key: 'dive',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [9,10,11,12]
+      }),
+      frameRate: 8,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: 'drink_monster',
       frames: this.anims.generateFrameNumbers('me', {
         frames: [0, 18, 18, 0, 18, 18, 0, 18, 18, 0]
@@ -2070,6 +2107,15 @@ var LightWorld = new Phaser.Class({
     me.body.setSize(70, 90);
     me.body.setOffset(60, 100);
 
+    this.physics.add.overlap(roadCar1, me, getHitByCar, false, this);
+    this.physics.add.overlap(roadCar2, me, getHitByCar, false, this);
+    this.physics.add.overlap(roadCar3, me, getHitByCar, false, this);
+    this.physics.add.overlap(roadCar4, me, getHitByCar, false, this);
+    this.physics.add.overlap(roadCar5, me, getHitByCar, false, this);
+    this.physics.add.overlap(roadCar6, me, getHitByCar, false, this);
+    this.physics.add.overlap(roadCar7, me, getHitByCar, false, this);
+    this.physics.add.overlap(roadCar8, me, getHitByCar, false, this);
+
     gameState.pointer = this.input.activePointer;
 
     this.input.on('pointerdown', function(pointer) {
@@ -2105,6 +2151,7 @@ var LightWorld = new Phaser.Class({
 
     //cars collisions
 
+/*
     this.physics.add.collider(roadCar1, me);
     this.physics.add.collider(roadCar2, me);
     this.physics.add.collider(roadCar3, me);
@@ -2113,6 +2160,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(roadCar6, me);
     this.physics.add.collider(roadCar7, me);
     this.physics.add.collider(roadCar8, me);
+*/
 
 
     //followers colliding
@@ -2503,6 +2551,21 @@ var LightWorld = new Phaser.Class({
         gameState.music.stop()
         this.scene.switch("MyApartment");
         zoom = 1;
+      } else if (distance(me,ball)>100 && distance(me,volleyball)>100 && stamina>=30 && diving === false && (playerTexture === 0 || playerTexture === 'race') && (me.body.velocity.x)**2+ (me.body.velocity.y)**2>10){
+        stamina-=10;
+        diving = true;
+        speed*=1.5
+        me.anims.play('dive', true);
+        window.setTimeout(()=>{
+          diving = false
+          speed/=1.5
+        }, 500);
+        if (me.body.velocity.x>0){
+          me.flipX = true;
+          window.setTimeout(()=>{
+            me.flipX = false;
+          }, 500);
+        }
       }
     }, this);
 
@@ -2624,6 +2687,12 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    //getting hit by car
+    if (gettingHitByCar && !diving){
+      gettingHitByCar = false;
+      me.x+=(Math.floor(Math.random() * 15) +1) * (-1)**Math.floor(Math.random() * 2)
+      me.y+=(Math.floor(Math.random() * 15) +5) * (-1)**Math.floor(Math.random() * 2)
+    }
     if (gas>=12){
       gas = 12
     }
@@ -2742,21 +2811,29 @@ var LightWorld = new Phaser.Class({
 
     //ai for cars
     roadCar1.animate()
+    roadCar1.honk()
     followPath(roadCar1, cwCarPath, 400)
     roadCar2.animate()
+    roadCar2.honk()
     followPath(roadCar2, cwCarPath, 400)
     roadCar3.animate()
+    roadCar3.honk()
     followPath(roadCar3, cwCarPath, 400)
     roadCar4.animate()
+    roadCar4.honk()
     followPath(roadCar4, cwCarPath, 400)
 
     roadCar5.animate()
+    roadCar5.honk()
     followPath(roadCar5, ccwCarPath, 400)
     roadCar6.animate()
+    roadCar6.honk()
     followPath(roadCar6, ccwCarPath, 400)
     roadCar7.animate()
+    roadCar7.honk()
     followPath(roadCar7, ccwCarPath, 400)
     roadCar8.animate()
+    roadCar8.honk()
     followPath(roadCar8, ccwCarPath, 400)
     //ai for race with bennett
     if (raceBegin) {
@@ -2976,7 +3053,8 @@ var LightWorld = new Phaser.Class({
       beachball.body.velocity.x /= 1.1;
       beachball.body.velocity.y /= 1.1;
     }
-    if (inPool && swimNoisePlaying === false) {
+    if (inPool && swimNoisePlaying === false && !diving) {
+      diving = false;
       speed=4;
       gameState.swimNoise.play()
       swimNoisePlaying = true
@@ -3748,14 +3826,14 @@ var LightWorld = new Phaser.Class({
           let page = fetchPage(25)
           displayPage(this, page)
           if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
-            activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and something good might happen.'
+            activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
           }
         } else if (keepaway > 300 && trevor.joinParameter === false) {
           initializePage(this)
           let page = fetchPage(20)
           displayPage(this, page)
           if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
-            activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and something good might happen.'
+            activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
           }
         } else if (keepaway > 400 && brothersSeal === 0 && neverBeenPro === true) {
           initializePage(this)
@@ -4133,7 +4211,7 @@ var LightWorld = new Phaser.Class({
         me.body.setVelocityY(50 * speed * athletics);
       }
       //player walking running animations
-      if (this.cursors.left.isDown) {
+      if (this.cursors.left.isDown && !diving) {
         if (speed === 1) {
           me.anims.play('leftwalk', true);
         } else if (speed === 2 || speed === 3) {
@@ -4141,7 +4219,7 @@ var LightWorld = new Phaser.Class({
         } else if (speed > 3) {
           me.anims.play('leftsprint', true);
         }
-      } else if (this.cursors.right.isDown) {
+      } else if (this.cursors.right.isDown && !diving) {
         if (speed === 1) {
           me.anims.play('rightwalk', true);
         } else if (speed === 2 || speed === 3) {
@@ -4150,7 +4228,7 @@ var LightWorld = new Phaser.Class({
           me.anims.play('rightsprint', true);
         }
       }
-      if (this.cursors.up.isDown && !(this.cursors.right.isDown)) {
+      if (this.cursors.up.isDown && !(this.cursors.right.isDown) && !diving) {
         if (speed === 1) {
           me.anims.play('leftwalk', true);
         } else if (speed === 2 || speed === 3) {
@@ -4158,7 +4236,7 @@ var LightWorld = new Phaser.Class({
         } else if (speed > 3) {
           me.anims.play('leftsprint', true);
         }
-      } else if (this.cursors.down.isDown && !(this.cursors.left.isDown)) {
+      } else if (this.cursors.down.isDown && !(this.cursors.left.isDown) && !diving) {
         if (speed === 1) {
           me.anims.play('rightwalk', true);
         } else if (speed === 2 || speed === 3) {

@@ -16,6 +16,7 @@ let activeQuests = {
 let completedQuests = {
   'Wake Up': 'Well you did do one thing so far. Good job.',
 }
+let gettingHitByCar = false;
 let blondeTalk=false;
 let carCrashDialogue = false;
 let adventure = 0;
@@ -103,6 +104,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let diving = false;
 let runaway=false;
 let pointerDirection = [0,0]
 let pointerLocation = [0,0]
@@ -1065,6 +1067,13 @@ function ballExitPool() {
   ballInPool = false
 }
 
+function getHitByCar(){
+  if (!gettingHitByCar){
+    gameState.bodyhit.play()
+    gettingHitByCar = true
+  }
+}
+
 function onMeetEnemy1(player, zone) {
   if (worldTheme === 'light' && playerTexture === 0 && inPool === false && !chasersEnabled) {
     chasersEnabled = true;
@@ -1121,7 +1130,7 @@ function onMeetEnemy1(player, zone) {
 
 function onMeetEnemy2() {
   //keepaway<400 because otherwise fight can disrupt quest dialogue for jimmy
-  if (worldTheme === 'light' && playerTexture === 0 && keepaway<400) {
+  if (worldTheme === 'light' && playerTexture === 0 && keepaway<400 && !diving) {
     //this.cameras.main.flash(1000)
     gameState.swimNoise.stop();
     gameState.meWalkingSound.stop();

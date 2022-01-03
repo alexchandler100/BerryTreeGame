@@ -138,7 +138,7 @@ const pages = [{
   {
     character: 'me',
     page: 21,
-    narrative: "Jimmy: Damnnn YOU WENT PRO!!! Yo I'll help you out with fighting those frat dickheads. Damnn there's girls by the pool? The gate is locked but theres always that secret entrance on the west side of the fence.",
+    narrative: "Jimmy: Damnnn you WENT PRO!!! Yo I'll help you out with fighting those frat dickheads. Damnn there's girls by the pool? The gate's locked but theres always that secret entrance on the west side of the fence.",
     options: [{
       option: 'Dude hell yeah',
       nextPage: undefined,
@@ -149,7 +149,7 @@ const pages = [{
   {
     character: 'me',
     page: 24,
-    narrative: "Jimmy: Damnnn you went pro again. Tight dawg. Gotta do more badass shit to get that brothers seal tho that shit needs to be tiiiight.",
+    narrative: "Jimmy: Damnnn you went pro again. Right on. Gotta do more badass shit to get that Brother's Seal though that shit needs to be tight.",
     options: [{
       option: 'Shiiiit',
       nextPage: undefined,
@@ -169,7 +169,7 @@ const pages = [{
   {
     character: 'me',
     page: 22,
-    narrative: "Jimmy: Dude you got the motha fucking brothers seal. HOLY FUCK! Damnnn theres an insanely awesome pool party?",
+    narrative: "Jimmy: Dude HOLY FUCK! That level of kick-the-ball skill has earned you the motha fucking Brother's Seal. Damnnn theres a pool party?",
     options: [{
       option: 'Hell yeah',
       nextPage: undefined
@@ -179,7 +179,7 @@ const pages = [{
   {
     character: 'me',
     page: 25,
-    narrative: "Jimmy: Huhuh shiiiiit that wasn't very good. You must be damn hungover shiit usually you kick ass at kick-the-ball.",
+    narrative: "Jimmy: Shiiiiit that wasn't great. You must be hungover, goddamn usually you kick ass at kick-the-ball.",
     options: [{
       option: 'God Damn it',
       nextPage: undefined,
@@ -1683,7 +1683,7 @@ const pages = [{
   {
     character: 'me',
     page: 3500,
-    narrative: `Adeline: Alex I heard you talking to those girls! I am so pissed at you I am never talking to you ever again!!`,
+    narrative: `Adeline: Mac, I heard you talking to those girls!! I am so pissed at you I am never talking to you ever again!!!`,
     options: [{
       option: 'Shiiit',
       nextPage: undefined,
