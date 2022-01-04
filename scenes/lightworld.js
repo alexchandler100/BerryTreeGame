@@ -174,7 +174,7 @@ var Car = new Phaser.Class({
   Extends: Phaser.Physics.Arcade.Sprite,
   //notes: dialogue is a dictionary of audio objects like {"al": alSound} (fix needed...)
   // left, right, up, down are strings like 'alright' or 'jonleft'
-  initialize: function NPC(scene, spawnPoint, frame, position=0) {
+  initialize: function Car(scene, spawnPoint, frame, position=0) {
     let point = map.findObject("Objects", obj => obj.name === spawnPoint);
     point.x+=1;
     point.y+=1;
@@ -200,6 +200,51 @@ var Car = new Phaser.Class({
       }
     } else if (distance(me,this)>200) {
       this.honking = false;
+    }
+  },
+  animate: function() {
+    if (this.body.velocity.x > 50 && this.body.velocity.y**2<100) {
+      this.angle = 90
+      this.body.setOffset(0,16);
+    } else if (this.body.velocity.x < -50 && this.body.velocity.y**2<100) {
+      this.angle = 270
+    }
+    if (this.body.velocity.y > 50 && this.body.velocity.x**2<100) {
+      this.angle = 180
+    } else if (this.body.velocity.y < -50 && this.body.velocity.x**2<100) {
+      this.angle = 0
+    }
+  },
+});
+
+var CopCar = new Phaser.Class({
+  Extends: Phaser.Physics.Arcade.Sprite,
+  //notes: dialogue is a dictionary of audio objects like {"al": alSound} (fix needed...)
+  // left, right, up, down are strings like 'alright' or 'jonleft'
+  initialize: function CopCar(scene, spawnPoint, position=0) {
+    let point = map.findObject("Objects", obj => obj.name === spawnPoint);
+    point.x+=1;
+    point.y+=1;
+    Phaser.GameObjects.Sprite.call(this, scene, point.x, point.y, 'cars', 4);
+    scene.add.existing(this)
+    scene.physics.add.existing(this)
+    this.position = position;
+    this.changeDirection = false;
+    this.body.setCircle(16);
+    this.body.setOffset(0,16);
+    this.sirens = false;
+  },
+  soundSiren: function(){
+    if (distance(me,this)<500 && playerTexture===0 && !this.sirens){
+      this.sirens = true
+      rnd = Math.floor(Math.random() * 2);
+      if (rnd===0){
+        gameState.siren1.play()
+      } else if (rnd===1){
+        gameState.siren2.play()
+      }
+    } else if (distance(me,this)>500) {
+      this.sirens = false;
     }
   },
   animate: function() {
@@ -292,6 +337,8 @@ var LightWorld = new Phaser.Class({
     this.load.audio('block', ['assets/block.wav']);
     this.load.audio('iwantsomecrack', ['assets/iwantsomecrack.mp3']);
     this.load.audio('itemget', ['assets/itemget.wav']);
+    this.load.audio('siren1', ['assets/cop_siren_1.wav']);
+    this.load.audio('siren2', ['assets/cop_siren_2.wav']);
     this.load.audio('honk1', ['assets/honk1.wav']);
     this.load.audio('honk2', ['assets/honk2.wav']);
     this.load.audio('honk3', ['assets/honk3.wav']);
@@ -540,6 +587,7 @@ var LightWorld = new Phaser.Class({
     this.load.tilemapTiledJSON("map", "assets/east_lansing.json");
   },
   create: function() {
+    this.cameras.main.fadeIn(7000, 0, 0, 0)
     //default pointer
     this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
     //camera controls
@@ -620,7 +668,7 @@ var LightWorld = new Phaser.Class({
       volume: 1
     });
     gameState.heyy = this.sound.add('heyy', {
-      volume: 1
+      volume: .6
     });
     gameState.hello = this.sound.add('hello', {
       volume: 1
@@ -641,13 +689,19 @@ var LightWorld = new Phaser.Class({
       volume: 0.6
     });
     gameState.honk1 = this.sound.add('honk1', {
-      volume: 0.6
+      volume: 0.4
     });
     gameState.honk2 = this.sound.add('honk2', {
-      volume: 0.6
+      volume: 0.4
     });
     gameState.honk3 = this.sound.add('honk3', {
-      volume: 0.6
+      volume: 0.4
+    });
+    gameState.siren1 = this.sound.add('siren1', {
+      volume: 0.4
+    });
+    gameState.siren2 = this.sound.add('siren2', {
+      volume: 0.4
     });
     gameState.dead = this.sound.add('dead', {
       volume: 0.6
@@ -895,6 +949,16 @@ var LightWorld = new Phaser.Class({
     net4.setOffset(20, 20);
 
     //animations
+
+    this.anims.create({
+      key: 'flashingLights',
+      frames: this.anims.generateFrameNumbers('cars', {
+        start: 17,
+        end: 18
+      }),
+      frameRate: 5,
+      repeat: -1
+    });
 
     this.anims.create({
       key: 'blnde_turn',
@@ -1343,10 +1407,9 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'frat4attack',
       frames: this.anims.generateFrameNumbers('fratboy4', {
-        start: 5,
-        end: 7
+        frames: [5,6,7,8,9,10,0]
       }),
-      frameRate: 5,
+      frameRate: 6,
       repeat: 0
     });
 
@@ -1663,7 +1726,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'dive',
       frames: this.anims.generateFrameNumbers('me', {
-        frames: [9,10,11,12]
+        frames: [9,10,11,12,13]
       }),
       frameRate: 8,
       repeat: 0
@@ -1672,18 +1735,18 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'kick',
       frames: this.anims.generateFrameNumbers('me', {
-        frames: [13,14, 14]
+        frames: [14,15, 15]
       }),
-      frameRate: 10,
+      frameRate: 8,
       repeat: 0
     });
 
     this.anims.create({
       key: 'kickup',
       frames: this.anims.generateFrameNumbers('me', {
-        frames: [13,15, 15]
+        frames: [16, 17, 17]
       }),
-      frameRate: 10,
+      frameRate: 8,
       repeat: 0
     });
 
@@ -1756,10 +1819,10 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'rightwalk',
       frames: this.anims.generateFrameNumbers('me', {
-        start: 5,
-        end: 6
+        start: 27,
+        end: 31
       }),
-      frameRate: 4,
+      frameRate: 8,
       repeat: -1
     });
 
@@ -1779,8 +1842,26 @@ var LightWorld = new Phaser.Class({
         start: 7,
         end: 8
       }),
-      frameRate: 9,
+      frameRate: 11,
       repeat: -1
+    });
+
+    this.anims.create({
+      key: 'newrightsprint',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [36,37,38,39,40,41,42,43,44]
+      }),
+      frameRate: 16,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'newrightrun',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [36,37,38,39,40,41,42,43,44]
+      }),
+      frameRate: 9,
+      repeat: 0
     });
 
     this.anims.create({
@@ -2026,6 +2107,12 @@ var LightWorld = new Phaser.Class({
     roadCar7 = new Car(this, "ccwCarPath9", 11, 9);
     roadCar8 = new Car(this, "ccwCarPath6", 12, 6);
 
+    //recall it goes (scene, spawn point, position) and position should coincide with spawn point on path
+    copCar1 = new CopCar(this, "cwCarPath1", 1);
+    copCar2 = new CopCar(this, "cwCarPath10", 10);
+    copCar1.anims.play('flashingLights',true);
+    copCar2.anims.play('flashingLights',true);
+
 
     chasersGroup = this.physics.add.group()
     for (let i = 0; i < enemsForChasers.length; i++) {
@@ -2092,7 +2179,7 @@ var LightWorld = new Phaser.Class({
     //to start at level i and get skill at level i
     //levelObject["Mac"]=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
     //to spawn at soccer game
-    gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "jon spawn point")
+    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "jon spawn point")
     //gameState.PlayerSpawnPoint.y+=100
     //to spawn at pool area
     //gameState.PlayerSpawnPoint=BurchamPoolSpawnPoint
@@ -2136,6 +2223,9 @@ var LightWorld = new Phaser.Class({
     this.physics.add.overlap(roadCar6, me, getHitByCar, false, this);
     this.physics.add.overlap(roadCar7, me, getHitByCar, false, this);
     this.physics.add.overlap(roadCar8, me, getHitByCar, false, this);
+    this.physics.add.overlap(copCar1, me, getHitByCar, false, this);
+    this.physics.add.overlap(copCar2, me, getHitByCar, false, this);
+
 
     gameState.pointer = this.input.activePointer;
 
@@ -2169,19 +2259,6 @@ var LightWorld = new Phaser.Class({
     above.setCollisionByProperty({
       collides: true
     });
-
-    //cars collisions
-
-/*
-    this.physics.add.collider(roadCar1, me);
-    this.physics.add.collider(roadCar2, me);
-    this.physics.add.collider(roadCar3, me);
-    this.physics.add.collider(roadCar4, me);
-    this.physics.add.collider(roadCar5, me);
-    this.physics.add.collider(roadCar6, me);
-    this.physics.add.collider(roadCar7, me);
-    this.physics.add.collider(roadCar8, me);
-*/
 
 
     //followers colliding
@@ -2545,7 +2622,7 @@ var LightWorld = new Phaser.Class({
       } else if (distance(me, gameState.gasStationEnter)<30 && gasStation === 0) {
         scene_number = 3;
         gasStation = 1
-      } else if (distance(me, volleyball) < 20 && kicking===false) {
+      } else if (distance(me, volleyball) < 30 && kicking===false) {
         stamina-=5;
         kicking = true;
         if (me.body.velocity.y<-50){
@@ -2554,18 +2631,21 @@ var LightWorld = new Phaser.Class({
           me.anims.play('kick', true);
         }
         window.setTimeout(()=>{
+          me.flipX = false;
           kicking = false
           volleyball.body.velocity.x += directionVector(me, volleyball)[0] * 40 * (1 + spriteSpeed(me) / 35);
           volleyball.body.velocity.y += directionVector(me, volleyball)[1] * 40 * (1 + spriteSpeed(me) / 35);
           gameState.ball1.play()
         }, 151);
-        if (me.body.velocity.x>0){
+        /*
+        if (me.body.velocity.x<0){
           me.flipX = true;
           window.setTimeout(()=>{
             me.flipX = false;
           }, 151);
         }
-      } else if (distance(me, ball) < 20 && kicking===false) {
+        */
+      } else if (distance(me, ball) < 30 && kicking===false) {
         stamina-=5;
         kicking = true;
         if (me.body.velocity.y<-50){
@@ -2574,17 +2654,20 @@ var LightWorld = new Phaser.Class({
           me.anims.play('kick', true);
         }
         window.setTimeout(()=>{
-          kicking = false
+          kicking = false;
+          me.flipX = false;
           ball.body.velocity.x += directionVector(me, ball)[0] * 25 * (1 + spriteSpeed(me) / 40);
           ball.body.velocity.y += directionVector(me, ball)[1] * 25 * (1 + spriteSpeed(me) / 40);
           gameState.ball1.play();
         }, 151);
-        if (me.body.velocity.x>0){
+        /*
+        if (me.body.velocity.x<0){
           me.flipX = true;
           window.setTimeout(()=>{
             me.flipX = false;
           }, 151);
         }
+        */
         //problem here if you go in apartment and then go in pool room, you warp to the wrong place when you change scenes
       } else if (me.x > gameState.PlayerSpawnPoint.x - 64 && me.x < gameState.PlayerSpawnPoint.x - 32 && me.y > gameState.PlayerSpawnPoint.y - 84 && me.y < gameState.PlayerSpawnPoint.y - 32 && keysGet === 0) {
         cantGetIn = 1;
@@ -2613,12 +2696,14 @@ var LightWorld = new Phaser.Class({
           diving = false
           speed/=1.5
         }, 500);
+        /*
         if (me.body.velocity.x>0){
           me.flipX = true;
           window.setTimeout(()=>{
             me.flipX = false;
           }, 500);
         }
+        */
       }
     }, this);
 
@@ -2740,6 +2825,17 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    if (kicking && me.body.velocity.x<0){
+      me.flipX = false
+    } else if (kicking && me.body.velocity.x>0){
+      me.flipX = true
+    }
+    if (diving && me.body.velocity.x<0){
+      me.flipX = false
+    } else if (diving && me.body.velocity.x>0){
+      me.flipX = true
+    }
+
     //getting hit by car
     if (gettingHitByCar && !diving){
       gettingHitByCar = false;
@@ -2781,7 +2877,7 @@ var LightWorld = new Phaser.Class({
     } else if (playerTexture === 'race' && speed === 4 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
       stamina -= .07
     } else if (playerTexture === 0 && speed === 1 || me.body.velocity.x ** 2 + me.body.velocity.y ** 2 < 100 ** 2 && pause === false) {
-      stamina += .13
+      stamina += .16
     }
     if (stamina <= 0) {
       stamina = 0
@@ -2861,6 +2957,13 @@ var LightWorld = new Phaser.Class({
     if (distance(me, bennett) > 1200 && playerTexture === 0) {
       bennett.following = false;
     }
+    //ai for cop cars
+    copCar1.animate()
+    copCar1.soundSiren()
+    followPath(copCar1, cwCarPath, 400)
+    copCar2.animate()
+    copCar2.soundSiren()
+    followPath(copCar2, cwCarPath, 400)
 
     //ai for cars
     roadCar1.animate()
@@ -3262,7 +3365,7 @@ var LightWorld = new Phaser.Class({
     //gameover and new game
     if (newGame === true && gameOver === false) {
       initializePage(this)
-      let firstPage = fetchPage(1)
+      let firstPage = fetchPage(9999)
       displayPage(this, firstPage)
       newGame = false;
     } else if (newGame === false && gameOver === true) {
@@ -3868,7 +3971,7 @@ var LightWorld = new Phaser.Class({
       trevor.chase(ball, 1.4); ////use 1.1 for laptop and 1.4 for desktop (I think because my macbook has faster refresh rate)
       trevor.getUnstuck()
       //high score for keepaway and dialogue
-      if (trevor.following === false && distance(me, ball) < 100 && distance(trevor, ball) > 40 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
+      if (trevor.following === false && distance(me, ball) < 300 && distance(trevor, ball) > 30 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
         keepaway += 1;
       }
       if (distance(trevor, ball) < 40) {
@@ -4202,54 +4305,9 @@ var LightWorld = new Phaser.Class({
       beABall(beachball)
     }
 
-    //player controls and animations
+    //player animations and controls
     me.body.setVelocity(0);
     //pointer controls
-    /*
-    if (playerTexture === 0 && gameState.pointer.isDown) {
-      var pointerLoc = [Number(gameState.pointer.downX), Number(gameState.pointer.downY)]
-      var screenCenter = [Number(600), Number(300)]
-      var moveX = pointerLoc[0] - screenCenter[0]
-      var moveY = pointerLoc[1] - screenCenter[1]
-      var dist = Math.sqrt((pointerLoc[0] - screenCenter[0]) ** 2 + (pointerLoc[1] - screenCenter[1]) ** 2)
-      me.body.velocity.x = 50 * speed * athletics * Number(moveX / dist)
-      me.body.velocity.y = 50 * speed * athletics * Number(moveY / dist)
-      if (me.body.velocity.x<-10) {
-        if (speed === 1) {
-          me.anims.play('leftwalk', true);
-        } else if (speed === 2 || speed === 3) {
-          me.anims.play('leftrun', true);
-        } else if (speed > 3) {
-          me.anims.play('leftsprint', true);
-        }
-      } else if (me.body.velocity.x>10) {
-        if (speed === 1) {
-          me.anims.play('rightwalk', true);
-        } else if (speed === 2 || speed === 3) {
-          me.anims.play('rightrun', true);
-        } else if (speed > 3) {
-          me.anims.play('rightsprint', true);
-        }
-      }
-      else if (me.body.velocity.y>10) {
-        if (speed === 1) {
-          me.anims.play('leftwalk', true);
-        } else if (speed === 2 || speed === 3) {
-          me.anims.play('leftrun', true);
-        } else if (speed > 3) {
-          me.anims.play('leftsprint', true);
-        }
-      } else if (me.body.velocity.y<-10) {
-        if (speed === 1) {
-          me.anims.play('rightwalk', true);
-        } else if (speed === 2 || speed === 3) {
-          me.anims.play('rightrun', true);
-        } else if (speed > 3) {
-          me.anims.play('rightsprint', true);
-        }
-      }
-    }
-    */
 
     if (playerTexture === 0 && inPool === false) {
       // player Horizontal movement
@@ -4266,41 +4324,46 @@ var LightWorld = new Phaser.Class({
       }
       //player walking running animations
       if (this.cursors.left.isDown && !diving && !kicking) {
-        if (speed === 1) {
-          me.anims.play('leftwalk', true);
-        } else if (speed === 2 || speed === 3) {
-          me.anims.play('leftrun', true);
-        } else if (speed > 3) {
-          me.anims.play('leftsprint', true);
-        }
-      } else if (this.cursors.right.isDown && !diving && !kicking) {
+        me.flipX = true;
         if (speed === 1) {
           me.anims.play('rightwalk', true);
         } else if (speed === 2 || speed === 3) {
-          me.anims.play('rightrun', true);
+          me.anims.play('newrightrun', true);
         } else if (speed > 3) {
-          me.anims.play('rightsprint', true);
+          me.anims.play('newrightsprint', true);
+        }
+      } else if (this.cursors.right.isDown && !diving && !kicking) {
+        me.flipX = false;
+        if (speed === 1) {
+          me.anims.play('rightwalk', true);
+        } else if (speed === 2 || speed === 3) {
+          me.anims.play('newrightrun', true);
+        } else if (speed > 3) {
+          me.anims.play('newrightsprint', true);
         }
       }
       if (this.cursors.up.isDown && !(this.cursors.right.isDown) && !diving && !kicking) {
-        if (speed === 1) {
-          me.anims.play('leftwalk', true);
-        } else if (speed === 2 || speed === 3) {
-          me.anims.play('leftrun', true);
-        } else if (speed > 3) {
-          me.anims.play('leftsprint', true);
-        }
-      } else if (this.cursors.down.isDown && !(this.cursors.left.isDown) && !diving && !kicking) {
+        me.flipX = true;
         if (speed === 1) {
           me.anims.play('rightwalk', true);
         } else if (speed === 2 || speed === 3) {
-          me.anims.play('rightrun', true);
+          me.anims.play('newrightrun', true);
         } else if (speed > 3) {
-          me.anims.play('rightsprint', true);
+          me.anims.play('newrightsprint', true);
+        }
+      } else if (this.cursors.down.isDown && !(this.cursors.left.isDown) && !diving && !kicking) {
+        me.flipX = false;
+        if (speed === 1) {
+          me.anims.play('rightwalk', true);
+        } else if (speed === 2 || speed === 3) {
+          me.anims.play('newrightrun', true);
+        } else if (speed > 3) {
+          me.anims.play('newrightsprint', true);
         }
       }
       if (me.body.velocity.x === 0 && me.body.velocity.y === 0) {
         me.anims.play('turn', true)
+        me.flipX = false;
       }
     }
     // for when you get in pool
@@ -4381,13 +4444,16 @@ var LightWorld = new Phaser.Class({
       //player walking running animations
       if (this.cursors.left.isDown) {
         if (speed > 2) {
-          me.anims.play('leftsprint', true);
+          me.anims.play('newrightsprint', true);
+          me.flipX=true;
         } else {
-          me.anims.play('leftwalk', true);
+          me.flipX=true;
+          me.anims.play('rightwalk', true);
         }
       }
       if (me.body.velocity.x === 0 && me.body.velocity.y === 0) {
         me.anims.play('turn', true)
+        me.flipX=false;
       }
     }
     me.x = Math.round(me.x);

@@ -1,4 +1,16 @@
-const pages = [{
+const pages = [
+  {
+    character: 'me',
+    page: 9999,
+    narrative: "Shiiiiiiiiiiiiiiiiiiit............",
+    options: [{
+        option: 'Damnnn...',
+        nextPage: 1
+      },
+    ]
+  },
+
+  {
     character: 'me',
     page: 1,
     narrative: "MAN I'm hungover, I need a gatorade and a monster REAL bad. I lost my wallet, my phone, my keys... Man what did I do yesterday? At least I got a few beers left... they're warm as shit though...",
@@ -87,7 +99,7 @@ const pages = [{
   {
     character: 'me',
     page: 5,
-    narrative: "Alright, got my wallet and my phone at least. Got about 3.50 in here. Now where the fuck are my keys at?",
+    narrative: "Alright, got my wallet and my phone at least. Got about 3.50 in here. Plus now I can use GPS... not that I need to... I fucking live here. Now where the fuck are my keys at?",
     options: [{
         option: 'In the woods?',
         nextPage: undefined,
@@ -1571,7 +1583,7 @@ const pages = [{
   {
     character: 'me',
     page: 4010,
-    narrative: `Alana: You never called me back you asshole. Whatever like I have a boyfriend now and he's in a frat.`,
+    narrative: `Alana: You never called me you asshole. Whatever like I have a boyfriend now and he's in a frat.`,
     options: [{
       option: 'Shiiit',
       nextPage: undefined,

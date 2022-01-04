@@ -41,6 +41,11 @@ var Navigator = new Phaser.Class({
     });
   },
   update: function() {
+    if (phoneGet){
+      gameStateNav.location.visible = true;
+    } else {
+      gameStateNav.location.visible = false;
+    }
     //console.log(stamina)
     gameStateNav.staminaDisplayFront.width=stamina
     gameStateNav.gasDisplayFront.width=gas*100/12

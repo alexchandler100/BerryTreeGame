@@ -1000,7 +1000,8 @@ var MyApartment = new Phaser.Class({
   },
 
   update: function() {
-
+    //fixed speed at 2 becuase always using walk animations
+    speed = 2;
     //launch keyboard dialogue
     if (keyboardDialogue){
       keyboardDialogue=false;
@@ -1400,39 +1401,19 @@ var MyApartment = new Phaser.Class({
 
     //player walking running animations
     if (this.cursors.left.isDown) {
-      if (speed === 1) {
-        meApt.anims.play('leftwalk', true);
-      } else if (speed === 2) {
-        meApt.anims.play('leftrun', true);
-      } else if (speed > 2) {
-        meApt.anims.play('leftsprint', true);
-      }
+      meApt.anims.play('rightwalk', true);
+      meApt.flipX = true;
     } else if (this.cursors.right.isDown) {
-      if (speed === 1) {
-        meApt.anims.play('rightwalk', true);
-      } else if (speed === 2) {
-        meApt.anims.play('rightrun', true);
-      } else if (speed > 2) {
-        meApt.anims.play('rightsprint', true);
-      }
+      meApt.anims.play('rightwalk', true);
+      meApt.flipX = false;
     }
 
     if (this.cursors.up.isDown && !(this.cursors.right.isDown)) {
-      if (speed === 1) {
-        meApt.anims.play('leftwalk', true);
-      } else if (speed === 2) {
-        meApt.anims.play('leftrun', true);
-      } else if (speed > 2) {
-        meApt.anims.play('leftsprint', true);
-      }
+      meApt.anims.play('rightwalk', true);
+      meApt.flipX = true;
     } else if (this.cursors.down.isDown && !(this.cursors.left.isDown)) {
-      if (speed === 1) {
-        meApt.anims.play('rightwalk', true);
-      } else if (speed === 2) {
-        meApt.anims.play('rightrun', true);
-      } else if (speed > 2) {
-        meApt.anims.play('rightsprint', true);
-      }
+      meApt.anims.play('rightwalk', true);
+      meApt.flipX = false;
     }
     if (meApt.body.velocity.x === 0 && meApt.body.velocity.y === 0) {
       meApt.anims.play('turn', true)
