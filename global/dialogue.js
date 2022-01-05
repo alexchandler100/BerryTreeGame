@@ -544,7 +544,7 @@ const pages = [
   {
     character: 'me',
     page: 85,
-    narrative: "Original Homeboy: Uhh looks like you haven't beat 70 points yet... Or maybe you don't have enough money. Somehow I can't tell the difference...",
+    narrative: "Original Homeboy: Uhh looks like you haven't beat 65 points yet... Or maybe you don't have enough money. Somehow I can't tell the difference...",
     options: [{
       option: 'fuuuck',
       nextPage: undefined,
@@ -555,7 +555,7 @@ const pages = [
   {
     character: 'me',
     page: 86,
-    narrative: "Original Homeboy: I can't FUCKING get past 70 points. Use the left/right keys to move, press up to jump, and press down to smoke your bong and increase your speed.",
+    narrative: "Original Homeboy: I can't FUCKING get past 65 points. Use the left/right keys to move, press up to jump, and press down to smoke your bong and increase your speed.",
     options: [{
       option: 'shiiit hell yeah',
       nextPage: undefined,
@@ -644,7 +644,7 @@ const pages = [
   {
     character: 'me',
     page: 112,
-    narrative: 'Becca: Anyway, you can like have this.',
+    narrative: 'Becca: Anyway, you can like have this thing I found. Honestly I have no idea what it even is.',
     options: [{
         option: 'Sweeet',
         nextPage: undefined,
@@ -1271,7 +1271,7 @@ const pages = [
   {
     character: 'me',
     page: 1600,
-    narrative: `Diamond: Jean Claude?? JEAN CLAUDE??? Have you seen my little Jean Claude??`,
+    narrative: `Diamond: Jean Claude?? JEAN CLAUDE??? Have you seen my Jean Claude??`,
     options: [{
       option: `Who?`,
       nextPage: 1601,

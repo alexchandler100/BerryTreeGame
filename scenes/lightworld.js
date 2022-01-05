@@ -293,6 +293,14 @@ var LightWorld = new Phaser.Class({
     this.cursors.down.reset();
     changeThemeSong = true;
     gameState.mario2.stop();
+    if (stripperBanged){    //after you bang, she stops following
+      stripper.following = false;
+      stripper.joinParameter = false;
+      stripper.x = stripperPath[0].x;
+      stripper.y = stripperPath[0].y;
+      jeanClaude.x = stripper.x;
+      jeanClaude.y = stripper.y - 30;
+    }
   },
   onKeyInput: function(event) {
     if (event.code === "Backspace") {
@@ -3708,8 +3716,8 @@ var LightWorld = new Phaser.Class({
       }
     }
     if (stripperBanged){    //after you bang, she stops following
-      stripper.following = false;
-      stripper.joinParameter = false;
+      followPath(stripper,stripperPath)
+      jeanClaude.follow(stripper, .5)
     }
 
 

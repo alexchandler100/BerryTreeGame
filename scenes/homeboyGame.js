@@ -42,6 +42,7 @@ var HomeboyGame = new Phaser.Class({
     gameState.linkWoods.stop();
     gameState.marioWoods.stop();
     gameState.trevorWoods.stop();
+    gameState.mario2.play();
   },
   create: function() {
     gameState.linkWoods.stop();

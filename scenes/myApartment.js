@@ -191,11 +191,6 @@ var MyApartment = new Phaser.Class({
 
   //added this for battle scene and changed all instances of cursors to this.cursors (and removed const before cursors initialization)
   wake: function() {
-    if (stripper.following) {
-      stripperApt.following = true
-      stripperApt.x = meApt.x + 50
-      stripperApt.y = meApt.y - 60
-    }
     console.log(`indoorzone: ${indoorZone}`)
     if (indoorZone === 'clubhouse 731' || indoorZone === 'clubhouse woods') {
       this.scene.run("PoolScore");
@@ -233,6 +228,11 @@ var MyApartment = new Phaser.Class({
     if (meApt) {
       meApt.x = gameStateApt.spawn.x;
       meApt.y = gameStateApt.spawn.y;
+    }
+    if (stripper.following) {
+      stripperApt.following = true
+      stripperApt.x = meApt.x + 50
+      stripperApt.y = meApt.y - 60
     }
   },
   onKeyInput: function(event) {
