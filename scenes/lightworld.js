@@ -326,7 +326,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('bodyhit', ['assets/bodyhit.wav']);
     this.load.audio('bichon_bark', ['assets/bichon_bark.wav']);
     this.load.audio('airsoft', ['assets/airsoft.wav']);
-    this.load.audio('punch', ['assets/Punch.wav']);
+    this.load.audio('punch', ['assets/punch.wav']);
     this.load.audio('stabnoise', ['assets/stabnoise.wav']);
     this.load.audio('shatter', ['assets/shatter.mp3']);
     this.load.audio('bitenoise', ['assets/bitenoise.wav']);
@@ -600,7 +600,6 @@ var LightWorld = new Phaser.Class({
     );
     //loading tilesets and tilemaps
     this.load.image("tuxmon-tiles", "assets/tilesets/tuxmon-sample-32px.png");
-    this.load.image("buildings1", "assets/tilesets/buildings1.png");
     this.load.image("elTiles", "assets/tilesets/el_tileset_custom.png");
     this.load.image("buildingTiles", "assets/tilesets/buildings_custom.png");
     this.load.image("elTiles2", "assets/tilesets/[Base]BaseChip_pipo.png");
@@ -809,7 +808,6 @@ var LightWorld = new Phaser.Class({
     const tileset33 = map.addTilesetImage("buildings_custom", "buildingTiles")
     const tileset22 = map.addTilesetImage("[Base]BaseChip_pipo", "elTiles2")
     const tileset3 = map.addTilesetImage("car_tiles", "carTiles");
-    const tileset4 = map.addTilesetImage("buildings1", "buildings1");
     const below = map.createStaticLayer("Below2", tileset2, 0, 0);
     const buildingtops = map.createStaticLayer("BuildingTops", tileset1, 0, 0);
 
@@ -2096,7 +2094,6 @@ var LightWorld = new Phaser.Class({
     const world = map.createDynamicLayer("World", tileset1, 0, 0);
     const world3 = map.createDynamicLayer("World3", tileset33, 0, 0);
     const world2 = map.createDynamicLayer("World2", tileset22, 0, 0);
-    const special = map.createStaticLayer("Special", tileset4, 0, 0);
     const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
 
     //creating volleyball net
@@ -2296,9 +2293,6 @@ var LightWorld = new Phaser.Class({
     cars.setCollisionByProperty({
       collides: true
     });
-    special.setCollisionByProperty({
-      collides: true
-    });
     above.setCollisionByProperty({
       collides: true
     });
@@ -2341,7 +2335,6 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(me, world);
     this.physics.add.collider(me, world2);
     this.physics.add.collider(me, world3);
-    this.physics.add.collider(me, special);
     this.physics.add.collider(me, above);
     this.physics.add.collider(me, cars);
     this.physics.add.collider(me, ball);
@@ -2352,7 +2345,6 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(me, fratboys);
 
     //colliders for grls
-    this.physics.add.collider(grls, special);
     this.physics.add.collider(grls, grls);
     this.physics.add.collider(grls, me);
     this.physics.add.collider(grls, world);
@@ -2364,7 +2356,6 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(grls, volleyball);
 
     //colliders for fratboys
-    this.physics.add.collider(fratboys, special);
     this.physics.add.collider(fratboys, fratboys);
     this.physics.add.collider(fratboys, me);
     this.physics.add.collider(fratboys, world);
@@ -2482,12 +2473,9 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(chasersGroup, cars)
     this.physics.add.collider(chasersGroup, ball)
 
-    //colliders for special
-    this.physics.add.collider(volleyball, special)
+    //colliders for above
     this.physics.add.collider(volleyball, above)
-    this.physics.add.collider(ball, special)
     this.physics.add.collider(ball, above)
-    this.physics.add.collider(beachball, special)
 
     //setting world bounds and setting objects to collide with world bounds
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true, true, true, true);
