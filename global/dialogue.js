@@ -4,7 +4,7 @@ const pages = [
     page: 9999,
     narrative: "Shiiiiiiiiiiiiiiiiiiit............",
     options: [{
-        option: 'Damnnn...',
+        option: '.......',
         nextPage: 1
       },
     ]
@@ -13,7 +13,7 @@ const pages = [
   {
     character: 'me',
     page: 1,
-    narrative: "MAN I'm hungover, I need a gatorade and a monster REAL bad. I lost my wallet, my phone, my keys... Man what did I do yesterday? At least I got a few beers left... they're warm as shit though...",
+    narrative: "MAN I'm hungover, I need a gatorade and a monster REAL bad. Shiit... where the fuck is my wallet... My phone... MY KEYS??? Man what did I do yesterday? At least I got a few beers left... they're warm as shit though...",
     options: [{
         option: 'Try to remember',
         nextPage: 2
@@ -54,7 +54,7 @@ const pages = [
   {
     character: 'me',
     page: 4,
-    narrative: 'PRESS Z TO ACCESS THE MENU AND CLICK THE EXIT BUTTON TO EXIT. EXAMINE MENU ITEMS BY HOVERING THE CURSOR OVER THEM. MENU ITEMS CAN BE USED BY DRAGGING AND DROPPING THEM INTO APPROPRIATE PLACES IN THE MENU. The X key opens the quest log.',
+    narrative: 'PRESS Z TO ACCESS THE MENU AND CLICK THE EXIT BUTTON TO EXIT. EXAMINE MENU ITEMS BY HOVERING THE CURSOR OVER THEM. MENU ITEMS CAN BE USED BY DRAGGING AND DROPPING THEM INTO APPROPRIATE PLACES IN THE MENU. THE X KEY OPENS THE QUEST LOG.',
     options: [{
       option: 'More',
       nextPage: 8
@@ -1271,13 +1271,13 @@ const pages = [
   {
     character: 'me',
     page: 1600,
-    narrative: `Diamond: Heyyy sweetie.`,
+    narrative: `Diamond: Jean Claude?? JEAN CLAUDE??? Have you seen my little Jean Claude??`,
     options: [{
-      option: 'Yoooo',
+      option: `Who?`,
       nextPage: 1601,
     },
     {
-      option: "What's up?",
+      option: "Um nope",
       nextPage: 1601,
     },]
   },
@@ -1285,7 +1285,7 @@ const pages = [
   {
     character: 'me',
     page: 1601,
-    narrative: `Diamond: So like do you know where I could get some coke?`,
+    narrative: `Diamond: Fuck... Hey do you know where I could get some coke?`,
     options: [
     {
       option: 'Uhh possibly',
@@ -1777,6 +1777,57 @@ const pages = [
     narrative: `Anthony: Yooooo wanna play some canjam?`,
     options: [{
       option: 'Maybe later man',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 6100,
+    narrative: `Ruff Ruuffff`,
+    options: [{
+      option: 'Good Boy! Come here!',
+      nextPage: undefined,
+      aftermath: openQuestLog
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 6101,
+    narrative: `Jean Claude: Rooof Rooooof!!! (Click on Jean Claude to show him the Jerky you have... hopefully he follows you!)`,
+    options: [{
+      option: 'Hell yeah',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 6102,
+    narrative: `Diamond: OH MY GOD you brought my Jean Claude back to me!! How can I ever repay you?`,
+    options: [{
+      option: 'Hmmmmmmmmmmm',
+      nextPage: 6103,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 6103,
+    narrative: `Diamond: Do you live around here?`,
+    options: [{
+      option: 'I do.',
+      nextPage: 6104,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 6104,
+    narrative: `Click on Diamond if you want her to follow you.`,
+    options: [{
+      option: 'Right on',
       nextPage: undefined,
     },]
   },

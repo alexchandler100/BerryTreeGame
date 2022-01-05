@@ -1,7 +1,7 @@
 //constants and parameters
 const gameStateApt = {};
 let englishIndicator = {}
-let loadedIndoorsThemes=false;
+let loadedIndoorsThemes = false;
 let startFollow = true;
 let inPoolTableZone = false;
 let poolDialogue = true;
@@ -24,17 +24,17 @@ let jamesPoolTalk = false;
 let joeBets = false;
 let jamesBets = false;
 let opportunityForExtra2 = false;
-let railEnglish=false;
-let _hitTopRail=false;
-let _hitTopRailRight=false;
-let _hitBottomRail=false;
-let _hitBottomRailRight=false;
-let _hitLeftRail=false;
-let _hitRightRail=false;
+let railEnglish = false;
+let _hitTopRail = false;
+let _hitTopRailRight = false;
+let _hitBottomRail = false;
+let _hitBottomRailRight = false;
+let _hitLeftRail = false;
+let _hitRightRail = false;
 let aimingLineLength;
 let englishStrength = 3;
-let joeNotEnoughToBet=false;
-let jamesNotEnoughToBet=false;
+let joeNotEnoughToBet = false;
+let jamesNotEnoughToBet = false;
 let english = {
   top: false,
   bottom: false,
@@ -68,21 +68,21 @@ let phi; //angle at which ball 1 exits
 let ball2finalspeed;
 let ball1finalspeed;
 
-function bringToTouching(ball1, ball2){
+function bringToTouching(ball1, ball2) {
   vx1 = ball1.body.velocity.x
   vy1 = ball1.body.velocity.y
   x10 = ball1.x;
   x2 = ball2.x;
   y10 = ball1.y;
   y2 = ball2.y;
-  aa = vx1**2 + vy1**2;
-  bb = 2*((x10-x2)*vx1 + (y10-y2)*vy1);
-  cc = (x2-x10)**2 + (y2-y10)**2 - 5.6**2;
-  tt1 = (-bb+Math.sqrt(bb**2-4*aa*cc))/(2*aa);
-  tt2 = (-bb-Math.sqrt(bb**2-4*aa*cc))/(2*aa);
-  ttf = Math.min(tt1,tt2)
-  ball1.x = x10+vx1*ttf
-  ball1.y = y10+vy1*ttf
+  aa = vx1 ** 2 + vy1 ** 2;
+  bb = 2 * ((x10 - x2) * vx1 + (y10 - y2) * vy1);
+  cc = (x2 - x10) ** 2 + (y2 - y10) ** 2 - 5.6 ** 2;
+  tt1 = (-bb + Math.sqrt(bb ** 2 - 4 * aa * cc)) / (2 * aa);
+  tt2 = (-bb - Math.sqrt(bb ** 2 - 4 * aa * cc)) / (2 * aa);
+  ttf = Math.min(tt1, tt2)
+  ball1.x = x10 + vx1 * ttf
+  ball1.y = y10 + vy1 * ttf
 }
 
 function ballCollide(ball1, ball2) {
@@ -126,12 +126,12 @@ function ballCollide(ball1, ball2) {
       english.bottom = false;
       if (thetap < 10 * Math.PI / 180) {
         phi = theta + Math.PI;
-        ball1finalspeed = ball2finalspeed / 2 * englishStrength/3;
+        ball1finalspeed = ball2finalspeed / 2 * englishStrength / 3;
       } else if (10 * Math.PI / 180 <= thetap && thetap <= 80 * Math.PI / 180) {
         if (vx1 * ry - vy1 * rx < 0) {
-          phi += Math.PI / 4 * englishStrength/3
+          phi += Math.PI / 4 * englishStrength / 3
         } else {
-          phi -= Math.PI / 4 * englishStrength/3
+          phi -= Math.PI / 4 * englishStrength / 3
         }
       }
     } else if (english.top) {
@@ -142,12 +142,12 @@ function ballCollide(ball1, ball2) {
         } else {
           phi = theta - 2 * thetap
         }
-        ball1finalspeed = ball2finalspeed / 2 * englishStrength/3;
+        ball1finalspeed = ball2finalspeed / 2 * englishStrength / 3;
       } else if (10 * Math.PI / 180 <= thetap && thetap <= 80 * Math.PI / 180) {
         if (vx1 * ry - vy1 * rx < 0) {
-          phi -= Math.PI / 4 * englishStrength/3
+          phi -= Math.PI / 4 * englishStrength / 3
         } else {
-          phi += Math.PI / 4 * englishStrength/3
+          phi += Math.PI / 4 * englishStrength / 3
         }
       }
     }
@@ -191,8 +191,13 @@ var MyApartment = new Phaser.Class({
 
   //added this for battle scene and changed all instances of cursors to this.cursors (and removed const before cursors initialization)
   wake: function() {
+    if (stripper.following) {
+      stripperApt.following = true
+      stripperApt.x = meApt.x + 50
+      stripperApt.y = meApt.y - 60
+    }
     console.log(`indoorzone: ${indoorZone}`)
-    if (indoorZone==='clubhouse 731' || indoorZone === 'clubhouse woods'){
+    if (indoorZone === 'clubhouse 731' || indoorZone === 'clubhouse woods') {
       this.scene.run("PoolScore");
     }
     gameState.music.stop();
@@ -225,9 +230,9 @@ var MyApartment = new Phaser.Class({
     } else if (indoorZone === 'clubhouse woods') {
       gameStateApt.spawn = gameState.clubhouseInsideWoodsEntrance
     }
-    if (meApt){
-      meApt.x=gameStateApt.spawn.x;
-      meApt.y=gameStateApt.spawn.y;
+    if (meApt) {
+      meApt.x = gameStateApt.spawn.x;
+      meApt.y = gameStateApt.spawn.y;
     }
   },
   onKeyInput: function(event) {
@@ -246,7 +251,7 @@ var MyApartment = new Phaser.Class({
       nineball.enableBody(true, gameStateApt.poolTableTL.x + (x_rnd + 1) * 20, gameStateApt.poolTableTL.y + (y_rnd + 2) * 12, true, true);
       poolcue.disableBody(true, true)
       poolcue.enableBody(true, gameStateApt.poolTableTL.x + 50, gameStateApt.poolTableTL.y + 80, true, true);
-      poolcue.angle=45
+      poolcue.angle = 45
     }
   },
   preload: function() {
@@ -281,16 +286,18 @@ var MyApartment = new Phaser.Class({
   },
   create: function() {
     //adding poolscore just in case
-    if (!gameStateApt.poolscore){
-      gameStateApt.poolscore = this.add.text(1200-200, 10, '', {
+    if (!gameStateApt.poolscore) {
+      gameStateApt.poolscore = this.add.text(1200 - 200, 10, '', {
         fontSize: '30px',
         fill: '#fff',
         align: 'right',
-        wordWrap: { width: 190 }
+        wordWrap: {
+          width: 190
+        }
       });
     }
     //adding indoor audio
-    loadedIndoorsThemes=true
+    loadedIndoorsThemes = true
     gameStateApt.ohShit = this.sound.add('ohshit', {
       volume: .7
     });
@@ -343,6 +350,7 @@ var MyApartment = new Phaser.Class({
     const over3interiors = mapApt.createStaticLayer("over3interiors", tileset5, 0, 0);
     const over4custom = mapApt.createStaticLayer("over4custom", tileset7, 0, 0);
     const over5interiors = mapApt.createStaticLayer("over5interiors", tileset5, 0, 0);
+    gameStateApt.stripperAptSpawnPoint = mapApt.findObject("objects", obj => obj.name === "stripper apt spawn point");
     gameState.clubhouseInside731Entrance = mapApt.findObject("objects", obj => obj.name === "731 entrance clubhouse")
     gameState.clubhouseInsideWoodsEntrance = mapApt.findObject("objects", obj => obj.name === "burcham woods entrance clubhouse");
     gameStateApt.poolTableTL = mapApt.findObject("objects", obj => obj.name === "pool table top left");
@@ -458,7 +466,7 @@ var MyApartment = new Phaser.Class({
     triangleChalk.setScale(.1)
 
     poolcue = this.physics.add.sprite(gameStateApt.poolTableTL.x + 50, gameStateApt.poolTableTL.y + 80, 'poolCue');
-    poolcue.angle=45
+    poolcue.angle = 45
     //aiming = new Phaser.Line(poolcue.x, poolcue.y, cueball.x, cueball.y);
     //aiming.visible=false;
     // creating my line
@@ -496,12 +504,12 @@ var MyApartment = new Phaser.Class({
     gameStateApt.elevatorDownstairs = mapApt.findObject("objects", obj => obj.name === "downstairs elevator");
 
     //yoga blocks and mats in gym
-    yogamatApt = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800, 'yogamat');
-    yogamatApt2 = this.add.image(gameStateApt.elevatorDownstairs.x-150, gameStateApt.elevatorDownstairs.y-800, 'yogamat');
-    yogamatApt3 = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800+50, 'yogamat');
-    yogamatApt4 = this.add.image(gameStateApt.elevatorDownstairs.x-150, gameStateApt.elevatorDownstairs.y-800+50, 'yogamat');
-    yogamatApt5 = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800+100, 'yogamat');
-    yogamatApt6 = this.add.image(gameStateApt.elevatorDownstairs.x-150, gameStateApt.elevatorDownstairs.y-800+100, 'yogamat');
+    yogamatApt = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y - 800, 'yogamat');
+    yogamatApt2 = this.add.image(gameStateApt.elevatorDownstairs.x - 150, gameStateApt.elevatorDownstairs.y - 800, 'yogamat');
+    yogamatApt3 = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y - 800 + 50, 'yogamat');
+    yogamatApt4 = this.add.image(gameStateApt.elevatorDownstairs.x - 150, gameStateApt.elevatorDownstairs.y - 800 + 50, 'yogamat');
+    yogamatApt5 = this.add.image(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y - 800 + 100, 'yogamat');
+    yogamatApt6 = this.add.image(gameStateApt.elevatorDownstairs.x - 150, gameStateApt.elevatorDownstairs.y - 800 + 100, 'yogamat');
     yogamatApt.setScale(2);
     yogamatApt2.setScale(2);
     yogamatApt3.setScale(2);
@@ -509,10 +517,10 @@ var MyApartment = new Phaser.Class({
     yogamatApt5.setScale(2);
     yogamatApt6.setScale(2);
 
-    yogaBlocks = this.physics.add.sprite(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y-800, 'yogaBlocks');
+    yogaBlocks = this.physics.add.sprite(gameStateApt.elevatorDownstairs.x, gameStateApt.elevatorDownstairs.y - 800, 'yogaBlocks');
     yogaBlocks.setScale(.3);
 
-    blondeApt = this.physics.add.sprite(gameStateApt.elevatorDownstairs.x+32, gameStateApt.elevatorDownstairs.y-800-32, 'blonde');
+    blondeApt = this.physics.add.sprite(gameStateApt.elevatorDownstairs.x + 32, gameStateApt.elevatorDownstairs.y - 800 - 32, 'blonde');
     blondeApt.setScale(.5);
     blondeApt.body.setSize(80, 50);
     blondeApt.body.setOffset(0, 52);
@@ -527,7 +535,7 @@ var MyApartment = new Phaser.Class({
     } else if (indoorZone === 'clubhouse woods') {
       gameStateApt.spawn = gameState.clubhouseInsideWoodsEntrance
     }
-    meApt = this.physics.add.sprite(gameStateApt.spawn.x+16, gameStateApt.spawn.y - 32, 'me');
+    meApt = this.physics.add.sprite(gameStateApt.spawn.x + 16, gameStateApt.spawn.y - 32, 'me');
     meApt.setScale(.3);
     meApt.body.setSize(80, 50);
     meApt.body.setOffset(60, 140);
@@ -544,7 +552,22 @@ var MyApartment = new Phaser.Class({
     joeApt.body.setSize(80, 50);
     joeApt.body.setOffset(60, 140);
 
+    stripperApt = new NPC(this, "stripper apt spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
+    //stripperApt = this.physics.add.sprite(gameStateApt.stripperAptSpawnPoint.x, gameStateApt.stripperAptSpawnPoint.y, 'stripper');
+    stripperApt.setScale(.5)
+    if (stripper.following) {
+      stripperApt.following = true
+    }
+    stripperApt.body.setCircle(10);
+    stripperApt.body.setOffset(50, 70);
+
+    if (stripperApt.following) {
+      stripperApt.x = meApt.x + 50
+      stripperApt.y = meApt.y - 60
+    }
+
     //collisions with walls and stuff
+    this.physics.add.collider(meApt, stripperApt);
     this.physics.add.collider(meApt, blondeApt);
     this.physics.add.collider(meApt, under0room);
     this.physics.add.collider(meApt, over1interiors);
@@ -552,6 +575,13 @@ var MyApartment = new Phaser.Class({
     this.physics.add.collider(meApt, over3interiors);
     this.physics.add.collider(meApt, over4custom);
     this.physics.add.collider(meApt, over5interiors);
+
+    this.physics.add.collider(stripperApt, under0room);
+    this.physics.add.collider(stripperApt, over1interiors);
+    this.physics.add.collider(stripperApt, over2interiors);
+    this.physics.add.collider(stripperApt, over3interiors);
+    this.physics.add.collider(stripperApt, over4custom);
+    this.physics.add.collider(stripperApt, over5interiors);
 
     this.physics.add.collider(nineball, james);
     this.physics.add.collider(eightball, james);
@@ -630,12 +660,12 @@ var MyApartment = new Phaser.Class({
 
     //hitting pool balls
 
-    canvas=this.sys.canvas;
+    canvas = this.sys.canvas;
 
     this.input.on('pointerdown', function(pointer, localX, localY) {
       //this is how you transform coordinates from ingame coordinates to "pointer" coordinates
       if (cueball.body.velocity.x < 5 && cueball.body.velocity.y < 5 && cueball.body.velocity.x > -5 && cueball.body.velocity.y > -5) {
-          this.input.setDefaultCursor('url(assets/empty.png), pointer');
+        this.input.setDefaultCursor('url(assets/empty.png), pointer');
       }
     }, this);
 
@@ -648,18 +678,18 @@ var MyApartment = new Phaser.Class({
         //aiming.visible=false;
         //make chalk noise after a second
         opportunityForExtra2 = false;
-        window.setTimeout(()=>{
-          triangleChalk.visible=false
+        window.setTimeout(() => {
+          triangleChalk.visible = false
         }, 1500)
-        window.setTimeout(()=>{
+        window.setTimeout(() => {
           gameStateApt.chalk.play()
         }, 2000)
-        window.setTimeout(()=>{
+        window.setTimeout(() => {
           x_rnd = Math.floor(Math.random() * 8)
           y_rnd = Math.floor(Math.random() * 6)
-          triangleChalk.x = gameStateApt.poolTableTL.x + 5 +(x_rnd) * 21
-          if (x_rnd>0 && x_rnd<7){
-            if (y_rnd>2){
+          triangleChalk.x = gameStateApt.poolTableTL.x + 5 + (x_rnd) * 21
+          if (x_rnd > 0 && x_rnd < 7) {
+            if (y_rnd > 2) {
               triangleChalk.y = gameStateApt.poolTableTL.y + 5
             } else {
               triangleChalk.y = gameStateApt.poolTableTL.y + 90
@@ -667,7 +697,7 @@ var MyApartment = new Phaser.Class({
           } else {
             triangleChalk.y = gameStateApt.poolTableTL.y + 5 + (y_rnd) * 12
           }
-          triangleChalk.visible=true
+          triangleChalk.visible = true
         }, 5500)
         //setting english
         if (gameStateApt.keyObjS.isDown) {
@@ -697,9 +727,9 @@ var MyApartment = new Phaser.Class({
         pocketedNine = false;
         gameState.poolhit.play()
 
-        aimingLineLength = Math.sqrt(((cueball.x - poolcue.x-40*Math.sin(poolcue.angle*Math.PI/180))*1.5)**2+((cueball.y - poolcue.y+40*Math.cos(poolcue.angle*Math.PI/180))*1.5)**2)
-        cueball.body.velocity.x = (cueball.x - poolcue.x) * aimingLineLength/10
-        cueball.body.velocity.y = (cueball.y - poolcue.y) * aimingLineLength/10
+        aimingLineLength = Math.sqrt(((cueball.x - poolcue.x - 40 * Math.sin(poolcue.angle * Math.PI / 180)) * 1.5) ** 2 + ((cueball.y - poolcue.y + 40 * Math.cos(poolcue.angle * Math.PI / 180)) * 1.5) ** 2)
+        cueball.body.velocity.x = (cueball.x - poolcue.x) * aimingLineLength / 10
+        cueball.body.velocity.y = (cueball.y - poolcue.y) * aimingLineLength / 10
         //cueball.body.velocity.x = (cueball.x - poolcue.x) * 5
         //cueball.body.velocity.y = (cueball.y - poolcue.y) * 5
         poolcue.x += (cueball.x - poolcue.x) / 2.2
@@ -929,39 +959,40 @@ var MyApartment = new Phaser.Class({
     gameStateApt.keyObjS.on('down', function(event) {
       //back to light world from my apartment door
       if (meApt.x > gameStateApt.enter.x - 30 && meApt.x < gameStateApt.enter.x + 30 && meApt.y > gameStateApt.enter.y - 90 && meApt.y < gameStateApt.enter.y + 10) {
+        scene_number = 2
         this.scene.switch("LightWorld");
         this.scene.sleep("PoolScore");
         me.x = gameState.PlayerSpawnPoint.x - 48;
         me.y = gameState.PlayerSpawnPoint.y - 64;
         console.log(`switched to lightworld from my apartment door inside`)
-      } else if (distance(yogaBlocks, meApt) < 40 && gotYogaBlocks===false) {
+      } else if (distance(yogaBlocks, meApt) < 40 && gotYogaBlocks === false) {
         console.log('got yoga blocks')
-        gotYogaBlocks=true;
+        gotYogaBlocks = true;
         yogaBlocks.disableBody(true, true);
         items.push("Yoga Blocks")
         gameState.itemget.play()
       }
       //switch to light world from clubhouse 731 entrance
       else if (meApt.x > gameState.clubhouseInside731Entrance.x - 30 && meApt.x < gameState.clubhouseInside731Entrance.x + 30 && meApt.y > gameState.clubhouseInside731Entrance.y - 30 && meApt.y < gameState.clubhouseInside731Entrance.y + 30) {
+        scene_number = 2
         this.scene.switch("LightWorld");
         this.scene.sleep("PoolScore");
-        me.x = gameState.clubhouse731BR.x-16;
+        me.x = gameState.clubhouse731BR.x - 16;
         me.y = gameState.clubhouse731BR.y - 100;
         console.log(`switched to lightworld from clubhouse 731 entrance`)
       }
       //switch to light world from clubhouse burcham woods entrance
       else if (meApt.x > gameState.clubhouseInsideWoodsEntrance.x - 30 && meApt.x < gameState.clubhouseInsideWoodsEntrance.x + 30 && meApt.y > gameState.clubhouseInsideWoodsEntrance.y - 30 && meApt.y < gameState.clubhouseInsideWoodsEntrance.y + 30) {
+        scene_number = 2
         this.scene.switch("LightWorld");
         this.scene.sleep("PoolScore");
-        me.x = gameState.clubhousewoodsTL.x+20;
-        me.y = gameState.clubhousewoodsTL.y+35;
+        me.x = gameState.clubhousewoodsTL.x + 20;
+        me.y = gameState.clubhousewoodsTL.y + 35;
         console.log(`switched to lightworld from clubhouse burcham woods entrance`)
-      }
-      else if (distance(meApt,gameStateApt.elevatorUpstairs)<60) {
+      } else if (distance(meApt, gameStateApt.elevatorUpstairs) < 60) {
         meApt.x = gameStateApt.elevatorDownstairs.x
         meApt.y = gameStateApt.elevatorDownstairs.y
-      }
-      else if (distance(meApt,gameStateApt.elevatorDownstairs)<60) {
+      } else if (distance(meApt, gameStateApt.elevatorDownstairs) < 60) {
         meApt.x = gameStateApt.elevatorUpstairs.x
         meApt.y = gameStateApt.elevatorUpstairs.y
       }
@@ -973,23 +1004,48 @@ var MyApartment = new Phaser.Class({
         window.setTimeout(() => {
           this.cameras.main.fadeIn(1000, 0, 0, 0)
         }, 1000);
-        window.setTimeout(() => {
-          sleepyText = this.add.text(meApt.x - 100, meApt.y - 100, 'You feel well rested', {
-            fontSize: '30px',
-            fill: '#fff'
-          });
-        }, 2000);
-        window.setTimeout(() => {
-          sleepyText.setText('')
-          this.physics.resume()
-        }, 4000);
+        if (!stripperApt.following) {
+          console.log(`shes not following`)
+          window.setTimeout(() => {
+            sleepyText = this.add.text(meApt.x - 100, meApt.y - 150, 'You feel well rested', {
+              fontSize: '30px',
+              fill: '#fff'
+            });
+          }, 1000);
+          window.setTimeout(() => {
+            sleepyText.setText('')
+            this.physics.resume()
+          }, 6000);
+        } else if (stripperApt.following) {
+          console.log(`shes following`)
+          window.setTimeout(() => {
+            gameState.itemget.play();
+            stripperApt.x = gameStateApt.stripperAptSpawnPoint.x;
+            stripperApt.y = gameStateApt.stripperAptSpawnPoint.y;
+            stripperApt.following = false;
+            stripperBanged = true;
+            damageObject["Mac"] += 5;
+            hpObject["Mac"] += 20;
+            maxHPObject["Mac"] += 20;
+            sleepyText = this.add.text(meApt.x - 100, meApt.y - 200, 'You feel well rested.\nMac gets the "Bang Bonus"\n+5 damage +20 HP (permanent)', {
+              fontSize: '30px',
+              fill: '#fff'
+            });
+          }, 1000);
+          window.setTimeout(() => {
+            sleepyText.setText('')
+            this.physics.resume()
+          }, 6000);
+
+        }
+
       }
       //get keyboard
       else if (meApt.x > gameState.bed.x - 150 && meApt.x < gameState.bed.x - 50 && meApt.y > gameState.bed.y + 50 && meApt.y < gameState.bed.y + 150) {
-        if (keyboardGet===false){
-          keyboardDialogue=true;
+        if (keyboardGet === false) {
+          keyboardDialogue = true;
           gameState.itemget.play;
-          keyboardGet=true;
+          keyboardGet = true;
         }
       }
     }, this);
@@ -1000,11 +1056,22 @@ var MyApartment = new Phaser.Class({
   },
 
   update: function() {
+    //ai for stripper
+
+    if (stripperApt.following) {
+      stripperApt.follow(meApt, .55);
+      stripperApt.animate(5)
+      if (stripperApt.body.velocity.x > 3) {
+        stripperApt.flipX = true;
+      } else if (stripperApt.body.velocity.x < -3) {
+        stripperApt.flipX = false;
+      }
+    }
     //fixed speed at 2 becuase always using walk animations
     speed = 2;
     //launch keyboard dialogue
-    if (keyboardDialogue){
-      keyboardDialogue=false;
+    if (keyboardDialogue) {
+      keyboardDialogue = false;
       initializePageApt(this);
       let firstPage = fetchPageApt(4000);
       displayPageApt(this, firstPage);
@@ -1032,18 +1099,18 @@ var MyApartment = new Phaser.Class({
     }
     //to set the strength of english
     if (gameStateApt.keyObjZ.isDown) {
-      englishStrength=1
+      englishStrength = 1
     } else if (gameStateApt.keyObjX.isDown) {
-      englishStrength=2
+      englishStrength = 2
     } else if (gameStateApt.keyObjC.isDown) {
-      englishStrength=3
+      englishStrength = 3
     }
     //for rail english
-    if (railEnglish===true){
-      railEnglish=false;
+    if (railEnglish === true) {
+      railEnglish = false;
       vx1 = cueball.body.velocity.x
       vy1 = cueball.body.velocity.y
-      ball1finalspeed = Math.sqrt(vx1**2+vy1**2)
+      ball1finalspeed = Math.sqrt(vx1 ** 2 + vy1 ** 2)
       if (vx1 > 0) {
         phi0 = Math.atan(vy1 / vx1)
       } else if (vx1 <= 0 && vy1 < 0) {
@@ -1052,89 +1119,109 @@ var MyApartment = new Phaser.Class({
         phi0 = Math.PI / 2 - Math.atan(vx1 / vy1)
       }
       phi = -phi0;
-      if (english.right && (_hitTopRail || _hitTopRailRight || _hitBottomRail || _hitBottomRailRight)){
-        english={top:false,bottom:false,left:false,right:false}
+      if (english.right && (_hitTopRail || _hitTopRailRight || _hitBottomRail || _hitBottomRailRight)) {
+        english = {
+          top: false,
+          bottom: false,
+          left: false,
+          right: false
+        }
         //this describes quadrants 3 and 4 in the usual sense
-        if ((phi0<=-Math.PI/3 && phi0>=-Math.PI/2) || (phi0<=3*Math.PI/2 && phi0 >= 3*Math.PI/2-Math.PI/6)){
-          phi = -phi0 + Math.PI/6* englishStrength/3
-        } else if ((phi0<=0 && phi0>-Math.PI/3) || (phi0 < 3*Math.PI/2-Math.PI/6 && phi0 >Math.PI)){
-          if (vx1>0){
-            phi = -phi0 - Math.abs(phi0)/2* englishStrength/3
+        if ((phi0 <= -Math.PI / 3 && phi0 >= -Math.PI / 2) || (phi0 <= 3 * Math.PI / 2 && phi0 >= 3 * Math.PI / 2 - Math.PI / 6)) {
+          phi = -phi0 + Math.PI / 6 * englishStrength / 3
+        } else if ((phi0 <= 0 && phi0 > -Math.PI / 3) || (phi0 < 3 * Math.PI / 2 - Math.PI / 6 && phi0 > Math.PI)) {
+          if (vx1 > 0) {
+            phi = -phi0 - Math.abs(phi0) / 2 * englishStrength / 3
           } else {
-            phi = 2*Math.PI-phi0 + (phi0-Math.PI)/2* englishStrength/3
+            phi = 2 * Math.PI - phi0 + (phi0 - Math.PI) / 2 * englishStrength / 3
           }
         }
         //and this describes the first two quadrants
-        else if (phi0>=Math.PI/3 && phi0<=2*Math.PI/3){
-          phi = -phi0 + Math.PI/6* englishStrength/3
-        } else if (phi0>=0 && phi0<=Math.PI){
-          phi = -phi0 + Math.abs(phi0)/2* englishStrength/3
+        else if (phi0 >= Math.PI / 3 && phi0 <= 2 * Math.PI / 3) {
+          phi = -phi0 + Math.PI / 6 * englishStrength / 3
+        } else if (phi0 >= 0 && phi0 <= Math.PI) {
+          phi = -phi0 + Math.abs(phi0) / 2 * englishStrength / 3
         }
         cueball.body.velocity.x = ball1finalspeed * Math.cos(phi);
         cueball.body.velocity.y = ball1finalspeed * Math.sin(phi);
-      } else if (english.left && (_hitTopRail || _hitTopRailRight || _hitBottomRail || _hitBottomRailRight)){
-        english={top:false,bottom:false,left:false,right:false}
+      } else if (english.left && (_hitTopRail || _hitTopRailRight || _hitBottomRail || _hitBottomRailRight)) {
+        english = {
+          top: false,
+          bottom: false,
+          left: false,
+          right: false
+        }
         //this describes quadrants 3 and 4 in the usual sense
-        if ((phi0<=-Math.PI/3 && phi0>=-Math.PI/2) || (phi0<=3*Math.PI/2 && phi0 >= 3*Math.PI/2-Math.PI/6)){
-          phi = -phi0 - Math.PI/6* englishStrength/3
-        } else if ((phi0<=0 && phi0>-Math.PI/3) || (phi0 < 3*Math.PI/2-Math.PI/6 && phi0 >Math.PI)){
-          if (vx1>0){
-            phi = -phi0 - Math.abs(phi0)/2* englishStrength/3
+        if ((phi0 <= -Math.PI / 3 && phi0 >= -Math.PI / 2) || (phi0 <= 3 * Math.PI / 2 && phi0 >= 3 * Math.PI / 2 - Math.PI / 6)) {
+          phi = -phi0 - Math.PI / 6 * englishStrength / 3
+        } else if ((phi0 <= 0 && phi0 > -Math.PI / 3) || (phi0 < 3 * Math.PI / 2 - Math.PI / 6 && phi0 > Math.PI)) {
+          if (vx1 > 0) {
+            phi = -phi0 - Math.abs(phi0) / 2 * englishStrength / 3
           } else {
-            phi = 2*Math.PI-phi0 + (phi0-Math.PI)/2* englishStrength/3
+            phi = 2 * Math.PI - phi0 + (phi0 - Math.PI) / 2 * englishStrength / 3
           }
         }
         //and this describes the first two quadrants
-        else if (phi0>=Math.PI/3 && phi0<=2*Math.PI/3){
-          phi = -phi0 - Math.PI/6* englishStrength/3
-        } else if (phi0>=0 && phi0<=Math.PI){
-          phi = -phi0 - Math.abs(phi0)/2* englishStrength/3
+        else if (phi0 >= Math.PI / 3 && phi0 <= 2 * Math.PI / 3) {
+          phi = -phi0 - Math.PI / 6 * englishStrength / 3
+        } else if (phi0 >= 0 && phi0 <= Math.PI) {
+          phi = -phi0 - Math.abs(phi0) / 2 * englishStrength / 3
         }
         cueball.body.velocity.x = ball1finalspeed * Math.cos(phi);
         cueball.body.velocity.y = ball1finalspeed * Math.sin(phi);
-      }  else if (english.right && (_hitLeftRail || _hitRightRail)){
-        english={top:false,bottom:false,left:false,right:false}
+      } else if (english.right && (_hitLeftRail || _hitRightRail)) {
+        english = {
+          top: false,
+          bottom: false,
+          left: false,
+          right: false
+        }
         //this describes quadrants 2 and 3 in the usual sense
-        if (phi0>=Math.PI/2+Math.PI/3 && phi0<=3*Math.PI/2-Math.PI/3){
-          phi = -(phi0-Math.PI) + Math.PI/6* englishStrength/3
-        } else if (phi0>=Math.PI/2 && phi0<=3*Math.PI/2){
-          phi = -(phi0-Math.PI) //+ (phi0-Math.PI)/2
+        if (phi0 >= Math.PI / 2 + Math.PI / 3 && phi0 <= 3 * Math.PI / 2 - Math.PI / 3) {
+          phi = -(phi0 - Math.PI) + Math.PI / 6 * englishStrength / 3
+        } else if (phi0 >= Math.PI / 2 && phi0 <= 3 * Math.PI / 2) {
+          phi = -(phi0 - Math.PI) //+ (phi0-Math.PI)/2
         }
         //and this describes quandrants 1 and 4
-        else if (phi0>=-Math.PI/3 && phi0<=Math.PI/3){
-          phi = (Math.PI-phi0)+Math.PI/6* englishStrength/3
-        } else if (phi0>=-Math.PI/2 && phi0<=Math.PI/2){
-          phi = (Math.PI-phi0) //- (Math.PI/2-Math.abs(phi0))/2
+        else if (phi0 >= -Math.PI / 3 && phi0 <= Math.PI / 3) {
+          phi = (Math.PI - phi0) + Math.PI / 6 * englishStrength / 3
+        } else if (phi0 >= -Math.PI / 2 && phi0 <= Math.PI / 2) {
+          phi = (Math.PI - phi0) //- (Math.PI/2-Math.abs(phi0))/2
         }
         cueball.body.velocity.x = ball1finalspeed * Math.cos(phi);
         cueball.body.velocity.y = ball1finalspeed * Math.sin(phi);
-      } else if (english.left && (_hitLeftRail || _hitRightRail)){
-        english={top:false,bottom:false,left:false,right:false}
+      } else if (english.left && (_hitLeftRail || _hitRightRail)) {
+        english = {
+          top: false,
+          bottom: false,
+          left: false,
+          right: false
+        }
         //this describes quadrants 2 and 3 in the usual sense
-        if (phi0>=Math.PI/2+Math.PI/3 && phi0<=3*Math.PI/2-Math.PI/3){
-          phi = -(phi0-Math.PI) - Math.PI/6* englishStrength/3
-        } else if (phi0>=Math.PI/2 && phi0<=3*Math.PI/2){
-          phi = -(phi0-Math.PI) //- (phi0-Math.PI)/2
+        if (phi0 >= Math.PI / 2 + Math.PI / 3 && phi0 <= 3 * Math.PI / 2 - Math.PI / 3) {
+          phi = -(phi0 - Math.PI) - Math.PI / 6 * englishStrength / 3
+        } else if (phi0 >= Math.PI / 2 && phi0 <= 3 * Math.PI / 2) {
+          phi = -(phi0 - Math.PI) //- (phi0-Math.PI)/2
         }
         //and this describes quandrants 1 and 4
-        else if (phi0>=-Math.PI/3 && phi0<=Math.PI/3){
-          phi = -(Math.PI-phi0)-Math.PI/6* englishStrength/3
-        } else if (phi0>=-Math.PI/2 && phi0<=Math.PI/2){
-          phi = -(Math.PI-phi0) //- (Math.PI/2-Math.abs(phi0))/2
+        else if (phi0 >= -Math.PI / 3 && phi0 <= Math.PI / 3) {
+          phi = -(Math.PI - phi0) - Math.PI / 6 * englishStrength / 3
+        } else if (phi0 >= -Math.PI / 2 && phi0 <= Math.PI / 2) {
+          phi = -(Math.PI - phi0) //- (Math.PI/2-Math.abs(phi0))/2
         }
         cueball.body.velocity.x = ball1finalspeed * Math.cos(phi);
         cueball.body.velocity.y = ball1finalspeed * Math.sin(phi);
       }
-      _hitTopRail=false;
-      _hitTopRailRight=false;
-      _hitBottomRail=false;
-      _hitBottomRailRight=false
-      _hitLeftRail=false;
-      _hitRightRail=false;
+      _hitTopRail = false;
+      _hitTopRailRight = false;
+      _hitBottomRail = false;
+      _hitBottomRailRight = false
+      _hitLeftRail = false;
+      _hitRightRail = false;
     }
     if (dragging) {
       lineCounter += 1
-      gameState.lines[lineCounter] = new Phaser.Geom.Line(cueball.x, cueball.y, cueball.x + (cueball.x - poolcue.x-40*Math.sin(poolcue.angle*Math.PI/180))*1.5, cueball.y + (cueball.y - poolcue.y+40*Math.cos(poolcue.angle*Math.PI/180))*1.5);
+      gameState.lines[lineCounter] = new Phaser.Geom.Line(cueball.x, cueball.y, cueball.x + (cueball.x - poolcue.x - 40 * Math.sin(poolcue.angle * Math.PI / 180)) * 1.5, cueball.y + (cueball.y - poolcue.y + 40 * Math.cos(poolcue.angle * Math.PI / 180)) * 1.5);
       if (!this.graphics) {
         this.graphics = this.add.graphics({
           x: 0,
@@ -1161,13 +1248,13 @@ var MyApartment = new Phaser.Class({
 
     // timer for pool betting
     gameStateApt.poolscore.setText(`Points: ${twoballscore}`)
-    if (joeNotEnoughToBet){
-      joeNotEnoughToBet=false
+    if (joeNotEnoughToBet) {
+      joeNotEnoughToBet = false
       initializePageApt(this);
       let firstPage = fetchPageApt(3014);
       displayPageApt(this, firstPage);
-    } else if (jamesNotEnoughToBet){
-      jamesNotEnoughToBet=false
+    } else if (jamesNotEnoughToBet) {
+      jamesNotEnoughToBet = false
       initializePageApt(this);
       let firstPage = fetchPageApt(3024);
       displayPageApt(this, firstPage);
@@ -1189,19 +1276,19 @@ var MyApartment = new Phaser.Class({
         initializePageApt(this);
         let firstPage = fetchPageApt(3015);
         displayPageApt(this, firstPage);
-        twoballscore=0
+        twoballscore = 0
         gameStateApt.pooltimer.setText(``)
-        timeApt=0
-        if (activeQuests["Bets with Joe"]){
+        timeApt = 0
+        if (activeQuests["Bets with Joe"]) {
           completeQuest("Bets with Joe")
         }
       } else if (twoballscore >= 3 && jamesBets) {
         initializePageApt(this);
         let firstPage = fetchPageApt(3025);
         displayPageApt(this, firstPage);
-        twoballscore=0
+        twoballscore = 0
         gameStateApt.pooltimer.setText(``)
-        timeApt=0
+        timeApt = 0
       }
       if (timeApt === 0) {
         if (joeBets) {
@@ -1235,24 +1322,24 @@ var MyApartment = new Phaser.Class({
     }
 
     //spawn joe if you spoke outside
-    if (joeGet==='initial'){
+    if (joeGet === 'initial') {
       joeApt.disableBody(true, true)
-      joeGet='waiting'
-    } else if (joeGet==='spoke'){
+      joeGet = 'waiting'
+    } else if (joeGet === 'spoke') {
       joeApt.enableBody(true, gameState.clubhouseInside731Entrance.x + 480, gameState.clubhouseInside731Entrance.y - 50, true, true);
-      joeGet='spawned'
+      joeGet = 'spawned'
     }
 
     //spawn joe if you spoke outside
-    if (jamesGet==='initial'){
+    if (jamesGet === 'initial') {
       jamesApt.disableBody(true, true)
-      jamesGet='waiting'
-    } else if (jamesGet==='spoke'){
+      jamesGet = 'waiting'
+    } else if (jamesGet === 'spoke') {
       jamesApt.enableBody(true, gameState.clubhouseInside731Entrance.x + 470, gameState.clubhouseInside731Entrance.y + 50, true, true);
-      jamesGet='spawned'
+      jamesGet = 'spawned'
     }
     //dialogue for joe and james
-    if (distance(meApt, joeApt) < 10 && joePoolTalk === false && joeGet==='spawned') {
+    if (distance(meApt, joeApt) < 10 && joePoolTalk === false && joeGet === 'spawned') {
       joePoolTalk = true;
       initializePageApt(this);
       let firstPage = fetchPageApt(3010);
@@ -1260,7 +1347,7 @@ var MyApartment = new Phaser.Class({
     } else if (distance(meApt, joeApt) > 40) {
       joePoolTalk = false
     }
-    if (distance(meApt, jamesApt) < 10 && jamesPoolTalk === false  && jamesGet==='spawned') {
+    if (distance(meApt, jamesApt) < 10 && jamesPoolTalk === false && jamesGet === 'spawned') {
       jamesPoolTalk = true;
       initializePageApt(this);
       let firstPage = fetchPageApt(3020);
@@ -1280,7 +1367,7 @@ var MyApartment = new Phaser.Class({
     if (distance(cueball, eightball) < 5.6) { //was 5.6
       cueHitEight = true
       if (!alreadyPlayedEightCueCollide) {
-        bringToTouching(cueball,eightball)
+        bringToTouching(cueball, eightball)
         gameState.poolcollide.play()
         alreadyPlayedEightCueCollide = true
         ballCollide(cueball, eightball);
@@ -1289,7 +1376,7 @@ var MyApartment = new Phaser.Class({
     if (distance(cueball, nineball) < 5.6) { //was 5.6
       cueHitNine = true
       if (!alreadyPlayedNineCueCollide) {
-        bringToTouching(cueball,nineball)
+        bringToTouching(cueball, nineball)
         gameState.poolcollide.play()
         alreadyPlayedNineCueCollide = true
         ballCollide(cueball, nineball);
@@ -1418,8 +1505,8 @@ var MyApartment = new Phaser.Class({
     if (meApt.body.velocity.x === 0 && meApt.body.velocity.y === 0) {
       meApt.anims.play('turn', true)
     }
-    meApt.x=Math.round(meApt.x);
-    meApt.y=Math.round(meApt.y);
+    meApt.x = Math.round(meApt.x);
+    meApt.y = Math.round(meApt.y);
   }
 
 });

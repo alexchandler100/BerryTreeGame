@@ -24,6 +24,7 @@ let gasAlert = 0;
 let buyFailed = 0;
 let pageDisplayed = 0; //supposed to fix issue with multiple pages displaying causing errors
 let backgroundDisplayed = 0;
+let stripperBanged = false;
 let fratboy2primedialogue = 0;
 let newDarkDialogue = 0;
 let darkboydialogue = 0;
@@ -33,6 +34,7 @@ let highScoreText;
 let damageText;
 let moneyText;
 let firstTimeCarGet = 0;
+let jeanClaudeFirstTalk = 0;
 let fratboy1FirstTalk = 0;
 let fratboy2FirstTalk = 0;
 let fratboy3FirstTalk = 0;
@@ -283,6 +285,7 @@ const overworldScale = {
   'smoke': .41,
   'hausdorf': .4,
   'stripper': .3,
+  'jeanClaude': .25
 }
 
 const sizeAndOffset = {
@@ -319,6 +322,10 @@ const sizeAndOffset = {
     offset: [60, 100]
   },
   'stripper': {
+    size: [64, 64],
+    offset: [60, 100]
+  },
+  'jeanClaude': {
     size: [64, 64],
     offset: [60, 100]
   },

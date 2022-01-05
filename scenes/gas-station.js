@@ -131,6 +131,23 @@ var GasStation = new Phaser.Class({
     }, this);
     gasText.inventoryName="Gas"
 
+    jerkyText = this.add.text(670, 450, 'Jerky: 7.99$', {
+      fontSize: '25px',
+      fill: '#4d392c'
+    });
+    jerkyText.setInteractive().on('pointerup', function() {
+      if (money >= 7.99) {
+        gameState3.chaching.play()
+        money -= 7.99;
+        items.push("Jerky");
+        jerkyText.destroy();
+        gameState3.tempText.visible=false;
+        gameState3.tempBackground.visible=false;
+        redisplayItems=true;
+      }
+    }, this);
+    jerkyText.inventoryName="Jerky"
+
     //console.log(Object.keys(usable_items))
     gameState3.newItem={}
     let xcoord2 = 175;
