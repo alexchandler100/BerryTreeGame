@@ -563,7 +563,7 @@ var MyApartment = new Phaser.Class({
 
     if (stripperApt.following) {
       stripperApt.x = meApt.x + 50
-      stripperApt.y = meApt.y - 60
+      stripperApt.y = meApt.y
     }
 
     //collisions with walls and stuff
@@ -992,9 +992,17 @@ var MyApartment = new Phaser.Class({
       } else if (distance(meApt, gameStateApt.elevatorUpstairs) < 60) {
         meApt.x = gameStateApt.elevatorDownstairs.x
         meApt.y = gameStateApt.elevatorDownstairs.y
+        if (stripperApt.following){
+          stripperApt.x = meApt.x;
+          stripperApt.y = meApt.y;
+        }
       } else if (distance(meApt, gameStateApt.elevatorDownstairs) < 60) {
         meApt.x = gameStateApt.elevatorUpstairs.x
         meApt.y = gameStateApt.elevatorUpstairs.y
+        if (stripperApt.following){
+          stripperApt.x = meApt.x;
+          stripperApt.y = meApt.y;
+        }
       }
       //to sleep in bed
       else if (meApt.x > gameState.bed.x - 50 && meApt.x < gameState.bed.x + 50 && meApt.y > gameState.bed.y - 50 && meApt.y < gameState.bed.y + 50) {

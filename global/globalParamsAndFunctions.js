@@ -100,6 +100,7 @@ let skillDialogue = {
   }
 }
 //boss battle parameters
+let settingDepth = false;
 let bossType;
 let bossBattle = false;
 let bossBattleParameter = 0;

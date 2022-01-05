@@ -296,8 +296,8 @@ var LightWorld = new Phaser.Class({
     if (stripperBanged){    //after you bang, she stops following
       stripper.following = false;
       stripper.joinParameter = false;
-      stripper.x = stripperPath[0].x;
-      stripper.y = stripperPath[0].y;
+      stripper.x = stripperPath[1].x - 32;
+      stripper.y = stripperPath[1].y;
       jeanClaude.x = stripper.x;
       jeanClaude.y = stripper.y - 30;
     }
@@ -1921,39 +1921,11 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
-    this.anims.create({
-      key: 'attack',
-      frames: this.anims.generateFrameNumbers('me', {
-        start: 9,
-        end: 15
-      }),
-      frameRate: 9,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'special',
-      frames: this.anims.generateFrameNumbers('me', {
-        start: 9,
-        end: 17
-      }),
-      frameRate: 9,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'specialty',
-      frames: this.anims.generateFrameNumbers('me', {
-        frames: [9, 10, 11, 12, 13, 14, 15, 11, 16, 11, 17]
-      }),
-      frameRate: 9,
-      repeat: 0
-    });
 
     this.anims.create({
       key: 'attack_improved',
       frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [4, 2, 4, 2, 4, 6]
+        frames: [4, 0, 4, 0, 4, 6]
       }),
       frameRate: 5,
       repeat: 0
@@ -1962,7 +1934,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'attack_improved2',
       frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [4, 3, 4, 1, 4, 5]
+        frames: [4, 0, 4, 2, 4, 7]
       }),
       frameRate: 5,
       repeat: 0
@@ -1971,7 +1943,16 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'attack_improved3',
       frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [4, 0, 4, 6, 4, 8]
+        frames: [4, 3, 4, 1, 4, 5]
+      }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'attack_improved4',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [4, 1, 4, 7, 4, 8]
       }),
       frameRate: 5,
       repeat: 0
@@ -2510,6 +2491,7 @@ var LightWorld = new Phaser.Class({
 
     //setting world bounds and setting objects to collide with world bounds
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true, true, true, true);
+    jeanClaude.setCollideWorldBounds(true);
     me.setCollideWorldBounds(true);
     trevor.setCollideWorldBounds(true);
     jon.setCollideWorldBounds(true);
@@ -3366,6 +3348,8 @@ var LightWorld = new Phaser.Class({
       devMode3 = 0
       keysGet = 1;
       keyboardGet = true;
+      jeanClaude.joinParameter = true;
+      jeanClaudeFirstTalk = 3;
       stripper.joinParameter = true;
       trevor.joinParameter = true;
       al.joinParameter = true;
