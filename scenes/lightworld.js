@@ -197,13 +197,32 @@ var Car = new Phaser.Class({
   honk: function() {
     if (distance(me, this) < 100 && playerTexture === 0 && !this.honking) {
       this.honking = true
-      rnd = Math.floor(Math.random() * 3);
-      if (rnd === 0) {
+      honkIndex = Math.floor(Math.random() * 3);
+      screamIndex = Math.floor(Math.random() * 8);
+      chanceToScreamIndex = Math.floor(Math.random() * 3);
+      if (honkIndex === 0) {
         gameState.honk1.play()
-      } else if (rnd === 1) {
+      } else if (honkIndex === 1) {
         gameState.honk2.play()
-      } else if (rnd === 2) {
+      } else if (honkIndex === 2) {
         gameState.honk3.play()
+      }
+      if (screamIndex === 0 && chanceToScreamIndex === 0) {
+        gameState.carScream1.play()
+      } else if (screamIndex === 1 && chanceToScreamIndex === 0) {
+        gameState.carScream2.play()
+      } else if (screamIndex === 2 && chanceToScreamIndex === 0) {
+        gameState.carScream3.play()
+      } else if (screamIndex === 3 && chanceToScreamIndex === 0) {
+        gameState.carScream4.play()
+      } else if (screamIndex === 4 && chanceToScreamIndex === 0) {
+        gameState.carScream5.play()
+      } else if (screamIndex === 5 && chanceToScreamIndex === 0) {
+        gameState.carScream6.play()
+      } else if (screamIndex === 6 && chanceToScreamIndex === 0) {
+        gameState.carScream7.play()
+      } else if (screamIndex === 7 && chanceToScreamIndex === 0) {
+        gameState.carScream8.play()
       }
     } else if (distance(me, this) > 200) {
       this.honking = false;
@@ -358,6 +377,15 @@ var LightWorld = new Phaser.Class({
     this.load.audio('honk1', ['assets/honk1.wav']);
     this.load.audio('honk2', ['assets/honk2.wav']);
     this.load.audio('honk3', ['assets/honk3.wav']);
+    this.load.audio('carScream1', ['assets/carScream1.wav']);
+    this.load.audio('carScream2', ['assets/carScream2.wav']);
+    this.load.audio('carScream3', ['assets/carScream3.wav']);
+    this.load.audio('carScream4', ['assets/carScream4.wav']);
+    this.load.audio('carScream5', ['assets/carScream5.wav']);
+    this.load.audio('carScream6', ['assets/carScream6.wav']);
+    this.load.audio('carScream7', ['assets/carScream7.wav']);
+    this.load.audio('carScream8', ['assets/carScream8.wav']);
+
     this.load.audio('dead', ['assets/dead.wav']);
     this.load.audio('poolhit', ['assets/poolhit.wav']);
     this.load.audio('poolcollide', ['assets/poolcollide.wav']);
@@ -719,6 +747,30 @@ var LightWorld = new Phaser.Class({
     });
     gameState.honk3 = this.sound.add('honk3', {
       volume: 0.4
+    });
+    gameState.carScream1 = this.sound.add('carScream1', {
+      volume: 0.6
+    });
+    gameState.carScream2 = this.sound.add('carScream2', {
+      volume: 0.6
+    });
+    gameState.carScream3 = this.sound.add('carScream3', {
+      volume: 0.6
+    });
+    gameState.carScream4 = this.sound.add('carScream4', {
+      volume: 0.6
+    });
+    gameState.carScream5 = this.sound.add('carScream5', {
+      volume: 0.6
+    });
+    gameState.carScream6 = this.sound.add('carScream6', {
+      volume: 0.6
+    });
+    gameState.carScream7 = this.sound.add('carScream7', {
+      volume: 0.6
+    });
+    gameState.carScream8 = this.sound.add('carScream8', {
+      volume: 0.6
     });
     gameState.siren1 = this.sound.add('siren1', {
       volume: 0.4
