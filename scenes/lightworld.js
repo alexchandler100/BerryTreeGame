@@ -427,7 +427,6 @@ var LightWorld = new Phaser.Class({
     this.load.image('car_keys', "assets/car_keys.png");
     this.load.image('girl4', "assets/girl4.png");
     this.load.image('net', "assets/net.png");
-    //this.load.image('volleyballnet', "assets/volleyballnet.png");
     this.load.image('phone', "assets/phone.png");
     this.load.image('wallet', "assets/wallet.png");
     this.load.image('liquor', "assets/liquor.png");
@@ -947,7 +946,6 @@ var LightWorld = new Phaser.Class({
     gameState.VolleyballSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyball spawn point");
     const CarSpawnPoint = map.findObject("Objects", obj => obj.name === "car spawn point");
     const DioShrineSpawnPoint = map.findObject("Objects", obj => obj.name === "dioshrine spawn point");
-    //const VolleyballNetSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyballnet spawn point");
     const BurchamPoolSpawnPoint = map.findObject("Objects", obj => obj.name === "burchampool spawn point");
 
     //location zone points
@@ -1025,7 +1023,6 @@ var LightWorld = new Phaser.Class({
     net2 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
     net3 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
     net4 = net.create(NetSpawnPoint.x, NetSpawnPoint.y, 'net');
-    //net1.visible = false;
     net2.visible = false;
     net3.visible = false;
     net4.visible = false;
@@ -1037,6 +1034,11 @@ var LightWorld = new Phaser.Class({
     net3.setOffset(0, 0)
     net4.setSize(88, 20);
     net4.setOffset(20, 20);
+
+    net.children.iterate(function(child) {
+      child.body.immovable = true;
+      child.body.moves = false;
+    });
 
     //animations
 
@@ -2151,17 +2153,6 @@ var LightWorld = new Phaser.Class({
     const world2 = map.createDynamicLayer("World2", tileset22, 0, 0);
     const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
 
-    //creating volleyball net
-    //volleyballnet = net.create(VolleyballNetSpawnPoint.x, VolleyballNetSpawnPoint.y, 'volleyballnet');
-    //volleyballnet.setOrigin(0, 0);
-    //volleyballnet.setSize(12, 128);
-    //volleyballnet.setOffset(0, 0);
-
-    net.children.iterate(function(child) {
-      child.body.immovable = true;
-      child.body.moves = false;
-    });
-
     //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue)
     bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennett_run", potentialParty["Bennett"]);
     al = new NPC(this, "alPath0", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "holdon", potentialParty["Al"]);
@@ -2314,8 +2305,7 @@ var LightWorld = new Phaser.Class({
 
     me = this.physics.add.sprite(gameState.PlayerSpawnPoint.x, gameState.PlayerSpawnPoint.y, 'me');
     me.setScale(.17);
-    me.body.setSize(70, 90);
-    me.body.setOffset(60, 100);
+    //size and offset for me set in update function
 
     this.physics.add.overlap(roadCar1, me, getHitByCar, false, this);
     this.physics.add.overlap(roadCar2, me, getHitByCar, false, this);
@@ -2941,6 +2931,7 @@ var LightWorld = new Phaser.Class({
       child.setDepth(child.y);
     });
     me.setDepth(me.y);
+    yogagirl.setDepth(yogagirl.y);
     if (kicking && me.body.velocity.x < 0) {
       me.flipX = false
     } else if (kicking && me.body.velocity.x > 0) {
