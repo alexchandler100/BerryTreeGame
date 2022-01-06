@@ -1348,7 +1348,7 @@ const pages = [
   {
     character: 'me',
     page: 1502,
-    narrative: `River: Oh my god like thank you so much. Here, take this gold duck tape. I like found it over there near the woods. Namaste!!`,
+    narrative: `River: Oh my god like thank you so much. Here, take this gold duck tape. I like found it over there near the woods. Namaste.`,
     options: [{
       option: 'Okayy',
       nextPage: undefined,

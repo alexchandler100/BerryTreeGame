@@ -325,9 +325,11 @@ var LightWorld = new Phaser.Class({
     if (event.code === "Backspace") {
       ball.disableBody(true, true);
       ball.enableBody(true, gameState.BallSpawnPoint.x, gameState.BallSpawnPoint.y, true, true);
-      volleyball.disableBody(true, true);
-      volleyball.enableBody(true, gameState.VolleyballSpawnPoint.x - 32, gameState.VolleyballSpawnPoint.y - 250, true, true);
-    }
+      if (distance(me,volleyball)<700){
+        volleyball.disableBody(true, true);
+        volleyball.enableBody(true, gameState.VolleyballSpawnPoint.x - 32, gameState.VolleyballSpawnPoint.y - 250, true, true);
+      }
+        }
   },
   preload: function() {
     //loading audio
