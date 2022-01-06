@@ -1082,7 +1082,17 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
-      key: 'stripperleft',
+      key: 'stripperdown',
+      frames: this.anims.generateFrameNumbers('stripper', {
+        start: 1,
+        end: 4
+      }),
+      frameRate: 5,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'stripperup',
       frames: this.anims.generateFrameNumbers('stripper', {
         start: 11,
         end: 14
@@ -1092,20 +1102,10 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
-      key: 'stripperup',
+      key: 'stripperleft',
       frames: this.anims.generateFrameNumbers('stripper', {
-        start: 41,
-        end: 44
-      }),
-      frameRate: 5,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'stripperdown',
-      frames: this.anims.generateFrameNumbers('stripper', {
-        start: 1,
-        end: 4
+        start: 6,
+        end: 9
       }),
       frameRate: 5,
       repeat: -1
@@ -3651,7 +3651,7 @@ var LightWorld = new Phaser.Class({
     if (!stripper.following){
       stripper.getUnstuck()
       //seemed to just be getting her stuck strangely enough...
-      followPath(stripper, stripperPath)
+      followPath(stripper, stripperPath, 30)
       //stripper.randomWalk()
       stripper.animate(5)
       if (stripper.body.velocity.x > 3) {
