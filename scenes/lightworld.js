@@ -3099,10 +3099,11 @@ var LightWorld = new Phaser.Class({
       zoom = .76
       raceBegin = false;
       raceOngoing = true
-      me.x = gameState.westburchamroadBR.x - 260
-      me.y = map.findObject("Objects", obj => obj.name === "bennett spawn point").y + 80
-      bennett.x = gameState.westburchamroadBR.x - 260
-      bennett.y = map.findObject("Objects", obj => obj.name === "bennett spawn point").y
+      me.x = map.findObject("Objects", obj => obj.name === "bennettPath2").x-2
+      me.y = map.findObject("Objects", obj => obj.name === "bennettPath2").y+50
+      bennett.position = 2
+      bennett.x = map.findObject("Objects", obj => obj.name === "bennettPath2").x-2
+      bennett.y = map.findObject("Objects", obj => obj.name === "bennettPath2").y
       playerTexture = 'race'
       if (al.following) {
         al.x = gameState.westburchamroadBR.x + 50
