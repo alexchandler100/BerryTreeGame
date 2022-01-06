@@ -413,6 +413,10 @@ const pages = [
     options: [{
       option: 'Okayy',
       nextPage: undefined,
+    },
+    {
+      option: 'Hint?',
+      nextPage: 77,
     }, ]
   },
 
@@ -423,6 +427,10 @@ const pages = [
     options: [{
       option: 'Hell yeah',
       nextPage: undefined,
+    },
+    {
+      option: 'Hint?',
+      nextPage: 77,
     }, ]
   },
 
@@ -444,6 +452,9 @@ const pages = [
     options: [{
       option: 'Hell yeah',
       nextPage: undefined,
+    }, {
+      option: 'Hint?',
+      nextPage: 77,
     }, ]
   },
 
@@ -454,6 +465,10 @@ const pages = [
     options: [{
       option: 'Hell yeah',
       nextPage: undefined,
+    },
+    {
+      option: 'Hint?',
+      nextPage: 77,
     }, ]
   },
 
@@ -465,6 +480,16 @@ const pages = [
       option: 'Sweeet',
       nextPage: undefined,
       aftermath: getJonItem
+    }, ]
+  },
+
+  {
+    character: 'me',
+    page: 77,
+    narrative: "Run toward the goal with the ball. As soon as you get close to the goalie zone, press S to kick. Just a split second after you press S, hold left or right to shoot the ball at an angle. Straight on shot probably won't work.",
+    options: [{
+      option: 'Okayy',
+      nextPage: undefined,
     }, ]
   },
 
@@ -533,7 +558,7 @@ const pages = [
   {
     character: 'me',
     page: 84,
-    narrative: "Original Homeboy: Shit... maybe but first you gotta beat this high score on this video game I got man. I can't get past 70 its driving me fucking CRAZY DUDE...",
+    narrative: "Original Homeboy: Shit... maybe but first you gotta beat this high score on this video game I got man. I can't get past 65 its driving me fucking CRAZY DUDE...",
     options: [{
       option: 'tight',
       nextPage: undefined,

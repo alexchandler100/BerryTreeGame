@@ -1,7 +1,7 @@
 const gameStateHB = {};
 
 let highScore = 0;
-let highScoreToBeat = 70;
+let highScoreToBeat = 65;
 let score = 0;
 let buzz = 1;
 let health = 2;
