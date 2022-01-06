@@ -2855,7 +2855,7 @@ var LightWorld = new Phaser.Class({
       classType: Phaser.GameObjects.Zone
     });
     raceZoneBR = map.findObject("Objects", obj => obj.name === "abbott bottom right")
-    raceFinished = raceFinish.create(raceZoneBR.x - 50, raceZoneBR.y + 100, 20, 400).setOrigin(0, 0);
+    raceFinished = raceFinish.create(raceZoneBR.x - 50, raceZoneBR.y, 20, 400).setOrigin(0, 0);
 
     this.physics.add.overlap(raceFinish, me, meWinRace, false, this);
     this.physics.add.overlap(raceFinish, bennett, bennettWinRace, false, this);
