@@ -144,15 +144,23 @@ var PauseMenu = new Phaser.Class({
   },
   update: function() {
     if (scene_number === 7) {
+      redisplay=true
+      redisplayItems=true
       this.scene.switch('ItemsMenu');
       time2=0
     }
     else if (scene_number === 8) {
+      redisplay=true
+      redisplayItems=true
       this.scene.switch('EquipmentMenu');
     }
     else if (scene_number === 9) {
+      redisplay=true
+      redisplayItems=true
       this.scene.switch('OverworldMenu');
     } else if (scene_number === 10) {
+      redisplay=true
+      redisplayItems=true
       this.scene.switch('Keyboard');
     }
   }

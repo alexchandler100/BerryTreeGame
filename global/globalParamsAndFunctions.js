@@ -1731,3 +1731,7 @@ function getDamageBoost() {
   equipment.push("Damage Booster");
   gameState.itemget.play();
 }
+
+function playItemGet() {
+  gameState.itemget.play();
+}

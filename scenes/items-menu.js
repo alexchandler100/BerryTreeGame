@@ -221,12 +221,20 @@ this.input.on('drop', function (pointer, gameObject, dropZone) {
     }
     //change menus
     if (scene_number === 1) {
+      redisplayItems=true
+      redisplay=true
       this.scene.switch('PauseMenu');
     } else if (scene_number === 8) {
+      redisplayItems=true
+      redisplay=true
       this.scene.switch('EquipmentMenu');
     } else if (scene_number === 9) {
+      redisplayItems=true
+      redisplay=true
       this.scene.switch('OverworldMenu');
     } else if (scene_number === 10) {
+      redisplayItems=true
+      redisplay=true
       this.scene.switch('Keyboard');
     }
   }

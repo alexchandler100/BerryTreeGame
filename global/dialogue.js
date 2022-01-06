@@ -1311,6 +1311,7 @@ const pages = [
     options: [{
       option: 'Yeah here you go',
       nextPage: 1603,
+      aftermath: playItemGet
     },]
   },
 

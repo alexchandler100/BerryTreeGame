@@ -51,7 +51,7 @@ var NPC = new Phaser.Class({
   // left, right, up, down are strings like 'alright' or 'jonleft'
   initialize: function NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue, joinParameter) {
     let point;
-    if (scene_number==='indoors'){
+    if (scene_number === 'indoors') {
       console.log('indoors')
       point = mapApt.findObject("objects", obj => obj.name === spawnPoint);
     } else {
@@ -312,7 +312,7 @@ var LightWorld = new Phaser.Class({
     this.cursors.down.reset();
     changeThemeSong = true;
     gameState.mario2.stop();
-    if (stripperBanged){    //after you bang, she stops following
+    if (stripperBanged) { //after you bang, she stops following
       stripper.following = false;
       stripper.joinParameter = false;
       stripper.x = stripperPath[1].x - 32;
@@ -3406,7 +3406,7 @@ var LightWorld = new Phaser.Class({
       gatorade += 1;
       larrySpecial += 1;
       equipped["Mac"].accessory = "Sprinting Shoes"
-      sprintingShoes("Mac",true)
+      sprintingShoes("Mac", true)
       usable_items["Hamms"] += 1;
       usable_items["Monster"] += 1;
       usable_items["Gatorade"] += 1;
@@ -3684,9 +3684,9 @@ var LightWorld = new Phaser.Class({
       jeanClaude.follow(me, .5);
       jeanClaude.animate(2);
     }
-    if (jeanClaude.following && distance(jeanClaude,stripper)<100 && distance(me,stripper)<30 && jeanClaudeFirstTalk === 3) {
+    if (jeanClaude.following && distance(jeanClaude, stripper) < 100 && distance(me, stripper) < 30 && jeanClaudeFirstTalk === 3) {
       jeanClaudeFirstTalk = 4
-    } else if (jeanClaudeFirstTalk ===4){
+    } else if (jeanClaudeFirstTalk === 4) {
       jeanClaudeFirstTalk = 5;
       initializePage(this)
       let page = fetchPage(6102)
@@ -3694,13 +3694,13 @@ var LightWorld = new Phaser.Class({
       completeQuest("Jean Claude")
       completeQuest("Jean Claude?")
       stripper.joinParameter = true;
-    } else if (jeanClaudeFirstTalk ===5){
-      jeanClaude.follow(stripper,.5);
+    } else if (jeanClaudeFirstTalk === 5) {
+      jeanClaude.follow(stripper, .5);
       jeanClaude.animate(2);
     }
 
     //ai for stripper
-    if (!stripper.following){
+    if (!stripper.following) {
       stripper.getUnstuck()
       //seemed to just be getting her stuck strangely enough...
       followPath(stripper, stripperPath, 30)
@@ -3724,14 +3724,13 @@ var LightWorld = new Phaser.Class({
         let page = fetchPage(1602)
         displayPage(this, page)
         completeQuest("Diamond Wants Some Coke")
-        gameState.itemget.play()
         equipment.push("Brass Knuckles")
         removeAll(items, "Gram of Coke")
       } else if (distance(me, stripper) > 200 && stripperFirstTalk === 1) {
         stripperFirstTalk = 2
       }
-    } else if (stripper.following){
-      stripper.follow(me,.55);
+    } else if (stripper.following) {
+      stripper.follow(me, .55);
       stripper.animate(5)
       if (stripper.body.velocity.x > 3) {
         stripper.flipX = true;
@@ -3739,8 +3738,8 @@ var LightWorld = new Phaser.Class({
         stripper.flipX = false;
       }
     }
-    if (stripperBanged){    //after you bang, she stops following
-      followPath(stripper,stripperPath)
+    if (stripperBanged) { //after you bang, she stops following
+      followPath(stripper, stripperPath)
       jeanClaude.follow(stripper, .5)
     }
 
@@ -4017,31 +4016,7 @@ var LightWorld = new Phaser.Class({
     bennett.follow(me, 1.4)
     bennett.animate()
     if (bennett.following === false) {
-      /*
-      if (bennett.y <= 290 && bennett.y >= 256 && bennett.x >= 96 && bennett.x <= 14528) {
-        //bennett.y+=100;
-        bennett.body.velocity.x = 278;
-        bennett.body.velocity.y = 0;
-      } else if (bennett.y <= 10304 && bennett.y >= 10272 && bennett.x >= 160 && bennett.x <= 14528) {
-        //bennett.y+=100;
-        bennett.body.velocity.x = -278;
-        bennett.body.velocity.y = 0;
-      } else if (bennett.x >= 96 && bennett.x <= 160 && bennett.y >= 256 && bennett.y <= 10304) {
-        //bennett.x+=100;
-        bennett.body.velocity.x = 0;
-        bennett.body.velocity.y = -278;
-      } else if (bennett.x >= 14528 && bennett.x <= 14592 && bennett.y >= 256 && bennett.y <= 10240) {
-        //bennett.x-=100;
-        bennett.body.velocity.x = 0;
-        bennett.body.velocity.y = 278;
-      } else {
-        bennett.body.velocity.x += Phaser.Math.FloatBetween(-50, 50);
-        bennett.body.velocity.y += Phaser.Math.FloatBetween(-50, 50);
-      }
-      */
-      if (!raceOngoing) {
-        followPath(bennett, bennettPath, 278)
-      }
+      followPath(bennett, bennettPath, 278)
       if (distance(me, bennett) < 600 && distance(me, bennett) > 580) {
         gameState.bennettSound.play()
       } else if (distance(me, bennett) > 600) {
@@ -4070,11 +4045,12 @@ var LightWorld = new Phaser.Class({
 
 
     //ai for al
-    al.follow(me, 1.2);
     al.getUnstuck();
-    followPath(al, alPath)
-    //al.randomWalk();
+    al.follow(me, 1.2);
     al.animate(3)
+    if (!al.following) {
+      followPath(al, alPath)
+    }
     if (holdon === 1) {
       al.sound0.play();
       holdon = 0
@@ -4108,6 +4084,8 @@ var LightWorld = new Phaser.Class({
       al.joinParameter = true;
       potentialParty["Al"] = true;
     }
+
+
 
     //ai for og homeboy
     if (distance(oghomeboy, me) < 1000) {

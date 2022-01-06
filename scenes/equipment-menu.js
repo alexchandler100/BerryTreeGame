@@ -582,14 +582,22 @@ this.input.on('pointerout', function (pointer, justOut) {
   },
   update: function() {
     if (scene_number === 1) {
+      redisplay=true
+      redisplayItems=true
       this.scene.switch('PauseMenu');
     }
     else if (scene_number === 7) {
+      redisplay=true
+      redisplayItems=true
       this.scene.switch('ItemsMenu');
     }
     else if (scene_number === 9) {
+      redisplay=true
+      redisplayItems=true
       this.scene.switch('OverworldMenu');
     } else if (scene_number === 10) {
+      redisplay=true
+      redisplayItems=true
       this.scene.switch('Keyboard');
     }
     if (redisplay){
