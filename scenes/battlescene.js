@@ -877,10 +877,10 @@ var BattleScene = new Phaser.Class({
       gameStateBattle.enem1 = new Enemy(this, 450, 250, 'darkboy2', null, 'Dark Boy 2', 1000, 20);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'dio') {
-      gameStateBattle.enem1 = new Enemy(this, 250, 100, 'dio', null, 'Dio', 1200, 40);
+      gameStateBattle.enem1 = new Enemy(this, 250, 100, 'dio', null, 'Dio', 1200, 60);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'fratboy2prime') {
-      gameStateBattle.enem1 = new Enemy(this, 120, 200, 'fratboy2prime', null, 'StabBoy 2', 600, 50);
+      gameStateBattle.enem1 = new Enemy(this, 120, 200, 'fratboy2prime', null, 'StabBoy 2', 600, 30);
       this.add.existing(gameStateBattle.enem1);
       gameStateBattle.enem2 = new Enemy(this, 385, 350, enems[3][0], null, enems[3][1], enems[3][2] + 3 * (levelObject['Mac'] - 1), enems[3][3] + enems[3][3] / 3 * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem2);
@@ -891,7 +891,7 @@ var BattleScene = new Phaser.Class({
       gameStateBattle.enem5 = new Enemy(this, 200, 325, enems[2][0], null, enems[2][1], enems[2][2] + 3 * (levelObject['Mac'] - 1), enems[2][3] + enems[2][3] / 3 * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem5);
     } else if (bossBattle && bossType === 'frank') {
-      gameStateBattle.enem1 = new Enemy(this, 450, 250, 'fratboy5', null, 'Frank', 1000, 70);
+      gameStateBattle.enem1 = new Enemy(this, 450, 250, 'fratboy5', null, 'Frank', 1000, 50);
       this.add.existing(gameStateBattle.enem1);
     } else {
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)

@@ -316,10 +316,10 @@ var LightWorld = new Phaser.Class({
     if (stripperBanged) { //after you bang, she stops following
       stripper.following = false;
       stripper.joinParameter = false;
-      stripper.x = stripperPath[1].x - 32;
-      stripper.y = stripperPath[1].y;
+      stripper.x = stripperPath[9].x - 2;
+      stripper.y = stripperPath[9].y;
       jeanClaude.x = stripper.x;
-      jeanClaude.y = stripper.y - 30;
+      jeanClaude.y = stripper.y - 4;
     }
   },
   onKeyInput: function(event) {
@@ -2260,6 +2260,12 @@ var LightWorld = new Phaser.Class({
       child.setOffset(0, 40);
     });
 
+    girl1.setDepth(girl1.y);
+    girl2.setDepth(girl2.y);
+    girl3.setDepth(girl3.y);
+    girl4.setDepth(girl4.y);
+    adeline.setDepth(adeline.y);
+
     //spawn blnde
     blonde = grls.create(BlondeSpawnPoint.x, BlondeSpawnPoint.y, 'blonde');
     blonde.x = gameState.fratboy4SpawnPoint.x + 120
@@ -2267,6 +2273,7 @@ var LightWorld = new Phaser.Class({
     blonde.setScale(.25);
     blonde.setSize(1, 80);
     blonde.setOffset(30, 80);
+    blonde.setDepth(blonde.y);
 
     //spawning player and setting properties
     //to start at level i and get skill at level i
@@ -2930,7 +2937,10 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
-    me.setDepth(me.y)
+    chasersGroup.children.iterate(function(child) {
+      child.setDepth(child.y);
+    });
+    me.setDepth(me.y);
     if (kicking && me.body.velocity.x < 0) {
       me.flipX = false
     } else if (kicking && me.body.velocity.x > 0) {
