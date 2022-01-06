@@ -164,6 +164,7 @@ var NPC = new Phaser.Class({
     }
   },
   animate: function(thresh = 10) {
+    this.setDepth(this.y)
     if (this.body.velocity.x > thresh) {
       this.anims.play(this.right, true);
     } else if (this.body.velocity.x < -1 * thresh) {
@@ -2333,6 +2334,7 @@ var LightWorld = new Phaser.Class({
 
     //spawning layers which are above the player
     const above = map.createStaticLayer("Above", tileset2, 0, 0);
+    above.setDepth(100000)
 
     // Collisions. Note: must create a boolean for tiles in Tiled called ''collides'' in the tileset editor and set collides = 'true'
     world.setCollisionByProperty({
@@ -2928,6 +2930,7 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    me.setDepth(me.y)
     if (kicking && me.body.velocity.x < 0) {
       me.flipX = false
     } else if (kicking && me.body.velocity.x > 0) {

@@ -1878,9 +1878,9 @@ function initializePage(scene) {
       gameState.options = [];
     }
     // create narrative background if it doesn't exist
-    gameState.narrative_background2 = scene.add.rectangle(-252 + me.x, -102 + me.y, 504, 189, 0xb39c0e);
+    gameState.narrative_background2 = scene.add.rectangle(-252 + me.x, -102 + me.y, 504, 189, 0xb39c0e).setDepth(1000000);
     gameState.narrative_background2.setOrigin(0, 0);
-    gameState.narrative_background = scene.add.rectangle(-250 + me.x, -100 + me.y, 500, 185, 0x000);
+    gameState.narrative_background = scene.add.rectangle(-250 + me.x, -100 + me.y, 500, 185, 0x000).setDepth(1000000);
     gameState.narrative_background.setOrigin(0, 0);}
     backgroundDisplayed = 1
 }
@@ -1927,14 +1927,14 @@ function displayPage(scene, page) {
     // display general page character
     // & narrative here:
     pause = true
-    gameState.narrative = scene.add.text(-215 + me.x, -85 + me.y, page.narrative, narrativeStyle);
+    gameState.narrative = scene.add.text(-215 + me.x, -85 + me.y, page.narrative, narrativeStyle).setDepth(1000000);
     pageDisplayed = 1
     // for-loop creates different options
     // need the index i for spacing the boxes
     for (let i = 0; i < page.options.length; i++) {
       let option = page.options[i];
       // color in the option box
-      const optionBox = scene.add.rectangle(-200 + me.x + i * 130, me.y, 110, 40, 0xb39c0e, 0)
+      const optionBox = scene.add.rectangle(-200 + me.x + i * 130, me.y, 110, 40, 0xb39c0e, 0).setDepth(1000000)
       optionBox.strokeColor = 0xb39c0e;
       optionBox.strokeWeight = 2;
       optionBox.strokeAlpha = 1;
@@ -1949,7 +1949,7 @@ function displayPage(scene, page) {
         wordWrap: {
           width: 110
         }
-      });
+      }).setDepth(1000000);
       const optionTextBounds = optionText.getBounds()
       // centering each option text
       optionText.setX(optionTextBounds.x + 55 - (optionTextBounds.width / 2));
@@ -2019,7 +2019,7 @@ function initializePageDark(scene) {
       // create options list if it doesn't exist
       gameStateDark.options = [];
     }
-    // create narrative background if it doesn't exist
+    // create narrative backgrounds if it doesn't exist
     gameStateDark.narrative_background = scene.add.rectangle(-250 + meDark.x, -100 + meDark.y, 500, 185, 0x000);
     gameStateDark.narrative_background.setOrigin(0, 0);}
     backgroundDisplayed = 1
