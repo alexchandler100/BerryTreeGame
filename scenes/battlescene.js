@@ -1129,6 +1129,19 @@ var BattleScene = new Phaser.Class({
           } else {
             usable_items[itemReward] = 1;
           }
+          if (itemReward === "Andy Capp's Hot Fries"){
+            andycapps += 1;
+          } else if (itemReward === "Labatt Max Ice"){
+              maxice += 1;
+            } else if (itemReward === "Monster"){
+                monster += 1;
+              } else if (itemReward === "Gatorade"){
+                  gatorade += 1;
+                } else if (itemReward === "Hamms"){
+                    hamms += 1;
+                  } else if (itemReward === "Larry Special"){
+                      larrySpecial += 1;
+                    }
         } else if (itemReward === 'Wife Beater' || itemReward === 'SP Booster' || itemReward === 'Damage Booster' || itemReward === 'HP Booster' || itemReward === 'Fubu Shirt' || itemReward === 'Camo Pants') {
           equipment.push(itemReward)
         }
