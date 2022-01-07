@@ -1247,7 +1247,7 @@ function directionVector(obj1, obj2) {
 }
 
 function followPath (unit, path, speed=50){
-  if (distance(unit,path[unit.position])<20 && !unit.changeDirection){
+  if (distance(unit,path[unit.position])<10 && !unit.changeDirection){
     unit.position+=1
     unit.changeDirection=true
     window.setTimeout(() => {

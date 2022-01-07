@@ -13,6 +13,7 @@ var OnScreenMessage = new Phaser.Class({
     graphics.fillStyle(0x031f4c, 0.3);
     graphics.strokeRect(-150, -25, 300, 50);
     graphics.fillRect(-150, -25, 300, 50);
+    graphics.setDepth(2000000)
     // text describing events of battle
     this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", {
       color: '#ffffff',
@@ -24,7 +25,7 @@ var OnScreenMessage = new Phaser.Class({
       }
     });
     this.add(this.text);
-    this.text.setOrigin(0.5);
+    this.text.setOrigin(0.5).setDepth(2000000);
     events.on("Message", this.showMessage, this);
     this.visible = false;
   },
