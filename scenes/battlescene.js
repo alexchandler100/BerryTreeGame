@@ -1057,7 +1057,11 @@ var BattleScene = new Phaser.Class({
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
 
-    this.index = -1; // currently active unit
+    if (runaway){
+      this.index = -1;
+    } else {
+      this.index = this.units.length-2  // currently active unit
+    }
     //currentHero=this.heroes[this.index]
 
     this.scene.run("UIScene");

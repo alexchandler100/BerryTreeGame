@@ -201,7 +201,7 @@ var Car = new Phaser.Class({
       honkIndex = Math.floor(Math.random() * 3);
       screamIndex = Math.floor(Math.random() * 8);
       chanceToScreamIndex = Math.floor(Math.random() * 3);
-      chanceToHonkIndex = Math.floor(Math.random() * 2);
+      chanceToHonkIndex = Math.floor(Math.random() * 3);
       if (honkIndex === 0 && chanceToHonkIndex === 0) {
         gameState.honk1.play()
       } else if (honkIndex === 1 && chanceToHonkIndex === 0) {
@@ -742,19 +742,19 @@ var LightWorld = new Phaser.Class({
       volume: 0.6
     });
     gameState.honk1 = this.sound.add('honk1', {
-      volume: 0.4
+      volume: 0.25
     });
     gameState.honk2 = this.sound.add('honk2', {
-      volume: 0.4
+      volume: 0.25
     });
     gameState.honk3 = this.sound.add('honk3', {
-      volume: 0.4
+      volume: 0.25
     });
     gameState.carScream1 = this.sound.add('carScream1', {
       volume: 0.6
     });
     gameState.carScream2 = this.sound.add('carScream2', {
-      volume: 0.6
+      volume: 1.2
     });
     gameState.carScream3 = this.sound.add('carScream3', {
       volume: 0.6
@@ -775,10 +775,10 @@ var LightWorld = new Phaser.Class({
       volume: 0.6
     });
     gameState.siren1 = this.sound.add('siren1', {
-      volume: 0.4
+      volume: 0.25
     });
     gameState.siren2 = this.sound.add('siren2', {
-      volume: 0.4
+      volume: 0.25
     });
     gameState.dead = this.sound.add('dead', {
       volume: 0.6
@@ -2351,6 +2351,19 @@ var LightWorld = new Phaser.Class({
       collides: true
     });
 
+    //roadcar colliders
+    this.physics.add.collider(roadCar1, ball);
+    this.physics.add.collider(roadCar2, ball);
+    this.physics.add.collider(roadCar3, ball);
+    this.physics.add.collider(roadCar4, ball);
+    this.physics.add.collider(roadCar5, ball);
+    this.physics.add.collider(roadCar6, ball);
+    this.physics.add.collider(roadCar7, ball);
+    this.physics.add.collider(roadCar8, ball);
+    this.physics.add.collider(copCar1, ball);
+    this.physics.add.collider(copCar2, ball);
+
+
     //followers colliding
     this.physics.add.collider(trevor, al);
     this.physics.add.collider(trevor, jeanClaude);
@@ -2959,6 +2972,11 @@ var LightWorld = new Phaser.Class({
       openFightDialogue = false
       initializePage(this);
       let firstPage = fetchPage(5001);
+      displayPage(this, firstPage);
+    } else if (numberOfFights === 7 && openFightDialogue === true) {
+      openFightDialogue = false
+      initializePage(this);
+      let firstPage = fetchPage(5003);
       displayPage(this, firstPage);
     }
     //stamina
@@ -4110,12 +4128,14 @@ var LightWorld = new Phaser.Class({
       //high score for keepaway and dialogue
       if (trevor.following === false && distance(me, ball) < 300 && distance(trevor, ball) > 30 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
         keepaway += 1;
+        kickTheBallScoreDisplayed = true
       }
       if (distance(trevor, ball) < 40) {
+        kickTheBallScoreDisplayed = false
         if (keepaway > keepawayHighScore) {
           keepawayHighScore = keepaway
         }
-        if (keepaway > 100 && trevor.joinParameter === false) {
+        if (keepaway > 100 && keepaway <= 300 && trevor.joinParameter === false) {
           initializePage(this)
           let page = fetchPage(25)
           displayPage(this, page)
@@ -4129,49 +4149,28 @@ var LightWorld = new Phaser.Class({
           if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
             activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
           }
-        } else if (keepaway > 400 && brothersSeal === 0 && neverBeenPro === true) {
+        } else if (keepaway > 500 && brothersSeal === 0 && neverBeenPro === true) {
           initializePage(this)
           let page = fetchPage(21)
           displayPage(this, page)
-        } else if (keepaway > 400 && brothersSeal === 0 && neverBeenPro === false) {
+        } else if (keepaway > 500 && brothersSeal === 0 && neverBeenPro === false) {
           initializePage(this)
           let page = fetchPage(24)
           displayPage(this, page)
-        } else if (keepaway > 750 && brothersSeal === 1) {
+        } else if (keepaway > 1000 && brothersSeal === 1) {
           initializePage(this)
           let page = fetchPage(22)
           displayPage(this, page)
         }
         keepaway = 0
       }
-      if (keepaway === 400) {
+      if (keepaway === 500) {
         trevor.joinParameter = true;
         potentialParty["Jimmy"] = true;
         completeQuest('Go Pro at Kick-The-Ball');
-        //this.scene.scene.events.emit("Message", "You went pro.", me.x, me.y);
-        /*
-        highScoreText = this.add.text(me.x - 100, me.y - 50, 'You went pro', {
-          fontFamily: 'Academy Engraved LET',
-          fontSize: '50px',
-          fill: '#fff'
-        });
-        window.setTimeout(() => {
-          highScoreText.setText('')
-        }, 3000);
-        */
-      } else if (keepaway === 750) {
+      } else if (keepaway === 1000) {
         items.push("Brothers Seal")
         brothersSeal = 1
-        /*
-        highScoreText = this.add.text(me.x - 300, me.y - 50, '        You got the brothers seal.\nYou sense a dark gate unhinged...', {
-          fontFamily: 'Academy Engraved LET',
-          fontSize: '30px',
-          fill: '#fff'
-        });
-        window.setTimeout(() => {
-          highScoreText.setText('')
-        }, 4000);
-        */
       }
     }
 

@@ -39,8 +39,24 @@ var Navigator = new Phaser.Class({
       align: 'right',
       wordWrap: { width: 190 }
     });
+
+    gameStateNav.kickTheBallDisplay = this.add.text(50, 550, ``, {
+      fontSize: '20px',
+      fill: '#fff',
+      align: 'right',
+    });
   },
   update: function() {
+    if (kickTheBallScoreDisplayed){
+      gameStateNav.kickTheBallDisplay.visible = true;
+      if (keepaway > keepawayHighScore) {
+        gameStateNav.kickTheBallDisplay.setText(`Kick-The-Ball: ${keepaway} \nHigh Score: ${keepaway}`);
+      } else {
+        gameStateNav.kickTheBallDisplay.setText(`Kick-The-Ball: ${keepaway} \nHigh Score: ${keepawayHighScore}`);
+      }
+    } else {
+      gameStateNav.kickTheBallDisplay.visible = false;
+    }
     if (phoneGet){
       gameStateNav.location.visible = true;
     } else {

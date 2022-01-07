@@ -139,12 +139,16 @@ const pages = [
   {
     character: 'me',
     page: 20,
-    narrative: "Jimmy: Damnnn that was tight dude you almost went pro.",
+    narrative: "Jimmy: Damnnn that was tight dude you almost WENT PRO at Kick-The-Ball.\n            (you need 500 points)",
     options: [{
       option: 'Check this shit out',
       nextPage: undefined,
       aftermath: openQuestLog
-    }, ]
+    },
+    {
+      option: 'Kick-the-ball?',
+      nextPage: 26,
+    },]
   },
 
   {
@@ -161,7 +165,7 @@ const pages = [
   {
     character: 'me',
     page: 24,
-    narrative: "Jimmy: Damnnn you went pro again. Right on. Gotta do more badass shit to get that Brother's Seal though that shit needs to be tight.",
+    narrative: "Jimmy: Damnnn you went pro again. Right on. Gotta do more badass shit to get that Brother's Seal though that shit needs to be tight.\n           \n            (you need 1000 points)",
     options: [{
       option: 'Shiiiit',
       nextPage: undefined,
@@ -191,7 +195,7 @@ const pages = [
   {
     character: 'me',
     page: 25,
-    narrative: "Jimmy: Shiiiiit that wasn't great. You must be hungover, goddamn usually you kick ass at kick-the-ball.",
+    narrative: "Jimmy: Shiiiiit that wasn't great. You must be hungover, goddamn usually you kick ass at kick-the-ball. \n      (you need at least 400 points)",
     options: [{
       option: 'God Damn it',
       nextPage: undefined,
@@ -1793,6 +1797,16 @@ const pages = [
     narrative: `I guess that explains why that Ex Junkie is all pissed trying to stab us and stuff...`,
     options: [{
       option: 'Well Goddamn',
+      nextPage: undefined,
+    },]
+  },
+
+  {
+    character: 'me',
+    page: 5003,
+    narrative: `I need to get the drop on these guys\n(If they catch you while they are chasing, they get first strike...)`,
+    options: [{
+      option: 'Good Idea',
       nextPage: undefined,
     },]
   },

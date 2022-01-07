@@ -107,6 +107,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let kickTheBallScoreDisplayed = false
 let kicking = false;
 let diving = false;
 let runaway=false;
@@ -1640,29 +1641,31 @@ function chasex(thing1, thing2, strength = 1.2, offset = 0) { //makes thing1 cha
 }
 
 function chase(thing1, thing2, strength = 1.2, offset = 0) { //makes thing1 chase thing2 with strength and offset
-  if (thing1.x > thing2.x + offset) {
-    if (thing1.body.velocity.x > 0) {
-      thing1.body.velocity.x = 0
+  if (!pause){
+    if (thing1.x > thing2.x + offset) {
+      if (thing1.body.velocity.x > 0) {
+        thing1.body.velocity.x = 0
+      }
+      thing1.body.velocity.x -= strength
     }
-    thing1.body.velocity.x -= strength
-  }
-  if (thing1.x < thing2.x - offset) {
-    if (thing1.body.velocity.x < 0) {
-      thing1.body.velocity.x = 0
+    if (thing1.x < thing2.x - offset) {
+      if (thing1.body.velocity.x < 0) {
+        thing1.body.velocity.x = 0
+      }
+      thing1.body.velocity.x += strength
     }
-    thing1.body.velocity.x += strength
-  }
-  if (thing1.y > thing2.y + offset) {
-    if (thing1.body.velocity.y > 0) {
-      thing1.body.velocity.y = 0
+    if (thing1.y > thing2.y + offset) {
+      if (thing1.body.velocity.y > 0) {
+        thing1.body.velocity.y = 0
+      }
+      thing1.body.velocity.y -= strength
     }
-    thing1.body.velocity.y -= strength
-  }
-  if (thing1.y < thing2.y - offset) {
-    if (thing1.body.velocity.y < 0) {
-      thing1.body.velocity.y = 0
+    if (thing1.y < thing2.y - offset) {
+      if (thing1.body.velocity.y < 0) {
+        thing1.body.velocity.y = 0
+      }
+      thing1.body.velocity.y += strength
     }
-    thing1.body.velocity.y += strength
   }
 }
 
