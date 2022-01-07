@@ -2925,6 +2925,20 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    if (!pause && chasersEnabled){
+      if (chaserClock%60===0){
+          console.log(`Chaser Clock: ${chaserClock%60}`)
+      }
+      chaserClock+=1
+    }
+    if (chaserClock === 60*7){
+      console.log(`run away`)
+      //runaway = true;
+    } else if (chaserClock === 60*14){
+      console.log(`disappear`)
+      //chasersEnabled = false;
+      //runaway = false;
+    }
     chasersGroup.children.iterate(function(child) {
       child.setDepth(child.y);
     });
@@ -3937,7 +3951,6 @@ var LightWorld = new Phaser.Class({
       this.physics.pause();
       trevor.body.velocity.x = 0;
       trevor.body.velocity.y = 0;
-      keepaway -= 1
     } else {
       this.physics.resume()
     }
@@ -4125,15 +4138,32 @@ var LightWorld = new Phaser.Class({
       trevor.animate(5);
       trevor.chase(ball, 1.4); ////use 1.1 for laptop and 1.4 for desktop (I think because my macbook has faster refresh rate)
       trevor.getUnstuck()
-      //high score for keepaway and dialogue
+      //increases keepaway high score whenever not paused
       if (trevor.following === false && distance(me, ball) < 300 && distance(trevor, ball) > 30 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
-        keepaway += 1;
+        if (!pause){
+          keepaway += 1;
+        }
         kickTheBallScoreDisplayed = true
       }
       if (distance(trevor, ball) < 40) {
         kickTheBallScoreDisplayed = false
         if (keepaway > keepawayHighScore) {
           keepawayHighScore = keepaway
+        }
+        if (keepaway>5){
+          if (keepaway < 500){
+            gameStateNav.scoreGotten.setText(`       You got ${keepaway} points.`)
+          } else if (keepaway >500 && keepaway <1000){
+            gameStateNav.scoreGotten.setText(`You got ${keepaway} points. YOU DON'T SUCK!`)
+          } else if (keepaway >1000){
+            gameStateNav.scoreGotten.setText(`You got ${keepaway} points. HOLY FUCK!`)
+          }
+          showKickTheBallScore = true;
+          pause = true;
+          window.setTimeout(() => {
+            showKickTheBallScore = false;
+            pause = false;
+          }, 3000);
         }
         if (keepaway > 100 && keepaway <= 300 && trevor.joinParameter === false) {
           initializePage(this)

@@ -139,7 +139,7 @@ const pages = [
   {
     character: 'me',
     page: 20,
-    narrative: "Jimmy: Damnnn that was tight dude you almost WENT PRO at Kick-The-Ball.\n            (you need 500 points)",
+    narrative: "Jimmy: Damnnn that was tight dude you almost WENT PRO at Kick-The-Ball.\n      (you need 500 points)",
     options: [{
       option: 'Check this shit out',
       nextPage: undefined,

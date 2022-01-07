@@ -107,6 +107,8 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let showKickTheBallScore = false;
+let chaserClock = 0;
 let kickTheBallScoreDisplayed = false
 let kicking = false;
 let diving = false;
@@ -1112,27 +1114,21 @@ function onMeetEnemy1(player, zone) {
     if (set4.size === 5 && numberOfPlayers>=3) {
       chasersIndexArray.push(qq)
     }
-    //let chasersGuys=[]
     for (const i of chasersIndexArray) {
       let theta = Math.random() * 2 * 3.1415;
       //I need to make these only exist during the chasing and then destroy to optimize memory usage (fix needed...)
       chasers[i].enableBody(true, me.x + 250 * Math.cos(theta), me.y + 250 * Math.sin(theta), true, true);
-      //chasersGuys[i]=chasersGroup.create(me.x + 200 * Math.cos(theta), me.y + 200 * Math.sin(theta), enemsForChasers[i][0]);
     }
     window.setTimeout(() => {
       for (const i of chasersIndexArray) {
-        //chasers[i].destroy()
         runaway=true;
-        //chasersGuys[i].destroy()
       }
     }, 7000);
     window.setTimeout(() => {
       for (const i of chasersIndexArray) {
-        //chasers[i].destroy()
         runaway=false;
         chasers[i].disableBody(true, true);
         chasersEnabled = false;
-        //chasersGuys[i].destroy()
       }
     }, 14000);
   }

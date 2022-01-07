@@ -45,8 +45,25 @@ var Navigator = new Phaser.Class({
       fill: '#fff',
       align: 'right',
     });
+
+    gameStateNav.scoreGottenDisplay = this.add.rectangle(250-2, 30-2, 704, 54, 0xb39c0e).setOrigin(0);
+    gameStateNav.scoreGottenDisplayFront = this.add.rectangle(250, 30, 700, 50, 0x000000).setOrigin(0);
+    gameStateNav.scoreGotten = this.add.text(250, 30+10, ``, {
+      fontSize: '40px',
+      fill: '#fff',
+      align: 'right',
+    });
   },
   update: function() {
+    if (showKickTheBallScore){
+      gameStateNav.scoreGotten.visible = true;
+      gameStateNav.scoreGottenDisplay.visible = true;
+      gameStateNav.scoreGottenDisplayFront.visible = true;
+  } else {
+    gameStateNav.scoreGotten.visible = false;
+    gameStateNav.scoreGottenDisplay.visible = false;
+    gameStateNav.scoreGottenDisplayFront.visible = false;
+    }
     if (kickTheBallScoreDisplayed){
       gameStateNav.kickTheBallDisplay.visible = true;
       if (keepaway > keepawayHighScore) {
