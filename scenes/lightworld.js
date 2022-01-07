@@ -201,11 +201,12 @@ var Car = new Phaser.Class({
       honkIndex = Math.floor(Math.random() * 3);
       screamIndex = Math.floor(Math.random() * 8);
       chanceToScreamIndex = Math.floor(Math.random() * 3);
-      if (honkIndex === 0) {
+      chanceToHonkIndex = Math.floor(Math.random() * 2);
+      if (honkIndex === 0 && chanceToHonkIndex === 0) {
         gameState.honk1.play()
-      } else if (honkIndex === 1) {
+      } else if (honkIndex === 1 && chanceToHonkIndex === 0) {
         gameState.honk2.play()
-      } else if (honkIndex === 2) {
+      } else if (honkIndex === 2 && chanceToHonkIndex === 0) {
         gameState.honk3.play()
       }
       if (screamIndex === 0 && chanceToScreamIndex === 0) {
