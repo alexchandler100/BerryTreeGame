@@ -736,6 +736,27 @@ var BattleScene = new Phaser.Class({
     trevorX = this.add.image(-50, -50, 'blinded');
     trevorBleed = this.physics.add.sprite(-50, -50, 'bleeding');
     trevorBleed.anims.play('bleedingfast', true)
+
+    gameStateBattle.firstStrikeDisplay = this.add.rectangle(250-2, 30-2, 704, 54, 0xb39c0e).setOrigin(0);
+    gameStateBattle.firstStrikeDisplayFront = this.add.rectangle(250, 30, 700, 50, 0x000000).setOrigin(0);
+    gameStateBattle.firstStrike = this.add.text(250+10, 30+10, ``, {
+      fontSize: '40px',
+      fill: '#fff',
+      align: 'right',
+    });
+    if (runaway){
+      gameStateBattle.firstStrike.setText('You got first strike!')
+    } else {
+      gameStateBattle.firstStrike.setText('They got first strike!')
+    }
+      gameStateBattle.firstStrikeDisplay.visible = true;
+      gameStateBattle.firstStrikeDisplayFront.visible = true;
+      gameStateBattle.firstStrike.visible = true;
+      window.setTimeout(() => {
+        gameStateBattle.firstStrikeDisplay.visible = false;
+        gameStateBattle.firstStrikeDisplayFront.visible = false;
+        gameStateBattle.firstStrike.visible = false;
+      }, 3000);
   },
   update: function() {
     if (!settingDepth) { //sets depth according to y value except during attacks when we use custom depths
@@ -841,6 +862,22 @@ var BattleScene = new Phaser.Class({
     gameStateBattle.damageText.scaleY -= .005
   },
   startBattle: function() {
+    if (gameStateBattle.firstStrike){
+      if (runaway){
+        gameStateBattle.firstStrike.setText('You got first strike!')
+      } else {
+        gameStateBattle.firstStrike.setText('They got first strike!')
+      }
+        gameStateBattle.firstStrikeDisplay.visible = true;
+        gameStateBattle.firstStrikeDisplayFront.visible = true;
+        gameStateBattle.firstStrike.visible = true;
+        window.setTimeout(() => {
+          gameStateBattle.firstStrikeDisplay.visible = false;
+          gameStateBattle.firstStrikeDisplayFront.visible = false;
+          gameStateBattle.firstStrike.visible = false;
+        }, 3000);
+    }
+
     numberOfPlayers = 1
     if (trevor.following) {
       numberOfPlayers += 1
@@ -1247,6 +1284,8 @@ var BattleScene = new Phaser.Class({
     worldTheme = 'light';
   },
   wake: function() {
+    //display first strike dialogue
+      //set hp for party
     gameStateBattle.me.hp = hpObject["Mac"]
     if (bennett.joinParameter && bennett.following) {
       gameStateBattle.bennett.hp = hpObject["Bennett"]

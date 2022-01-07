@@ -107,6 +107,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let firstStrikeDisplay = false
 let showKickTheBallScore = false;
 let chaserClock = 0;
 let kickTheBallScoreDisplayed = false
@@ -1089,6 +1090,7 @@ function getHitByCar(){
 function onMeetEnemy1(player, zone) {
   if (worldTheme === 'light' && playerTexture === 0 && inPool === false && !chasersEnabled) {
     chasersEnabled = true;
+    chaserClock = 0
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
     rr = Math.floor(Math.random() * enemsForChasers.length);
@@ -1135,8 +1137,8 @@ function onMeetEnemy1(player, zone) {
 }
 
 function onMeetEnemy2() {
-  //keepaway<400 because otherwise fight can disrupt quest dialogue for jimmy
   if (worldTheme === 'light' && playerTexture === 0 && keepaway<400 && !diving) {
+  //keepaway<400 because otherwise fight can disrupt quest dialogue for jimmy
     //this.cameras.main.flash(1000)
     gameState.swimNoise.stop();
     gameState.meWalkingSound.stop();

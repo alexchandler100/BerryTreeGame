@@ -2927,7 +2927,7 @@ var LightWorld = new Phaser.Class({
   update: function() {
     if (!pause && chasersEnabled){
       if (chaserClock%60===0){
-          console.log(`Chaser Clock: ${chaserClock%60}`)
+          console.log(`Chaser Clock: ${chaserClock/60}`)
       }
       chaserClock+=1
     }
