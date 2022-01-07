@@ -737,12 +737,13 @@ var BattleScene = new Phaser.Class({
     trevorBleed = this.physics.add.sprite(-50, -50, 'bleeding');
     trevorBleed.anims.play('bleedingfast', true)
 
+    /*
     gameStateBattle.firstStrikeDisplay = this.add.rectangle(250-2, 30-2, 704, 54, 0xb39c0e).setOrigin(0);
     gameStateBattle.firstStrikeDisplayFront = this.add.rectangle(250, 30, 700, 50, 0x000000).setOrigin(0);
     gameStateBattle.firstStrike = this.add.text(250+10, 30+10, ``, {
       fontSize: '40px',
       fill: '#fff',
-      align: 'right',
+      align: 'left',
     });
     if (runaway){
       gameStateBattle.firstStrike.setText('You got first strike!')
@@ -757,6 +758,7 @@ var BattleScene = new Phaser.Class({
         gameStateBattle.firstStrikeDisplayFront.visible = false;
         gameStateBattle.firstStrike.visible = false;
       }, 3000);
+      */
   },
   update: function() {
     if (!settingDepth) { //sets depth according to y value except during attacks when we use custom depths
@@ -862,11 +864,14 @@ var BattleScene = new Phaser.Class({
     gameStateBattle.damageText.scaleY -= .005
   },
   startBattle: function() {
+    console.log(`start battle`)
+    /*
     if (gameStateBattle.firstStrike){
+      console.log(`launch first strike test`)
       if (runaway){
-        gameStateBattle.firstStrike.setText('You got first strike!')
+        gameStateBattle.firstStrike.setText('Jew got first strike!')
       } else {
-        gameStateBattle.firstStrike.setText('They got first strike!')
+        gameStateBattle.firstStrike.setText('Jew got first strike!')
       }
         gameStateBattle.firstStrikeDisplay.visible = true;
         gameStateBattle.firstStrikeDisplayFront.visible = true;
@@ -877,6 +882,7 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.firstStrike.visible = false;
         }, 3000);
     }
+    */
 
     numberOfPlayers = 1
     if (trevor.following) {
@@ -1283,8 +1289,7 @@ var BattleScene = new Phaser.Class({
     bossBattle = false;
     worldTheme = 'light';
   },
-  wake: function() {
-    //display first strike dialogue
+  wake: function() {      //this never seems to get called sommehow
       //set hp for party
     gameStateBattle.me.hp = hpObject["Mac"]
     if (bennett.joinParameter && bennett.following) {
