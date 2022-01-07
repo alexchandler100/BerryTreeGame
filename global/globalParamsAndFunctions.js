@@ -233,13 +233,13 @@ let set4 = new Set([]);
 let gameOver = false;
 
 const enemsForChasers = [
-  ['crackhead', 'crackheadright', 'crackheadleft', .13, 60, 80, 80],
-  ['ex_junkie', 'ex_junkieright', 'ex_junkieleft', .2, 60, 80, 80],
-  ['junkie', 'junkieright', 'junkieleft', .2, 60, 80, 80],
-  ['fratboy1', 'frat1right', 'frat1left', .16, 60, 80, 80],
-  ['fratboy2', 'frat2right', 'frat2left', .15, 60, 80, 80],
-  ['fratboy3', 'frat3right', 'frat3left', .17, 60, 80, 80],
-  ['fratboy4', 'frat4right', 'frat4left', .14, 60, 80, 80],
+  ['crackhead', 'crackheadright', 'crackheadleft', .13, 60, 80, 105],
+  ['ex_junkie', 'ex_junkieright', 'ex_junkieleft', .2, 60, 80, 105],
+  ['junkie', 'junkieright', 'junkieleft', .2, 60, 80, 105],
+  ['fratboy1', 'frat1right', 'frat1left', .16, 60, 80, 105],
+  ['fratboy2', 'frat2right', 'frat2left', .15, 60, 80, 105],
+  ['fratboy3', 'frat3right', 'frat3left', .17, 60, 80, 105],
+  ['fratboy4', 'frat4right', 'frat4left', .14, 60, 80, 105],
 ]
 const battleScale = {
   'dio': 1.5,

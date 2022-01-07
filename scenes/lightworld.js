@@ -631,7 +631,6 @@ var LightWorld = new Phaser.Class({
     //loading tilesets and tilemaps
     this.load.image("tuxmon-tiles", "assets/tilesets/tuxmon-sample-32px.png");
     this.load.image("elTiles", "assets/tilesets/el_tileset_custom.png");
-    this.load.image("buildingTiles", "assets/tilesets/buildings_custom.png");
     this.load.image("elTiles2", "assets/tilesets/[Base]BaseChip_pipo.png");
     this.load.image("carTiles", "assets/tilesets/car_tiles.png");
     this.load.tilemapTiledJSON("map", "assets/east_lansing.json");
@@ -859,10 +858,10 @@ var LightWorld = new Phaser.Class({
     });
     const tileset1 = map.addTilesetImage("tuxmon-sample-32px", "tuxmon-tiles");
     const tileset2 = map.addTilesetImage("el_tileset_custom", "elTiles")
-    const tileset33 = map.addTilesetImage("buildings_custom", "buildingTiles")
     const tileset22 = map.addTilesetImage("[Base]BaseChip_pipo", "elTiles2")
     const tileset3 = map.addTilesetImage("car_tiles", "carTiles");
     const below = map.createStaticLayer("Below2", tileset2, 0, 0);
+    const belowBottoms = map.createStaticLayer("Below1", tileset2, 0, 0);
     const buildingtops = map.createStaticLayer("BuildingTops", tileset1, 0, 0);
 
     //defining NPC paths
@@ -2149,7 +2148,6 @@ var LightWorld = new Phaser.Class({
 
     //spawning map layers which are under player and npcs (should this be static? fix needed...)
     const world = map.createDynamicLayer("World", tileset1, 0, 0);
-    const world3 = map.createDynamicLayer("World3", tileset33, 0, 0);
     const world2 = map.createDynamicLayer("World2", tileset22, 0, 0);
     const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
 
@@ -2331,24 +2329,27 @@ var LightWorld = new Phaser.Class({
 
     //spawning layers which are above the player
     const above = map.createStaticLayer("Above", tileset2, 0, 0);
-    above.setDepth(100000)
+    above.setDepth(100001)
+
+    //spawning layers which are above the player
+    const buildingsAbove = map.createStaticLayer("BuildingsAbove", tileset1, 0, 0);
+    buildingsAbove.setDepth(100000)
 
     // Collisions. Note: must create a boolean for tiles in Tiled called ''collides'' in the tileset editor and set collides = 'true'
+    belowBottoms.setCollisionByProperty({
+      collides: true
+    });
     world.setCollisionByProperty({
       collides: true
     });
     world2.setCollisionByProperty({
       collides: true
     });
-    world3.setCollisionByProperty({
-      collides: true
-    });
+
     cars.setCollisionByProperty({
       collides: true
     });
-    above.setCollisionByProperty({
-      collides: true
-    });
+
 
 
     //followers colliding
@@ -2387,8 +2388,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(me, blonde);
     this.physics.add.collider(me, world);
     this.physics.add.collider(me, world2);
-    this.physics.add.collider(me, world3);
-    this.physics.add.collider(me, above);
+    this.physics.add.collider(me, belowBottoms);
     this.physics.add.collider(me, cars);
     this.physics.add.collider(me, ball);
     this.physics.add.collider(me, volleyball);
@@ -2402,7 +2402,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(grls, me);
     this.physics.add.collider(grls, world);
     this.physics.add.collider(grls, world2);
-    this.physics.add.collider(grls, world3);
+    this.physics.add.collider(grls, belowBottoms);
     this.physics.add.collider(grls, cars);
     this.physics.add.collider(grls, trevor);
     this.physics.add.collider(grls, ball);
@@ -2413,7 +2413,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(fratboys, me);
     this.physics.add.collider(fratboys, world);
     this.physics.add.collider(fratboys, world2);
-    this.physics.add.collider(fratboys, world3);
+    this.physics.add.collider(fratboys, belowBottoms);
     this.physics.add.collider(fratboys, cars);
     this.physics.add.collider(fratboys, trevor);
     this.physics.add.collider(fratboys, ball);
@@ -2422,18 +2422,17 @@ var LightWorld = new Phaser.Class({
     //colliders for world
     this.physics.add.collider(oghomeboy, world);
     this.physics.add.collider(oghomeboy, world2);
-    this.physics.add.collider(oghomeboy, world3);
     this.physics.add.collider(world, world);
     this.physics.add.collider(world2, world2);
+    this.physics.add.collider(belowBottoms, ball);
+    this.physics.add.collider(belowBottoms, volleyball);
     this.physics.add.collider(world, ball);
     this.physics.add.collider(world2, ball);
-    this.physics.add.collider(world3, ball);
     this.physics.add.collider(world, volleyball);
     this.physics.add.collider(world2, volleyball);
-    this.physics.add.collider(world3, volleyball);
     this.physics.add.collider(world, beachball);
     this.physics.add.collider(world2, beachball);
-    this.physics.add.collider(world3, beachball);
+    this.physics.add.collider(belowBottoms, beachball);
     this.physics.add.collider(oghomeboy, ball);
     this.physics.add.collider(oghomeboy, volleyball);
     this.physics.add.collider(cars, ball);
@@ -2444,7 +2443,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(bennett, volleyball)
     this.physics.add.collider(bennett, world)
     this.physics.add.collider(bennett, world2)
-    this.physics.add.collider(bennett, world3)
+    this.physics.add.collider(bennett, belowBottoms)
     this.physics.add.collider(bennett, cars)
     this.physics.add.collider(bennett, jon)
 
@@ -2453,7 +2452,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(stripper, volleyball)
     this.physics.add.collider(stripper, world)
     this.physics.add.collider(stripper, world2)
-    this.physics.add.collider(stripper, world3)
+    this.physics.add.collider(stripper, belowBottoms)
     this.physics.add.collider(stripper, cars)
     this.physics.add.collider(stripper, jon)
 
@@ -2461,74 +2460,61 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(jeanClaude, me)
     this.physics.add.collider(jeanClaude, world)
     this.physics.add.collider(jeanClaude, world2)
-    this.physics.add.collider(jeanClaude, world3)
+    this.physics.add.collider(jeanClaude, belowBottoms)
     this.physics.add.collider(jeanClaude, cars)
 
     //colliders for trevor
     this.physics.add.collider(trevor, ball)
-    this.physics.add.collider(trevor, above)
     this.physics.add.collider(trevor, volleyball)
     this.physics.add.collider(trevor, world)
     this.physics.add.collider(trevor, world2)
-    this.physics.add.collider(trevor, world3)
+    this.physics.add.collider(trevor, belowBottoms)
     this.physics.add.collider(trevor, cars)
     this.physics.add.collider(trevor, jon)
 
     //colliders for joe
     this.physics.add.collider(joe, ball)
-    this.physics.add.collider(joe, above)
     this.physics.add.collider(joe, volleyball)
     this.physics.add.collider(joe, world)
     this.physics.add.collider(joe, world2)
-    this.physics.add.collider(joe, world3)
+    this.physics.add.collider(joe, belowBottoms)
     this.physics.add.collider(joe, cars)
     this.physics.add.collider(joe, jon)
 
     //colliders for jon
     this.physics.add.collider(jon, ball)
-    this.physics.add.collider(jon, above)
     this.physics.add.collider(jon, volleyball)
     this.physics.add.collider(jon, world)
     this.physics.add.collider(jon, world2)
-    this.physics.add.collider(jon, world3)
+    this.physics.add.collider(jon, belowBottoms)
     this.physics.add.collider(jon, cars)
 
     //colliders for al
     this.physics.add.collider(al, world)
-    this.physics.add.collider(al, above)
     this.physics.add.collider(al, world2)
-    this.physics.add.collider(al, world3)
+    this.physics.add.collider(al, belowBottoms)
     this.physics.add.collider(al, cars)
 
     //colliders for james
     this.physics.add.collider(james, ball)
     this.physics.add.collider(james, volleyball)
-    this.physics.add.collider(james, above)
     this.physics.add.collider(james, world)
     this.physics.add.collider(james, world2)
-    this.physics.add.collider(james, world3)
+    this.physics.add.collider(james, belowBottoms)
     this.physics.add.collider(james, cars)
     this.physics.add.collider(james, jon)
 
     //colliders for car
     this.physics.add.collider(car, world)
     this.physics.add.collider(car, world2)
-    this.physics.add.collider(car, world3)
-    this.physics.add.collider(car, above)
-
+    this.physics.add.collider(car, belowBottoms)
 
     //colliders for chasersGroup
-    this.physics.add.collider(chasersGroup, above)
-
     this.physics.add.collider(chasersGroup, world)
     this.physics.add.collider(chasersGroup, world2)
-    this.physics.add.collider(chasersGroup, world3)
+    this.physics.add.collider(chasersGroup, belowBottoms)
     this.physics.add.collider(chasersGroup, cars)
     this.physics.add.collider(chasersGroup, ball)
-
-    //colliders for above
-    this.physics.add.collider(volleyball, above)
-    this.physics.add.collider(ball, above)
 
     //setting world bounds and setting objects to collide with world bounds
     this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true, true, true, true);
@@ -2660,7 +2646,7 @@ var LightWorld = new Phaser.Class({
         me.angle = 0;
         me.setScale(.16);
         me.body.setSize(70, 90);
-        me.body.setOffset(60, 100);
+        me.body.setOffset(60, 105);
         if (bennett.following) {
           bennett.enableBody(true, me.x + 30, me.y, true, true);
         }
@@ -2820,7 +2806,7 @@ var LightWorld = new Phaser.Class({
         me.angle = 0;
         me.setScale(.16);
         me.body.setSize(70, 90);
-        me.body.setOffset(60, 100);
+        me.body.setOffset(60, 105);
         if (bennett.following) {
           bennett.enableBody(true, me.x + 30, me.y, true, true);
         }
@@ -3026,7 +3012,7 @@ var LightWorld = new Phaser.Class({
       me.angle = 0;
       me.setScale(.16);
       me.body.setSize(70, 90);
-      me.body.setOffset(60, 100);
+      me.body.setOffset(60, 105);
       hpObject["Mac"] = 1
       if (bennett.following) {
         bennett.enableBody(true, me.x + 30, me.y, true, true);
@@ -3328,8 +3314,8 @@ var LightWorld = new Phaser.Class({
     } else if (inPool === false) {
       gameState.swimNoise.stop()
       swimNoisePlaying = false
-      me.body.setSize(70, 90);
-      me.body.setOffset(60, 100);
+      me.body.setSize(70, 90);         //this sets the general size and offset for player(probably not the best way to organize but it is what it is)
+      me.body.setOffset(60, 108);
     }
 
     if (speed === 1 && walkNoisePlaying === false && (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 > 40) {
