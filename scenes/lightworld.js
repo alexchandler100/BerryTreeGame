@@ -2351,8 +2351,6 @@ var LightWorld = new Phaser.Class({
       collides: true
     });
 
-
-
     //followers colliding
     this.physics.add.collider(trevor, al);
     this.physics.add.collider(trevor, jeanClaude);

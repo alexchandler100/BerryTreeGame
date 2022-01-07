@@ -979,7 +979,6 @@ var MyApartment = new Phaser.Class({
         this.scene.sleep("PoolScore");
         me.x = gameState.clubhouse731BR.x - 16;
         me.y = gameState.clubhouse731BR.y - 100;
-        console.log(`switched to lightworld from clubhouse 731 entrance`)
       }
       //switch to light world from clubhouse burcham woods entrance
       else if (meApt.x > gameState.clubhouseInsideWoodsEntrance.x - 30 && meApt.x < gameState.clubhouseInsideWoodsEntrance.x + 30 && meApt.y > gameState.clubhouseInsideWoodsEntrance.y - 30 && meApt.y < gameState.clubhouseInsideWoodsEntrance.y + 30) {
@@ -988,7 +987,6 @@ var MyApartment = new Phaser.Class({
         this.scene.sleep("PoolScore");
         me.x = gameState.clubhousewoodsTL.x + 20;
         me.y = gameState.clubhousewoodsTL.y + 35;
-        console.log(`switched to lightworld from clubhouse burcham woods entrance`)
       } else if (distance(meApt, gameStateApt.elevatorUpstairs) < 60) {
         meApt.x = gameStateApt.elevatorDownstairs.x
         meApt.y = gameStateApt.elevatorDownstairs.y
@@ -1013,7 +1011,6 @@ var MyApartment = new Phaser.Class({
           this.cameras.main.fadeIn(1000, 0, 0, 0)
         }, 1000);
         if (!stripperApt.following) {
-          console.log(`shes not following`)
           window.setTimeout(() => {
             sleepyText = this.add.text(meApt.x - 100, meApt.y - 150, 'You feel well rested', {
               fontSize: '30px',
@@ -1046,7 +1043,6 @@ var MyApartment = new Phaser.Class({
           }, 6000);
 
         }
-
       }
       //get keyboard
       else if (meApt.x > gameState.bed.x - 150 && meApt.x < gameState.bed.x - 50 && meApt.y > gameState.bed.y + 50 && meApt.y < gameState.bed.y + 150) {
@@ -1068,7 +1064,7 @@ var MyApartment = new Phaser.Class({
 
     if (stripperApt.following) {
       stripperApt.follow(meApt, .55);
-      stripperApt.animate(5)
+      stripperApt.animate(5);
       if (stripperApt.body.velocity.x > 3) {
         stripperApt.flipX = true;
       } else if (stripperApt.body.velocity.x < -3) {
