@@ -1889,62 +1889,11 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
-      key: 'leftwalk',
-      frames: this.anims.generateFrameNumbers('me', {
-        start: 1,
-        end: 2
-      }),
-      frameRate: 4,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'leftrun',
-      frames: this.anims.generateFrameNumbers('me', {
-        start: 3,
-        end: 4
-      }),
-      frameRate: 6,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'leftsprint',
-      frames: this.anims.generateFrameNumbers('me', {
-        start: 3,
-        end: 4
-      }),
-      frameRate: 9,
-      repeat: -1
-    });
-
-    this.anims.create({
       key: 'rightwalk',
       frames: this.anims.generateFrameNumbers('me', {
-        start: 27,
-        end: 31
-      }),
-      frameRate: 8,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'rightrun',
-      frames: this.anims.generateFrameNumbers('me', {
-        start: 7,
-        end: 8
+        frames: [27, 28, 29, 30, 31, 30, 29, 28]
       }),
       frameRate: 6,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'rightsprint',
-      frames: this.anims.generateFrameNumbers('me', {
-        start: 7,
-        end: 8
-      }),
-      frameRate: 11,
       repeat: -1
     });
 
@@ -2010,6 +1959,15 @@ var LightWorld = new Phaser.Class({
       }),
       frameRate: 5,
       repeat: 0
+    });
+
+    this.anims.create({
+      key: 'bouncing',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [9,10,11,12,13,14,13,12,11,10]
+      }),
+      frameRate: 10,
+      repeat: -1
     });
 
     this.anims.create({

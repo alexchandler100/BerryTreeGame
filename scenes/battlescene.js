@@ -454,9 +454,11 @@ var Unit = new Phaser.Class({
     }
     if (gatorade >= 1) {
       if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('drink_gatorade', true);
         window.setTimeout(() => {
-          gameStateBattle.me.anims.play('leftwalk', true);
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
         }, 2999);
       } else if (this.type === "Jimmy") {
         gameStateBattle.trevor.anims.play('trevor_drink_gatorade', true);
@@ -485,9 +487,11 @@ var Unit = new Phaser.Class({
     }
     if (monster >= 1) {
       if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('drink_monster', true);
         window.setTimeout(() => {
-          gameStateBattle.me.anims.play('leftwalk', true);
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
         }, 2999);
       } else if (this.type === "Jimmy") {
         gameStateBattle.trevor.anims.play('trevor_drink_monster', true);
@@ -514,9 +518,11 @@ var Unit = new Phaser.Class({
     }
     if (maxice >= 1) {
       if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('drink_monster', true);
         window.setTimeout(() => {
-          gameStateBattle.me.anims.play('leftwalk', true);
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
         }, 2999);
       } else if (this.type === "Jimmy") {
         gameStateBattle.trevor.anims.play('trevor_drink_monster', true);
@@ -577,9 +583,11 @@ var Unit = new Phaser.Class({
     }
     if (hamms >= 1) {
       if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('drink_hamms', true);
         window.setTimeout(() => {
-          gameStateBattle.me.anims.play('leftwalk', true);
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
         }, 2999);
       } else if (this.type === "Jimmy") {
         gameStateBattle.trevor.anims.play('trevor_drink_hamms', true);
@@ -949,12 +957,10 @@ var BattleScene = new Phaser.Class({
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)
       gameStateBattle.enem1 = new Enemy(this, 450, 250, enems[rr][0], null, enems[rr][1], enems[rr][2] + 15 * (levelObject['Mac'] - 1), enems[rr][3] + Math.floor(enems[rr][3] / 4) * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem1);
-
       if (set1.size === 2) {
         gameStateBattle.enem2 = new Enemy(this, 400, 300, enems[ss][0], null, enems[ss][1], enems[ss][2] + 15 * (levelObject['Mac'] - 1), enems[ss][3] + Math.floor(enems[ss][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem2);
       }
-
       if (set2.size === 3 && numberOfPlayers >= 2) {
         gameStateBattle.enem3 = new Enemy(this, 350, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (levelObject['Mac'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem3);
@@ -1052,7 +1058,8 @@ var BattleScene = new Phaser.Class({
     }
 
     //animations for sprites
-    gameStateBattle.me.anims.play('leftwalk', true);
+    gameStateBattle.me.anims.play('bouncing', true);
+    //gameStateBattle.me.flipX = true;
     if (al.following) {
       gameStateBattle.al.anims.play('alleft', true);
     }
@@ -1366,6 +1373,7 @@ var BattleScene = new Phaser.Class({
       if (this.units[this.index].type === "Mac") {
         r = Math.floor(Math.random() * 4);
         if (r === 0) {
+          gameStateBattle.me.flipX = false;
           gameStateBattle.me.anims.play('attack_improved', false);
           //setting locations and depths for each hit
           gameStateBattle.me.x = this.aliveEnemies[target].x + 80
@@ -1385,6 +1393,7 @@ var BattleScene = new Phaser.Class({
             gameState.bodyhit.play();
           }, 1000);
         } else if (r === 1) {
+          gameStateBattle.me.flipX = false;
           gameStateBattle.me.anims.play('attack_improved2', false);
           //setting locations and depths for each hit
           gameStateBattle.me.x = this.aliveEnemies[target].x + 80
@@ -1404,6 +1413,7 @@ var BattleScene = new Phaser.Class({
             gameState.bodyhit.play();
           }, 1000);
         } else if (r === 2) {
+          gameStateBattle.me.flipX = false;
           gameStateBattle.me.anims.play('attack_improved3', false);
           //setting locations and depths for each hit
           gameStateBattle.me.x = this.aliveEnemies[target].x + 80
@@ -1423,6 +1433,7 @@ var BattleScene = new Phaser.Class({
             gameState.bodyhit.play();
           }, 1000);
         } else if (r === 3) {
+          gameStateBattle.me.flipX = false;
           gameStateBattle.me.anims.play('attack_improved4', false);
           //setting locations and depths for each hit
           gameStateBattle.me.x = this.aliveEnemies[target].x + 75
@@ -1446,7 +1457,8 @@ var BattleScene = new Phaser.Class({
         window.setTimeout(() => {
           gameStateBattle.me.x = 850
           gameStateBattle.me.y = 250
-          gameStateBattle.me.anims.play('leftwalk', true);
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
         }, 2999);
       } else if (this.units[this.index].type === "Al") {
         gameStateBattle.al.x = this.aliveEnemies[target].x + 200
@@ -1502,6 +1514,7 @@ var BattleScene = new Phaser.Class({
         this.units[this.index].special(this.aliveEnemies[target])
         gameStateBattle.me.x = this.aliveEnemies[target].x + 80;
         gameStateBattle.me.y = this.aliveEnemies[target].y;
+        gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('special_combo', false);
         gameStateBattle.me.setDepth(this.aliveEnemies[target].y + 1)
         //front front back front front back
@@ -1533,7 +1546,8 @@ var BattleScene = new Phaser.Class({
         window.setTimeout(() => {
           gameStateBattle.me.x = 850;
           gameStateBattle.me.y = 250;
-          gameStateBattle.me.anims.play('leftwalk', true);
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
         }, 3500);
       } else { // if you dont have enough SP, go again
         this.scene.scene.events.emit("Message", "Shiiiit you ain't got the SP for that shiit");
@@ -1543,6 +1557,7 @@ var BattleScene = new Phaser.Class({
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Fuck Everybody Up (8)') {
       if (spObject['Mac'] >= 8) {
         spObject['Mac'] -= 8
+        gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('fuck_everybody_up', false);
         /*
         for (let i=0;i<6;i++){
@@ -1559,7 +1574,8 @@ var BattleScene = new Phaser.Class({
         window.setTimeout(() => {
           gameStateBattle.me.x = 850;
           gameStateBattle.me.y = 250;
-          gameStateBattle.me.anims.play('leftwalk', true);
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
         }, 3500);
       } else { // if you dont have enough SP, go again
         this.scene.scene.events.emit("Message", "Shiiiit you ain't got the SP for that shiit");
