@@ -896,7 +896,8 @@ var BattleScene = new Phaser.Class({
     }
     console.log(`numberofplayers ${numberOfPlayers}`)
     //enemies
-    const enems = [
+
+    let enems = [
       ['crackhead', 'Crackhead', 1, 15, crackhead, 'crackheadright'],
       ['ex_junkie', 'Ex Junkie', 30, 8, ex_junkie, 'ex_junkieright'],
       ['junkie', 'Junkie', 40, 8, junkie, 'junkieright'],
@@ -905,6 +906,14 @@ var BattleScene = new Phaser.Class({
       ['fratboy3', 'Frat Boy 3', 30, 8, fratboy3, 'frat3right'],
       ['fratboy4', 'Frat Boy 4', 20, 10, fratboy4, 'frat4right'],
     ]
+
+    /*
+    enems=[];  //to get a specific enemy
+    for (let i=0; i<7 ;i++){
+      enems.push(['crackhead', 'Crackhead', 1, 15, crackhead, 'crackheadright'])
+  }
+    */
+
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
     } else if (bossBattle && (bossType === 'fratboy2prime')) {
@@ -1346,6 +1355,7 @@ var BattleScene = new Phaser.Class({
       }
       this.units[this.index].liquor()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Attack') {
+      //attack animations
       window.setTimeout(() => { //this is what actually applies damage
         this.units[this.index].attack(this.aliveEnemies[target]);
       }, 1500);
@@ -1716,9 +1726,20 @@ var BattleScene = new Phaser.Class({
           x: JSON.parse(JSON.stringify(this.units[this.index].x)),
           y: JSON.parse(JSON.stringify(this.units[this.index].y))
         };
+        //attack locations for enemies
         if (this.units[this.index].type === "Crackhead" && crackheadJoin) {
           this.units[this.index].x = this.enemies[r].x - 70;
           this.units[this.index].y = this.enemies[r].y;
+        } else if (this.units[this.index].type === "Crackhead" && !crackheadJoin) {
+          settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
+          this.units[this.index].setScale(.85)
+          window.setTimeout(() => {
+            settingDepth = false;
+            this.units[this.index].setScale(1)
+          }, 2000);
+          this.units[this.index].setDepth(this.heroes[r].y - 1)
+          this.units[this.index].x = this.heroes[r].x-20;
+          this.units[this.index].y = this.heroes[r].y+5;
         } else {
           this.units[this.index].x = this.heroes[r].x - 70;
           this.units[this.index].y = this.heroes[r].y;

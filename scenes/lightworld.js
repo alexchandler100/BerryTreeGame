@@ -496,8 +496,8 @@ var LightWorld = new Phaser.Class({
       });
     this.load.spritesheet('crackhead',
       'assets/crackhead.png', {
-        frameWidth: 300,
-        frameHeight: 320
+        frameWidth: 165,
+        frameHeight: 176
       });
     this.load.spritesheet('ex_junkie',
       'assets/ex_junkie.png', {
@@ -1238,22 +1238,11 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
-      key: 'crackheadleft',
-      frames: this.anims.generateFrameNumbers('crackhead', {
-        start: 3,
-        end: 4
-      }),
-      frameRate: 2,
-      repeat: -1
-    });
-
-    this.anims.create({
       key: 'crackheadright',
       frames: this.anims.generateFrameNumbers('crackhead', {
-        start: 1,
-        end: 2
+        frames: [1,2,3,2]
       }),
-      frameRate: 2,
+      frameRate: 4,
       repeat: -1
     });
 
@@ -1270,10 +1259,10 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'crackheadattack',
       frames: this.anims.generateFrameNumbers('crackhead', {
-        start: 5,
-        end: 5
+        start: 4,
+        end: 7
       }),
-      frameRate: 1,
+      frameRate: 4,
       repeat: 0
     });
 
@@ -2225,6 +2214,10 @@ var LightWorld = new Phaser.Class({
       child.setOffset(110, 80);
     });
 
+    crackhead.setScale(.25);
+    crackhead.setCircle(30);
+    crackhead.setOffset(60, 60);
+
     //fratboy2
     fratboy2prime = fratboys.create(Fratboy2PrimeSpawnPoint.x, Fratboy2PrimeSpawnPoint.y, 'fratboy2prime');
     fratboy2prime.setScale(.14)
@@ -2940,6 +2933,10 @@ var LightWorld = new Phaser.Class({
       //chasersEnabled = false;
       //runaway = false;
     }
+    //fratboys ai
+    fratboys.children.iterate(function(child) {
+      child.setDepth(child.y);
+    });
     chasersGroup.children.iterate(function(child) {
       child.setDepth(child.y);
     });
@@ -4306,10 +4303,12 @@ var LightWorld = new Phaser.Class({
     //ai for crackhead
     if (distance(crackhead, me) < 1000) {
       if (crackhead.body.velocity.x > 5) {
-        crackhead.anims.play('crackheadright', true)
+        crackhead.anims.play('crackheadright', true);
+        crackhead.flipX = false;
       }
       if (crackhead.body.velocity.x < -5) {
-        crackhead.anims.play('crackheadleft', true)
+        crackhead.anims.play('crackheadright', true);
+        crackhead.flipX = true;
       }
       if (distance(me, crackhead) < 30 && crackheadFirstTalk === 0) {
         if (!activeQuests["Crackhead wants some change"]) {

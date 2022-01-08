@@ -236,8 +236,9 @@ let set3 = new Set([]);
 let set4 = new Set([]);
 let gameOver = false;
 
+// it goes [name, right anim, left anim, scale, circle size, offsetX, offsetY]
 const enemsForChasers = [
-  ['crackhead', 'crackheadright', 'crackheadleft', .13, 60, 80, 105],
+  ['crackhead', 'crackheadright', 'crackheadright', .25, 30, 60, 60],
   ['ex_junkie', 'ex_junkieright', 'ex_junkieleft', .2, 60, 80, 105],
   ['junkie', 'junkieright', 'junkieleft', .2, 60, 80, 105],
   ['fratboy1', 'frat1right', 'frat1left', .16, 60, 80, 105],
@@ -246,8 +247,8 @@ const enemsForChasers = [
   ['fratboy4', 'frat4right', 'frat4left', .14, 60, 80, 105],
 ]
 const battleScale = {
-  'dio': 1.5,
-  'me': .55 * 1.4,
+  'me': .77,
+  'trevor': .67,
   'al': .5 * 1.4,
   'james': .4 * 1.4,
   'jon': .55 * 1.4,
@@ -257,14 +258,14 @@ const battleScale = {
   'girl2': 1.2 * 1.4,
   'girl3': 1.2 * 1.4,
   'girl4': 1.2 * 1.4,
-  'crackhead': .4 * 1.4,
+  'crackhead': 1,
   'ex_junkie': .63 * 1.4,
   'junkie': .63 * 1.4,
   'fratboy1': .55 * 1.4,
   'fratboy2': .5 * 1.4,
   'fratboy3': .59 * 1.4,
   'fratboy4': .45 * 1.4,
-  'trevor': .48 * 1.4,
+  'dio': 1.5,
 }
 
 const overworldScale = {
