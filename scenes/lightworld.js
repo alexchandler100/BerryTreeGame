@@ -2224,8 +2224,8 @@ var LightWorld = new Phaser.Class({
     //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").x+10
     //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").y+10
     //to spawn at fratboy2primestab
-    gameState.PlayerSpawnPoint.x=Fratboy2PrimeSpawnPoint.x
-    gameState.PlayerSpawnPoint.y=Fratboy2PrimeSpawnPoint.y-50
+    //gameState.PlayerSpawnPoint.x=Fratboy2PrimeSpawnPoint.x
+    //gameState.PlayerSpawnPoint.y=Fratboy2PrimeSpawnPoint.y-50
 
     me = this.physics.add.sprite(gameState.PlayerSpawnPoint.x, gameState.PlayerSpawnPoint.y, 'me');
     me.setScale(.17);
