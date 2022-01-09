@@ -348,6 +348,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('spray', ['assets/spray.mp3']);
     this.load.audio('smack', ['assets/smack.wav']);
     this.load.audio('bodyhit', ['assets/bodyhit.wav']);
+    this.load.audio('throw', ['assets/throw.mp3']);
     this.load.audio('bichon_bark', ['assets/bichon_bark.wav']);
     this.load.audio('airsoft', ['assets/airsoft.wav']);
     this.load.audio('punch', ['assets/punch.wav']);
@@ -491,7 +492,7 @@ var LightWorld = new Phaser.Class({
       });
     this.load.spritesheet('junkie',
       'assets/junkie.png', {
-        frameWidth: 200,
+        frameWidth: 130,
         frameHeight: 200
       });
     this.load.spritesheet('crackhead',
@@ -506,17 +507,18 @@ var LightWorld = new Phaser.Class({
       });
     this.load.spritesheet('fratboy1',
       'assets/fratboy1.png', {
-        frameWidth: 300,
+        frameWidth: 165,
         frameHeight: 250
       });
     this.load.spritesheet('fratboy2',
       'assets/fratboy2.png', {
-        frameWidth: 300,
+        frameWidth: 140,
         frameHeight: 250
       });
+
     this.load.spritesheet('fratboy3',
       'assets/fratboy3.png', {
-        frameWidth: 300,
+        frameWidth: 150,
         frameHeight: 250
       });
     this.load.spritesheet('fratboy4',
@@ -652,6 +654,9 @@ var LightWorld = new Phaser.Class({
     gameState.swimNoise.loop = true;
     gameState.bodyhit = this.sound.add('bodyhit', {
       volume: 1
+    });
+    gameState.throw = this.sound.add('throw', {
+      volume: 1.5
     });
     gameState.bark = this.sound.add('bichon_bark', {
       volume: .8
@@ -1267,20 +1272,10 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
-      key: 'junkieleft',
-      frames: this.anims.generateFrameNumbers('junkie', {
-        start: 3,
-        end: 4
-      }),
-      frameRate: 4,
-      repeat: -1
-    });
-
-    this.anims.create({
       key: 'junkieright',
       frames: this.anims.generateFrameNumbers('junkie', {
-        start: 1,
-        end: 2
+        start: 0,
+        end: 3
       }),
       frameRate: 4,
       repeat: -1
@@ -1299,10 +1294,9 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'junkieattack',
       frames: this.anims.generateFrameNumbers('junkie', {
-        start: 5,
-        end: 5
+        frames: [4,5,6,6,4]
       }),
-      frameRate: 1,
+      frameRate: 6,
       repeat: 0
     });
 
@@ -1347,22 +1341,12 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
-      key: 'frat1left',
-      frames: this.anims.generateFrameNumbers('fratboy1', {
-        start: 1,
-        end: 2
-      }),
-      frameRate: 4,
-      repeat: -1
-    });
-
-    this.anims.create({
       key: 'frat1right',
       frames: this.anims.generateFrameNumbers('fratboy1', {
-        start: 3,
+        start: 1,
         end: 4
       }),
-      frameRate: 4,
+      frameRate: 5,
       repeat: -1
     });
 
@@ -1379,28 +1363,26 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'frat1attack',
       frames: this.anims.generateFrameNumbers('fratboy1', {
-        start: 5,
-        end: 5
+        frames: [5,4]
       }),
-      frameRate: 5,
+      frameRate: 2,
       repeat: 0
     });
 
     this.anims.create({
-      key: 'frat2left',
-      frames: this.anims.generateFrameNumbers('fratboy2', {
-        start: 1,
-        end: 2
+      key: 'frat1jump',
+      frames: this.anims.generateFrameNumbers('fratboy1', {
+        frames: [6,7,8,9,10,9,8,7]
       }),
-      frameRate: 3,
+      frameRate: 8,
       repeat: -1
     });
 
     this.anims.create({
       key: 'frat2right',
       frames: this.anims.generateFrameNumbers('fratboy2', {
-        start: 3,
-        end: 4
+        start: 1,
+        end: 2
       }),
       frameRate: 3,
       repeat: -1
@@ -1419,30 +1401,19 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'frat2attack',
       frames: this.anims.generateFrameNumbers('fratboy2', {
-        start: 5,
-        end: 5
+        frames: [3,0]
       }),
       frameRate: 1,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'frat3left',
-      frames: this.anims.generateFrameNumbers('fratboy3', {
-        start: 1,
-        end: 2
-      }),
-      frameRate: 3,
-      repeat: -1
+      repeat: 0
     });
 
     this.anims.create({
       key: 'frat3right',
       frames: this.anims.generateFrameNumbers('fratboy3', {
-        start: 3,
+        start: 1,
         end: 4
       }),
-      frameRate: 3,
+      frameRate: 5,
       repeat: -1
     });
 
@@ -1460,10 +1431,10 @@ var LightWorld = new Phaser.Class({
       key: 'frat3attack',
       frames: this.anims.generateFrameNumbers('fratboy3', {
         start: 5,
-        end: 5
+        end: 8
       }),
-      frameRate: 1,
-      repeat: -1
+      frameRate: 6,
+      repeat: 0
     });
 
     this.anims.create({
@@ -2149,15 +2120,15 @@ var LightWorld = new Phaser.Class({
     for (let i = 0; i < enemsForChasers.length; i++) {
       chasers[i] = chasersGroup.create(1200 + 100, 600 + 300, enemsForChasers[i][0]);
       chasers[i].disableBody(true, true);
-      chasers[i].setScale(enemsForChasers[i][3])
-      chasers[i].body.setCircle(enemsForChasers[i][4]);
-      chasers[i].body.setOffset(enemsForChasers[i][5], enemsForChasers[i][6]);
+      chasers[i].setScale(enemsForChasers[i][2])
+      chasers[i].body.setCircle(enemsForChasers[i][3]);
+      chasers[i].body.setOffset(enemsForChasers[i][4], enemsForChasers[i][5]);
     }
 
     //fratboys
     fratboys = this.physics.add.group()
 
-    crackhead = fratboys.create(gameState.fratboy1SpawnPoint.x - 100, gameState.fratboy1SpawnPoint.y - 2000, 'crackhead');
+    //crackhead = fratboys.create(gameState.fratboy1SpawnPoint.x - 100, gameState.fratboy1SpawnPoint.y - 2000, 'crackhead');
     ex_junkie = fratboys.create(gameState.fratboy1SpawnPoint.x - 100, gameState.fratboy1SpawnPoint.y + 200, 'ex_junkie');
     junkie = fratboys.create(gameState.fratboy1SpawnPoint.x + 100, gameState.fratboy1SpawnPoint.y - 200, 'junkie');
     fratboy1 = fratboys.create(gameState.fratboy1SpawnPoint.x, gameState.fratboy1SpawnPoint.y, 'fratboy1');
@@ -2171,6 +2142,8 @@ var LightWorld = new Phaser.Class({
       child.setCircle(40);
       child.setOffset(110, 80);
     });
+
+    crackhead = new NPC(this, "crackhead spawn point", "crackhead", 0, "Crackhead", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "punch", false);
 
     crackhead.setScale(.25);
     crackhead.setCircle(30);
@@ -2251,8 +2224,8 @@ var LightWorld = new Phaser.Class({
     //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").x+10
     //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left").y+10
     //to spawn at fratboy2primestab
-    //gameState.PlayerSpawnPoint.x=Fratboy2PrimeSpawnPoint.x
-    //gameState.PlayerSpawnPoint.y=Fratboy2PrimeSpawnPoint.y-50
+    gameState.PlayerSpawnPoint.x=Fratboy2PrimeSpawnPoint.x
+    gameState.PlayerSpawnPoint.y=Fratboy2PrimeSpawnPoint.y-50
 
     me = this.physics.add.sprite(gameState.PlayerSpawnPoint.x, gameState.PlayerSpawnPoint.y, 'me');
     me.setScale(.17);
@@ -2955,7 +2928,7 @@ var LightWorld = new Phaser.Class({
     } else if (playerTexture === 0 && speed === 4 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
       stamina -= .05
     } else if (playerTexture === 'race' && speed === 4 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
-      stamina -= .07
+      stamina -= .09
     } else if (playerTexture === 0 && speed === 1 || me.body.velocity.x ** 2 + me.body.velocity.y ** 2 < 100 ** 2 && pause === false) {
       stamina += .16
     }
@@ -3594,8 +3567,10 @@ var LightWorld = new Phaser.Class({
     for (let i = 0; i < enemsForChasers.length; i++) {
       if (chasers[i].body.velocity.x > 5) {
         chasers[i].anims.play(enemsForChasers[i][1], true)
+        chasers[i].flipX=false;
       } else if (chasers[i].body.velocity.x < 5) {
-        chasers[i].anims.play(enemsForChasers[i][2], true)
+        chasers[i].anims.play(enemsForChasers[i][1], true)
+        chasers[i].flipX=true;
       }
     }
 
@@ -4086,7 +4061,7 @@ var LightWorld = new Phaser.Class({
 
     //ai for trevor
     if (distance(trevor, me) < 1000) {
-      if (distance(trevor, ball) > 400 && trevor.following === false) {
+      if (distance(trevor, ball) > 800 && trevor.following === false) {
         trevor.disableBody(true, true)
         trevor.enableBody(true, ball.x + Phaser.Math.FloatBetween(-150, 150), ball.y + Phaser.Math.FloatBetween(-100, 100), true, true);
       }
@@ -4106,7 +4081,7 @@ var LightWorld = new Phaser.Class({
         if (keepaway > keepawayHighScore) {
           keepawayHighScore = keepaway
         }
-        if (keepaway>5){
+        if (keepaway>100){
           if (keepaway < 500){
             gameStateNav.scoreGotten.setText(`       You got ${keepaway} points.`)
           } else if (keepaway >500 && keepaway <1000){
@@ -4259,15 +4234,15 @@ var LightWorld = new Phaser.Class({
     });
 
     //ai for crackhead
-    if (distance(crackhead, me) < 1000) {
-      if (crackhead.body.velocity.x > 5) {
-        crackhead.anims.play('crackheadright', true);
-        crackhead.flipX = false;
-      }
-      if (crackhead.body.velocity.x < -5) {
-        crackhead.anims.play('crackheadright', true);
-        crackhead.flipX = true;
-      }
+    crackhead.animate(5)
+    if (crackhead.body.velocity.x > 5) {
+      crackhead.flipX = false;
+    }
+    if (crackhead.body.velocity.x < -5) {
+      crackhead.flipX = true;
+    }
+    if (!crackhead.following){
+      crackhead.randomWalk(1)
       if (distance(me, crackhead) < 30 && crackheadFirstTalk === 0) {
         if (!activeQuests["Crackhead wants some change"]) {
           activeQuests["Crackhead wants some change"] = 'That one crackhead wants some money. He says he needs 10 bucks. Maybe if I give it to him, he will help me out instead of attacking me all the time...'
@@ -4281,6 +4256,7 @@ var LightWorld = new Phaser.Class({
           initializePage(this)
           let page = fetchPage(2002)
           displayPage(this, page)
+          crackhead.joinParameter = true;
         } else {
           initializePage(this)
           let page = fetchPage(2000)
@@ -4290,15 +4266,20 @@ var LightWorld = new Phaser.Class({
       } else if (distance(me, crackhead) > 50 && crackheadFirstTalk === 1) {
         crackheadFirstTalk = 0
       }
+    } else if (crackhead.following){
+      crackhead.follow(me,1)
     }
+
 
     //ai for junkie
     if (distance(junkie, me) < 1000) {
       if (junkie.body.velocity.x > 5) {
         junkie.anims.play('junkieright', true)
+        junkie.flipX = false;
       }
       if (junkie.body.velocity.x < 5) {
-        junkie.anims.play('junkieleft', true)
+        junkie.anims.play('junkieright', true)
+        junkie.flipX = true;
       }
     }
 
@@ -4316,9 +4297,11 @@ var LightWorld = new Phaser.Class({
     if (distance(fratboy1, me) < 1000) {
       if (fratboy1.body.velocity.x > 5) {
         fratboy1.anims.play('frat1right', true)
+        fratboy1.flipX = false;
       }
       if (fratboy1.body.velocity.x < 5) {
-        fratboy1.anims.play('frat1left', true)
+        fratboy1.anims.play('frat1right', true)
+        fratboy1.flipX = true;
       }
       if (distance(me, fratboy1) < 30 && fratboy1FirstTalk === 0) {
         initializePage(this)
@@ -4332,9 +4315,11 @@ var LightWorld = new Phaser.Class({
     if (distance(fratboy2, me) < 1000) {
       if (fratboy2.body.velocity.x > 5) {
         fratboy2.anims.play('frat2right', true)
+        fratboy2.flipX = false;
       }
       if (fratboy2.body.velocity.x < 5) {
-        fratboy2.anims.play('frat2left', true)
+        fratboy2.anims.play('frat2right', true)
+        fratboy2.flipX = true;
       }
 
       if (distance(me, fratboy2) < 30 && fratboy2FirstTalk === 0) {
@@ -4350,9 +4335,11 @@ var LightWorld = new Phaser.Class({
     if (distance(fratboy3, me) < 1000) {
       if (fratboy3.body.velocity.x > 5) {
         fratboy3.anims.play('frat3right', true)
+        fratboy3.flipX = false;
       }
       if (fratboy3.body.velocity.x < 5) {
-        fratboy3.anims.play('frat3left', true)
+        fratboy3.anims.play('frat3right', true)
+        fratboy3.flipX = true;
       }
 
       if (distance(me, fratboy3) < 30 && fratboy3FirstTalk === 0) {

@@ -1478,7 +1478,7 @@ const pages = [
   {
     character: 'me',
     page: 2002,
-    narrative: `Melvin: My man, helpin a brotha out. Tell you what man I got yo back now.`,
+    narrative: `Melvin: My man, helpin a brotha out. Tell you what man I got yo back now. (Melvin Joins your party... well kind of... click on Melvin to follow you)`,
     options: [{
       option: 'Hell yeah',
       nextPage: undefined,

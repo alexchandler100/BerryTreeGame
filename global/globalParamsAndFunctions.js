@@ -107,6 +107,12 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let mohawkBounceTimer = 0;
+let mohawkStartingYValue = 0;
+let throwingMohawkTarget = []
+let throwingMohawk = false
+let fallingMohawk = false
+let throwingAngle = 0
 let firstStrikeDisplay = false
 let showKickTheBallScore = false;
 let chaserClock = 0;
@@ -199,7 +205,7 @@ let randomEncounterRewards = {
 
 let animObject = {
   "Dio": ['diofloat', 'dioslash'],
-  "Frat Boy 1": ['frat1right', 'frat1attack'],
+  "Frat Boy 1": ['frat1jump', 'frat1attack'],
   "Frat Boy 2": ['frat2right', 'frat2attack'],
   "Frat Boy 3": ['frat3right', 'frat3attack'],
   "Frat Boy 4": ['frat4right', 'frat4attack'],
@@ -215,7 +221,7 @@ let sfxObject = {
   "Dio": "slash",
   "Frat Boy 1": "bodyhit",
   "Frat Boy 2": "spray",
-  "Frat Boy 3": "bodyhit",
+  "Frat Boy 3": "throw",
   "Frat Boy 4": "shatter",
   "Crackhead": "bitenoise",
   "Junkie": "stabnoise",
@@ -236,15 +242,15 @@ let set3 = new Set([]);
 let set4 = new Set([]);
 let gameOver = false;
 
-// it goes [name, right anim, left anim, scale, circle size, offsetX, offsetY]
+// it goes [name, right anim, scale, circle size, offsetX, offsetY]
 const enemsForChasers = [
-  ['crackhead', 'crackheadright', 'crackheadright', .25, 30, 60, 60],
-  ['ex_junkie', 'ex_junkieright', 'ex_junkieleft', .2, 60, 80, 105],
-  ['junkie', 'junkieright', 'junkieleft', .2, 60, 80, 105],
-  ['fratboy1', 'frat1right', 'frat1left', .16, 60, 80, 105],
-  ['fratboy2', 'frat2right', 'frat2left', .15, 60, 80, 105],
-  ['fratboy3', 'frat3right', 'frat3left', .17, 60, 80, 105],
-  ['fratboy4', 'frat4right', 'frat4left', .14, 60, 80, 105],
+  ['crackhead', 'crackheadright', .25, 30, 60, 60],
+  ['ex_junkie', 'ex_junkieright', .2, 60, 80, 105],
+  ['junkie', 'junkieright', .2, 60, 80, 105],
+  ['fratboy1', 'frat1right', .16, 60, 80, 105],
+  ['fratboy2', 'frat2right', .15, 60, 80, 105],
+  ['fratboy3', 'frat3right', .17, 60, 80, 105],
+  ['fratboy4', 'frat4right', .14, 60, 80, 105],
 ]
 const battleScale = {
   'me': .77,
@@ -332,6 +338,10 @@ const sizeAndOffset = {
     offset: [60, 100]
   },
   'jeanClaude': {
+    size: [64, 64],
+    offset: [60, 100]
+  },
+  'crackhead': {
     size: [64, 64],
     offset: [60, 100]
   },

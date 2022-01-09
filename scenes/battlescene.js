@@ -698,10 +698,69 @@ var BattleScene = new Phaser.Class({
         frameWidth: 50,
         frameHeight: 50
       });
+      this.load.spritesheet('pepperSpray',
+        'assets/pepperSpray.png', {
+          frameWidth: 200,
+          frameHeight: 80
+        });
+        this.load.spritesheet('airsoft',
+          'assets/airsoft.png', {
+            frameWidth: 50,
+            frameHeight: 30
+          });
+          this.load.spritesheet('mohawk',
+            'assets/mohawk.png', {
+              frameWidth: 25,
+              frameHeight: 55
+            });
+
     //this.load.image(`background1`, 'assets/burcham_battle.png');
   },
   create: function() {
-    //bleeding animation
+
+    //battle animation
+
+    this.anims.create({
+      key: 'throw',
+      frames: this.anims.generateFrameNumbers('mohawk', {
+        start: 0,
+        end: 0
+      }),
+      frameRate: 1,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'break',
+      frames: this.anims.generateFrameNumbers('mohawk', {
+        start: 1,
+        end: 1
+      }),
+      frameRate: 1,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'spray',
+      frames: this.anims.generateFrameNumbers('pepperSpray', {
+        start: 0,
+        end: 9
+      }),
+      frameRate: 10,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'airsoftShoot',
+      frames: this.anims.generateFrameNumbers('airsoft', {
+        start: 0,
+        end: 15
+      }),
+      frameRate: 10,
+      repeat: 0
+    });
+
+
     this.anims.create({
       key: 'bleedingfast',
       frames: this.anims.generateFrameNumbers('bleeding', {
@@ -728,7 +787,12 @@ var BattleScene = new Phaser.Class({
     //use uiscene functions
     this.UIScene = this.scene.get("UIScene");
 
+
     //status effects create
+    airsoft = this.physics.add.sprite(-50, -50, 'airsoft').setDepth(1000).setScale(4);
+    spray = this.physics.add.sprite(-50, -50, 'pepperSpray').setDepth(1000);
+    mohawk = this.physics.add.sprite(-50, -50, 'mohawk').setDepth(1000);
+
     macX = this.add.image(-50, -50, 'blinded');
     macBleed = this.physics.add.sprite(-50, -50, 'bleeding');
     macBleed.anims.play('bleedingfast', true)
@@ -769,6 +833,34 @@ var BattleScene = new Phaser.Class({
       */
   },
   update: function() {
+    if (throwingMohawk){
+      console.log(1-(mohawkStartingYValue - mohawk.y)/(mohawkStartingYValue))
+      mohawk.setScale(1-(mohawkStartingYValue - mohawk.y)/(mohawkStartingYValue))
+      mohawk.setFrame(0)
+      //mohawk.anims.play('throw',true)
+      mohawk.x+=8*Math.cos(throwingAngle)
+      mohawk.y+=8*Math.sin(throwingAngle)
+      mohawk.angle+=16
+      if (Math.abs(mohawk.x-throwingMohawkTarget[0].x)<10){
+        gameState.shatter.play();
+        throwingMohawk = false;
+        fallingMohawk = true;
+      }
+    } else if (fallingMohawk){
+      mohawkBounceTimer+=1
+      throwingMohawkTarget=[]
+      //mohawk.anims.play('break',true)
+      mohawk.setFrame(1)
+      mohawk.x+=5
+      mohawk.y+=3*(-50+mohawkBounceTimer*3)/50
+      mohawk.angle-=4
+      window.setTimeout(() => {
+        mohawkBounceTimer=0
+        fallingMohawk = false
+        mohawk.x=-50
+        mohawk.y=-50
+      }, 1000);
+    }
     if (!settingDepth) { //sets depth according to y value except during attacks when we use custom depths
       for (let i = 0; i < this.units.length; i++) {
         this.units[i].setDepth(this.units[i].y)
@@ -909,18 +1001,20 @@ var BattleScene = new Phaser.Class({
       ['crackhead', 'Crackhead', 1, 15, crackhead, 'crackheadright'],
       ['ex_junkie', 'Ex Junkie', 30, 8, ex_junkie, 'ex_junkieright'],
       ['junkie', 'Junkie', 40, 8, junkie, 'junkieright'],
-      ['fratboy1', 'Frat Boy 1', 65, 8, fratboy1, 'frat1right'],
+      ['fratboy1', 'Frat Boy 1', 65, 8, fratboy1, 'frat1jump'],
       ['fratboy2', 'Frat Boy 2', 20, 8, fratboy2, 'frat2right'],
-      ['fratboy3', 'Frat Boy 3', 30, 8, fratboy3, 'frat3right'],
+      ['fratboy3', 'Frat Boy 3', 30, 11, fratboy3, 'frat3right'],
       ['fratboy4', 'Frat Boy 4', 20, 10, fratboy4, 'frat4right'],
     ]
 
-    /*
+/*
     enems=[];  //to get a specific enemy
     for (let i=0; i<7 ;i++){
-      enems.push(['crackhead', 'Crackhead', 1, 15, crackhead, 'crackheadright'])
+      enems.push(['fratboy3', 'Frat Boy 3', 30, 8, fratboy3, 'frat3right'])
   }
-    */
+  */
+
+
 
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
@@ -1461,11 +1555,16 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.me.anims.play('bouncing', true);
         }, 2999);
       } else if (this.units[this.index].type === "Al") {
-        gameStateBattle.al.x = this.aliveEnemies[target].x + 200
-        gameStateBattle.al.y = this.aliveEnemies[target].y
+        airsoft.x = this.aliveEnemies[target].x + 100
+        airsoft.y = this.aliveEnemies[target].y + 20
+        airsoft.anims.play('airsoftShoot',true);
+        gameStateBattle.al.x = this.aliveEnemies[target].x + 260
+        gameStateBattle.al.y = this.aliveEnemies[target].y + 20
         gameStateBattle.al.anims.play('alattack', false);
         gameState.airsoft.play();
         window.setTimeout(() => {
+          airsoft.x = -50
+          airsoft.y = -50
           gameStateBattle.al.x = 800
           gameStateBattle.al.y = 300
           gameStateBattle.al.anims.play('alleft', true);
@@ -1734,7 +1833,14 @@ var BattleScene = new Phaser.Class({
         // if you paid crackhead 10 he will attack his own teammates
         if (this.units[this.index].type === "Crackhead" && crackheadJoin) {
           r = Math.floor(Math.random() * this.enemies.length);
-          this.units[this.index].attack(this.enemies[r]);
+          if (this.enemies[r].type==="Crackhead"){
+            if (this.enemies.length===1){
+              this.endBattleVictory();
+            }
+            console.log(`rolled self-attack`)
+          } else {
+            this.units[this.index].attack(this.enemies[r]);
+          }
         } else {
           this.units[this.index].attack(this.heroes[r]);
         }
@@ -1744,8 +1850,15 @@ var BattleScene = new Phaser.Class({
         };
         //attack locations for enemies
         if (this.units[this.index].type === "Crackhead" && crackheadJoin) {
-          this.units[this.index].x = this.enemies[r].x - 70;
-          this.units[this.index].y = this.enemies[r].y;
+          settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
+          this.units[this.index].setScale(.85)
+          window.setTimeout(() => {
+            settingDepth = false;
+            this.units[this.index].setScale(1)
+          }, 2000);
+          this.units[this.index].setDepth(this.enemies[r].y - 1)
+          this.units[this.index].x = this.enemies[r].x-20;
+          this.units[this.index].y = this.enemies[r].y+5;
         } else if (this.units[this.index].type === "Crackhead" && !crackheadJoin) {
           settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
           this.units[this.index].setScale(.85)
@@ -1756,7 +1869,55 @@ var BattleScene = new Phaser.Class({
           this.units[this.index].setDepth(this.heroes[r].y - 1)
           this.units[this.index].x = this.heroes[r].x-20;
           this.units[this.index].y = this.heroes[r].y+5;
-        } else {
+        } else if (this.units[this.index].type === "Frat Boy 1") {
+          settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
+          window.setTimeout(() => {
+            settingDepth = false;
+          }, 2000);
+          this.units[this.index].setDepth(this.heroes[r].y + 1)
+          this.units[this.index].x = this.heroes[r].x-50;
+          this.units[this.index].y = this.heroes[r].y-15;
+        } else if (this.units[this.index].type === "Frat Boy 2") {
+          this.units[this.index].x = this.heroes[r].x-210;
+          this.units[this.index].y = this.heroes[r].y-15;
+          spray.x = this.heroes[r].x-60;
+          spray.y = this.heroes[r].y- 50;
+          spray.anims.play('spray',true)
+          window.setTimeout(() => {
+            spray.x = -50
+            spray.y = -50
+          }, 2000);
+        } else if (this.units[this.index].type === "Frat Boy 3") {
+          window.setTimeout(() => {
+            mohawkStartingYValue = this.units[this.index].y-50;
+            throwingMohawk = true;
+            throwingMohawkTarget.push(this.heroes[r])
+            throwingAngle = Math.atan((this.heroes[r].y-this.units[this.index].y)/(this.heroes[r].x-this.units[this.index].x))
+            mohawk.x = this.units[this.index].x;
+            mohawk.y = this.units[this.index].y-50;
+          }, 300);
+          window.setTimeout(() => {
+            throwingMohawk = false;
+          }, 3000);
+        } else if (this.units[this.index].type === "Junkie") {
+          settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
+          window.setTimeout(() => {
+            settingDepth = false;
+            this.units[this.index].setScale(1);
+          }, 2000);
+          this.units[this.index].setDepth(this.heroes[r].y - 1)
+          this.units[this.index].x = this.heroes[r].x-120;
+          this.units[this.index].y = this.heroes[r].y;
+          window.setTimeout(() => {
+            this.units[this.index].setScale(.85)
+            this.units[this.index].x = this.heroes[r].x - 35;
+            this.units[this.index].y = this.heroes[r].y - 25;
+          }, 300);
+          window.setTimeout(() => {
+            this.units[this.index].x = this.heroes[r].x - 80;
+            this.units[this.index].y = this.heroes[r].y - 25;
+          }, 1000);
+        }else {
           this.units[this.index].x = this.heroes[r].x - 70;
           this.units[this.index].y = this.heroes[r].y;
         }
@@ -1775,6 +1936,8 @@ var BattleScene = new Phaser.Class({
           gameState.stabnoise.play();
         } else if (sfxObject[this.units[this.index].type] == 'shatter') {
           gameState.shatter.play();
+        } else if (sfxObject[this.units[this.index].type] == 'throw') {
+          gameState.throw.play();
         }
 
         window.setTimeout(() => {
@@ -1939,7 +2102,6 @@ var UIScene = new Phaser.Class({
 
     // basic container to hold all menus
     this.menus = this.add.container();
-
     this.heroesMenu = new HeroesMenu(1000 - 195, 500 - 50, this);
     this.actionsMenu = new ActionsMenu(600 - 195, 500 - 50, this);
     this.enemiesMenu = new EnemiesMenu(200 - 195, 500 - 50, this);
@@ -1953,7 +2115,6 @@ var UIScene = new Phaser.Class({
     this.menus.add(this.enemiesMenu);
 
     this.battleScene = this.scene.get("BattleScene");
-
     // listen for keyboard events
     this.input.keyboard.on("keydown", this.onKeyInput, this);
 
