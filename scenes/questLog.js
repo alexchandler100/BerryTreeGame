@@ -73,8 +73,13 @@ var QuestLog = new Phaser.Class({
     let itemCount10=0;
     for (questTitle of Object.keys(activeQuests)) {
         itemCount10+=1;
-        gameState10.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0xb39c0e).setOrigin(0,0).setInteractive()
-        gameState10.newItem[questTitle].name=questTitle
+        if (currentQuest === questTitle){
+          gameState10.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0x33ff00).setOrigin(0,0).setInteractive()
+          gameState10.newItem[questTitle].name=questTitle
+        } else {
+          gameState10.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0xb39c0e).setOrigin(0,0).setInteractive()
+          gameState10.newItem[questTitle].name=questTitle
+        }
         if (questTitle.length<13){
           gameState10.activeQuestDisplay[questTitle] = this.add.text(xcoord10+15, ycoord10+25, questTitle, {
             fontSize: '25px',
@@ -118,16 +123,29 @@ var QuestLog = new Phaser.Class({
     gameState10.tempText.visible=false;
 
     this.input.on('pointerover', function (pointer, justOver) {
-        gameState10.tempBackground.x=pointer.x;
-        gameState10.tempBackground.y=pointer.y-50;
-        gameState10.tempBackground.visible=true;
-        gameState10.tempText.visible=true;
-        gameState10.tempText.setText(activeQuests[justOver[0].name]);
-        gameState10.tempText.x=gameState10.tempBackground.x;
-        gameState10.tempText.y=gameState10.tempBackground.y;
-        gameState10.tempBackground.width=gameState10.tempText.width;
-        gameState10.tempBackground.height=gameState10.tempText.height;
+        if (justOver[0].name){
+          gameState10.tempBackground.x=pointer.x;
+          gameState10.tempBackground.y=pointer.y-50;
+          gameState10.tempBackground.visible=true;
+          gameState10.tempText.visible=true;
+          gameState10.tempText.setText(activeQuests[justOver[0].name]);
+          gameState10.tempText.x=gameState10.tempBackground.x;
+          gameState10.tempText.y=gameState10.tempBackground.y;
+          gameState10.tempBackground.width=gameState10.tempText.width;
+          gameState10.tempBackground.height=gameState10.tempText.height;
+        }
   });
+
+  this.input.on('pointerup', function (pointer,justOver) {
+    if (justOver[0].name){
+      currentQuest = justOver[0].name
+      console.log(gameState.questLocations[currentQuest])
+      this.scene.stop();
+      scene_number = 2;
+      pause = false
+      launchParameter = false;
+    }
+}, this);
 
   this.input.on('pointerout', function (pointer, justOut) {
       gameState10.tempText.visible=false;

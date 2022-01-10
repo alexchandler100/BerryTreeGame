@@ -99,9 +99,20 @@ const pages = [
   {
     character: 'me',
     page: 5,
-    narrative: "Alright, got my wallet and my phone at least. Got about 3.50 in here. Plus now I can use GPS... not that I need to... I fucking live here. Now where the fuck are my keys at?",
+    narrative: "Alright, got my wallet and my phone at least. Got about 3.50 in here. Plus now I can use GPS (click the phone icon to toggle GPS). Now where the fuck are my keys at?",
     options: [{
         option: 'In the woods?',
+        nextPage: 8888,
+      },
+    ]
+  },
+
+  {
+    character: 'me',
+    page: 8888,
+    narrative: "(To use your gps, just click on a quest in your quest log to activate that quest. If you open your GPS, it will lead you in the direction needed for that quest.)",
+    options: [{
+        option: 'Damnnnnnnn!!!',
         nextPage: undefined,
         aftermath: openQuestLog
       },

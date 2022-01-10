@@ -16,6 +16,9 @@ let activeQuests = {
 let completedQuests = {
   'Wake Up': 'Well you did do one thing so far. Good job.',
 }
+
+// it goes ['name', 'tiled object name for location']
+let currentQuest = 'Find Your Shit'
 let gettingHitByCar = false;
 let blondeTalk=false;
 let carCrashDialogue = false;
@@ -107,6 +110,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let pointerScale = 1;
 let overworldClock = 0;
 let mohawkBounceTimer = 0;
 let mohawkStartingYValue = 0;
