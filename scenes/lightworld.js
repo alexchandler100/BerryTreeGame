@@ -71,6 +71,10 @@ var NPC = new Phaser.Class({
     this.down = down;
     this.dialogue = dialogue;
     this.position = 0;
+    this.stuck = false;
+    this.stuckTimer = 0;
+    this.stuckTimerStart = false;
+    this.stuckTimerOngoing = false;
     this.changeDirection = false;
     this.setInteractive().on('pointerup', function() {
       if (this.following === false && this.joinParameter) {
@@ -94,18 +98,17 @@ var NPC = new Phaser.Class({
   },
   // to follow player and join party
   follow: function(player, strength = 1) {
-    if (this.following && inPool === false) {
+    if (this.following && !this.stuck && inPool === false) {
       if (distance(this.body, player) > 20) {
         this.body.velocity.x = (player.x - this.body.x) * strength
         this.body.velocity.y = (player.y - this.body.y) * strength
       }
-    } else if (this.following && inPool) {
+    } else if (this.following && !this.stuck && inPool) {
       this.body.velocity.x = (beachball.x - this.body.x) * 2
       this.body.velocity.y = (beachball.y - this.body.y) * 2
     }
   },
   randomWalk: function randomWalk(strength = 1) {
-    if (this.following === false) {
       this.body.velocity.x += Phaser.Math.FloatBetween(-strength, strength);
       this.body.velocity.y += Phaser.Math.FloatBetween(-strength, strength);
 
@@ -113,10 +116,9 @@ var NPC = new Phaser.Class({
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
       }
-    }
   },
   chase: function(thing2, strength = 1.2, offset = 0) { //makes thing1 chase thing2 with strength and offset
-    if (this.following === false) {
+    if (this.following === false && !this.stuck ) {
       if (this.x > thing2.x + offset) {
         if (this.body.velocity.x > 0) {
           this.body.velocity.x = 0
@@ -146,23 +148,68 @@ var NPC = new Phaser.Class({
   speak: function(audioName) {
     dialogue.audioName.play()
   },
-  getUnstuck: function(strength = 1) {
-    if (this.body.blocked.up) {
-      this.body.velocity.x += Phaser.Math.FloatBetween(-strength, strength);
-      this.body.velocity.y -= strength
+  getUnstuck: function(strength = 5) {
+    if ((this.body.blocked.up || this.body.blocked.down || this.body.blocked.right || this.body.blocked.left) && (!this.stuckTimerStart && !this.stuckTimerOngoing)){
+      this.stuck = true;
+      this.stuckTimerStart = true;
     }
-    if (this.body.blocked.down) {
-      this.body.velocity.x += Phaser.Math.FloatBetween(-strength, strength);
-      this.body.velocity.y += strength
+    if (this.stuckTimerStart){
+      this.stuckTimerStart = false
+      this.stuckTimerOngoing = true
     }
-    if (this.body.blocked.left) {
-      this.body.velocity.x += strength
-      this.body.velocity.y += Phaser.Math.FloatBetween(-strength, strength);
+    if (this.stuckTimerOngoing){
+      this.stuckTimer+=1
     }
-    if (this.body.blocked.right) {
-      this.body.velocity.x -= strength
-      this.body.velocity.y += Phaser.Math.FloatBetween(-strength, strength);
+    if (this.stuckTimer>=50 && this.body.velocity.x**2+this.body.velocity.y**2>50){
+      this.stuck = false;
+      this.stuckTimerOngoing = false;
+      this.stuckTimer = 0
     }
+
+
+    console.log(`stuck: ${this.stuck}`)
+
+
+      if (this.body.blocked.up) {
+        let direction = me.x - this.x;
+        if (direction>0){
+          this.x += strength
+        } else if (direction<=0){
+          this.x -= strength
+        }
+      }
+      if (this.body.blocked.down) {
+        let direction = me.x - this.x;
+        if (direction>0){
+          console.log(`moving to the right`)
+          this.x += strength
+        } else if (direction<=0){
+          this.x -= strength
+          console.log(`moving to the left`)
+        }
+      }
+      if (this.body.blocked.left) {
+        let direction = me.y - this.y;
+        if (direction>0){
+          this.y += strength
+        } else if (direction<=0){
+          this.y -= strength
+        }
+      }
+      if (this.body.blocked.right) {
+        let direction = me.y - this.y;
+        if (direction>0){
+          this.y += strength
+        } else if (direction<=0){
+          this.y -= strength
+        }
+      } else if (this.stuck){
+        let directionX = me.x-this.x;
+        let directionY = me.y-this.y
+        this.body.velocity.x = -directionY
+        this.body.velocity.y = directionX
+      }
+
   },
   animate: function(thresh = 10) {
     this.setDepth(this.y)
@@ -354,6 +401,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('punch', ['assets/punch.wav']);
     this.load.audio('stabnoise', ['assets/stabnoise.wav']);
     this.load.audio('shatter', ['assets/shatter.mp3']);
+    this.load.audio('mohawkGround', ['assets/mohawkGround.mp3']);
     this.load.audio('bitenoise', ['assets/bitenoise.wav']);
     this.load.audio('battle1', ['assets/battle1.wav']);
     this.load.audio('battle2', ['assets/battle2.wav']);
@@ -686,6 +734,9 @@ var LightWorld = new Phaser.Class({
       volume: .8
     });
     gameState.shatter = this.sound.add('shatter', {
+      volume: .8
+    });
+    gameState.mohawkGround = this.sound.add('mohawkGround', {
       volume: .8
     });
     gameState.bitenoise = this.sound.add('bitenoise', {
@@ -2612,7 +2663,7 @@ var LightWorld = new Phaser.Class({
         flowers.disableBody(true, true);
         flowersGet = 1;
         gameState.itemget.play()
-        this.message.x = me.x;
+        this.message.x = me.x-200;
         this.message.y = me.y;
         items.push("Flowers")
         this.scene.scene.events.emit("Message", "You found some flowers", me.x, me.y);
@@ -2850,6 +2901,23 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    //global time
+    overworldClock+=1;
+    //console.log(trevor.body.blocked.up || trevor.body.blocked.down || trevor.body.blocked.right || trevor.body.blocked.left)
+    /*
+    if (overworldClock%60===0){
+      if (trevor.body.blocked.up){
+        console.log(`trevor blocked up`)
+      } else if (trevor.body.blocked.right){
+        console.log(`trevor blocked right`)
+      } else if (trevor.body.blocked.down){
+        console.log(`trevor blocked down`)
+      } else if (trevor.body.blocked.left){
+        console.log(`trevor blocked left`)
+      }
+    }
+    */
+
     if (!pause && chasersEnabled){
       if (chaserClock%60===0){
           console.log(`Chaser Clock: ${chaserClock/60}`)
@@ -3612,7 +3680,7 @@ var LightWorld = new Phaser.Class({
 
     //ai for jeanClaude
     if (!jeanClaude.following) {
-      jeanClaude.getUnstuck()
+      //jeanClaude.getUnstuck()
       //seemed to just be getting her stuck strangely enough...
       followPath(jeanClaude, jeanPath, 205)
       //stripper.randomWalk()
@@ -3656,7 +3724,7 @@ var LightWorld = new Phaser.Class({
 
     //ai for stripper
     if (!stripper.following) {
-      stripper.getUnstuck()
+      //stripper.getUnstuck()
       //seemed to just be getting her stuck strangely enough...
       followPath(stripper, stripperPath, 30)
       //stripper.randomWalk()
@@ -3927,7 +3995,7 @@ var LightWorld = new Phaser.Class({
 
     //ai for james
     james.animate(40);
-    james.getUnstuck();
+    //james.getUnstuck();
     followPath(james, jamesPath, 125)
 
     if (distance(me, james) < 30 && jamesFirstTalk === 0) {
@@ -3951,7 +4019,7 @@ var LightWorld = new Phaser.Class({
     }
     if (distance(joe, me) < 1000) {
       joe.animate();
-      joe.getUnstuck();
+      //joe.getUnstuck();
       if (!trevor.following) {
         followPath(joe, joePath, 75)
       }
@@ -3999,7 +4067,7 @@ var LightWorld = new Phaser.Class({
 
 
     //ai for al
-    al.getUnstuck();
+    //al.getUnstuck();
     al.follow(me, 1.2);
     al.animate(3)
     if (!al.following) {
@@ -4068,7 +4136,7 @@ var LightWorld = new Phaser.Class({
       trevor.follow(me, 1)
       trevor.animate(5);
       trevor.chase(ball, 1.4); ////use 1.1 for laptop and 1.4 for desktop (I think because my macbook has faster refresh rate)
-      trevor.getUnstuck()
+      //trevor.getUnstuck()
       //increases keepaway high score whenever not paused
       if (trevor.following === false && distance(me, ball) < 300 && distance(trevor, ball) > 30 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
         if (!pause){
@@ -4224,7 +4292,7 @@ var LightWorld = new Phaser.Class({
     fratboys.children.iterate(function(child) {
       if (distance(child, me) < 1000) {
         if (child !== fratboy2prime && child !== fratboy5) {
-          getUnstuck(child)
+          //getUnstuck(child)
           randomWalk(child)
         }
         if (distance(child, me) < 400 && child !== fratboy2prime && child !== fratboy5) {

@@ -289,33 +289,33 @@ var Unit = new Phaser.Class({
   },
   // attack the target unit
   attack: function(target) {
+    gameStateBattle.rnd = Math.floor(Math.random() * 10);
     if (defendOn[this.type]) {
       defendOn[this.type] = false
     }
     let extra_damage;
     let dd;
-    let rnd = Math.floor(Math.random() * 10)
-    console.log(`rnd: ${rnd}`)
+    console.log(`gameStateBattle.rnd: ${gameStateBattle.rnd}`)
     // decrease chance of landing if stamina is low
     if (stamina <= 30 && Object.keys(hpObject).includes(this.type)) {
-      rnd -= 2
+      gameStateBattle.rnd -= 2
     }
-    //since blinding is OP, we are decreasing rnd so fratboy2 is less likely to land (may have to adjust the value)
+    //since blinding is OP, we are decreasing gameStateBattle.rnd so fratboy2 is less likely to land (may have to adjust the value)
     if (this.type === "Frat Boy 2") {
-      rnd -= 3
+      gameStateBattle.rnd -= 3
     }
     //to decrease likeliness to land hit if blinded
     if (blindObject[this.type]) {
-      rnd = Math.floor(rnd / 3)
+      gameStateBattle.rnd = Math.floor(gameStateBattle.rnd / 3)
       console.log('this hero is blind')
     }
-    if (rnd >= 9) {
+    if (gameStateBattle.rnd >= 9) {
       extra_damage = Math.ceil(this.damage / 2)
     } else {
       extra_damage = Math.ceil(Math.random() * this.damage / 4) - Math.floor(this.damage / 8)
     }
     //this makes it so that if you have the never miss property, you do not miss even if you roll 0
-    if (rnd <= 0 && !neverMissObject[this.type]) {
+    if (gameStateBattle.rnd <= 0 && !neverMissObject[this.type]) {
       dd = 0;
     } else if (defenseObject[target.type]) {
       dd = this.damage - defenseObject[target.type] + extra_damage;
@@ -333,6 +333,7 @@ var Unit = new Phaser.Class({
       if (Object.keys(hpObject).includes(target.type)) {
         d = Math.floor(d * (1.35) ** (numberOfPlayers))
       }
+      window.setTimeout(() => { //this is what actually applies damage
       target.takeDamage(d);
       //if the attacker is fratboy2, and the attack hits, the target is blinded
       if (this.type === "Frat Boy 2" && d > 0) {
@@ -345,9 +346,9 @@ var Unit = new Phaser.Class({
           bleedingObject[target.type] = 3
         }
       }
-      if (rnd >= 9) {
+      if (gameStateBattle.rnd >= 9) {
         this.scene.events.emit("Message", "Critical hit! ");
-      } else if (rnd <= 0 && !neverMissObject[this.type]) {
+      } else if (gameStateBattle.rnd <= 0 && !neverMissObject[this.type]) {
         this.scene.events.emit("Message", this.type + " tries to attack " + target.type + " but fucks it up and misses");
       } else {
         this.scene.events.emit("Message", this.type + " attacks " + target.type);
@@ -359,6 +360,7 @@ var Unit = new Phaser.Class({
       gameStateBattle.damageText.scaleY = 2;
       //tells the little numbers floating above targets head what to display when hit
       this.scene.events.emit("damageIndicator", [target.displayDamage(d), target.x, target.y]);
+      }, 1500);
     }
   },
   attackAnim: function(target) {
@@ -373,17 +375,17 @@ var Unit = new Phaser.Class({
       defendOn[this.type] = false
     }
     let extra_damage = 0
-    let rnd = 0
+    gameStateBattle.rnd = 0
     let dd = 0
     if (critObject[this.type]) {
-      rnd = Math.floor(Math.random() * critObject[this.type])
+      gameStateBattle.rnd = Math.floor(Math.random() * critObject[this.type])
     } else {
-      rnd = Math.floor(Math.random() * 10)
+      gameStateBattle.rnd = Math.floor(Math.random() * 10)
     }
     if (blindObject[this.type]) {
-      rnd = Math.floor(rnd / 3)
+      gameStateBattle.rnd = Math.floor(gameStateBattle.rnd / 3)
     }
-    if (rnd >= 9) {
+    if (gameStateBattle.rnd >= 9) {
       extra_damage = Math.ceil(this.damage / 2)
     } else {
       extra_damage = Math.ceil(Math.random() * this.damage / 4) - Math.floor(this.damage / 8)
@@ -405,7 +407,7 @@ var Unit = new Phaser.Class({
         d *= 1.2
         dam = Math.round(d)
         target.takeDamage(dam);
-        if (rnd >= 9) {
+        if (gameStateBattle.rnd >= 9) {
           this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
         } else {
           this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
@@ -415,7 +417,7 @@ var Unit = new Phaser.Class({
       else if (this.type === 'Al') {
         dam = Math.round(d / 3)
         target.takeDamage(dam);
-        if (rnd >= 9) {
+        if (gameStateBattle.rnd >= 9) {
           this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
         } else {
           this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
@@ -425,7 +427,7 @@ var Unit = new Phaser.Class({
       else if (this.type === 'Jimmy') {
         dam = Math.round(d / 2)
         target.takeDamage(dam);
-        if (rnd >= 9) {
+        if (gameStateBattle.rnd >= 9) {
           this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
         } else {
           this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
@@ -433,7 +435,7 @@ var Unit = new Phaser.Class({
       } else if (this.type === 'Bennett') {
         dam = Math.round(d * 2)
         target.takeDamage(dam);
-        if (rnd >= 9) {
+        if (gameStateBattle.rnd >= 9) {
           this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
         } else {
           this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
@@ -833,7 +835,18 @@ var BattleScene = new Phaser.Class({
       */
   },
   update: function() {
-    if (throwingMohawk){
+    if (throwingMohawk && gameStateBattle.rnd===0){
+      mohawk.setScale(1-(mohawkStartingYValue - mohawk.y)/(mohawkStartingYValue))
+      mohawk.setFrame(0)
+      //mohawk.anims.play('throw',true)
+      mohawk.x+=8*Math.cos(throwingAngle)
+      mohawk.y+=8*Math.sin(throwingAngle)
+      mohawk.angle+=16
+      if (mohawk.x>1500){
+        gameState.shatter.play();
+        throwingMohawk = false;
+      }
+    } else if (throwingMohawk && gameStateBattle.rnd>0){
       console.log(1-(mohawkStartingYValue - mohawk.y)/(mohawkStartingYValue))
       mohawk.setScale(1-(mohawkStartingYValue - mohawk.y)/(mohawkStartingYValue))
       mohawk.setFrame(0)
@@ -845,21 +858,34 @@ var BattleScene = new Phaser.Class({
         gameState.shatter.play();
         throwingMohawk = false;
         fallingMohawk = true;
+        gameStateBattle.randomX = Math.random()*3 + 2;
+        gameStateBattle.signX = (-1)**(Math.floor(Math.random()*2))
+        gameStateBattle.playingMohawkGround = false
       }
-    } else if (fallingMohawk){
+    } else if (fallingMohawk && gameStateBattle.rnd>0){
       mohawkBounceTimer+=1
       throwingMohawkTarget=[]
-      //mohawk.anims.play('break',true)
       mohawk.setFrame(1)
-      mohawk.x+=5
-      mohawk.y+=3*(-50+mohawkBounceTimer*3)/50
+      mohawk.x+=gameStateBattle.signX*gameStateBattle.randomX
+      mohawk.y+=3*(-100+mohawkBounceTimer*6)/100
       mohawk.angle-=4
       window.setTimeout(() => {
-        mohawkBounceTimer=0
-        fallingMohawk = false
+        if (!gameStateBattle.playingMohawkGround){
+          gameState.mohawkGround.play();
+          gameStateBattle.playingMohawkGround = true
+        }
+        mohawkBounceTimer=0;
+        fallingMohawk = false;
+        mohawk.angle = 90;
+        mohawk.setFrame(2);
+      }, 1000);
+      window.setTimeout(() => {
         mohawk.x=-50
         mohawk.y=-50
-      }, 1000);
+      }, 1500);
+      window.setTimeout(() => {
+        gameStateBattle.playingMohawkGround = false
+      }, 2500);
     }
     if (!settingDepth) { //sets depth according to y value except during attacks when we use custom depths
       for (let i = 0; i < this.units.length; i++) {
@@ -1010,11 +1036,9 @@ var BattleScene = new Phaser.Class({
 /*
     enems=[];  //to get a specific enemy
     for (let i=0; i<7 ;i++){
-      enems.push(['fratboy3', 'Frat Boy 3', 30, 8, fratboy3, 'frat3right'])
+      enems.push(['fratboy3', 'Frat Boy 3', 30, 11, fratboy3, 'frat3right'])
   }
   */
-
-
 
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
@@ -1457,9 +1481,7 @@ var BattleScene = new Phaser.Class({
       this.units[this.index].liquor()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Attack') {
       //attack animations
-      window.setTimeout(() => { //this is what actually applies damage
         this.units[this.index].attack(this.aliveEnemies[target]);
-      }, 1500);
       settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
       window.setTimeout(() => {
         settingDepth = false;
@@ -1839,10 +1861,10 @@ var BattleScene = new Phaser.Class({
             }
             console.log(`rolled self-attack`)
           } else {
-            this.units[this.index].attack(this.enemies[r]);
+              this.units[this.index].attack(this.enemies[r]);
           }
         } else {
-          this.units[this.index].attack(this.heroes[r]);
+            this.units[this.index].attack(this.heroes[r]);
         }
         currentXY = {
           x: JSON.parse(JSON.stringify(this.units[this.index].x)),

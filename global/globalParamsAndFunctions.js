@@ -107,6 +107,7 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let overworldClock = 0;
 let mohawkBounceTimer = 0;
 let mohawkStartingYValue = 0;
 let throwingMohawkTarget = []
