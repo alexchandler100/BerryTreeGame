@@ -53,10 +53,8 @@ var NPC = new Phaser.Class({
   initialize: function NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue, joinParameter) {
     let point;
     if (scene_number === 'indoors') {
-      console.log('indoors')
       point = mapApt.findObject("objects", obj => obj.name === spawnPoint);
     } else {
-      console.log('outdoors')
       point = map.findObject("Objects", obj => obj.name === spawnPoint);
     }
     Phaser.GameObjects.Sprite.call(this, scene, point.x, point.y, texture, frame);
@@ -166,10 +164,6 @@ var NPC = new Phaser.Class({
       this.stuckTimer = 0
     }
 
-
-    console.log(`stuck: ${this.stuck}`)
-
-
       if (this.body.blocked.up) {
         let direction = me.x - this.x;
         if (direction>0){
@@ -181,11 +175,9 @@ var NPC = new Phaser.Class({
       if (this.body.blocked.down) {
         let direction = me.x - this.x;
         if (direction>0){
-          console.log(`moving to the right`)
           this.x += strength
         } else if (direction<=0){
           this.x -= strength
-          console.log(`moving to the left`)
         }
       }
       if (this.body.blocked.left) {
@@ -1937,6 +1929,15 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
+    this.anims.create({
+      key: 'meDead',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [25]
+      }),
+      frameRate: 1,
+      repeat: 0
+    });
+
 
     this.anims.create({
       key: 'attack_improved',
@@ -2755,7 +2756,6 @@ var LightWorld = new Phaser.Class({
         scene_number = 'indoors'
         this.scene.switch("MyApartment");
         gameState.music.stop()
-        console.log('switch scene')
         zoom = 1;
       } else if (me.x > gameState.clubhousewoodsTL.x && me.x < gameState.clubhousewoodsBR.x && me.y > gameState.clubhousewoodsTL.y && me.y < gameState.clubhousewoodsBR.y) {
         indoorZone = 'clubhouse woods'
@@ -3791,7 +3791,6 @@ var LightWorld = new Phaser.Class({
 
     //ai for adeline
     if (distance(me, adeline) < 40 && adelineFirstTalk === 0 && trevor.joinParameter && girl2FirstDialogue >= 1) {
-      console.log(`adeline talking`)
       adelineFirstTalk = 1
       initializePage(this)
       let page = fetchPage(3500)

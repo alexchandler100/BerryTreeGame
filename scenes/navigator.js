@@ -20,6 +20,13 @@ var Navigator = new Phaser.Class({
       align: 'right',
       wordWrap: { width: 190 }
     });
+
+    gameStateNav.gatorade = this.add.image(200,50,'gatoradeIcon').setInteractive().setScale(.5);
+    gameStateNav.gatorade.on('pointerup', function() {
+      useItem("Gatorade","Mac");
+      gameState.drinkGatorade.play()
+    }, this);
+
     gameStateNav.gasDisplay = this.add.rectangle(50-2, 100-2, 104, 24, 0xffffff).setOrigin(0);
     gameStateNav.gasDisplayFront = this.add.rectangle(50, 100, 100, 20, 0x2f1e12).setOrigin(0);
     gameStateNav.gasText = this.add.text(50, 80, 'Gas', {
@@ -55,6 +62,11 @@ var Navigator = new Phaser.Class({
     });
   },
   update: function() {
+    if (stamina<=40){
+      gameStateNav.gatorade.visible = true
+    } else{
+      gameStateNav.gatorade.visible = false
+    }
     if (showKickTheBallScore){
       gameStateNav.scoreGotten.visible = true;
       gameStateNav.scoreGottenDisplay.visible = true;

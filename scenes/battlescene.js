@@ -282,6 +282,13 @@ var Unit = new Phaser.Class({
     this.damage = damage;
     this.living = true;
     this.menuItem = null;
+    this.runaway = false;
+    this.running = false;
+  },
+  run: function(){
+    if (this.runaway){
+      this.x-=5
+    }
   },
   // we will use this to notify the menu item when the unit is dead
   setMenuItem: function(item) {
@@ -638,9 +645,19 @@ var Unit = new Phaser.Class({
       this.menuItem.unitKilled();
       this.menuItem = null;
       this.living = false;
-      window.setTimeout(() => {
-        this.visible = false;
-      }, 3000);
+      console.log(`${this.type} has died`)
+      console.log(this.type==="Mac")
+      if (this.type==="Mac"){
+        gameStateBattle.me.anims.play('meDead',true)
+      } else if (this.type==="Frat Boy 3" || this.type==="Frat Boy 2" || this.type==="Frat Boy 1" ||this.type==="Frat Boy 4" ||this.type==="Junkie" ||this.type==="Ex Junkie" || this.type==="Crackhead" ){
+        this.runaway = true
+      }
+        else {
+        window.setTimeout(() => {
+          this.visible = false;
+        }, 3000);
+      }
+
     }
   },
 
@@ -835,6 +852,23 @@ var BattleScene = new Phaser.Class({
       */
   },
   update: function() {
+    //to make enemies run away
+    for (let i=0;i<this.enemies.length;i++){
+      if (this.enemies[i].runaway && this.enemies[i].running===false){
+        console.log(`alert1`)
+        this.enemies[i].running=true
+        this.enemies[i].anims.play(animObject[this.enemies[i].type][0],true)
+      } if (this.enemies[i].running){
+        console.log(`alert2`)
+        window.setTimeout(() => {
+          this.enemies[i].running = false;
+          this.enemies[i].runaway = false;
+        }, 3000);
+        this.enemies[i].x-=3
+        this.enemies[i].flipX = true;
+      }
+
+    }
     if (throwingMohawk && gameStateBattle.rnd===0){
       mohawk.setScale(1-(mohawkStartingYValue - mohawk.y)/(mohawkStartingYValue))
       mohawk.setFrame(0)
