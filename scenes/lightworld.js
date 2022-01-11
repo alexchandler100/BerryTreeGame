@@ -116,7 +116,7 @@ var NPC = new Phaser.Class({
     }
   },
   chase: function(thing2, strength = 1.2, offset = 0) { //makes thing1 chase thing2 with strength and offset
-    if (this.following === false && !this.stuck) {
+    if (this.following === false && !this.stuck && !pause) {
       if (this.x > thing2.x + offset) {
         if (this.body.velocity.x > 0) {
           this.body.velocity.x = 0
@@ -1717,33 +1717,22 @@ create: function() {
   });
 
   this.anims.create({
-    key: 'trevorleft',
-    frames: this.anims.generateFrameNumbers('trevor', {
-      start: 0,
-      end: 1
-    }),
-    frameRate: 3,
-    repeat: -1
-  });
-
-  this.anims.create({
     key: 'trevorright',
     frames: this.anims.generateFrameNumbers('trevor', {
-      start: 2,
+      start: 0,
       end: 3
     }),
-    frameRate: 3,
+    frameRate: 4,
     repeat: -1
   });
 
   this.anims.create({
     key: 'trevorslap',
     frames: this.anims.generateFrameNumbers('trevor', {
-      start: 4,
-      end: 5
+      frames: [4,5,13,5,4,5,13,5]
     }),
     frameRate: 3,
-    repeat: -1
+    repeat: 0
   });
 
   this.anims.create({
@@ -1938,6 +1927,24 @@ create: function() {
     key: 'meDead',
     frames: this.anims.generateFrameNumbers('me', {
       frames: [25]
+    }),
+    frameRate: 1,
+    repeat: 0
+  });
+
+  this.anims.create({
+    key: 'alDead',
+    frames: this.anims.generateFrameNumbers('al', {
+      frames: [8]
+    }),
+    frameRate: 1,
+    repeat: 0
+  });
+
+  this.anims.create({
+    key: 'trevorDead',
+    frames: this.anims.generateFrameNumbers('trevor', {
+      frames: [9]
     }),
     frameRate: 1,
     repeat: 0
@@ -2144,7 +2151,7 @@ create: function() {
   oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke", "bong", false);
   oghomeboy.body.immovable = true;
   oghomeboy.body.moves = false;
-  trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorleft", "trevorright", "trevorleft", "trevorright", "bong", potentialParty["Jimmy"]);
+  trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorright", "trevorright", "trevorright", "trevorright", "bong", potentialParty["Jimmy"]);
   trevor.body.setCircle(60);
   trevor.body.setOffset(60, 180);
   hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false);
@@ -2200,7 +2207,7 @@ create: function() {
     child.setOffset(110, 80);
   });
 
-  crackhead = new NPC(this, "crackhead spawn point", "crackhead", 0, "Crackhead", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "punch", false);
+  crackhead = new NPC(this, "crackhead spawn point", "crackhead", 0, "Melvin", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "punch", false);
 
   crackhead.setScale(.25);
   crackhead.setCircle(30);
@@ -4023,8 +4030,6 @@ if (playerTexture === 1 && firstTimeCarGet === 0) {
 //we resume every frame... must be more efficient way... fix needed...
 if (pause) {
   this.physics.pause();
-  trevor.body.velocity.x = 0;
-  trevor.body.velocity.y = 0;
 } else {
   this.physics.resume()
 }
@@ -4199,9 +4204,6 @@ if (distance(oghomeboy, me) < 1000) {
   }
 }
 
-
-
-
 //ai for trevor
 if (distance(trevor, me) < 1000) {
   if (distance(trevor, ball) > 800 && trevor.following === false) {
@@ -4210,7 +4212,14 @@ if (distance(trevor, me) < 1000) {
   }
   trevor.follow(me, 1)
   trevor.animate(5);
-  trevor.chase(ball, 1.4); ////use 1.1 for laptop and 1.4 for desktop (I think because my macbook has faster refresh rate)
+  if (trevor.body.velocity.x > 5) {
+    trevor.flipX = false;
+  }
+  if (trevor.body.velocity.x < -5) {
+    trevor.flipX = true;
+  }
+
+  trevor.chase(ball, 1.4);
   //trevor.getUnstuck()
   //increases keepaway high score whenever not paused
   if (trevor.following === false && distance(me, ball) < 300 && distance(trevor, ball) > 30 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
@@ -4226,11 +4235,17 @@ if (distance(trevor, me) < 1000) {
     }
     if (keepaway > 100) {
       if (keepaway < 500) {
-        gameStateNav.scoreGotten.setText(`       You got ${keepaway} points.`)
+        gameStateNav.scoreGotten.setText(`You got ${keepaway} points.`)
+        gameStateNav.scoreGottenDisplay.width = gameStateNav.scoreGotten.width + 4;
+        gameStateNav.scoreGottenDisplayFront.width = gameStateNav.scoreGotten.width;
       } else if (keepaway > 500 && keepaway < 1000) {
         gameStateNav.scoreGotten.setText(`You got ${keepaway} points. YOU DON'T SUCK!`)
+        gameStateNav.scoreGottenDisplay.width = gameStateNav.scoreGotten.width  + 4;
+        gameStateNav.scoreGottenDisplayFront.width = gameStateNav.scoreGotten.width;
       } else if (keepaway > 1000) {
         gameStateNav.scoreGotten.setText(`You got ${keepaway} points. HOLY FUCK!`)
+        gameStateNav.scoreGottenDisplay.width = gameStateNav.scoreGotten.width  + 4;
+        gameStateNav.scoreGottenDisplayFront.width = gameStateNav.scoreGotten.width;
       }
       showKickTheBallScore = true;
       pause = true;

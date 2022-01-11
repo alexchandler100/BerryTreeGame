@@ -59,18 +59,7 @@ var QuestLogCompleted = new Phaser.Class({
         itemCount10+=1;
         gameState11.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 75, 0xb39c0e).setOrigin(0,0).setInteractive()
         gameState11.newItem[questTitle].name=questTitle
-        if (questTitle.length<13){
           gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10+15, ycoord10+25, questTitle, {
-            fontSize: '25px',
-            fill: '#fff',
-            fontFamily: 'Academy Engraved LET',
-            wordWrap: {
-              width: 130,
-              useAdvancedWrap: true
-            }
-          }).setOrigin(0, 0);
-        } else {
-          gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10+10, ycoord10+10, questTitle, {
             fontSize: '20px',
             fill: '#fff',
             fontFamily: 'Academy Engraved LET',
@@ -79,7 +68,6 @@ var QuestLogCompleted = new Phaser.Class({
               useAdvancedWrap: true
             }
           }).setOrigin(0, 0);
-        }
         if (itemCount10%4===0){
           xcoord10=215;
           ycoord10+=120
@@ -117,6 +105,14 @@ var QuestLogCompleted = new Phaser.Class({
       gameState11.tempText.visible=false;
       gameState11.tempBackground.visible=false;
   });
+
+  gameState11.keyObjX = this.input.keyboard.addKey('X'); // Get key object
+  gameState11.keyObjX.on('down', function() {
+    this.scene.stop();
+    scene_number = 2;
+    pause = false
+    launchParameter=false;
+  }, this);
 
   },
   update: function() {

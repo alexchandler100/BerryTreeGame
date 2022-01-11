@@ -129,7 +129,7 @@ var Navigator = new Phaser.Class({
     if (gameState.questAngle>=-90||gameState.questAngle<=90){
       gameStateNav.gpsPointer.angle = gameState.questAngle+180;
     }
-    if (stamina<=40){
+    if (stamina<=40 && gatorade>=1){
       gameStateNav.gatorade.visible = true
     } else{
       gameStateNav.gatorade.visible = false

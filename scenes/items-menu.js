@@ -184,6 +184,15 @@ this.input.on('drop', function (pointer, gameObject, dropZone) {
   }
   redisplayItems=true;
 });
+
+
+gameState2.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
+gameState2.keyObjZ.on('down', function() {
+  this.scene.stop();
+  scene_number = 2;
+  pause = false
+  launchParameter=false;
+}, this);
   },
   update: function() {
     //redisplay items

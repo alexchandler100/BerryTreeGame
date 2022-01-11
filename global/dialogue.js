@@ -39,7 +39,7 @@ const pages = [
   {
     character: 'me',
     page: 3,
-    narrative: 'PRESS U,I,O,P KEYS TO ADJUST SPEED, 1,2,...,9,0 KEYS TO ADJUST ZOOM. PRESS S TO GENERALLY INTERACT WITH STUFF. FOR EXAMPLE S WILL KICK THE BALL OR PICK UP ITEMS ON THE GROUND.',
+    narrative: 'PRESS U,I,O,P KEYS TO ADJUST SPEED, 1,2,...,9,0 KEYS TO ADJUST ZOOM. PRESS S TO GENERALLY INTERACT WITH STUFF. FOR EXAMPLE S WILL DIVE ROLL, KICK THE BALL, OR PICK UP ITEMS ON THE GROUND.',
     options: [{
         option: 'More',
         nextPage: 4
@@ -110,7 +110,7 @@ const pages = [
   {
     character: 'me',
     page: 8888,
-    narrative: "(To use your gps, just click on a quest in your quest log to activate that quest. If you open your GPS, it will lead you in the direction needed for that quest.)",
+    narrative: "(To use your gps, just click on a quest in your quest log to activate that quest. If you open your GPS by clicking on the phone icon, it will point you in the direction needed for that quest.)",
     options: [{
         option: 'Damnnnnnnn!!!',
         nextPage: undefined,

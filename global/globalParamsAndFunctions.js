@@ -210,13 +210,13 @@ let randomEncounterRewards = {
 
 let animObject = {
   "Dio": ['diofloat', 'dioslash'],
-  "Frat Boy 1": ['frat1jump', 'frat1attack'],
-  "Frat Boy 2": ['frat2right', 'frat2attack'],
-  "Frat Boy 3": ['frat3right', 'frat3attack'],
-  "Frat Boy 4": ['frat4right', 'frat4attack'],
-  "Crackhead": ['crackheadright', 'crackheadattack'],
-  "Junkie": ['junkieright', 'junkieattack'],
-  "Ex Junkie": ['ex_junkieright', 'ex_junkieattack'],
+  "Chad": ['frat1jump', 'frat1attack'],
+  "Dylan": ['frat2right', 'frat2attack'],
+  "Cam": ['frat3right', 'frat3attack'],
+  "Jackson": ['frat4right', 'frat4attack'],
+  "Melvin": ['crackheadright', 'crackheadattack'],
+  "Derek": ['junkieright', 'junkieattack'],
+  "Bill": ['ex_junkieright', 'ex_junkieattack'],
   'StabBoy 2': ['fratboy2primewalk', 'fratboy2primestab'],
   'Dark Boy 2': ['darkboy2walk', 'darkboy2walk'],
   'Frank': ['frat5huhuh', 'frat5huhuh'],
@@ -224,13 +224,13 @@ let animObject = {
 
 let sfxObject = {
   "Dio": "slash",
-  "Frat Boy 1": "bodyhit",
-  "Frat Boy 2": "spray",
-  "Frat Boy 3": "throw",
-  "Frat Boy 4": "shatter",
-  "Crackhead": "bitenoise",
-  "Junkie": "stabnoise",
-  "Ex Junkie": "stabnoise",
+  "Chad": "bodyhit",
+  "Dylan": "spray",
+  "Cam": "throw",
+  "Jackson": "shatter",
+  "Melvin": "bitenoise",
+  "Derek": "stabnoise",
+  "Bill": "stabnoise",
   'StabBoy 2': "stabnoise",
   'Dark Boy 2': "bodyhit",
   'Frank': "bodyhit"
@@ -248,14 +248,15 @@ let set4 = new Set([]);
 let gameOver = false;
 
 // it goes [name, right anim, scale, circle size, offsetX, offsetY]
+//fix needed so chasers do not interact poorly with "above" layer of map
 const enemsForChasers = [
   ['crackhead', 'crackheadright', .25, 30, 60, 60],
-  ['ex_junkie', 'ex_junkieright', .2, 60, 80, 105],
-  ['junkie', 'junkieright', .2, 60, 80, 105],
-  ['fratboy1', 'frat1right', .16, 60, 80, 105],
-  ['fratboy2', 'frat2right', .15, 60, 80, 105],
-  ['fratboy3', 'frat3right', .17, 60, 80, 105],
-  ['fratboy4', 'frat4right', .14, 60, 80, 105],
+  ['ex_junkie', 'ex_junkieright', .2, 60, 80, 125],
+  ['junkie', 'junkieright', .2, 60, 80, 125],
+  ['fratboy1', 'frat1right', .16, 60, 80, 125],
+  ['fratboy2', 'frat2right', .15, 60, 80, 125],
+  ['fratboy3', 'frat3right', .17, 60, 80, 125],
+  ['fratboy4', 'frat4right', .14, 60, 80, 125],
 ]
 const battleScale = {
   'me': .77,

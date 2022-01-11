@@ -12,6 +12,7 @@ var QuestLog = new Phaser.Class({
   },
   preload: function() {},
   create: function() {
+
     //background and border
     gameState1.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
     gameState1.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
@@ -80,10 +81,10 @@ var QuestLog = new Phaser.Class({
           gameState10.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0xb39c0e).setOrigin(0,0).setInteractive()
           gameState10.newItem[questTitle].name=questTitle
         }
-        if (questTitle.length<13){
-          gameState10.activeQuestDisplay[questTitle] = this.add.text(xcoord10+15, ycoord10+25, questTitle, {
-            fontSize: '25px',
-            fill: '#fff',
+        if (currentQuest === questTitle){
+          gameState10.activeQuestDisplay[questTitle] = this.add.text(xcoord10, ycoord10, questTitle, {
+            fontSize: '20px',
+            fill: '#000',
             fontFamily: 'Academy Engraved LET',
             wordWrap: {
               width: 130,
@@ -91,7 +92,7 @@ var QuestLog = new Phaser.Class({
             }
           }).setOrigin(0, 0);
         } else {
-          gameState10.activeQuestDisplay[questTitle] = this.add.text(xcoord10+10, ycoord10+10, questTitle, {
+          gameState10.activeQuestDisplay[questTitle] = this.add.text(xcoord10, ycoord10, questTitle, {
             fontSize: '20px',
             fill: '#fff',
             fontFamily: 'Academy Engraved LET',
@@ -101,6 +102,8 @@ var QuestLog = new Phaser.Class({
             }
           }).setOrigin(0, 0);
         }
+
+
         if (itemCount10%4===0){
           xcoord10=215;
           ycoord10+=125
@@ -151,6 +154,14 @@ var QuestLog = new Phaser.Class({
       gameState10.tempText.visible=false;
       gameState10.tempBackground.visible=false;
   });
+
+  gameState10.keyObjX = this.input.keyboard.addKey('X'); // Get key object
+  gameState10.keyObjX.on('down', function() {
+    this.scene.stop();
+    scene_number = 2;
+    pause = false
+    launchParameter=false;
+  }, this);
   },
   update: function() {
     if (scene_number === 11) {

@@ -10,7 +10,10 @@ var PauseMenu = new Phaser.Class({
   init: function(data) {
     //sumn
   },
+  onKeyInput: function(event) {
+  },
   preload: function() {},
+
   create: function() {
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
@@ -141,6 +144,15 @@ var PauseMenu = new Phaser.Class({
         fill: '#fff'
       });
 
+      this.input.keyboard.on("keydown", this.onKeyInput, this);
+
+      gameState1.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
+      gameState1.keyObjZ.on('down', function() {
+        this.scene.stop();
+        scene_number = 2;
+        pause = false
+        launchParameter=false;
+      }, this);
   },
   update: function() {
     if (scene_number === 7) {

@@ -131,6 +131,14 @@ var OverworldMenu = new Phaser.Class({
       item_list += ` ${items[i]}`
     }
     itemsText.setText(item_list)
+
+    gameState5.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
+    gameState5.keyObjZ.on('down', function() {
+      this.scene.stop();
+      scene_number = 2;
+      pause = false
+      launchParameter=false;
+    }, this);
   },
   update: function() {
     if (scene_number === 1) {

@@ -577,7 +577,14 @@ this.input.on('pointerout', function (pointer, justOut) {
       }
       redisplay=true;
     });
-
+    
+    gameState4.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
+    gameState4.keyObjZ.on('down', function() {
+      this.scene.stop();
+      scene_number = 2;
+      pause = false
+      launchParameter=false;
+    }, this);
 
   },
   update: function() {
