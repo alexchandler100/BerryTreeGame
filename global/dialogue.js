@@ -1,3 +1,5 @@
+const gameStateDialogue = {};
+
 const pages = [
   {
     character: 'me',
@@ -1895,6 +1897,29 @@ const pages = [
   },
 ]
 
+fetchPage = function(page) {
+  return pages.find(function(e) {
+    if (e.page == page) return e
+  });
+}
+
+//custom functions
+function openDialoguePage(page){
+  pageForDialogue = page
+  openingDialogue = true;
+  if (gameState.phoneBackground){
+    if (gameState.camera1.visible){
+      gameStateNav.phoneBackground.visible = false
+      gameState.camera1.visible = false
+      gameStateNav.gpsPointer.visible = false;
+    } else {
+      gameStateNav.phoneBackground.visible = true
+      gameState.camera1.visible = true;
+      gameStateNav.gpsPointer.visible = true;
+    }
+  }
+}
+
 //instance for dialogues like in codeacademy example
 function initializePage(scene) {
   if (backgroundDisplayed===0){// create options list and background and saves them into gameState
@@ -1903,10 +1928,13 @@ function initializePage(scene) {
       gameState.options = [];
     }
     // create narrative background if it doesn't exist
-    gameState.narrative_background2 = scene.add.rectangle(-252 + me.x, -102 + me.y, 504, 189, 0xb39c0e).setDepth(1000000);
-    gameState.narrative_background2.setOrigin(0, 0);
-    gameState.narrative_background = scene.add.rectangle(-250 + me.x, -100 + me.y, 500, 185, 0x000).setDepth(1000000);
-    gameState.narrative_background.setOrigin(0, 0);}
+    let thickness2 = 35;
+    let thickness = 15;
+    gameState.transparent = scene.add.rectangle(0,0, 1200, 600, 0x000).setOrigin(0, 0);
+    gameState.transparent.alpha = .6;
+    //gameState.narrative_background2 = scene.add.rectangle(200-thickness2, 100-thickness2, 800+2*thickness2, 400+2*thickness2, 0xb39c0e).setOrigin(0, 0);
+    gameState.narrative_background = scene.add.rectangle(200-thickness, 100-thickness, 800+2*thickness, 400+2*thickness, 0x000).setOrigin(0, 0);}
+    gameState.camoBorder = scene.add.image(175,75,'camoBorder').setOrigin(0,0);
     backgroundDisplayed = 1
 }
 
@@ -1924,15 +1952,23 @@ function destroyPage() {
   pageDisplayed = 0
 }
 
-function destroyBackground() {
-  // wipe out narrative text and options
-  if (gameState.narrative_background && backgroundDisplayed===1) {
-    // destroy narrative if it exists
+function destroyBackground() {   // wipe out narrative text and options
+  if (gameState.narrative_background && backgroundDisplayed===1) {    // destroy narrative if it exists
     gameState.narrative_background.destroy()
-  }
-  if (gameState.narrative_background2 && backgroundDisplayed===1) {
-    // destroy narrative if it exists
-    gameState.narrative_background2.destroy()
+    gameState.transparent.destroy();
+    //gameState.narrative_background2.destroy()
+    gameState.camoBorder.destroy()
+    if (gameState.phoneBackground){
+      if (gameState.camera1.visible){
+        gameStateNav.phoneBackground.visible = false
+        gameState.camera1.visible = false
+        gameStateNav.gpsPointer.visible = false;
+      } else {
+        gameStateNav.phoneBackground.visible = true
+        gameState.camera1.visible = true;
+        gameStateNav.gpsPointer.visible = true;
+      }
+    }
   }
   backgroundDisplayed = 0
 }
@@ -1942,39 +1978,41 @@ function displayPage(scene, page) {
     const narrativeStyle = {
       fill: '#ffffff',
       fontStyle: 'italic',
-      fontSize: 12,
+      fontSize: 24,
       align: 'center',
       wordWrap: {
-        width: 430
+        width: 700
       },
       lineSpacing: 8
     };
     // display general page character
     // & narrative here:
     pause = true
-    gameState.narrative = scene.add.text(-215 + me.x, -85 + me.y, page.narrative, narrativeStyle).setDepth(1000000);
+    console.log(`pause: ${pause}`)
+    gameState.narrative = scene.add.text(250, 150, page.narrative, narrativeStyle);
     pageDisplayed = 1
     // for-loop creates different options
     // need the index i for spacing the boxes
     for (let i = 0; i < page.options.length; i++) {
       let option = page.options[i];
       // color in the option box
-      const optionBox = scene.add.rectangle(-200 + me.x + i * 130, me.y, 110, 40, 0xb39c0e, 0).setDepth(1000000)
+      const optionBox = scene.add.rectangle(300 + i * 200, 400, 100, 50, 0xb39c0e, 0);
       optionBox.strokeColor = 0xb39c0e;
       optionBox.strokeWeight = 2;
       optionBox.strokeAlpha = 1;
       optionBox.isStroked = true;
       optionBox.setOrigin(0, 0)
       // add in the option text
-      const baseX = -200 + me.x + i * 130;
-      const optionText = scene.add.text(baseX, me.y + 10, option.option, {
-        fontSize: 12,
+      const baseX = 300 + i * 200;
+      const baseY = 350
+      const optionText = scene.add.text(baseX, baseY + 10, option.option, {
+        fontSize: 20,
         fill: '#b39c0e',
         align: 'center',
         wordWrap: {
-          width: 110
+          width: 100
         }
-      }).setDepth(1000000);
+      });
       const optionTextBounds = optionText.getBounds()
       // centering each option text
       optionText.setX(optionTextBounds.x + 55 - (optionTextBounds.width / 2));
@@ -2030,281 +2068,128 @@ function displayPage(scene, page) {
   }
 }
 
-function fetchPage(page) {
-  zoom=2;
-  return pages.find(function(e) {
-    if (e.page == page) return e
-  });
-}
-
-//instance for dialogues for darkworld
-function initializePageDark(scene) {
-  if (backgroundDisplayed===0){// create options list and background and saves them into gameState
-    if (!gameStateDark.options) {
-      // create options list if it doesn't exist
-      gameStateDark.options = [];
+var DialogueMenu = new Phaser.Class({
+  Extends: Phaser.Scene,
+  initialize: function() {
+    Phaser.Scene.call(this, {
+      "key": "DialogueMenu"
+    });
+  },
+  init: function(data) {
+    //sumn
+  },
+  preload: function() {
+    this.load.image("camoBorder",'assets/camoBorder.png')
+  },
+  create: function() {
+    this.bannerBack = this.add.rectangle(0, 0, 1200, 600, 0x000).setOrigin(0,0).setDepth(1);
+    window.setTimeout(() => {
+      this.tweens.add({
+          targets: this.bannerBack,
+          duration: 5000,
+          alpha: 0
+      });
+    }, 2000);
+    this.timer = 0;
+  },
+  update: function() {
+    this.timer+=1;
+    if (this.timer%60===0){
+      console.log(pause)
     }
-    // create narrative backgrounds if it doesn't exist
-    gameStateDark.narrative_background = scene.add.rectangle(-250 + meDark.x, -100 + meDark.y, 500, 185, 0x000);
-    gameStateDark.narrative_background.setOrigin(0, 0);}
-    backgroundDisplayed = 1
-}
-
-function destroyPageDark() {
-  // wipe out narrative text and options
-  if (gameStateDark.narrative) {
-    // destroy narrative if it exists
-    gameStateDark.narrative.destroy();
-  }
-  for (let option of gameStateDark.options) {
-    // destroy options if they exist
-    option.optionBoxDark.destroy();
-    option.optionTextDark.destroy();
-  }
-  pageDisplayed = 0
-}
-
-function destroyBackgroundDark() {
-  // wipe out narrative text and options
-  if (gameStateDark.narrative_background && backgroundDisplayed===1) {
-    // destroy narrative if it exists
-    gameStateDark.narrative_background.destroy()
-  }
-  backgroundDisplayed = 0
-}
-
-function displayPageDark(scene, page) {
-  if (pageDisplayed === 0) {
-    const narrativeStyle = {
-      fill: '#ffffff',
-      fontStyle: 'italic',
-      fontSize: 12,
-      align: 'center',
-      wordWrap: {
-        width: 430
-      },
-      lineSpacing: 8
-    };
-    // display general page character
-    // & narrative here:
-    pause = true
-    gameStateDark.narrative = scene.add.text(-215 + meDark.x, -85 + meDark.y, page.narrative, narrativeStyle);
-    pageDisplayed = 1
-    // for-loop creates different options
-    // need the index i for spacing the boxes
-    for (let i = 0; i < page.options.length; i++) {
-      let option = page.options[i];
-      // color in the option box
-      const optionBoxDark = scene.add.rectangle(-200 + meDark.x + i * 130, meDark.y, 110, 40, 0xb39c0e, 0)
-      optionBoxDark.strokeColor = 0xb39c0e;
-      optionBoxDark.strokeWeight = 2;
-      optionBoxDark.strokeAlpha = 1;
-      optionBoxDark.isStroked = true;
-      optionBoxDark.setOrigin(0, 0)
-      // add in the option text
-      const baseXDark = -200 + meDark.x + i * 130;
-      const optionTextDark = scene.add.text(baseXDark, meDark.y + 10, option.option, {
-        fontSize: 12,
-        fill: '#b39c0e',
-        align: 'center',
-        wordWrap: {
-          width: 110
+    if (openingDialogue){
+      console.log(`openingDialogue`)
+      openingDialogue = false
+      initializePage(this);
+      let thePage = fetchPage(pageForDialogue);
+      displayPage(this, thePage);
+    }
+    //for level dialogue (problem with jimmy and al receiving level up at the same time... fix needed)
+    //only allows level up to level 30... may need to fix structure to allow arbitrarily high
+    if (checkLevelDialogue === 1) {
+      zoom = 2
+      for (let i = 1; i < 30; i++) {
+        if (expObject['Mac'] >= 100 * 3 ** (i - 1) && levelObject['Mac'] === i) {
+          levelObject['Mac'] += 1;
+          initializePage(this)
+          let page = {
+            character: 'me',
+            page: 500,
+            narrative: `Damnnnn, Mac has progressed to level ${levelObject['Mac']}. Mac's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            options: [{
+              option: 'tight',
+              nextPage: 600,
+            }, ]
+          }
+          displayPage(this, page)
+          maxHPObject['Mac'] += 15;
+          damageObject['Mac'] += 5;
+          maxSPObject['Mac'] += 5;
+          hpObject['Mac'] = maxHPObject['Mac'];
+          spObject['Mac'] = maxSPObject['Mac']
+        } else if (expObject['Al'] >= 100 * 3 ** (i - 1) && levelObject['Al'] === i) {
+          levelObject['Al'] += 1;
+          initializePage(this)
+          let page = {
+            character: 'me',
+            page: 501,
+            narrative: `Good shit man, Al has progressed to level ${levelObject['Al']}. Al's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            options: [{
+              option: 'tight',
+              nextPage: 601,
+            }, ]
+          }
+          displayPage(this, page)
+          maxHPObject['Al'] += 15;
+          damageObject['Al'] += 5;
+          maxSPObject['Mac'] += 5
+          hpObject['Al'] = maxHPObject['Al'];
+          spObject['Al'] = maxSPObject['Al']
+        } else if (expObject['Jimmy'] >= 100 * 3 ** (i - 1) && levelObject['Jimmy'] === i) {
+          levelObject['Jimmy'] += 1;
+          initializePage(this)
+          let page = {
+            character: 'me',
+            page: 502,
+            narrative: `Good shit man, Jimmy has progressed to level ${levelObject['Jimmy']}. Jimmy's HP has increased by 15, SP has increased by 5, and damage has increased by 5. You may choose between getting about tree fiddy, increasing HP by another 3, or increasing damage by another 1.`,
+            options: [{
+              option: 'sweet',
+              nextPage: 602,
+            }, ]
+          }
+          displayPage(this, page)
+          maxHPObject['Jimmy'] += 15;
+          maxSPObject['Jimmy'] += 5;
+          damageObject['Jimmy'] += 5
+          hpObject['Jimmy'] = maxHPObject['Jimmy'];
+          spObject['Jimmy'] = maxSPObject['Jimmy']
+        } else {
+          openFightDialogue = true;
         }
-      });
-      const optionTextBoundsDark = optionTextDark.getBounds()
-      // centering each option text
-      optionTextDark.setX(optionTextBoundsDark.x + 55 - (optionTextBoundsDark.width / 2));
-      optionTextDark.setY(optionTextBoundsDark.y + 10 - (optionTextBoundsDark.height / 2));
-      // add in gameplay functionality for options here
-      optionBoxDark.setInteractive()
-      optionBoxDark.on('pointerup', function() {
-        const newPage = this.option.nextPage;
-        if (newPage !== undefined) {
-          destroyPageDark();
-          displayPageDark(scene, fetchPageDark(newPage));
-          if (this.option.aftermath) {
-            this.option.aftermath()
-          }
-          if (this.option.aftermath2) {
-            this.option.aftermath2()
-          }
-        } else if (newPage === undefined) {
-          destroyPageDark();
-          destroyBackgroundDark();
-          pause = false;
-          if (this.option.aftermath) {
-            this.option.aftermath()
-          }
-          if (this.option.aftermath2) {
-            this.option.aftermath2()
-          }
-        }
-      }, {
-        option
-      });
+      }
+      checkLevelDialogue = 0
+    }
 
-      optionBoxDark.on('pointerover', function() {
-        this.optionBoxDark.setStrokeStyle(2, 0xffe014, 1);
-        this.optionTextDark.setColor('#ffe014');
-      }, {
-        optionBoxDark,
-        optionTextDark
-      });
-      optionBoxDark.on('pointerout', function() {
-        this.optionBoxDark.setStrokeStyle(1, 0xb38c03, 1);
-        this.optionTextDark.setColor('#b39c0e');
-      }, {
-        optionBoxDark,
-        optionTextDark
-      });
-
-      gameStateDark.options.push({
-        optionBoxDark,
-        optionTextDark
-      });
+    //for experience dialogue
+    if (wonBattle === 1) {
+      initializePage(this)
+      let page = {
+        character: 'me',
+        page: 400,
+        narrative: `Check it out, you got ${exp} experience points and ${reward} dollars.`,
+        options: [{
+          option: 'tight',
+          nextPage: 401,
+        }, ]
+      }
+      if (itemReward.length > 0) {
+        page.narrative += ` They also dropped ${itemReward}.`
+      }
+      displayPage(this, page)
+      wonBattle = 0;
+      exp = 0;
+      reward = 0;
+      itemReward = '';
     }
   }
-}
-
-function fetchPageDark(page) {
-  zoom=2;
-  return pages.find(function(e) {
-    if (e.page == page) return e
-  });
-}
-
-//instance for dialogues for Aptworld
-function initializePageApt(scene) {
-  if (backgroundDisplayed===0){// create options list and background and saves them into gameState
-    if (!gameStateApt.options) {
-      // create options list if it doesn't exist
-      gameStateApt.options = [];
-    }
-    // create narrative background if it doesn't exist
-    gameStateApt.narrative_background = scene.add.rectangle(-250 + meApt.x+40, -100 + meApt.y, 500, 185, 0x000);
-    gameStateApt.narrative_background.setOrigin(0, 0);}
-    backgroundDisplayed = 1
-}
-
-function destroyPageApt() {
-  // wipe out narrative text and options
-  if (gameStateApt.narrative) {
-    // destroy narrative if it exists
-    gameStateApt.narrative.destroy();
-  }
-  for (let option of gameStateApt.options) {
-    // destroy options if they exist
-    option.optionBoxApt.destroy();
-    option.optionTextApt.destroy();
-  }
-  pageDisplayed = 0
-}
-
-function destroyBackgroundApt() {
-  // wipe out narrative text and options
-  if (gameStateApt.narrative_background && backgroundDisplayed===1) {
-    // destroy narrative if it exists
-    gameStateApt.narrative_background.destroy()
-  }
-  backgroundDisplayed = 0
-}
-
-function displayPageApt(scene, page) {
-  if (pageDisplayed === 0) {
-    const narrativeStyle = {
-      fill: '#ffffff',
-      fontStyle: 'italic',
-      fontSize: 12,
-      align: 'center',
-      wordWrap: {
-        width: 420
-      },
-      lineSpacing: 8
-    };
-    // display general page character
-    // & narrative here:
-    pause = true
-    gameStateApt.narrative = scene.add.text(-215 + meApt.x+40, -85 + meApt.y, page.narrative, narrativeStyle);
-    pageDisplayed = 1
-    // for-loop creates different options
-    // need the index i for spacing the boxes
-    for (let i = 0; i < page.options.length; i++) {
-      let option = page.options[i];
-      // color in the option box
-      const optionBoxApt = scene.add.rectangle(-200 + meApt.x+40 + i * 130, meApt.y, 110, 40, 0xb39c0e, 0)
-      optionBoxApt.strokeColor = 0xb39c0e;
-      optionBoxApt.strokeWeight = 2;
-      optionBoxApt.strokeAlpha = 1;
-      optionBoxApt.isStroked = true;
-      optionBoxApt.setOrigin(0, 0)
-      // add in the option text
-      const baseXApt = -200 + meApt.x+40 + i * 130;
-      const optionTextApt = scene.add.text(baseXApt, meApt.y + 10, option.option, {
-        fontSize: 12,
-        fill: '#b39c0e',
-        align: 'center',
-        wordWrap: {
-          width: 110
-        }
-      });
-      const optionTextBoundsApt = optionTextApt.getBounds()
-      // centering each option text
-      optionTextApt.setX(optionTextBoundsApt.x + 55 - (optionTextBoundsApt.width / 2));
-      optionTextApt.setY(optionTextBoundsApt.y + 10 - (optionTextBoundsApt.height / 2));
-      // add in gameplay functionality for options here
-      optionBoxApt.setInteractive()
-      optionBoxApt.on('pointerup', function() {
-        const newPage = this.option.nextPage;
-        if (newPage !== undefined) {
-          destroyPageApt();
-          displayPageApt(scene, fetchPageApt(newPage));
-          if (this.option.aftermath) {
-            this.option.aftermath()
-          }
-          if (this.option.aftermath2) {
-            this.option.aftermath2()
-          }
-        } else if (newPage === undefined) {
-          destroyPageApt();
-          destroyBackgroundApt();
-          pause = false;
-          if (this.option.aftermath) {
-            this.option.aftermath()
-          }
-          if (this.option.aftermath2) {
-            this.option.aftermath2()
-          }
-        }
-      }, {
-        option
-      });
-
-      optionBoxApt.on('pointerover', function() {
-        this.optionBoxApt.setStrokeStyle(2, 0xffe014, 1);
-        this.optionTextApt.setColor('#ffe014');
-      }, {
-        optionBoxApt,
-        optionTextApt
-      });
-      optionBoxApt.on('pointerout', function() {
-        this.optionBoxApt.setStrokeStyle(1, 0xb38c03, 1);
-        this.optionTextApt.setColor('#b39c0e');
-      }, {
-        optionBoxApt,
-        optionTextApt
-      });
-
-      gameStateApt.options.push({
-        optionBoxApt,
-        optionTextApt
-      });
-    }
-  }
-}
-
-function fetchPageApt(page) {
-  zoom=1;
-  return pages.find(function(e) {
-    if (e.page == page) return e
-  });
-}
+});

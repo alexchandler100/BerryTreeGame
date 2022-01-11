@@ -192,17 +192,19 @@ var Menu = new Phaser.Class({
       } else if (unit.type === 'Bennett') {
         menuText += 'Bennett  '
       } else if (unit.type === 'Chad') {
-        menuText += 'Chad   '
+        menuText += 'Chad         '
+      } else if (unit.type === 'Melvin') {
+        menuText += 'Melvin       '
       } else if (unit.type === 'Dylan') {
-        menuText += 'Dylan  '
+        menuText += 'Dylan        '
       } else if (unit.type === 'Cam') {
-        menuText += 'Cam    '
+        menuText += 'Cam          '
       } else if (unit.type === 'Jackson') {
-        menuText += 'Jackson'
+        menuText += 'Jackson      '
       } else if (unit.type === 'Bill') {
-        menuText += 'Bill   '
-      } else if (unit.type === 'Kevin') {
-        menuText += 'Kevin  '
+        menuText += 'Bill         '
+      } else if (unit.type === 'Derek') {
+        menuText += 'Kevin        '
       } else {
         menuText += unit.type
       }

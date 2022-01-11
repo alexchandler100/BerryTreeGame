@@ -75,7 +75,7 @@ var QuestLog = new Phaser.Class({
     for (questTitle of Object.keys(activeQuests)) {
         itemCount10+=1;
         if (currentQuest === questTitle){
-          gameState10.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0x33ff00).setOrigin(0,0).setInteractive()
+          gameState10.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0x1dad46).setOrigin(0,0).setInteractive()
           gameState10.newItem[questTitle].name=questTitle
         } else {
           gameState10.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0xb39c0e).setOrigin(0,0).setInteractive()

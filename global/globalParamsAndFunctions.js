@@ -110,6 +110,8 @@ let bossBattleParameter = 0;
 let dioEnabled = true
 
 //overworld parameters
+let openingDialogue = false;
+let pageForDialogue = 1;
 let pointerScale = 1;
 let overworldClock = 0;
 let mohawkBounceTimer = 0;
@@ -131,7 +133,7 @@ let pointerSet = false
 let numberOfFights = 0;
 let openFightDialogue = false;
 let playingOutOfBreath = false;
-let stamina = 100;
+let stamina = 31;
 let launchParameter = false; //this just makes sure the gas station scene isn't launched every tween (only once)
 let indoorZone = ''
 let shakeTheWorld = false;
@@ -883,7 +885,9 @@ let equipped = {
   }
 }
 
-//custom functions
+
+
+
 function saveGame() {
   saveFileExists = true;
   var file = {
@@ -1154,7 +1158,7 @@ function onMeetEnemy1(player, zone) {
 }
 
 function onMeetEnemy2() {
-  if (worldTheme === 'light' && playerTexture === 0 && keepaway<400 && !diving) {
+  if (worldTheme === 'light' && playerTexture === 0 && keepaway<400 && !diving && pageDisplayed===0) {
   //keepaway<400 because otherwise fight can disrupt quest dialogue for jimmy
     //this.cameras.main.flash(1000)
     gameState.swimNoise.stop();
