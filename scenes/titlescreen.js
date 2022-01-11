@@ -47,6 +47,14 @@ var TitleScreen = new Phaser.Class({
     this.load.image('banner', 'assets/banner.png');
   },
   create: function() {
+    //to skip title
+         /*
+    this.scene.launch("LightWorld")
+    this.scene.launch('DialogueMenu');
+    this.scene.stop();
+    //     */
+
+
     this.bannerSound = this.sound.add('banner', {
       volume: .5
     });
@@ -95,7 +103,7 @@ var TitleScreen = new Phaser.Class({
       window.setTimeout(() => {
         this.scene.launch("LightWorld")
         this.scene.launch('DialogueMenu');
-        this.scene.stop()
+        this.scene.stop();
       }, 12000);
       pause = false;
       this.bannerBack = this.add.rectangle(0, 0, 1200, 600, 0x000).setDepth(1);
