@@ -764,10 +764,14 @@ var BattleScene = new Phaser.Class({
               frameWidth: 25,
               frameHeight: 55
             });
+      this.load.audio('smack', ['assets/smack.mp3']);
 
     //this.load.image(`background1`, 'assets/burcham_battle.png');
   },
   create: function() {
+    this.smack = this.sound.add('smack', {
+      volume: .25
+    });
 
     //battle animation
 
@@ -1632,11 +1636,26 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.al.anims.play('alleft', true);
         }, 2999);
       } else if (this.units[this.index].type === "Jimmy") {
+        gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y - 1)
+        window.setTimeout(() => {
+          this.smack.play();
+        }, 300);
+        window.setTimeout(() => {
+          gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y + 1)
+          this.smack.play();
+        }, 300+666);
+        window.setTimeout(() => {
+          gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y - 1)
+          this.smack.play();
+        }, 300+2*666);
+        window.setTimeout(() => {
+          gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y + 1)
+          this.smack.play();
+        }, 300+3*666);
         gameStateBattle.trevor.x = this.aliveEnemies[target].x + 61
         gameStateBattle.trevor.y = this.aliveEnemies[target].y - 10
         gameStateBattle.trevor.anims.play('trevorslap', false);
         gameStateBattle.trevor.flipX = false;
-        gameState.smack.play();
         window.setTimeout(() => {
           gameStateBattle.trevor.x = 750
           gameStateBattle.trevor.y = 350
@@ -1755,7 +1774,7 @@ var BattleScene = new Phaser.Class({
         gameStateBattle.trevor.y = this.aliveEnemies[target].y - 10;
         gameStateBattle.trevor.anims.play('trevorslap', false);
         gameStateBattle.trevor.flipX = false;
-        gameState.smack.play();
+        this.smack.play();
         window.setTimeout(() => {
           this.units[this.index].special(this.aliveEnemies[target + 1])
           gameStateBattle.trevor.x = this.aliveEnemies[target + 1].x + 61;

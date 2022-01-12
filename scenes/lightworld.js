@@ -338,6 +338,22 @@ initialize: function() {
   });
 },
 init: function(data) {},
+//custom functions
+openDialoguePage: function (page){
+  pageForDialogue = page
+  openingDialogue = true;
+  if (gameState.phoneBackground){
+    if (gameState.camera1.visible){
+      gameStateNav.phoneBackground.visible = false
+      gameState.camera1.visible = false
+      gameStateNav.gpsPointer.visible = false;
+    } else {
+      gameStateNav.phoneBackground.visible = true
+      gameState.camera1.visible = true;
+      gameStateNav.gpsPointer.visible = true;
+    }
+  }
+},
 wake: function() {
   this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
   this.scene.sleep("PoolScore");
@@ -385,7 +401,6 @@ preload: function() {
   this.load.audio('holyDiver', ['assets/holyDiver.wav']);
   this.load.audio('slash', ['assets/slash.wav']);
   this.load.audio('spray', ['assets/spray.mp3']);
-  this.load.audio('smack', ['assets/smack.wav']);
   this.load.audio('bodyhit', ['assets/bodyhit.wav']);
   this.load.audio('throw', ['assets/throw.mp3']);
   this.load.audio('bichon_bark', ['assets/bichon_bark.wav']);
@@ -717,9 +732,6 @@ create: function() {
   });
   gameState.iwantsomecrack = this.sound.add('iwantsomecrack', {
     volume: 1
-  });
-  gameState.smack = this.sound.add('smack', {
-    volume: .25
   });
   gameState.airsoft = this.sound.add('airsoft', {
     volume: .5
@@ -2340,6 +2352,10 @@ create: function() {
     collides: true
   });
 
+  above.setCollisionByProperty({
+    collides: true
+  });
+
   //roadcar colliders
   this.physics.add.collider(roadCar1, ball);
   this.physics.add.collider(roadCar2, ball);
@@ -2388,6 +2404,7 @@ create: function() {
   this.physics.add.collider(me, grls);
   this.physics.add.collider(me, blonde);
   this.physics.add.collider(me, world);
+  this.physics.add.collider(me, above);
   this.physics.add.collider(me, world2);
   this.physics.add.collider(me, belowBottoms);
   this.physics.add.collider(me, cars);
@@ -2942,6 +2959,7 @@ create: function() {
   }
 
   this.scene.launch('Navigator');
+  this.DialogueMenu = this.scene.get("DialogueMenu");
 },
 
 update: function() {
@@ -2972,6 +2990,8 @@ if (hamms < 4) {
 gameState.questLocations['Go Pro at Kick-The-Ball']={x:trevor.x, y:trevor.y}
 } else if (currentQuest === "Crackhead wants some change") {
   gameState.questLocations["Crackhead wants some change"]={x:crackhead.x, y:crackhead.y}
+} else if (currentQuest === "Adeline is pissed" && items.includes('Flowers')) {
+  gameState.questLocations["Adeline is pissed"] = map.findObject("Objects", obj => obj.name === "adeline spawn point");
 }
 
 //quest navigator pointer
@@ -3044,21 +3064,21 @@ if (gas >= 12) {
 //dialogue with evan and anthony
 if (distance(me, gameState.anthonySpawnPoint) < 30 && anthonyFirstDialogue === 0) {
   anthonyFirstDialogue = 1
-  openDialoguePage(6000)
+  this.openDialoguePage(6000)
 } else if (distance(me, gameState.evanSpawnPoint) < 30 && evanFirstDialogue === 0) {
   evanFirstDialogue = 1
-  openDialoguePage(7000)
+  this.openDialoguePage(7000)
   activeQuests['Frat Boy Wants to Stab'] = 'Evan told me there is some frat guy with a knife waiting for me at the Burcham and Division intersection. Better not go until I got my crew together...'
 }
 if (numberOfFights === 1 && openFightDialogue === true) {
   openFightDialogue = false
-  openDialoguePage(5000)
+  this.openDialoguePage(5000)
 } else if (numberOfFights === 4 && openFightDialogue === true) {
   openFightDialogue = false
-  openDialoguePage(5001)
+  this.openDialoguePage(5001)
 } else if (numberOfFights === 7 && openFightDialogue === true) {
   openFightDialogue = false
-  openDialoguePage(5003)
+  this.openDialoguePage(5003)
 }
 //stamina
 if (playerTexture === 0 && speed === 3 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && pause === false) {
@@ -3089,7 +3109,7 @@ if (stamina <= 30 && playingOutOfBreath === false) {
 //new skill dialogue
 if (skillDialogue["Mac"][3]) {
   skillDialogue["Mac"][3] = false;
-  openDialoguePage(1900)
+  this.openDialoguePage(1900)
 }
 //camera shaking from dialogue
 if (shakeTheWorld) {
@@ -3132,7 +3152,7 @@ if (playerTexture === 1 && !me.body.blocked.none && speed >= 3) {
 }
 if (carCrashDialogue) {
   carCrashDialogue = false;
-  openDialoguePage(1800)
+  this.openDialoguePage(1800)
 }
 //followers leave if you get too far away (with some code to keep them from leaving if you're in the car.)
 if (distance(me, trevor) > 1200 && playerTexture === 0) {
@@ -3205,7 +3225,7 @@ if (winRace === 1 && raceOngoing) {
   bennett.x = me.x + 200;
   raceOngoing = false;
   winRace = 0
-  openDialoguePage(1700)
+  this.openDialoguePage(1700)
 } else if (winRace === 2 && raceOngoing) {
   this.cameras.main.fade(1000);
   this.cameras.main.fadeIn(1000, 0, 0, 0)
@@ -3213,12 +3233,12 @@ if (winRace === 1 && raceOngoing) {
   bennett.position = 5;
   raceOngoing = false;
   winRace = 0
-  openDialoguePage(1701)
+  this.openDialoguePage(1701)
 }
 if (wonRace === 1) {
   wonRace = 0
   playerTexture = 0
-  openDialoguePage(37)
+  this.openDialoguePage(37)
   completeQuest('Beat Bennett in a Race')
 } else if (wonRace === 2) {
   wonRace = 0
@@ -3379,7 +3399,7 @@ if (phoneGet) {
 if (jimmyJoinParam && neverBeenPro) {
   neverBeenPro = false
   jimmyJoinParam = false;
-  openDialoguePage(23)
+  this.openDialoguePage(23)
 }
 //ai for poolchairs
 poolchairs.children.iterate(function(child) {
@@ -3431,7 +3451,7 @@ if (restart) {
 //cant get inside apartment
 if (cantGetIn === 1) {
   cantGetIn = 0
-  openDialoguePage(1400)
+  this.openDialoguePage(1400)
 }
 //increase athletics (got rid of this feature... it messes up how you play kick-the-ball after 1.05)
 if (spriteSpeed(me) > 20 && scene_number === 2) {
@@ -3439,7 +3459,7 @@ if (spriteSpeed(me) > 20 && scene_number === 2) {
 }
 //fail to buy weed
 if (buyFailed === 1) {
-  openDialoguePage(85)
+  this.openDialoguePage(85)
   buyFailed = 0
 }
 // boss battle
@@ -3549,10 +3569,10 @@ if (darkWorld === 1) {
 
 //gameover and new game
 if (newGame === true && gameOver === false) {
-  openDialoguePage(9999)
+  this.openDialoguePage(9999)
   newGame = false;
 } else if (newGame === false && gameOver === true) {
-  openDialoguePage(300)
+  this.openDialoguePage(300)
   gameOver = false
 }
 
@@ -3568,16 +3588,16 @@ car.body.velocity.y = 0;
 
 //pondering and highness
 if (highness.toFixed(2) == 2 && highnessDialogue == 1) {
-openDialoguePage(140)
+this.openDialoguePage(140)
   highness = 1
 } else if (highness.toFixed(2) == 2.01 && highnessDialogue == 3) {
-openDialoguePage(141)
+this.openDialoguePage(141)
   highness = 1
 } else if (highness.toFixed(2) == 2.01 && highnessDialogue == 5) {
-openDialoguePage(144)
+this.openDialoguePage(144)
   highness = 1
 } else if (highness.toFixed(2) == 2.01 && highnessDialogue == 7) {
-openDialoguePage(147)
+this.openDialoguePage(147)
   highness = 1
 }
 
@@ -3607,7 +3627,7 @@ if (distance(fratboy2prime, me) < 300 && worldTheme === 'light') {
 }
 if (distance(fratboy2prime, me) < 30 && fratboy2primedialogue === 0 && worldTheme === 'light') {
   fratboy2primedialogue = 1
-openDialoguePage(900)
+this.openDialoguePage(900)
 }
 
 //ai for girls
@@ -3644,12 +3664,12 @@ if (!jeanClaude.following) {
   jeanClaude.animate(2)
   if (distance(me, jeanClaude) < 30 && jeanClaudeFirstTalk === 0 && !items.includes("Jerky")) {
     gameState.bark.play()
-openDialoguePage(6100)
+this.openDialoguePage(6100)
     activeQuests["Jean Claude"] = "I saw a dog running. I got close enough to see its tag said 'Jean Claude'. Maybe if I had some jerky or a dog treat or something I could get him to follow me."
     jeanClaudeFirstTalk = 1
   } else if (distance(me, jeanClaude) < 30 && items.includes("Jerky") && (jeanClaudeFirstTalk === 0 || jeanClaudeFirstTalk === 1)) {
     gameState.bark.play()
-openDialoguePage(6101)
+this.openDialoguePage(6101)
     jeanClaude.joinParameter = true
     jeanClaudeFirstTalk = 2
   }
@@ -3664,7 +3684,7 @@ if (jeanClaude.following && distance(jeanClaude, stripper) < 100 && distance(me,
   jeanClaudeFirstTalk = 4
 } else if (jeanClaudeFirstTalk === 4) {
   jeanClaudeFirstTalk = 5;
-openDialoguePage(6102)
+this.openDialoguePage(6102)
   completeQuest("Jean Claude")
   completeQuest("Jean Claude?")
   stripper.joinParameter = true;
@@ -3686,13 +3706,13 @@ if (!stripper.following) {
     stripper.flipX = false;
   }
   if (distance(me, stripper) < 30 && stripperFirstTalk === 0) {
-openDialoguePage(1600)
+this.openDialoguePage(1600)
     activeQuests["Diamond Wants Some Coke"] = "Diamond needs some coke. Maybe she'll give you something good in return for some."
     activeQuests["Jean Claude?"] = "Diamond is looking for a 'Jean Claude'... is that like... her pimp? She wasn't very clear on that."
     stripperFirstTalk = 1
   } else if (distance(me, stripper) < 30 && stripperFirstTalk === 2 && items.includes("Gram of Coke")) {
     stripperFirstTalk = 3
-openDialoguePage(1602)
+this.openDialoguePage(1602)
     completeQuest("Diamond Wants Some Coke")
     equipment.push("Brass Knuckles")
     removeAll(items, "Gram of Coke")
@@ -3717,13 +3737,13 @@ if (stripperBanged) { //after you bang, she stops following
 //ai for yoga girl
 if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 0) {
   yogagirlFirstTalk = 1
-openDialoguePage(1500)
+this.openDialoguePage(1500)
   if (!activeQuests["Yoga girl needs blocks"]) {
     activeQuests["Yoga girl needs blocks"] = "I was talking to this hot girl doing yoga. She was complaining about some stripper and asked if I had any yoga blocks. Maybe she'll give me something cool if I can find some."
   }
 } else if (distance(me, yogagirl) < 30 && yogagirlFirstTalk === 2 && items.includes("Yoga Blocks")) {
   yogagirlFirstTalk = 2
-openDialoguePage(1502)
+this.openDialoguePage(1502)
   completeQuest("Yoga girl needs blocks")
   gameState.itemget.play()
   equipment.push("Gold Duck Tape")
@@ -3735,13 +3755,13 @@ openDialoguePage(1502)
 //ai for adeline
 if (distance(me, adeline) < 40 && adelineFirstTalk === 0 && trevor.joinParameter && girl2FirstDialogue >= 1) {
   adelineFirstTalk = 1
-openDialoguePage(3500)
+this.openDialoguePage(3500)
   if (!activeQuests["Adeline is pissed"]) {
     activeQuests["Adeline is pissed"] = "My lady friend Adeline is pissed because she heard me hitting on some girls by the pool. I should get her flowers or something... I think I saw some by the road at the Alton and Burcham intersection."
   }
 } else if (distance(me, adeline) < 30 && adelineFirstTalk === 2 && items.includes("Flowers")) {
   adelineFirstTalk = 2
-openDialoguePage(3502)
+this.openDialoguePage(3502)
   completeQuest("Adeline is pissed")
   gameState.itemget.play()
   equipment.push("Camo Duck Tape")
@@ -3753,23 +3773,23 @@ openDialoguePage(3502)
 //dialogue ai for girl1 (Juanita)
 if (distance(me, girl1) < 10 && girl1FirstDialogue === 0 && distance(girl1, volleyball) > 300 && trevor.joinParameter) {
   gameState.hello.play()
-openDialoguePage(120)
+this.openDialoguePage(120)
   girl1FirstDialogue = 1
   activeQuests["Girls Wanna Play Volleyball"] = "Juanita wants me to get the volleyball so they can play. She said some crazy guy grabbed it and headed to the field behind 731 Burcham and St. Aquinas. Prolly Homeboy Jon, shiiit."
 } else if (distance(me, girl1) < 10 && distance(girl1, volleyball) < 300 && girl1FirstDialogue === 1 && trevor.joinParameter) {
   gameState.ooo.play()
-openDialoguePage(121)
+this.openDialoguePage(121)
   girl1FirstDialogue = 2
   completeQuest("Girls Wanna Play Volleyball")
 }
 //dialogue ai for girl4 (colleen)
 else if (distance(me, girl4) < 10 && girl4FirstDialogue === 0 && trevor.joinParameter && !items.includes("Gram of Coke")) {
   gameState.wutt.play()
-openDialoguePage(130)
+this.openDialoguePage(130)
   girl4FirstDialogue = 1
 } else if (distance(me, girl4) < 10 && girl4FirstDialogue === 2 && trevor.joinParameter) {
   gameState.wutt.play()
-openDialoguePage(136)
+this.openDialoguePage(136)
   girl4FirstDialogue = 4
 } else if (distance(me, girl4) > 400 && girl4FirstDialogue === 1 && trevor.joinParameter) {
   girl4FirstDialogue = 0
@@ -3779,12 +3799,12 @@ openDialoguePage(136)
 //dialogue ai for girl2
 else if (distance(me, girl2) < 10 && girl2FirstDialogue === 0 && trevor.joinParameter) {
   gameState.heyy.play()
-openDialoguePage(98)
+this.openDialoguePage(98)
   girl2FirstDialogue = 1
   activeQuests["Becca Wants Some Smokes"] = "Becca seems drunk and asked me to get some smokes. She gave me about 3.50$. I can usually get some for free from Homeboy Jon. I wonder where he is..."
 } else if (distance(me, girl2) < 10 && girl2FirstDialogue === 1 && items.includes('Marlboro lights') && trevor.joinParameter) {
   //hamms -= 2
-openDialoguePage(110)
+this.openDialoguePage(110)
   girl2FirstDialogue = 2
   completeQuest("Becca Wants Some Smokes")
 }
@@ -3798,7 +3818,7 @@ if (time % 100 === 1) {
 
 //dialogue for pool party
 else if (firstPoolParty === 0 && distance(joe, girl1) < 800 && distance(jon, girl1) < 800 && distance(trevor, girl1) < 800 && distance(james, girl1) < 800) {
-openDialoguePage(60)
+this.openDialoguePage(60)
   firstPoolParty = 1
 }
 
@@ -3840,7 +3860,7 @@ if (phoneGet + walletGet === 2 && keysGet === 0) {
   walletGet += 1;
   activeQuests["Gotta Find My Keys"] = "I found my wallet and phone by the volleyball court, but I still have no idea where my keys are. I have a feeling I was in the woods last night. God damnit."
   window.setTimeout(() => {
-openDialoguePage(5)
+this.openDialoguePage(5)
   }, 3000);
 }
 
@@ -3851,13 +3871,13 @@ if (phoneGet + walletGet + keysGet === 5) {
   keysGet += 1;
   activeQuests["Gotta Find My Car"] = "I found my keys in the woods, but now I don't know where my damn car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
   window.setTimeout(() => {
-openDialoguePage(6)
+this.openDialoguePage(6)
   }, 3000);
 }
 
 //dialogue for getting car first time
 if (playerTexture === 1 && firstTimeCarGet === 0) {
-openDialoguePage(7)
+this.openDialoguePage(7)
   firstTimeCarGet = 1
   completeQuest("Gotta Find My Car")
   activeQuests["Go to the Gas Station"] = "I found my car, hell yeah. I should go to the gas station and pick up some gatorades and monsters. I'm prolly almost out of gas too."
@@ -3915,7 +3935,7 @@ james.animate(40);
 followPath(james, jamesPath, 125)
 
 if (distance(me, james) < 30 && jamesFirstTalk === 0) {
-openDialoguePage(40)
+this.openDialoguePage(40)
   jamesFirstTalk = 1;
   jamesGet = 'spoke';
   activeQuests['High School Roof'] = 'James said he saw some lights or aliens or something up on the high school roof. He is most likely just high as shit but I may as well get up there anyway.'
@@ -3939,7 +3959,7 @@ if (distance(joe, me) < 1000) {
   }
 
   if (distance(me, joe) < 30 && joeFirstTalk === 0) {
-openDialoguePage(50)
+this.openDialoguePage(50)
     joeFirstTalk = 1;
     joeGet = 'spoke';
     activeQuests["Bets with Joe"] = "Joe wants to bet on pool. I should meet him in the leasing office at 731 Burcham."
@@ -3957,7 +3977,7 @@ if (bennett.following === false) {
     gameState.bennettSound.stop()
   }
   if (distance(me, bennett) < 30 && bennettFirstTalk === 0 && playerTexture === 0) {
-openDialoguePage(90)
+this.openDialoguePage(90)
     bennettFirstTalk = 1
     gameState.arnold_bennett.play()
     if (!activeQuests['Beat Bennett in a Race']) {
@@ -3990,7 +4010,7 @@ if (holdon === 1) {
   gameState.beatbox.play();
   beatbox = 0
 } else if (gunTalk === 1) {
-openDialoguePage(35)
+this.openDialoguePage(35)
   const index = items.indexOf('Weed (2g)');
   if (index > -1) {
     items.splice(index, 1);
@@ -4000,7 +4020,7 @@ openDialoguePage(35)
   completeQuest("Al wants some shit")
 } else if (distance(me, al) < 30 && alFirstTalk === 0 && al.joinParameter === false) {
   gameState.alSound.play()
-openDialoguePage(30)
+this.openDialoguePage(30)
   alFirstTalk = 1
   activeQuests["Al wants some shit"] = "I ran into Homeboy Al. He got this new airsoft gun and said I could fuck with it if I got him 4 beers (hamms) and 2g of weed. I can get beers from the gas station, but I should get my car first. Original homeboy usually has weed, I think he's usually in the woods."
 } else if (distance(me, al) > 300 && alFirstTalk === 1) {
@@ -4021,7 +4041,7 @@ if (distance(oghomeboy, me) < 1000) {
   if (distance(me, oghomeboy) < 30 && ogFirstTalk === 0) {
     gameState.bongSound.play()
     ogFirstTalk = 1
-openDialoguePage(80)
+this.openDialoguePage(80)
     activeQuests['Get Weed From OG Homeboy'] = 'I ran into OG homeboy in the woods. He said if I can beat his high score on his video game, I can get a discount on weed (2g for 10 bucks).'
   } else if (distance(me, oghomeboy) > 200) {
     ogFirstTalk = 0
@@ -4059,41 +4079,41 @@ if (distance(trevor, me) < 1000) {
     }
     if (keepaway > 100) {
       if (keepaway < 500) {
-        gameStateNav.scoreGotten.setText(`You got ${keepaway} points.`)
-        gameStateNav.scoreGottenDisplay.width = gameStateNav.scoreGotten.width + 4;
-        gameStateNav.scoreGottenDisplayFront.width = gameStateNav.scoreGotten.width;
+        this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points.`)
+        this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width + 4;
+        this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
       } else if (keepaway > 500 && keepaway < 1000) {
-        gameStateNav.scoreGotten.setText(`You got ${keepaway} points. YOU DON'T SUCK!`)
-        gameStateNav.scoreGottenDisplay.width = gameStateNav.scoreGotten.width  + 4;
-        gameStateNav.scoreGottenDisplayFront.width = gameStateNav.scoreGotten.width;
+        this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points. YOU DON'T SUCK!`)
+        this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width  + 4;
+        this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
       } else if (keepaway > 1000) {
-        gameStateNav.scoreGotten.setText(`You got ${keepaway} points. HOLY FUCK!`)
-        gameStateNav.scoreGottenDisplay.width = gameStateNav.scoreGotten.width  + 4;
-        gameStateNav.scoreGottenDisplayFront.width = gameStateNav.scoreGotten.width;
+        this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points. HOLY FUCK!`)
+        this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width  + 4;
+        this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
       }
       showKickTheBallScore = true;
-      pause = true;
+      //pause = true;
       window.setTimeout(() => {
         showKickTheBallScore = false;
         //pause = false;
       }, 3000);
     }
     if (keepaway > 100 && keepaway <= 300 && trevor.joinParameter === false) {
-openDialoguePage(25)
+this.openDialoguePage(25)
       if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
         activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
       }
     } else if (keepaway > 300 && trevor.joinParameter === false) {
-openDialoguePage(20)
+this.openDialoguePage(20)
       if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
         activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
       }
     } else if (keepaway > 500 && brothersSeal === 0 && neverBeenPro === true) {
-openDialoguePage(21)
+this.openDialoguePage(21)
     } else if (keepaway > 500 && brothersSeal === 0 && neverBeenPro === false) {
-openDialoguePage(24)
+this.openDialoguePage(24)
     } else if (keepaway > 1000 && brothersSeal === 1) {
-openDialoguePage(22)
+this.openDialoguePage(22)
     }
     keepaway = 0
   }
@@ -4111,7 +4131,7 @@ openDialoguePage(22)
 if (distance(net1, me) < 10000) {
   jon.animate()
   if (distance(me, jon) < 30 && jonFirstTalk === 0) {
-openDialoguePage(70)
+this.openDialoguePage(70)
     activeQuests["Score Goals on Homeboy Jon"] = 'I found homeboy Jon in the field behind 731. He said if I can score a goal on him he will give me smokes. If I score on his GOD MODE he might give me something real good.'
     jonFirstTalk = 1
     jon.y = gameState.JonSpawnPoint.y - 60
@@ -4130,35 +4150,35 @@ openDialoguePage(70)
       jon.body.velocity.x = 0
     }
     if (volleyballScore === 1) {
-openDialoguePage(72)
+this.openDialoguePage(72)
       jon.y = gameState.JonSpawnPoint.y - 60
       volleyballScore = 1.1
       jonChaseX += 5 //makes him harder to score on
       jon.body.setSize(130, 20);
       jon.body.setOffset(35, 150); //makes him harder to score on
     } else if (volleyballScore === 2.1) {
-openDialoguePage(73)
+this.openDialoguePage(73)
       jon.y = gameState.JonSpawnPoint.y - 60
       volleyballScore = 2.2
       jonChaseX += 5 //makes him harder to score on
       jon.body.setSize(140, 20);
       jon.body.setOffset(30, 150); //makes him harder to score on
     } else if (volleyballScore === 3.2) {
-openDialoguePage(74)
+this.openDialoguePage(74)
       jon.y = gameState.JonSpawnPoint.y - 60
       volleyballScore = 3.3
       jonChaseX += 5 //makes him harder to score on
       jon.body.setSize(150, 20);
       jon.body.setOffset(25, 150); //makes him harder to score on
     } else if (volleyballScore === 4.3) {
-openDialoguePage(75)
+this.openDialoguePage(75)
       jon.y = gameState.JonSpawnPoint.y - 60
       volleyballScore = 4.4
       jonChaseX += 55 //makes him harder to score on
       jon.body.setSize(150, 20);
       jon.body.setOffset(25, 150); //makes him harder to score on
     } else if (volleyballScore === 5.4) {
-openDialoguePage(76)
+this.openDialoguePage(76)
       completeQuest("Score Goals on Homeboy Jon")
       jon.y = gameState.JonSpawnPoint.y - 60
       volleyballScore = 5.5
@@ -4166,7 +4186,7 @@ openDialoguePage(76)
       jon.body.setSize(170, 20);
       jon.body.setOffset(15, 150); //makes him harder to score on
     } else if (volleyballScore === 6.5) {
-openDialoguePage(76)
+this.openDialoguePage(76)
       jon.y = gameState.JonSpawnPoint.y - 60
       volleyballScore = 6.6
       jonChaseX -= 20 //makes him easier to score on
@@ -4211,10 +4231,10 @@ if (!crackhead.following) {
       crackheadJoin = true;
       crackheadFirstJoin = false;
       crackheadFirstTalk = 1
-openDialoguePage(2002)
+this.openDialoguePage(2002)
       crackhead.joinParameter = true;
     } else {
-openDialoguePage(2000)
+this.openDialoguePage(2000)
       crackheadFirstTalk = 1
     }
   } else if (distance(me, crackhead) > 50 && crackheadFirstTalk === 1) {
@@ -4258,7 +4278,7 @@ if (distance(fratboy1, me) < 1000) {
     fratboy1.flipX = true;
   }
   if (distance(me, fratboy1) < 30 && fratboy1FirstTalk === 0) {
-openDialoguePage(200)
+this.openDialoguePage(200)
     fratboy1FirstTalk = 1
   }
 }
@@ -4275,7 +4295,7 @@ if (distance(fratboy2, me) < 1000) {
   }
 
   if (distance(me, fratboy2) < 30 && fratboy2FirstTalk === 0) {
-openDialoguePage(210)
+this.openDialoguePage(210)
     fratboy2FirstTalk = 1
   }
 }
@@ -4293,7 +4313,7 @@ if (distance(fratboy3, me) < 1000) {
   }
 
   if (distance(me, fratboy3) < 30 && fratboy3FirstTalk === 0) {
-openDialoguePage(220)
+this.openDialoguePage(220)
     fratboy3FirstTalk = 1
   }
 }
@@ -4308,7 +4328,7 @@ if (distance(fratboy4, me) < 1000) {
   }
 
   if (distance(me, fratboy4) < 30 && fratboy4FirstTalk === 0) {
-openDialoguePage(230)
+this.openDialoguePage(230)
     fratboy4FirstTalk = 1
   }
 }
@@ -4317,7 +4337,7 @@ openDialoguePage(230)
 if (distance(fratboy5, me) < 1000) {
   fratboy5.anims.play('frat5huhuh', true)
   if (distance(me, fratboy5) < 30 && fratboy5FirstTalk === 0) {
-openDialoguePage(1100)
+this.openDialoguePage(1100)
     fratboy5FirstTalk = 1
   }
 }

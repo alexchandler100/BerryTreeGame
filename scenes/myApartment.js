@@ -188,6 +188,21 @@ var MyApartment = new Phaser.Class({
   init: function(data) {
     gameState.music.stop()
   },
+  openDialoguePage: function (page){
+    pageForDialogue = page
+    openingDialogue = true;
+    if (gameState.phoneBackground){
+      if (gameState.camera1.visible){
+        gameStateNav.phoneBackground.visible = false
+        gameState.camera1.visible = false
+        gameStateNav.gpsPointer.visible = false;
+      } else {
+        gameStateNav.phoneBackground.visible = true
+        gameState.camera1.visible = true;
+        gameStateNav.gpsPointer.visible = true;
+      }
+    }
+  },
 
   //added this for battle scene and changed all instances of cursors to this.cursors (and removed const before cursors initialization)
   wake: function() {
@@ -1079,7 +1094,7 @@ var MyApartment = new Phaser.Class({
     //launch keyboard dialogue
     if (keyboardDialogue) {
       keyboardDialogue = false;
-      openDialoguePage(4000)
+      this.openDialoguePage(4000)
 
     }
     //for english indicator
@@ -1256,11 +1271,11 @@ var MyApartment = new Phaser.Class({
     gameStateApt.poolscore.setText(`Points: ${twoballscore}`)
     if (joeNotEnoughToBet) {
       joeNotEnoughToBet = false
-      openDialoguePage(3014)
+      this.openDialoguePage(3014)
 
     } else if (jamesNotEnoughToBet) {
       jamesNotEnoughToBet = false
-      openDialoguePage(3024)
+      this.openDialoguePage(3024)
 
     }
     if (_timerStart) {
@@ -1277,7 +1292,7 @@ var MyApartment = new Phaser.Class({
       timeApt -= 1
       gameStateApt.pooltimer.setText(`Time: ${Math.floor(timeApt/60/60)}:${Math.floor((timeApt/60)%60)}`);
       if (twoballscore >= 4 && joeBets) {
-        openDialoguePage(3015)
+        this.openDialoguePage(3015)
 
         twoballscore = 0
         gameStateApt.pooltimer.setText(``)
@@ -1286,7 +1301,7 @@ var MyApartment = new Phaser.Class({
           completeQuest("Bets with Joe")
         }
       } else if (twoballscore >= 3 && jamesBets) {
-        openDialoguePage(3025)
+        this.openDialoguePage(3025)
 
         twoballscore = 0
         gameStateApt.pooltimer.setText(``)
@@ -1297,7 +1312,7 @@ var MyApartment = new Phaser.Class({
           joeBets = false;
           _timerStart = false;
           if (twoballscore < 4) {
-            openDialoguePage(3016)
+            this.openDialoguePage(3016)
 
           }
           twoballscore = 0
@@ -1305,7 +1320,7 @@ var MyApartment = new Phaser.Class({
           jamesBets = false;
           _timerStart = false;
           if (twoballscore < 3) {
-            openDialoguePage(3026)
+            this.openDialoguePage(3026)
 
           }
           twoballscore = 0
@@ -1314,7 +1329,7 @@ var MyApartment = new Phaser.Class({
     }
     if (distance(meApt, blondeApt) < 20 && blondeTalk === false) {
       blondeTalk = true;
-      openDialoguePage(4010)
+      this.openDialoguePage(4010)
 
     } else if (distance(meApt, blondeApt) > 40) {
       blondeTalk = false
@@ -1340,14 +1355,14 @@ var MyApartment = new Phaser.Class({
     //dialogue for joe and james
     if (distance(meApt, joeApt) < 10 && joePoolTalk === false && joeGet === 'spawned') {
       joePoolTalk = true;
-      openDialoguePage(3010)
+      this.openDialoguePage(3010)
 
     } else if (distance(meApt, joeApt) > 40) {
       joePoolTalk = false
     }
     if (distance(meApt, jamesApt) < 10 && jamesPoolTalk === false && jamesGet === 'spawned') {
       jamesPoolTalk = true;
-      openDialoguePage(3020)
+      this.openDialoguePage(3020)
 
     } else if (distance(meApt, jamesApt) > 40) {
       jamesPoolTalk = false
@@ -1441,7 +1456,7 @@ var MyApartment = new Phaser.Class({
         poolDialogue = false
         //meApt.x = gameStateApt.poolTableTL.x - 110
         //meApt.y = gameStateApt.poolTableTL.y + 50
-        openDialoguePage(3000)
+        this.openDialoguePage(3000)
 
       }
     } else {

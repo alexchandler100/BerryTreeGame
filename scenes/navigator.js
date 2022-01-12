@@ -102,20 +102,6 @@ var Navigator = new Phaser.Class({
         gameStateNav.gpsPointer.visible = true;
       }
     }, this);
-
-    gameStateNav.kickTheBallDisplay = this.add.text(50, 550, ``, {
-      fontSize: '20px',
-      fill: '#fff',
-      align: 'right',
-    });
-
-    gameStateNav.scoreGottenDisplay = this.add.rectangle(250-2, 30-2, 704, 54, 0xb39c0e).setOrigin(0);
-    gameStateNav.scoreGottenDisplayFront = this.add.rectangle(250, 30, 700, 50, 0x000000).setOrigin(0);
-    gameStateNav.scoreGotten = this.add.text(250, 30+10, ``, {
-      fontSize: '40px',
-      fill: '#fff',
-      align: 'right',
-    });
   },
   update: function() {
     pointerScale = Math.sqrt((me.x-gameState.questLocation.x)**2+(me.y-gameState.questLocation.y)**2)/10000
@@ -134,25 +120,7 @@ var Navigator = new Phaser.Class({
     } else{
       gameStateNav.gatorade.visible = false
     }
-    if (showKickTheBallScore){
-      gameStateNav.scoreGotten.visible = true;
-      gameStateNav.scoreGottenDisplay.visible = true;
-      gameStateNav.scoreGottenDisplayFront.visible = true;
-  } else {
-    gameStateNav.scoreGotten.visible = false;
-    gameStateNav.scoreGottenDisplay.visible = false;
-    gameStateNav.scoreGottenDisplayFront.visible = false;
-    }
-    if (kickTheBallScoreDisplayed){
-      gameStateNav.kickTheBallDisplay.visible = true;
-      if (keepaway > keepawayHighScore) {
-        gameStateNav.kickTheBallDisplay.setText(`Kick-The-Ball: ${keepaway} \nHigh Score: ${keepaway}`);
-      } else {
-        gameStateNav.kickTheBallDisplay.setText(`Kick-The-Ball: ${keepaway} \nHigh Score: ${keepawayHighScore}`);
-      }
-    } else {
-      gameStateNav.kickTheBallDisplay.visible = false;
-    }
+    
     if (phoneGet){
       gameStateNav.location.visible = true;
       //gameState.camera1.visible = true;
