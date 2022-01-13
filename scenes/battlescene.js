@@ -190,7 +190,7 @@ var Menu = new Phaser.Class({
       } else if (unit.type === 'Jimmy') {
         menuText += 'Jimmy  '
       } else if (unit.type === 'Bennett') {
-        menuText += 'Bennett  '
+        menuText += 'Bennett'
       } else if (unit.type === 'Chad') {
         menuText += 'Chad         '
       } else if (unit.type === 'Melvin') {
@@ -1071,7 +1071,7 @@ var BattleScene = new Phaser.Class({
 
     let enems = [
       ['crackhead', 'Melvin', 1, 15, crackhead, 'crackheadright'],
-      ['ex_junkie', 'Bill', 30, 8, ex_junkie, 'ex_junkieright'],
+      ['ex_junkie', 'Bill', 25, 8, ex_junkie, 'ex_junkieright'],
       ['junkie', 'Derek', 40, 8, junkie, 'junkieright'],
       ['fratboy1', 'Chad', 65, 8, fratboy1, 'frat1jump'],
       ['fratboy2', 'Dylan', 20, 8, fratboy2, 'frat2right'],

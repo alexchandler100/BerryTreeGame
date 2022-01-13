@@ -27,6 +27,13 @@ var DialogueMenu = new Phaser.Class({
       'evanAnthony': [.45,0],
       'jeanClaude': [1,0],
       'smoke': [2.5,0],
+      'fratboy1': [1,0],
+      'fratboy2': [1,0],
+      'fratboy3': [1,0],
+      'fratboy4': [1,0],
+      'fratboy5': [1,0],
+      'darkboy2': [1,0],
+      'dio': [1,0],
     }
   },
   init: function(data) {
@@ -1420,7 +1427,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'meDark',
+        character: 'darkboy2',
         page: 700,
         narrative: `Dark boy 2: Hey buddy, you seem like a cool guy and all, but since I've never seen you here in darkworld before, I just have to make sure about something before I let you go... Who do you worship?`,
         options: [{
@@ -1439,7 +1446,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'darkboy2',
         page: 701,
         narrative: `Dark boy 2: Who the fuck is that? Anyway, wrong answer pal, gonna have to stab you.`,
         options: [{
@@ -1450,7 +1457,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'darkboy2',
         page: 702,
         narrative: `Dark boy 2: Thats cool... thats cool... *awkward silence* ... Anyway ... wrong answer... gonna have to stab you...`,
         options: [{
@@ -1461,7 +1468,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'darkboy2',
         page: 703,
         narrative: `Dark boy 2: Dude for real? You're lucky you said that actually because otherwise I'd prolly have to stab you and let you bleed out here on the temple roof. But since you're cool, I'll send you back on your way... after we play a GAME huhuhh...`,
         options: [{
@@ -1493,7 +1500,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'fratboy5',
         page: 1100,
         narrative: `Frank: Hey buddy, I'm Frank and this is my girlfriend Tammy. Sometimes... she just gets me so angry! Care to spar?`,
         options: [{
@@ -1549,7 +1556,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'meApt',
+        character: 'me',
         page: 1300,
         narrative: `Would you like to rest in your bed?`,
         options: [{
@@ -2140,7 +2147,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'god',
         page: 6104,
         narrative: `Click on Diamond if you want her to follow you.`,
         options: [{
@@ -2226,7 +2233,7 @@ var DialogueMenu = new Phaser.Class({
           levelObject['Mac'] += 1;
           this.initializePage(this)
           let page = {
-            character: 'me',
+            character: 'god',
             page: 500,
             narrative: `Damnnnn, Mac has progressed to level ${levelObject['Mac']}. Mac's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
             options: [{
@@ -2244,7 +2251,7 @@ var DialogueMenu = new Phaser.Class({
           levelObject['Al'] += 1;
           this.initializePage(this)
           let page = {
-            character: 'me',
+            character: 'god',
             page: 501,
             narrative: `Good shit man, Al has progressed to level ${levelObject['Al']}. Al's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
             options: [{
@@ -2262,9 +2269,9 @@ var DialogueMenu = new Phaser.Class({
           levelObject['Jimmy'] += 1;
           this.initializePage(this)
           let page = {
-            character: 'me',
+            character: 'god',
             page: 502,
-            narrative: `Good shit man, Jimmy has progressed to level ${levelObject['Jimmy']}. Jimmy's HP has increased by 15, SP has increased by 5, and damage has increased by 5. You may choose between getting about tree fiddy, increasing HP by another 3, or increasing damage by another 1.`,
+            narrative: `Good shit man, Jimmy has progressed to level ${levelObject['Jimmy']}. Jimmy's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
             options: [{
               option: 'sweet',
               nextPage: 602,

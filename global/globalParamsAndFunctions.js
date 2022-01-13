@@ -494,10 +494,10 @@ let items = [];
 let itemEffects = {
   "Andy Capp's Hot Fries": "SP Max",
   'Labatt Max Ice': "HP +60, SP +15",
-  "Monster": "SP +10, cure status ailments",
-  "Gatorade": "HP +60, stamina max",
+  "Monster": "SP +10, cure \n status ailments",
+  "Gatorade": "HP +60, \n stamina max",
   "Hamms": "HP +20 SP +5",
-  "Larry Special": "HP max SP max",
+  "Larry Special": "HP max, SP max",
   "Liquor": "SP Max",
   "Gas": "makes your \n car work"
 }
