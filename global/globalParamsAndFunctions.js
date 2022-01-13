@@ -19,7 +19,6 @@ let completedQuests = {
 
 // it goes ['name', 'tiled object name for location']
 let currentQuest = 'Find Your Shit'
-let gettingHitByCar = false;
 let blondeTalk=false;
 let carCrashDialogue = false;
 let adventure = 0;
@@ -1101,100 +1100,7 @@ function ballExitPool() {
   ballInPool = false
 }
 
-function getHitByCar(){
-  if (!gettingHitByCar){
-    gameState.bodyhit.play()
-    gettingHitByCar = true
-  }
-}
 
-function onMeetEnemy1(player, zone) {
-  if (worldTheme === 'light' && playerTexture === 0 && inPool === false && !chasersEnabled) {
-    chasersEnabled = true;
-    chaserClock = 0
-    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-    rr = Math.floor(Math.random() * enemsForChasers.length);
-    ss = Math.floor(Math.random() * enemsForChasers.length);
-    tt = Math.floor(Math.random() * enemsForChasers.length);
-    pp = Math.floor(Math.random() * enemsForChasers.length);
-    qq = Math.floor(Math.random() * enemsForChasers.length);
-    set1 = new Set([rr, ss]);
-    set2 = new Set([rr, ss, tt]);
-    set3 = new Set([rr, ss, tt, pp]);
-    set4 = new Set([rr, ss, tt, pp, qq]);
-    let chasersIndexArray = []
-    chasersIndexArray.push(rr)
-    if (set1.size === 2) {
-      chasersIndexArray.push(ss)
-    }
-    if (set2.size === 3 && numberOfPlayers>=2) {
-      chasersIndexArray.push(tt)
-    }
-    if (set3.size === 4 && numberOfPlayers>=2) {
-      chasersIndexArray.push(pp)
-    }
-    if (set4.size === 5 && numberOfPlayers>=3) {
-      chasersIndexArray.push(qq)
-    }
-    for (const i of chasersIndexArray) {
-      let theta = Math.random() * 2 * 3.1415;
-      //I need to make these only exist during the chasing and then destroy to optimize memory usage (fix needed...)
-      chasers[i].enableBody(true, me.x + 250 * Math.cos(theta), me.y + 250 * Math.sin(theta), true, true);
-    }
-    window.setTimeout(() => {
-      for (const i of chasersIndexArray) {
-        runaway=true;
-      }
-    }, 7000);
-    window.setTimeout(() => {
-      for (const i of chasersIndexArray) {
-        runaway=false;
-        chasers[i].disableBody(true, true);
-        chasersEnabled = false;
-      }
-    }, 14000);
-  }
-}
-
-function onMeetEnemy2() {
-  if (worldTheme === 'light' && playerTexture === 0 && keepaway<400 && !diving && pageDisplayed===0) {
-  //keepaway<400 because otherwise fight can disrupt quest dialogue for jimmy
-    //this.cameras.main.flash(1000)
-    gameState.swimNoise.stop();
-    gameState.meWalkingSound.stop();
-    gameState.meRunningSound.stop();
-    gameState.music.stop();
-    gameState.marioWoods.stop();
-    gameState.linkWoods.stop();
-    gameState.trevorWoods.stop();
-    gameState.battleSongIndex = Math.floor(Math.random() * 9);
-    if (gameState.battleSongIndex === 0) {
-      gameState.battlesong1.play()
-    } else if (gameState.battleSongIndex === 1) {
-      gameState.battlesong2.play()
-    } else if (gameState.battleSongIndex === 2) {
-      gameState.battlesong3.play()
-    } else if (gameState.battleSongIndex === 3) {
-      gameState.battlesong4.play()
-    } else if (gameState.battleSongIndex === 4) {
-      gameState.battlesong5.play()
-    } else if (gameState.battleSongIndex === 5) {
-      gameState.battlesong6.play()
-    } else if (gameState.battleSongIndex === 6) {
-      gameState.battlesong7.play()
-    } else if (gameState.battleSongIndex === 7) {
-      gameState.battlesong8.play()
-    } else if (gameState.battleSongIndex === 8) {
-      gameState.battlesong9.play()
-    }
-    this.scene.switch('BattleScene');
-    chaserInitiateFight = 0;
-    for (let i = 0; i < chasers.length; i++) {
-      chasers[i].disableBody(true, true)
-    }
-  }
-}
 
 //play the zelda secret noise
 function playSecret() {
@@ -1268,12 +1174,11 @@ function directionVector(obj1, obj2) {
 }
 
 function followPath (unit, path, speed=50){
-  if (distance(unit,path[unit.position])<10 && !unit.changeDirection){
+  if (distance(unit,path[unit.position])<5 && !unit.changeDirection){
     unit.position+=1
     unit.changeDirection=true
-    window.setTimeout(() => {
-      unit.changeDirection=false
-    }, 1000);
+  } else if (distance(unit,path[unit.position])>5){
+    unit.changeDirection=false
   }
   if (unit.position === path.length){
     unit.position=0

@@ -356,8 +356,8 @@ var Unit = new Phaser.Class({
       if (Object.keys(hpObject).includes(target.type)) {
         d = Math.floor(d * (1.35) ** (numberOfPlayers))
       }
-      window.setTimeout(() => { //this is what actually applies damage
       target.takeDamage(d);
+      window.setTimeout(() => { //this is what actually applies damage
       //if the attacker is fratboy2, and the attack hits, the target is blinded
       if (this.type === "Dylan" && d > 0) {
         if (!blindProofObject[target.type]) {
@@ -426,7 +426,6 @@ var Unit = new Phaser.Class({
     let dam;
     if (target.living) {
       //specifically for Mac special attack
-      window.setTimeout(() => {
         if (this.type === 'Mac') {
           d *= 1.2
           dam = Math.round(d)
@@ -466,6 +465,7 @@ var Unit = new Phaser.Class({
           }
         }
         //movement of damageIndicator depents on t and u so we reset because by now they have become large
+        window.setTimeout(() => {
         gameStateBattle.t = 0;
         gameStateBattle.u = 0;
         gameStateBattle.damageText.scaleX = 2;
@@ -673,6 +673,7 @@ var Unit = new Phaser.Class({
       this.menuItem.unitKilled();
       this.menuItem = null;
       this.living = false;
+      window.setTimeout(() => {
       if (this.type==="Mac"){
         gameStateBattle.me.anims.play('meDead',true)
         gameStateBattle.me.flipX = false;
@@ -684,12 +685,7 @@ var Unit = new Phaser.Class({
       } else if (this.type==="Cam" || this.type==="Dylan" || this.type==="Chad" ||this.type==="Jackson" ||this.type==="Derek" ||this.type==="Bill" || this.type==="Melvin" ){
         this.runaway = true
       }
-        else {
-        window.setTimeout(() => {
-          this.visible = false;
         }, 3000);
-      }
-
     }
   },
 
@@ -729,6 +725,7 @@ var BattleScene = new Phaser.Class({
     Phaser.Scene.call(this, {
       key: 'BattleScene'
     });
+    this.billBackWalk = false
   },
   preload: function() {
     gameStateBattle.images = ['assets/burcham_battle.png', 'assets/battle_abbott_bigapple.png', 'assets/battle_abbott_mobile.png',
@@ -863,9 +860,12 @@ var BattleScene = new Phaser.Class({
     trevorX = this.add.image(-50, -50, 'blinded');
     trevorBleed = this.physics.add.sprite(-50, -50, 'bleeding');
     trevorBleed.anims.play('bleedingfast', true)
-
   },
   update: function() {
+    if (this.billBackWalk){
+      this.units[this.index].x-=1
+      this.units[this.index].flipX = true;
+    }
     //to make enemies run away
     for (let i=0;i<this.enemies.length;i++){
       if (this.enemies[i].runaway && this.enemies[i].running===false){
@@ -1079,9 +1079,9 @@ var BattleScene = new Phaser.Class({
 /*
     enems=[];  //to get a specific enemy
     for (let i=0; i<7 ;i++){
-      enems.push(['fratboy3', 'Cam', 30, 11, fratboy3, 'frat3right'])
-  }
-  */
+      enems.push(['ex_junkie', 'Bill', 30, 8, ex_junkie, 'ex_junkieright'])
+  }*/
+
 
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
@@ -1293,6 +1293,7 @@ var BattleScene = new Phaser.Class({
     for (var i = 0; i < this.enemies.length; i++) {
       if (this.enemies[i].living)
         victory = false;
+        console.log(`${this.enemies[i]} living: ${this.enemies[i].living}`)
     }
     return victory;
   },
@@ -1774,7 +1775,21 @@ var BattleScene = new Phaser.Class({
         gameStateBattle.trevor.y = this.aliveEnemies[target].y - 10;
         gameStateBattle.trevor.anims.play('trevorslap', false);
         gameStateBattle.trevor.flipX = false;
-        this.smack.play();
+        window.setTimeout(() => {
+          this.smack.play();
+        }, 300);
+        window.setTimeout(() => {
+          gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y + 1)
+          this.smack.play();
+        }, 300+666);
+        window.setTimeout(() => {
+          gameStateBattle.trevor.setDepth(this.aliveEnemies[target+1].y - 1)
+          this.smack.play();
+        }, 300+2*666);
+        window.setTimeout(() => {
+          gameStateBattle.trevor.setDepth(this.aliveEnemies[target+1].y + 1)
+          this.smack.play();
+        }, 300+3*666);
         window.setTimeout(() => {
           this.units[this.index].special(this.aliveEnemies[target + 1])
           gameStateBattle.trevor.x = this.aliveEnemies[target + 1].x + 61;
@@ -1974,6 +1989,15 @@ var BattleScene = new Phaser.Class({
             spray.x = -50
             spray.y = -50
           }, 2000);
+        }
+        else if (this.units[this.index].type === "Jackson") {
+          this.units[this.index].x = this.heroes[r].x - 70;
+          this.units[this.index].y = this.heroes[r].y;
+          settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
+          window.setTimeout(() => {
+            settingDepth = false;
+          }, 2000);
+          this.units[this.index].setDepth(this.heroes[r].y + 1)
         } else if (this.units[this.index].type === "Cam") {
           window.setTimeout(() => {
             mohawkStartingYValue = this.units[this.index].y-50;
@@ -2004,7 +2028,23 @@ var BattleScene = new Phaser.Class({
             this.units[this.index].x = this.heroes[r].x - 80;
             this.units[this.index].y = this.heroes[r].y - 25;
           }, 1000);
-        }else {
+        } else if (this.units[this.index].type === "Bill") {
+          settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
+          this.units[this.index].setScale(.8);
+          window.setTimeout(() => {
+            settingDepth = false;
+            this.units[this.index].setScale(1);
+            this.billBackWalk = false;
+            this.units[this.index].flipX = false;
+          }, 2000);
+          this.units[this.index].setDepth(this.heroes[r].y + 1)
+            this.units[this.index].x = this.heroes[r].x - 45;
+            this.units[this.index].y = this.heroes[r].y;
+          window.setTimeout(() => {
+            this.units[this.index].anims.play(animObject[this.units[this.index].type][0], true);
+            this.billBackWalk = true;
+          }, 800);
+        } else {
           this.units[this.index].x = this.heroes[r].x - 70;
           this.units[this.index].y = this.heroes[r].y;
         }
@@ -2222,5 +2262,6 @@ var UIScene = new Phaser.Class({
     this.message = new Message(this, this.battleScene.events);
     this.add.existing(this.message);
     this.createMenu();
+    this.scene.bringToTop();
   },
 });

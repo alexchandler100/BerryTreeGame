@@ -477,6 +477,8 @@ var MyApartment = new Phaser.Class({
     jamesApt.setScale(.25);
     jamesApt.body.setSize(80, 50);
     jamesApt.body.setOffset(60, 140);
+    jamesApt.setDepth(jamesApt.y)
+
 
     triangleChalk = this.physics.add.sprite(gameStateApt.poolTableTL.x + 152, gameStateApt.poolTableTL.y + 57.1, 'triangleChalk');
     triangleChalk.setScale(.1)
@@ -555,7 +557,6 @@ var MyApartment = new Phaser.Class({
     meApt.setScale(.3);
     meApt.body.setSize(80, 50);
     meApt.body.setOffset(60, 140);
-    //meApt.setDepth(1);
 
     bennettApt = this.physics.add.sprite(mapApt.findObject("objects", obj => obj.name === "enter").x + 200, mapApt.findObject("objects", obj => obj.name === "enter").y + 320, 'bennett');
     bennettApt.anims.play('bennettdown', true);
@@ -567,6 +568,7 @@ var MyApartment = new Phaser.Class({
     joeApt.setScale(.35);
     joeApt.body.setSize(80, 50);
     joeApt.body.setOffset(60, 140);
+    joeApt.setDepth(joeApt.y)
 
     stripperApt = new NPC(this, "stripper apt spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
     //stripperApt = this.physics.add.sprite(gameStateApt.stripperAptSpawnPoint.x, gameStateApt.stripperAptSpawnPoint.y, 'stripper');
@@ -879,13 +881,13 @@ var MyApartment = new Phaser.Class({
     var keyObj1 = this.input.keyboard.addKey('one'); // Get key object
 
     keyObj1.on('down', function(event) {
-      zoom = .264;
+      zoom = .76
     });
 
     var keyObj2 = this.input.keyboard.addKey('two'); // Get key object
 
     keyObj2.on('down', function(event) {
-      zoom = .6
+      zoom = .76
     });
 
     var keyObj3 = this.input.keyboard.addKey('three'); // Get key object
@@ -989,7 +991,7 @@ var MyApartment = new Phaser.Class({
         gameState.itemget.play()
       }
       //switch to light world from clubhouse 731 entrance
-      else if (meApt.x > gameState.clubhouseInside731Entrance.x - 30 && meApt.x < gameState.clubhouseInside731Entrance.x + 30 && meApt.y > gameState.clubhouseInside731Entrance.y - 30 && meApt.y < gameState.clubhouseInside731Entrance.y + 30) {
+      else if (!joeBets && !jamesBets && meApt.x > gameState.clubhouseInside731Entrance.x - 30 && meApt.x < gameState.clubhouseInside731Entrance.x + 30 && meApt.y > gameState.clubhouseInside731Entrance.y - 30 && meApt.y < gameState.clubhouseInside731Entrance.y + 30) {
         scene_number = 2
         this.scene.switch("LightWorld");
         this.scene.sleep("PoolScore");
@@ -997,7 +999,7 @@ var MyApartment = new Phaser.Class({
         me.y = gameState.clubhouse731BR.y - 100;
       }
       //switch to light world from clubhouse burcham woods entrance
-      else if (meApt.x > gameState.clubhouseInsideWoodsEntrance.x - 30 && meApt.x < gameState.clubhouseInsideWoodsEntrance.x + 30 && meApt.y > gameState.clubhouseInsideWoodsEntrance.y - 30 && meApt.y < gameState.clubhouseInsideWoodsEntrance.y + 30) {
+      else if (!joeBets && !jamesBets &&  meApt.x > gameState.clubhouseInsideWoodsEntrance.x - 30 && meApt.x < gameState.clubhouseInsideWoodsEntrance.x + 30 && meApt.y > gameState.clubhouseInsideWoodsEntrance.y - 30 && meApt.y < gameState.clubhouseInsideWoodsEntrance.y + 30) {
         scene_number = 2
         this.scene.switch("LightWorld");
         this.scene.sleep("PoolScore");
@@ -1078,6 +1080,9 @@ var MyApartment = new Phaser.Class({
   },
 
   update: function() {
+    //setting depth for me
+    meApt.setDepth(meApt.y);
+
     //ai for stripper
 
     if (stripperApt.following) {
@@ -1293,7 +1298,8 @@ var MyApartment = new Phaser.Class({
       gameStateApt.pooltimer.setText(`Time: ${Math.floor(timeApt/60/60)}:${Math.floor((timeApt/60)%60)}`);
       if (twoballscore >= 4 && joeBets) {
         this.openDialoguePage(3015)
-
+        _timerStart = false;
+        joeBets = false;
         twoballscore = 0
         gameStateApt.pooltimer.setText(``)
         timeApt = 0
@@ -1302,18 +1308,18 @@ var MyApartment = new Phaser.Class({
         }
       } else if (twoballscore >= 3 && jamesBets) {
         this.openDialoguePage(3025)
-
+        _timerStart = false;
+        jamesBets = false;
         twoballscore = 0
         gameStateApt.pooltimer.setText(``)
         timeApt = 0
-      }
-      if (timeApt === 0) {
+      } else if (timeApt === 0) {
         if (joeBets) {
           joeBets = false;
           _timerStart = false;
           if (twoballscore < 4) {
+            console.log(`twoballscore: ${twoballscore}`)
             this.openDialoguePage(3016)
-
           }
           twoballscore = 0
         } else if (jamesBets) {
@@ -1321,7 +1327,6 @@ var MyApartment = new Phaser.Class({
           _timerStart = false;
           if (twoballscore < 3) {
             this.openDialoguePage(3026)
-
           }
           twoballscore = 0
         }

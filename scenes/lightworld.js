@@ -336,6 +336,11 @@ initialize: function() {
   Phaser.Scene.call(this, {
     "key": "LightWorld"
   });
+  this.gettingHitByCar = false;
+  this.gettingLaidOutByCar = false;
+  this.gettingLaidOutByCarFrame = 12;
+  this.gettingLaidOutByCarAngularSpeed = 10;
+  this.gettingLaidOutByCarvelocity = [0,0]
 },
 init: function(data) {},
 //custom functions
@@ -389,8 +394,106 @@ onKeyInput: function(event) {
     }
   }
 },
+getHitByCar: function (){
+  if (!this.gettingHitByCar){
+    gameState.carhit.play()
+    this.gettingHitByCar = true
+    if (stamina>10){
+      stamina = 10
+    }
+    me.setFrame(12)
+  }
+},
+onMeetEnemy1: function (player, zone) {
+  if (worldTheme === 'light' && playerTexture === 0 && inPool === false && !chasersEnabled) {
+    chasersEnabled = true;
+    chaserClock = 0
+    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+    rr = Math.floor(Math.random() * enemsForChasers.length);
+    ss = Math.floor(Math.random() * enemsForChasers.length);
+    tt = Math.floor(Math.random() * enemsForChasers.length);
+    pp = Math.floor(Math.random() * enemsForChasers.length);
+    qq = Math.floor(Math.random() * enemsForChasers.length);
+    set1 = new Set([rr, ss]);
+    set2 = new Set([rr, ss, tt]);
+    set3 = new Set([rr, ss, tt, pp]);
+    set4 = new Set([rr, ss, tt, pp, qq]);
+    let chasersIndexArray = []
+    chasersIndexArray.push(rr)
+    if (set1.size === 2) {
+      chasersIndexArray.push(ss)
+    }
+    if (set2.size === 3 && numberOfPlayers>=2) {
+      chasersIndexArray.push(tt)
+    }
+    if (set3.size === 4 && numberOfPlayers>=2) {
+      chasersIndexArray.push(pp)
+    }
+    if (set4.size === 5 && numberOfPlayers>=3) {
+      chasersIndexArray.push(qq)
+    }
+    for (const i of chasersIndexArray) {
+      let theta = Math.random() * 2 * 3.1415;
+      //I need to make these only exist during the chasing and then destroy to optimize memory usage (fix needed...)
+      chasers[i].enableBody(true, me.x + 250 * Math.cos(theta), me.y + 250 * Math.sin(theta), true, true);
+    }
+    window.setTimeout(() => {
+      for (const i of chasersIndexArray) {
+        runaway=true;
+      }
+    }, 7000);
+    window.setTimeout(() => {
+      for (const i of chasersIndexArray) {
+        runaway=false;
+        chasers[i].disableBody(true, true);
+        chasersEnabled = false;
+      }
+    }, 14000);
+  }
+},
+
+onMeetEnemy2: function () {
+  if (worldTheme === 'light' && playerTexture === 0 && keepaway <= 100 && !diving && pageDisplayed===0) {
+  //keepaway<400 because otherwise fight can disrupt quest dialogue for jimmy
+    //this.cameras.main.flash(1000)
+    gameState.swimNoise.stop();
+    gameState.meWalkingSound.stop();
+    gameState.meRunningSound.stop();
+    gameState.music.stop();
+    gameState.marioWoods.stop();
+    gameState.linkWoods.stop();
+    gameState.trevorWoods.stop();
+    gameState.battleSongIndex = Math.floor(Math.random() * 9);
+    if (gameState.battleSongIndex === 0) {
+      gameState.battlesong1.play()
+    } else if (gameState.battleSongIndex === 1) {
+      gameState.battlesong2.play()
+    } else if (gameState.battleSongIndex === 2) {
+      gameState.battlesong3.play()
+    } else if (gameState.battleSongIndex === 3) {
+      gameState.battlesong4.play()
+    } else if (gameState.battleSongIndex === 4) {
+      gameState.battlesong5.play()
+    } else if (gameState.battleSongIndex === 5) {
+      gameState.battlesong6.play()
+    } else if (gameState.battleSongIndex === 6) {
+      gameState.battlesong7.play()
+    } else if (gameState.battleSongIndex === 7) {
+      gameState.battlesong8.play()
+    } else if (gameState.battleSongIndex === 8) {
+      gameState.battlesong9.play()
+    }
+    this.scene.switch('BattleScene');
+    chaserInitiateFight = 0;
+    for (let i = 0; i < chasers.length; i++) {
+      chasers[i].disableBody(true, true)
+    }
+  }
+},
 preload: function() {
   //loading audio
+  this.load.audio('carhit', ['assets/carhit.mp3']);
   this.load.audio('outOfBreath', ['assets/outOfBreath.mp3']);
   this.load.audio('carcrash', ['assets/carcrash.wav']);
   this.load.audio('trevorWoods', ['assets/trevorwoods.wav']);
@@ -767,6 +870,9 @@ create: function() {
   });
   gameState.ball2 = this.sound.add('ball2', {
     volume: .6
+  });
+  gameState.carhit = this.sound.add('carhit', {
+    volume: 1
   });
   gameState.outOfBreath = this.sound.add('outOfBreath', {
     volume: 1
@@ -1354,9 +1460,9 @@ create: function() {
   this.anims.create({
     key: 'junkieattack',
     frames: this.anims.generateFrameNumbers('junkie', {
-      frames: [4, 5, 6, 6, 4]
+      frames: [4, 5, 5, 6, 6, 4]
     }),
-    frameRate: 6,
+    frameRate: 10,
     repeat: 0
   });
 
@@ -1735,6 +1841,16 @@ create: function() {
       end: 3
     }),
     frameRate: 4,
+    repeat: -1
+  });
+
+  this.anims.create({
+    key: 'trevorrightfast',
+    frames: this.anims.generateFrameNumbers('trevor', {
+      start: 0,
+      end: 3
+    }),
+    frameRate: 7,
     repeat: -1
   });
 
@@ -2163,7 +2279,7 @@ create: function() {
   oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke", "bong", false);
   oghomeboy.body.immovable = true;
   oghomeboy.body.moves = false;
-  trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorright", "trevorright", "trevorright", "trevorright", "bong", potentialParty["Jimmy"]);
+  trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevorrightfast", "bong", potentialParty["Jimmy"]);
   trevor.body.setCircle(60);
   trevor.body.setOffset(60, 180);
   hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false);
@@ -2307,16 +2423,16 @@ create: function() {
   me.setScale(.17);
   //size and offset for me set in update function
 
-  this.physics.add.overlap(roadCar1, me, getHitByCar, false, this);
-  this.physics.add.overlap(roadCar2, me, getHitByCar, false, this);
-  this.physics.add.overlap(roadCar3, me, getHitByCar, false, this);
-  this.physics.add.overlap(roadCar4, me, getHitByCar, false, this);
-  this.physics.add.overlap(roadCar5, me, getHitByCar, false, this);
-  this.physics.add.overlap(roadCar6, me, getHitByCar, false, this);
-  this.physics.add.overlap(roadCar7, me, getHitByCar, false, this);
-  this.physics.add.overlap(roadCar8, me, getHitByCar, false, this);
-  this.physics.add.overlap(copCar1, me, getHitByCar, false, this);
-  this.physics.add.overlap(copCar2, me, getHitByCar, false, this);
+  this.physics.add.overlap(roadCar1, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(roadCar2, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(roadCar3, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(roadCar4, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(roadCar5, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(roadCar6, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(roadCar7, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(roadCar8, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(copCar1, me, this.getHitByCar, false, this);
+  this.physics.add.overlap(copCar2, me, this.getHitByCar, false, this);
 
 
   gameState.pointer = this.input.activePointer;
@@ -2367,6 +2483,17 @@ create: function() {
   this.physics.add.collider(roadCar8, ball);
   this.physics.add.collider(copCar1, ball);
   this.physics.add.collider(copCar2, ball);
+
+  this.physics.add.collider(roadCar1, me);
+  this.physics.add.collider(roadCar2, me);
+  this.physics.add.collider(roadCar3, me);
+  this.physics.add.collider(roadCar4, me);
+  this.physics.add.collider(roadCar5, me);
+  this.physics.add.collider(roadCar6, me);
+  this.physics.add.collider(roadCar7, me);
+  this.physics.add.collider(roadCar8, me);
+  this.physics.add.collider(copCar1, me);
+  this.physics.add.collider(copCar2, me);
 
 
   //followers colliding
@@ -2923,8 +3050,8 @@ create: function() {
     // parameters are x, y, width, height
     spawns.create(x, y, 20, 20);
   }
-  this.physics.add.overlap(me, spawns, onMeetEnemy1, false, this);
-  this.physics.add.overlap(me, chasersGroup, onMeetEnemy2, false, this);
+  this.physics.add.overlap(me, spawns, this.onMeetEnemy1, false, this);
+  this.physics.add.overlap(me, chasersGroup, this.onMeetEnemy2, false, this);
 
   this.sys.events.on('wake', this.wake, this);
   //do this so that if you die without saving and press load game, you don't have 0 health.
@@ -2940,7 +3067,7 @@ create: function() {
     'Frat Boy Wants to Stab': map.findObject("Objects", obj => obj.name === "fratboy2prime spawn point"),
     'Jean Claude': map.findObject("Objects", obj => obj.name === "jeanPath0"),
     'Jean Claude?': map.findObject("Objects", obj => obj.name === "jeanPath0"),
-    "Diamond Wants Some Coke": map.findObject("Objects", obj => obj.name === "girl 4 spawn point"),
+    "Diamond Wants Some Coke": map.findObject("Objects", obj => obj.name === "girl4 spawn point"),
     "Adeline is pissed": map.findObject("Objects", obj => obj.name === "alton bottom right"),
     "Yoga girl needs blocks": map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left"),
     "Girls Wanna Play Volleyball": map.findObject("Objects", obj => obj.name === "volleyball spawn point"),
@@ -3053,11 +3180,43 @@ if (diving && me.body.velocity.x < 0) {
 }
 
 //getting hit by car
-if (gettingHitByCar && !diving) {
-  gettingHitByCar = false;
-  me.x += (Math.floor(Math.random() * 15) + 1) * (-1) ** Math.floor(Math.random() * 2)
-  me.y += (Math.floor(Math.random() * 15) + 5) * (-1) ** Math.floor(Math.random() * 2)
+if (this.gettingHitByCar && !diving) {
+  this.gettingHitByCar = false;
+  this.gettingLaidOutByCar = true;
+  this.gettingLaidOutByCarFrame = Math.floor(Phaser.Math.FloatBetween(9, 13))
+  this.gettingLaidOutByCarAngularSpeed = Math.floor(Phaser.Math.FloatBetween(-30, 30))
+  this.gettingLaidOutByCarvelocity = [Math.floor(Phaser.Math.FloatBetween(-200, 200)),Math.floor(Phaser.Math.FloatBetween(-200, 200))]
+  me.x += (Math.floor(Math.random() * 5) + 1) * (-1) ** Math.floor(Math.random() * 2)
+  me.y += (Math.floor(Math.random() * 5) + 5) * (-1) ** Math.floor(Math.random() * 2)
+} else if (this.gettingLaidOutByCar){
+  window.setTimeout(()=>{
+    this.gettingUpFromCarHit = true
+  }, 1000)
+  window.setTimeout(()=>{
+    this.gettingUpFromCarHit = false
+    this.gettingLaidOutByCar = false;
+  }, 3000)
+  window.setTimeout(()=>{
+    me.angle = 0;
+  }, 3001)
 }
+
+if (this.gettingLaidOutByCar && !this.gettingUpFromCarHit){
+  me.angle+=this.gettingLaidOutByCarAngularSpeed;
+  me.setFrame(this.gettingLaidOutByCarFrame)
+  me.body.setVelocityX(this.gettingLaidOutByCarvelocity[0])
+  me.body.setVelocityY(this.gettingLaidOutByCarvelocity[1])
+  if (me.body.blocked.up||me.body.blocked.down||me.body.blocked.left||me.body.blocked.right){
+    this.gettingLaidOutByCar=false;
+    gameState.bodyhit.play();
+  }
+} else if (this.gettingLaidOutByCar && this.gettingUpFromCarHit){
+  me.setFrame(25);
+  me.angle = 0;
+  me.body.setVelocityX(0)
+  me.body.setVelocityY(0)
+}
+
 if (gas >= 12) {
   gas = 12
 }
@@ -3858,15 +4017,15 @@ if (trevor.joinParameter === false) {
 if (phoneGet + walletGet === 2 && keysGet === 0) {
   phoneGet += 1;
   walletGet += 1;
+  completeQuest('Find Your Shit')
   activeQuests["Gotta Find My Keys"] = "I found my wallet and phone by the volleyball court, but I still have no idea where my keys are. I have a feeling I was in the woods last night. God damnit."
   window.setTimeout(() => {
 this.openDialoguePage(5)
-  }, 3000);
+}, 800);
 }
 
 //dialogue for finding Keys
 if (phoneGet + walletGet + keysGet === 5) {
-  completeQuest('Find Your Shit')
   completeQuest("Gotta Find My Keys")
   keysGet += 1;
   activeQuests["Gotta Find My Car"] = "I found my keys in the woods, but now I don't know where my damn car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
@@ -4050,7 +4209,7 @@ this.openDialoguePage(80)
 
 //ai for trevor
 if (distance(trevor, me) < 1000) {
-  if (distance(trevor, ball) > 800 && trevor.following === false) {
+  if (distance(trevor, ball) > 300 && trevor.following === false) {
     trevor.disableBody(true, true)
     trevor.enableBody(true, ball.x + Phaser.Math.FloatBetween(-150, 150), ball.y + Phaser.Math.FloatBetween(-100, 100), true, true);
   }
@@ -4063,7 +4222,8 @@ if (distance(trevor, me) < 1000) {
     trevor.flipX = true;
   }
 
-  trevor.chase(ball, 1.4);
+  //original value 1.4
+  trevor.chase(ball, 1.5);
   //trevor.getUnstuck()
   //increases keepaway high score whenever not paused
   if (trevor.following === false && distance(me, ball) < 300 && distance(trevor, ball) > 30 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
@@ -4381,10 +4541,13 @@ if (distance(beachball, me) < 1000) {
 }
 
 //player animations and controls
-me.body.setVelocity(0);
+if (!this.gettingLaidOutByCar){
+  me.body.setVelocity(0);
+}
+
 //pointer controls
 
-if (playerTexture === 0 && inPool === false) {
+if (playerTexture === 0 && inPool === false && !this.gettingLaidOutByCar) {
   // player Horizontal movement
   if (this.cursors.left.isDown) {
     me.body.setVelocityX(-50 * speed * athletics);

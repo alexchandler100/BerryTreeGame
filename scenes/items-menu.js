@@ -79,23 +79,55 @@ var ItemsMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    var macsFace = this.add.image(550,150, 'macFace').setOrigin(0,0);
+    let faceSeparation = 175;
+    let faceY = 190;
+    let textY = 300;
+    let macsFaceX = 580;
+    let alsFaceX = macsFaceX + faceSeparation;
+    let trevorsFaceX = alsFaceX + faceSeparation;
+
+
+    var macsFace = this.add.image(macsFaceX,faceY, 'macFace').setOrigin(0,0).setDepth(1);
+    this.macBackground = this.add.rectangle(macsFaceX-25, faceY-25, macsFace.width+50, macsFace.height+25, 0x000, 0).setOrigin(0,0);
+    this.macBackground.strokeColor = 0xffffff;
+    this.macBackground.fillColor = 0x068c1b;
+    this.macBackground.fillAlpha = .4;
+    this.macBackground.strokeWeight = 2;
+    this.macBackground.strokeAlpha = 1;
+    this.macBackground.isStroked = true;
+    this.macBackground.isFilled = true;
     if (al.following){
-      var alsFace = this.add.image(725,150, 'alFace').setOrigin(0,0);
+      var alsFace = this.add.image(alsFaceX,faceY, 'alFace').setOrigin(0,0).setDepth(1);
+      this.alBackground = this.add.rectangle(alsFaceX-25, faceY-25, alsFace.width+50, alsFace.height+25, 0x000, 0).setOrigin(0,0);
+      this.alBackground.strokeColor = 0xffffff;
+      this.alBackground.fillColor = 0xcb0000;
+      this.alBackground.fillAlpha = .4;
+      this.alBackground.strokeWeight = 2;
+      this.alBackground.strokeAlpha = 1;
+      this.alBackground.isStroked = true;
+      this.alBackground.isFilled = true;
     }
     if (trevor.following){
-      var jimmysFace = this.add.image(900,150, 'jimmyFace').setOrigin(0,0);
+      var jimmysFace = this.add.image(trevorsFaceX,faceY, 'jimmyFace').setOrigin(0,0).setDepth(1);
+            this.trevorBackground = this.add.rectangle(trevorsFaceX-25, faceY-25, jimmysFace.width + 50, jimmysFace.height + 25, 0x000, 0).setOrigin(0,0);
+            this.trevorBackground.strokeColor = 0xffffff;
+            this.trevorBackground.fillColor = 0x0f15a1;
+            this.trevorBackground.fillAlpha = .4;
+            this.trevorBackground.strokeWeight = 2;
+            this.trevorBackground.strokeAlpha = 1;
+            this.trevorBackground.isStroked = true;
+            this.trevorBackground.isFilled = true;
     }
 
-    gameState2.macText = this.add.text(550+37, 300, '', {
+    gameState2.macText = this.add.text(macsFaceX+7, textY, '', {
       fontSize: '15px',
       fill: '#fff'
     });
-    gameState2.alText = this.add.text(725+37, 300, '', {
+    gameState2.alText = this.add.text(alsFaceX+7, textY, '', {
       fontSize: '15px',
       fill: '#fff'
     });
-    gameState2.jimmyText = this.add.text(900+37, 300, '', {
+    gameState2.jimmyText = this.add.text(trevorsFaceX+7, textY, '', {
       fontSize: '15px',
       fill: '#fff'
     });
