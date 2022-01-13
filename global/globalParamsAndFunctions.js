@@ -494,11 +494,11 @@ let items = [];
 let itemEffects = {
   "Andy Capp's Hot Fries": "SP Max",
   'Labatt Max Ice': "HP +60, SP +15",
-  "Monster": "SP +10",
+  "Monster": "SP +10, cure status ailments",
   "Gatorade": "HP +60, stamina max",
   "Hamms": "HP +20 SP +5",
   "Larry Special": "HP max SP max",
-  "Liquor": "fucks you up",
+  "Liquor": "SP Max",
   "Gas": "makes your \n car work"
 }
 let all_usable_items = {
@@ -1229,6 +1229,8 @@ function useItem(object, player) {
       if (spObject[player] >= maxSPObject[player]) {
         spObject[player] = maxSPObject[player]
       }
+      bleedingObject[player]=0;
+      blindObject[player]=0;
     }
   } else if (object === "Gatorade") {
     if (usable_items["Gatorade"] >= 1) {

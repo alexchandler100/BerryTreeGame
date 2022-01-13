@@ -26,6 +26,7 @@ var DialogueMenu = new Phaser.Class({
       'adeline': [1,0],
       'evanAnthony': [.45,0],
       'jeanClaude': [1,0],
+      'smoke': [2.5,0],
     }
   },
   init: function(data) {
@@ -786,7 +787,7 @@ var DialogueMenu = new Phaser.Class({
             aftermath: increaseHighnessDialogue
           },
           {
-            option: "Let me buy some man.",
+            option: "Lemme buy some.",
             nextPage: 82,
           },
           {

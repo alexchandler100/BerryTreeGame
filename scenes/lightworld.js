@@ -3096,7 +3096,7 @@ update: function() {
     gameState.questLocations['Jean Claude?']={x: jeanClaude.x, y: jeanClaude.y}
   } else if (currentQuest === "Diamond Wants Some Coke") {
     if (trevor.following) {
-      gameState.questLocations["Diamond Wants Some Coke"] = map.findObject("Objects", obj => obj.name === "girl 4 spawn point")
+      gameState.questLocations["Diamond Wants Some Coke"] = map.findObject("Objects", obj => obj.name === "girl4 spawn point")
     } else {
       gameState.questLocations["Diamond Wants Some Coke"]={x:trevor.x, y:trevor.y}
     }

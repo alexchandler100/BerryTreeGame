@@ -534,9 +534,12 @@ var Unit = new Phaser.Class({
       }
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a monster to recover 10 SP");
+      //why not use the useitem function here? (fix needed)
       monster -= 1
       usable_items["Monster"] -= 1;
       spObject[this.type] += 10
+      bleedingObject[player]=0;
+      blindObject[player]=0;
       if (spObject[this.type] >= maxSPObject[this.type]) {
         spObject[this.type] = maxSPObject[this.type]
       }
