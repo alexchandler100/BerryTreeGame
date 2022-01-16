@@ -25,6 +25,7 @@ let adventure = 0;
 let gasAlert = 0;
 let buyFailed = 0;
 let pageDisplayed = 0; //supposed to fix issue with multiple pages displaying causing errors
+let kickflipScoreDisplayed = false;
 let backgroundDisplayed = 0;
 let stripperBanged = false;
 let fratboy2primedialogue = 0;
@@ -137,6 +138,7 @@ let launchParameter = false; //this just makes sure the gas station scene isn't 
 let indoorZone = ''
 let shakeTheWorld = false;
 let bennettGet = false;
+let skateboardGet = false;
 let alGet = false;
 let swimNoisePlaying = false;
 let walkNoisePlaying = false;
@@ -150,7 +152,9 @@ let speed = 1;
 let keepaway = 0;
 let keepawayHighScore = 0;
 let playerTexture = 0;
+let startSkateboardScene = false;
 let brothersSeal = 0;
+let brothersSealForSkateboarding = 0;
 let highness = 1;
 let time = 0;
 let pause = false;
@@ -1035,14 +1039,14 @@ function sleep() {
   spObject["Jimmy"] = maxSPObject["Jimmy"];
   spObject["Al"] = maxSPObject["Al"];
   spObject["Bennett"] = maxSPObject["Bennett"];
-  console.log("You feel refreshed")
+  //console.log("You feel refreshed")
 }
 
 function scoreGoal() {
   volleyballScore += 1
   volleyball.disableBody(true, true)
   volleyball.enableBody(true, gameState.VolleyballSpawnPoint.x - 32, gameState.VolleyballSpawnPoint.y - 250, true, true);
-  console.log(volleyballScore)
+  //console.log(volleyballScore)
 }
 
 
@@ -1174,11 +1178,19 @@ function directionVector(obj1, obj2) {
 }
 
 function followPath (unit, path, speed=50){
-  if (distance(unit,path[unit.position])<5 && !unit.changeDirection){
+  if (distance(unit,path[unit.position])<20 && !unit.changeDirection){
+    //console.log(unit.type)
+    if (unit.type==="James"){
+      console.log(`changing from ${unit.position} to ${unit.position+1}`)
+      console.log(path[unit.position+1])
+    }
     unit.position+=1
     unit.changeDirection=true
-  } else if (distance(unit,path[unit.position])>5){
+  } else if (distance(unit,path[unit.position])>25 && unit.changeDirection){
     unit.changeDirection=false
+    if (unit.type==="James"){
+      console.log(`current target position ${unit.position}`)
+    }
   }
   if (unit.position === path.length){
     unit.position=0
@@ -1282,7 +1294,7 @@ function useItem(object, player) {
     }
   } else if (object === "Larry Special") {
     if (usable_items["Larry Special"] >= 1) {
-      console.log(`I have one larry special`)
+      //console.log(`I have one larry special`)
       larrySpecial -= 1
       usable_items["Larry Special"] -= 1
       hpObject[player] = maxHPObject[player]
@@ -1361,6 +1373,11 @@ function getUnstuck(npc, strength = 1) {
 
 //to progress in the highness dialogue as you smoke with different npcs... this part needs to be redesigned so you cant
 //keep smoking with the same npc. Also it should give you some benefit besides shaking and running fast for awhile.
+function getSkateboard() {
+  playerTexture='board'
+  startSkateboardScene = true;
+}
+
 function increaseHighnessDialogue() {
   highnessDialogue += 1
 }
@@ -1453,6 +1470,12 @@ function getBeer() { //bennett gives you beer
 function getMonsters() { //james gives you monster
   monster += 2
   usable_items["Monster"] += 2
+  gameState.itemget.play()
+}
+
+function get10Monsters() { //james gives you monster
+  monster += 10
+  usable_items["Monster"] += 10
   gameState.itemget.play()
 }
 

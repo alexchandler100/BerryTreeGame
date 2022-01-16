@@ -865,6 +865,10 @@ var BattleScene = new Phaser.Class({
     trevorBleed.anims.play('bleedingfast', true)
   },
   update: function() {
+    if (stamina>=30){
+      gameState.outOfBreath.stop()
+      playingOutOfBreath = false
+    }
     if (this.billBackWalk){
       this.units[this.index].x-=1
       this.units[this.index].flipX = true;

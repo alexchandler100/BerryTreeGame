@@ -120,7 +120,7 @@ var Navigator = new Phaser.Class({
     } else{
       gameStateNav.gatorade.visible = false
     }
-    
+
     if (phoneGet){
       gameStateNav.location.visible = true;
       //gameState.camera1.visible = true;

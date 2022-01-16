@@ -6,6 +6,7 @@ var DialogueMenu = new Phaser.Class({
     Phaser.Scene.call(this, {
       "key": "DialogueMenu"
     });
+    this.giveMeSkateboard = false;
     this.iconScaleFrame={
       'me': [1.1,0],
       'trevor': [.75,0],
@@ -40,6 +41,7 @@ var DialogueMenu = new Phaser.Class({
     //sumn
   },
   preload: function() {
+    this.load.image('board_front', "assets/board_front.png");
     this.load.image('evanAnthony', "assets/evanAnthony.png");
     this.load.image('god', "assets/god.png");
     this.load.image('macFace', "assets/MacFace.png");
@@ -51,6 +53,11 @@ var DialogueMenu = new Phaser.Class({
     return this.pages.find(function(e) {
       if (e.page == page) return e
     });
+  },
+
+  keepSkateboard: function () {
+    skateboardGet = true;
+    playerTexture = 0;
   },
 
   //instance for dialogues like in codeacademy example
@@ -140,7 +147,7 @@ var DialogueMenu = new Phaser.Class({
       gameState.headshotBackground.strokeAlpha = 1;
       gameState.headshotBackground.isStroked = true;
       gameState.headshotBackground.isFilled = true;
-      console.log(gameState.headshotBackground)
+      //console.log(gameState.headshotBackground)
 
       gameState.headshot = scene.add.image(faceX,faceY,page.character).setScale(this.iconScaleFrame[page.character][0]).setFrame(this.iconScaleFrame[page.character][1])
 
@@ -208,7 +215,7 @@ var DialogueMenu = new Phaser.Class({
         optionBox.on('pointerup', function() {
           const newPage = this.option.nextPage;
           if (newPage !== undefined) {
-            console.log(scene)
+            //console.log(scene)
             scene.destroyPage();
             scene.displayPage(scene, scene.fetchPage(newPage));
             if (this.option.aftermath) {
@@ -286,7 +293,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 2,
-        narrative: `I just remember playing volleyball... I bet if I can keep that ball away from Jimmy for long enough, he'll help me out.`,
+        narrative: `I just remember playing volleyball... I better ask someone. Jimmy is right over there... I bet if I can keep that ball away from him for long enough, he'll help me out.`,
         options: [{
             option: 'Controls?',
             nextPage: 3
@@ -336,7 +343,11 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'Right on',
           nextPage: undefined
-        }, ]
+        },
+        {
+          option: "Tips?",
+          nextPage: 5007,
+        },]
       },
 
       {
@@ -621,6 +632,9 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'DAMNNN',
           nextPage: 42
+        }, {
+          option: 'Lemme fuck with that board',
+          nextPage: 43
         }, ]
       },
 
@@ -634,6 +648,104 @@ var DialogueMenu = new Phaser.Class({
           aftermath: getMonsters
         }, ]
       },
+
+      {
+        character: 'james',
+        page: 43,
+        narrative: "James: You want this extra board? Alright but lets make a bet. And lets head over to Burcham Road. If you land 10 kickflips in a row, I'll give you 10 monsters. Doubleflips count as 2 kickflips. But if you fall down or crash into something you're back down to 0.",
+        options: [{
+          option: 'Fuck Yeah',
+          nextPage: 44,
+        }, ]
+      },
+
+      {
+        character: 'god',
+        page: 44,
+        narrative: "USE THE DIRECTIONAL KEYS TO START MOVING. ONCE YOU ARE GOING FAST ENOUGH, PRESS S TO OLLIE. AFTER YOU OLLIE, HOLD D TO ROTATE YOUR BOARD. TIME IT SO THAT YOUR BOARD IS FACING THE RIGHT DIRECTION WHEN YOU LAND. LEAVE BURCHAM ROAD AND YOU LOSE. DOUBLEFLIPS ARE HARDER TO LAND.",
+        options: [{
+          option: 'right on',
+          nextPage: undefined,
+          aftermath: getSkateboard
+        }, ]
+      },
+
+      {
+        character: 'james',
+        page: 45,
+        narrative: "James: Damnnn that was awesome. Alright here you go.",
+        options: [{
+          option: 'Fuck Yeah',
+          nextPage: 49,
+          aftermath: get10Monsters
+        }, ]
+      },
+
+      {
+        character: 'god',
+        page: 455,
+        narrative: "You've reached 20 flips in a row... HOLY FUCK!!! You got the BROTHER'S SEAL. Thought it was just for kick-the-ball? Nope.",
+        options: [{
+          option: 'Fuck Yeah',
+          nextPage: undefined,
+        }, ]
+      },
+
+      {
+        character: 'james',
+        page: 46,
+        narrative: "James: Damnnn you got fucked up haah too bad.",
+        options: [{
+          option: 'Goddamnit',
+          nextPage: undefined,
+        }, ]
+      },
+
+      {
+        character: 'james',
+        page: 47,
+        narrative: "James: .....",
+        options: [{
+          option: 'Lemme fuck with that board',
+          nextPage: 43
+        }, {
+          option: 'Shiiiit',
+          nextPage: undefined
+        },]
+      },
+
+      {
+        character: 'james',
+        page: 48,
+        narrative: "James: Gotta stay on Burcham road.",
+        options: [{
+          option: 'Goddamnit',
+          nextPage: undefined,
+        }, ]
+      },
+
+      {
+        character: 'james',
+        page: 49,
+        narrative: "James: Here you can go ahead and hang onto this extra board. Sucks having to carry it around.",
+        options: [{
+          option: `Fuckin A, right on man`,
+          nextPage: 499,
+          aftermath: this.keepSkateboard
+        }, ]
+      },
+
+      {
+        character: 'god',
+        page: 499,
+        narrative: "Press D to ride your board. While you're on it, nobody will attack you.",
+        options: [{
+          option: `Tight`,
+          nextPage: undefined,
+        }, ]
+      },
+
+
 
       {
         character: 'joe',
@@ -2062,6 +2174,118 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: "Fuckin' A, Man",
           nextPage: undefined,
+        },
+        {
+          option: "Tips?",
+          nextPage: 5007,
+        },]
+      },
+
+      {
+        character: 'god',
+        page: 5007,
+        narrative: `Make sure to heal yourself outside of battle, as using items takes a turn in battle. `,
+        options: [{
+          option: "Right On",
+          nextPage: undefined,
+        },
+        {
+          option: "More",
+          nextPage: 5008,
+        },]
+      },
+
+      {
+        character: 'god',
+        page: 5008,
+        narrative: `Special attacks never miss.`,
+        options: [{
+          option: "Hell Yeah",
+          nextPage: undefined,
+        },
+        {
+          option: "More",
+          nextPage: 5009,
+        },]
+      },
+
+      {
+        character: 'god',
+        page: 5009,
+        narrative: `Don't forget to equip any helpful items you may have found along the way.`,
+        options: [{
+          option: "Obviously",
+          nextPage: undefined,
+        },
+        {
+          option: "More",
+          nextPage: 5010,
+        },]
+      },
+
+      {
+        character: 'god',
+        page: 5010,
+        narrative: `If you are low on stamina, you will miss more often. Drink a gatorade to restore your stamina.`,
+        options: [{
+          option: "True",
+          nextPage: undefined,
+        },
+        {
+          option: "More",
+          nextPage: 5011,
+        },]
+      },
+
+      {
+        character: 'god',
+        page: 5011,
+        narrative: `You want to take out the most dangerous enemies first. Luckily these are typically the ones with the lowest HP.`,
+        options: [{
+          option: "Okayyy",
+          nextPage: undefined,
+        },
+        {
+          option: "More",
+          nextPage: 5012,
+        },]
+      },
+
+      {
+        character: 'god',
+        page: 5012,
+        narrative: `You can outrun enemies on the overworld map by waiting until they are close to you, and cutting a corner. Once you cut a corner, you can tire them out by running circles around them. They will eventually give up.`,
+        options: [{
+          option: "Shiiiit",
+          nextPage: undefined,
+        },
+        {
+          option: "More",
+          nextPage: 5013,
+        },]
+      },
+
+      {
+        character: 'god',
+        page: 5013,
+        narrative: `That's all for now...`,
+        options: [{
+          option: "Goddamnit",
+          nextPage: undefined,
+        },
+        {
+          option: "More",
+          nextPage: 5014,
+        },]
+      },
+
+      {
+        character: 'god',
+        page: 5014,
+        narrative: `Are you fucking kidding me?`,
+        options: [{
+          option: "Whatever",
+          nextPage: undefined,
         },]
       },
 
@@ -2082,6 +2306,10 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'Well Goddamn',
           nextPage: undefined,
+        },
+        {
+          option: "Tips?",
+          nextPage: 5007,
         },]
       },
 
@@ -2092,6 +2320,10 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'Good Idea',
           nextPage: undefined,
+        },
+        {
+          option: "Tips?",
+          nextPage: 5007,
         },]
       },
 
@@ -2192,9 +2424,25 @@ var DialogueMenu = new Phaser.Class({
       align: 'center',
     });
 
+    this.kickflipDisplay = this.add.text(50, 550, ``, {
+      fontSize: '20px',
+      fill: '#fff',
+      align: 'right',
+    });
+
+    this.kickflipRotationDisplay = this.add.image(150, 500, `board_front`);
+    this.kickflipRotationDisplay.setScale(1.5)
+    this.kickflipRotationDisplay.visible = false;
+
     this.scene.bringToTop();
+    this.LightWorld = this.scene.get("LightWorld");
   },
   update: function() {
+
+    if (playerTexture === 'board' && this.LightWorld.kickflipTimer>0 && this.LightWorld.kickflipTimerRunning){
+      this.kickflipRotationDisplay.visible = true;
+      this.kickflipRotationDisplay.angle += 720/60;
+    }
 
     if (showKickTheBallScore){
       this.scoreGotten.visible = true;
@@ -2215,10 +2463,16 @@ var DialogueMenu = new Phaser.Class({
     } else {
       this.kickTheBallDisplay.visible = false;
     }
+    if (kickflipScoreDisplayed){
+      this.kickflipDisplay.visible = true;
+      this.kickflipDisplay.setText(`Kickflips: ${this.LightWorld.kickflipCounter}`);
+    } else {
+      this.kickflipDisplay.visible = false;
+    }
 
     this.timer+=1;
     if (openingDialogue){
-      console.log(`openingDialogue`)
+      //console.log(`openingDialogue`)
       openingDialogue = false
       this.initializePage(this);
       let thePage = this.fetchPage(pageForDialogue);
