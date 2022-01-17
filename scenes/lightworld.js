@@ -2474,7 +2474,7 @@ var LightWorld = new Phaser.Class({
     //to spawn at cwCarPath points
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "cwCarPath8")
     //to spawn at high school roof
-    gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
+    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
     //to spawn at soccer net
     //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "jon spawn point").x
     //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "jon spawn point").y+50
@@ -3779,6 +3779,7 @@ var LightWorld = new Phaser.Class({
       potentialParty["Al"] = true
       potentialParty["Bennett"] = true
       brothersSeal = 1;
+      brothersSealForSkateboarding = 1;
       money += 10;
       hamms += 1;
       monster += 1;

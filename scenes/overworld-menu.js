@@ -6,11 +6,17 @@ var OverworldMenu = new Phaser.Class({
     Phaser.Scene.call(this, {
       "key": "OverworldMenu"
     });
+    this.sealTexture1 = 'empty'
+    this.sealTexture2 = 'empty'
   },
   init: function(data) {
     //sumn
   },
-  preload: function() {},
+  preload: function() {
+    this.load.image('seal1', "assets/seal1.png");
+    this.load.image('seal2', "assets/seal2.png");
+    this.load.image('sealEmpty', "assets/sealEmpty.png");
+  },
   create: function() {
 
     function onlyUnique(value, index, self) {
@@ -132,6 +138,9 @@ var OverworldMenu = new Phaser.Class({
     }
     itemsText.setText(item_list)
 
+    this.mySeal1 = this.physics.add.sprite(800,200,'sealEmpty')
+    this.mySeal2 = this.physics.add.sprite(950,200,'sealEmpty')
+
     gameState5.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
     gameState5.keyObjZ.on('down', function() {
       this.scene.stop();
@@ -139,8 +148,18 @@ var OverworldMenu = new Phaser.Class({
       pause = false
       launchParameter=false;
     }, this);
+
+
   },
   update: function() {
+    if (brothersSeal===1 && this.sealTexture1 === 'empty'){
+      this.sealTexture1 = 'seal1'
+      this.mySeal1.setTexture('seal1')
+    }
+    if (brothersSealForSkateboarding===1 && this.sealTexture2 === 'empty'){
+      this.sealTexture2 = 'seal2'
+      this.mySeal2.setTexture('seal2')
+    }
     if (scene_number === 1) {
       redisplay=true
       redisplayItems=true
