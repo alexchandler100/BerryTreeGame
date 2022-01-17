@@ -602,6 +602,27 @@ var Unit = new Phaser.Class({
     }
   },
 
+  andyCapps: function() {
+    if (defendOn[this.type]) {
+      defendOn[this.type] = false
+    }
+    if (andycapps >= 1) {
+      andycapps -= 1
+      usable_items["Andy Capp's Hot Fries"] -= 1
+      spObject[this.type] = maxSPObject[this.type]
+      this.hp +=10
+      if (this.hp >= maxHPObject[this.type]) {
+        hpObject[this.type] = maxHPObject[this.type]
+      }
+      hpObject[this.type] += 10
+      if (hpObject[this.type] >= maxHPObject[this.type]) {
+        hpObject[this.type] = maxHPObject[this.type]
+      }
+    } else {
+      this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
+    }
+  },
+
   liquor: function() {
     if (defendOn[this.type]) {
       defendOn[this.type] = false
@@ -1285,10 +1306,10 @@ var BattleScene = new Phaser.Class({
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
 
-    if (runaway){
-      this.index = -1;
+    if (runaway || firstStrike){
+      this.index = -1; //so player attacks first
     } else {
-      this.index = this.units.length-2  // currently active unit
+      this.index = this.units.length-2  //so enemy gets 1 attack before player
     }
     //currentHero=this.heroes[this.index]
 
@@ -1539,6 +1560,11 @@ var BattleScene = new Phaser.Class({
         this.index--
       }
       this.units[this.index].gatorade()
+    } else if (this.UIScene.actionsMenu.menuItems[action]._text == "Andy Capp's Hot Fries") {
+      if (gatorade === 0) {
+        this.index--
+      }
+      this.units[this.index].andyCapps()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Monster') {
       if (monster === 0) {
         this.index--

@@ -1,5 +1,6 @@
 //constants and parameters
 const gameStateApt = {};
+let musRnd = 0
 let englishIndicator = {}
 let loadedIndoorsThemes = false;
 let startFollow = true;
@@ -212,7 +213,7 @@ var MyApartment = new Phaser.Class({
     }
     this.scene.run("DialogueMenu");
     gameState.music.stop();
-    let musRnd = Math.floor(Math.random() * 4);
+    musRnd = Math.floor(Math.random() * 4);
     if (musRnd === 0) {
       gameStateApt.indoors0.play()
     } else if (musRnd === 1) {
@@ -336,7 +337,7 @@ var MyApartment = new Phaser.Class({
     gameStateApt.indoors1.loop = true;
     gameStateApt.indoors2.loop = true;
     gameStateApt.indoors3.loop = true;
-    let musRnd = Math.floor(Math.random() * 4);
+    musRnd = Math.floor(Math.random() * 4);
     if (musRnd === 0) {
       gameStateApt.indoors0.play()
     } else if (musRnd === 1) {
@@ -516,6 +517,7 @@ var MyApartment = new Phaser.Class({
     });
 
     //spawning player and setting properties
+    gameStateApt.keyboard = mapApt.findObject("objects", obj => obj.name === "keyboard");
     gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
     gameStateApt.enter = mapApt.findObject("objects", obj => obj.name === "enter");
     gameStateApt.elevatorUpstairs = mapApt.findObject("objects", obj => obj.name === "clubhouse elevator");
@@ -1063,12 +1065,10 @@ var MyApartment = new Phaser.Class({
         }
       }
       //get keyboard
-      else if (meApt.x > gameState.bed.x - 150 && meApt.x < gameState.bed.x - 50 && meApt.y > gameState.bed.y + 50 && meApt.y < gameState.bed.y + 150) {
-        if (keyboardGet === false) {
+      else if (!keyboardGet && distance(meApt,gameStateApt.keyboard)<40) {
           keyboardDialogue = true;
           gameState.itemget.play;
           keyboardGet = true;
-        }
       }
     }, this);
 
@@ -1080,6 +1080,9 @@ var MyApartment = new Phaser.Class({
   },
 
   update: function() {
+    if (keyboardGet && distance(meApt,gameStateApt.keyboard)>60){
+      keyboardGet = false;
+    }
     //setting depth for me
     meApt.setDepth(meApt.y);
 
@@ -1100,7 +1103,14 @@ var MyApartment = new Phaser.Class({
     if (keyboardDialogue) {
       keyboardDialogue = false;
       this.openDialoguePage(4000)
-
+    }
+    if (openKeyboard){
+      openKeyboard = false;
+      this.scene.launch('Keyboard');
+        gameStateApt.indoors0.stop()
+        gameStateApt.indoors1.stop()
+        gameStateApt.indoors2.stop()
+        gameStateApt.indoors3.stop()
     }
     //for english indicator
     if (gameStateApt.keyObjS.isDown) {

@@ -1,11 +1,65 @@
 let recordingTime = 0;
+let keyboardVolume = 0.4;
 let recording = false;
 let playing = false;
+let customMusicPlaying= false;
 let playingTime = 0;
 let gameState6 = {}
 let timeTest = true
 let timer = 0
 let quantizing=false;
+
+gameState6.keyObj = {}
+
+gameState6.keys=['A','W','S','E','D','F','T','G','Y','H','U','J','K','O','L','P']
+gameState6.sequences = {}
+gameState6.sequences.piano = {}
+gameState6.sequences.piano.octave = [];
+for (let i=0;i<gameState6.keys.length;i++){
+  gameState6.sequences.piano[gameState6.keys[i]]=[]
+}
+
+gameState6.sequences.bass = {}
+gameState6.sequences.bass.octave = [];
+for (let i=0;i<gameState6.keys.length;i++){
+  gameState6.sequences.bass[gameState6.keys[i]]=[]
+}
+
+gameState6.sequences.guitar = {}
+gameState6.sequences.guitar.octave = [];
+for (let i=0;i<gameState6.keys.length;i++){
+  gameState6.sequences.guitar[gameState6.keys[i]]=[]
+}
+
+gameState6.sequences.choir = {}
+gameState6.sequences.choir.octave = [];
+for (let i=0;i<gameState6.keys.length;i++){
+  gameState6.sequences.choir[gameState6.keys[i]]=[]
+}
+
+gameState6.sequences.wurlitzer = {}
+gameState6.sequences.wurlitzer.octave = [];
+for (let i=0;i<gameState6.keys.length;i++){
+  gameState6.sequences.wurlitzer[gameState6.keys[i]]=[]
+}
+
+gameState6.sequences.strings = {}
+gameState6.sequences.strings.octave = [];
+for (let i=0;i<gameState6.keys.length;i++){
+  gameState6.sequences.strings[gameState6.keys[i]]=[]
+}
+
+
+gameState6.sequences.clav = {}
+gameState6.sequences.clav.octave = [];
+for (let i=0;i<gameState6.keys.length;i++){
+  gameState6.sequences.clav[gameState6.keys[i]]=[]
+}
+
+gameState6.sequences.drums = {}
+for (let i=0;i<gameState6.keys.length;i++){
+  gameState6.sequences.drums[gameState6.keys[i]]=[]
+}
 
 function stopRecording(){
   recording = false;
@@ -63,15 +117,15 @@ function record(){
     gameState6.sequences.drums.P = []
   }
   // 2 metronome clicks per second
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 20 ; i++) {
     window.setTimeout(() => {
       if (i === 4) {
         recording = true;
         playing = true;
       }
-      if (i % 4 === 0) {
+      if (i % 4 === 0 && (recording || i<4)) {
         gameState6.metronome1.play()
-      } else {
+      } else if (recording || i<4) {
         gameState6.metronome2.play()
       }
     }, 500 * i);
@@ -164,61 +218,12 @@ var Keyboard = new Phaser.Class({
     this.load.image('motif6', 'assets/motif6big.png')
   },
   create: function() {
+    //background and border
+    this.border = this.add.rectangle(0,0, 1200, 600, 0xb39c0e).setOrigin(0,0);
+    this.background = this.add.rectangle(4, 4, 1196, 596, 0x000).setOrigin(0,0);
     //to use backspace and such from onKeyInput method
     this.input.keyboard.on("keydown", this.onKeyInput, this);
     //for recording
-    gameState6.keyObj = {}
-    gameState6.sequences = {}
-
-    gameState6.keys=['A','W','S','E','D','F','T','G','Y','H','U','J','K','O','L','P']
-
-    gameState6.sequences.piano = {}
-    gameState6.sequences.piano.octave = [];
-    for (let i=0;i<gameState6.keys.length;i++){
-      gameState6.sequences.piano[gameState6.keys[i]]=[]
-    }
-
-    gameState6.sequences.bass = {}
-    gameState6.sequences.bass.octave = [];
-    for (let i=0;i<gameState6.keys.length;i++){
-      gameState6.sequences.bass[gameState6.keys[i]]=[]
-    }
-
-    gameState6.sequences.guitar = {}
-    gameState6.sequences.guitar.octave = [];
-    for (let i=0;i<gameState6.keys.length;i++){
-      gameState6.sequences.guitar[gameState6.keys[i]]=[]
-    }
-
-    gameState6.sequences.choir = {}
-    gameState6.sequences.choir.octave = [];
-    for (let i=0;i<gameState6.keys.length;i++){
-      gameState6.sequences.choir[gameState6.keys[i]]=[]
-    }
-
-    gameState6.sequences.wurlitzer = {}
-    gameState6.sequences.wurlitzer.octave = [];
-    for (let i=0;i<gameState6.keys.length;i++){
-      gameState6.sequences.wurlitzer[gameState6.keys[i]]=[]
-    }
-
-    gameState6.sequences.strings = {}
-    gameState6.sequences.strings.octave = [];
-    for (let i=0;i<gameState6.keys.length;i++){
-      gameState6.sequences.strings[gameState6.keys[i]]=[]
-    }
-
-
-    gameState6.sequences.clav = {}
-    gameState6.sequences.clav.octave = [];
-    for (let i=0;i<gameState6.keys.length;i++){
-      gameState6.sequences.clav[gameState6.keys[i]]=[]
-    }
-
-    gameState6.sequences.drums = {}
-    for (let i=0;i<gameState6.keys.length;i++){
-      gameState6.sequences.drums[gameState6.keys[i]]=[]
-    }
 
     //trying to get rid of delay but nothing works
     //console.log(Phaser.Sound)
@@ -238,29 +243,23 @@ var Keyboard = new Phaser.Class({
     gameState6.octave = 0;
     motif6 = this.add.image(100, 100, 'motif6').setOrigin(0, 0).setDepth(1);
 
-    //menu buttons
-    //switch to menu 1
-    gameState6.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff).setDepth(1);
-
-    //switch to menu 2
-    gameState6.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff).setDepth(1);
-
-    //switch to menu 3
-    gameState6.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff).setDepth(1);
-
-    //switch to menu 4
-    gameState6.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff).setDepth(1);
-
-    //switch to menu 5
-    gameState6.pausemenu_button5 = this.add.rectangle(270, 70, 20, 20, 0xfff).setDepth(1);
-    gameState6.pausemenu_button_white2 = this.add.rectangle(270, 70, 16, 16, 0x000).setDepth(1);
-
     //exit button
     gameState6.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff).setDepth(1);
     gameState6.exit_button.setInteractive()
     gameState6.exit_button.on('pointerup', function() {
+      playing = false;
       launchParameter=false;
-      scene_number = 2;
+      scene_number = 'indoors';
+      this.scene.stop();
+      if (musRnd === 0) {
+        gameStateApt.indoors0.play()
+      } else if (musRnd === 1) {
+        gameStateApt.indoors1.play()
+      } else if (musRnd === 2) {
+        gameStateApt.indoors2.play()
+      } else if (musRnd === 3) {
+        gameStateApt.indoors3.play()
+      }
       pause = false;
     }, this);
     exitText = this.add.text(1080 - 7, 70 - 14, 'x', {
@@ -268,45 +267,110 @@ var Keyboard = new Phaser.Class({
       fill: '#fff'
     }).setDepth(1);
 
+    //set to music button
+    gameState6.set_button = this.add.rectangle(20, 70, 100, 20, 0xfff).setOrigin(0,0);
+    gameState6.set_button.setInteractive()
+    gameState6.set_button.on('pointerup', function() {
+      customMusicStart = true;
+      playing = true;
+      launchParameter=false;
+      scene_number = 'indoors';
+      this.scene.stop();
+      if (musRnd === 0) {
+        gameStateApt.indoors0.play()
+      } else if (musRnd === 1) {
+        gameStateApt.indoors1.play()
+      } else if (musRnd === 2) {
+        gameStateApt.indoors2.play()
+      } else if (musRnd === 3) {
+        gameStateApt.indoors3.play()
+      }
+      pause = false;
+    }, this)
+    setText = this.add.text(20, 70, 'Set as overworld theme', {
+      fontSize: '25px',
+      fill: '#fff'
+    }).setDepth(1);
+    gameState6.set_button.width = setText.width
+
+    //unset to music button (same as exit button actually)
+    gameState6.unset_button = this.add.rectangle(20, 20, 100, 20, 0xfff).setOrigin(0,0);
+    gameState6.unset_button.setInteractive()
+    gameState6.unset_button.on('pointerup', function() {
+      playing = false;
+      launchParameter=false;
+      scene_number = 'indoors';
+      this.scene.stop();
+      if (musRnd === 0) {
+        gameStateApt.indoors0.play()
+      } else if (musRnd === 1) {
+        gameStateApt.indoors1.play()
+      } else if (musRnd === 2) {
+        gameStateApt.indoors2.play()
+      } else if (musRnd === 3) {
+        gameStateApt.indoors3.play()
+      }
+      pause = false;
+    }, this)
+    unsetText = this.add.text(20, 20, 'Delete as overworld theme', {
+      fontSize: '25px',
+      fill: '#fff'
+    }).setDepth(1);
+    gameState6.unset_button.width = unsetText.width
+
     gameState6.pianomiddleC = {}
     for (let i = 0; i < 16; i++) {
-      gameState6.pianomiddleC[i] = this.sound.add('middleC');
+      gameState6.pianomiddleC[i] = this.sound.add('middleC', {
+        volume: keyboardVolume
+      });
       gameState6.pianomiddleC[i].setDetune(100 * i);
     }
 
     gameState6.bassmiddleC = {}
     for (let i = 0; i < 16; i++) {
-      gameState6.bassmiddleC[i] = this.sound.add('bassmiddleC');
+      gameState6.bassmiddleC[i] = this.sound.add('bassmiddleC', {
+        volume: keyboardVolume
+      });
       gameState6.bassmiddleC[i].setDetune(100 * i);
     }
 
     gameState6.stringsmiddleC = {}
     for (let i = 0; i < 16; i++) {
-      gameState6.stringsmiddleC[i] = this.sound.add('stringsmiddleC');
+      gameState6.stringsmiddleC[i] = this.sound.add('stringsmiddleC', {
+        volume: keyboardVolume
+      });
       gameState6.stringsmiddleC[i].setDetune(100 * i);
     }
 
     gameState6.clavmiddleC = {}
     for (let i = 0; i < 16; i++) {
-      gameState6.clavmiddleC[i] = this.sound.add('clavmiddleC');
+      gameState6.clavmiddleC[i] = this.sound.add('clavmiddleC', {
+        volume: keyboardVolume
+      });
       gameState6.clavmiddleC[i].setDetune(100 * i);
     }
 
     gameState6.choirmiddleC = {}
     for (let i = 0; i < 16; i++) {
-      gameState6.choirmiddleC[i] = this.sound.add('choirmiddleC');
+      gameState6.choirmiddleC[i] = this.sound.add('choirmiddleC', {
+        volume: keyboardVolume
+      });
       gameState6.choirmiddleC[i].setDetune(100 * i);
     }
 
     gameState6.guitarmiddleC = {}
     for (let i = 0; i < 16; i++) {
-      gameState6.guitarmiddleC[i] = this.sound.add('guitarmiddleC');
+      gameState6.guitarmiddleC[i] = this.sound.add('guitarmiddleC', {
+        volume: keyboardVolume
+      });
       gameState6.guitarmiddleC[i].setDetune(100 * i);
     }
 
     gameState6.wurlitzermiddleC = {}
     for (let i = 0; i < 16; i++) {
-      gameState6.wurlitzermiddleC[i] = this.sound.add('wurlmiddleC');
+      gameState6.wurlitzermiddleC[i] = this.sound.add('wurlmiddleC', {
+        volume: keyboardVolume
+      });
       gameState6.wurlitzermiddleC[i].setDetune(100 * i);
     }
 
@@ -314,23 +378,51 @@ var Keyboard = new Phaser.Class({
     gameState6.metronome2=this.sound.add('metronome2');
 
     gameState6.drums = {}
-    gameState6.drums.A=this.sound.add('kick1');
-    gameState6.drums.W=this.sound.add('kick2');
-    gameState6.drums.S=this.sound.add('snare1');
-    gameState6.drums.E=this.sound.add('snare2');
-    gameState6.drums.D=this.sound.add('megamantom');
+    gameState6.drums.A=this.sound.add('kick1', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.W=this.sound.add('kick2', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.S=this.sound.add('snare1', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.E=this.sound.add('snare2', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.D=this.sound.add('megamantom', {
+      volume: keyboardVolume
+    });
     gameState6.drums.D.setDetune(-1200);
-    gameState6.drums.F=this.sound.add('megamantom');
+    gameState6.drums.F=this.sound.add('megamantom', {
+      volume: keyboardVolume
+    });
     gameState6.drums.F.setDetune(-600);
-    gameState6.drums.T=this.sound.add('hihat1');
-    gameState6.drums.G=this.sound.add('megamantom');
-    gameState6.drums.Y=this.sound.add('hihat2');
-    gameState6.drums.H=this.sound.add('megamantom');
+    gameState6.drums.T=this.sound.add('hihat1', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.G=this.sound.add('megamantom', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.Y=this.sound.add('hihat2', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.H=this.sound.add('megamantom', {
+      volume: keyboardVolume
+    });
     gameState6.drums.H.setDetune(600);
-    gameState6.drums.U=this.sound.add('openhihat1');
-    gameState6.drums.J=this.sound.add('shaker1');
-    gameState6.drums.K=this.sound.add('shaker2');
-    gameState6.drums.O=this.sound.add('tambourine1');
+    gameState6.drums.U=this.sound.add('openhihat1', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.J=this.sound.add('shaker1', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.K=this.sound.add('shaker2', {
+      volume: keyboardVolume
+    });
+    gameState6.drums.O=this.sound.add('tambourine1', {
+      volume: keyboardVolume
+    });
 
     //piano button
     gameState6.piano_button = this.add.rectangle(500, 30, 95, 20, 0xfff).setDepth(1);
@@ -339,36 +431,68 @@ var Keyboard = new Phaser.Class({
       gameState6.instrument = 'piano'
       if (gameState6.pianoType !== 'piano') {
         gameState6.pianoType = 'piano'
-        gameState6.middleC = this.sound.add('middleC');
-        gameState6.middleC100 = this.sound.add('middleC');
+        gameState6.middleC = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
+        gameState6.middleC100 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC100.setDetune(100);
-        gameState6.middleC200 = this.sound.add('middleC');
+        gameState6.middleC200 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC200.setDetune(200);
-        gameState6.middleC300 = this.sound.add('middleC');
+        gameState6.middleC300 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC300.setDetune(300);
-        gameState6.middleC400 = this.sound.add('middleC');
+        gameState6.middleC400 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC400.setDetune(400);
-        gameState6.middleC500 = this.sound.add('middleC');
+        gameState6.middleC500 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC500.setDetune(500);
-        gameState6.middleC600 = this.sound.add('middleC');
+        gameState6.middleC600 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC600.setDetune(600);
-        gameState6.middleC700 = this.sound.add('middleC');
+        gameState6.middleC700 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC700.setDetune(700);
-        gameState6.middleC800 = this.sound.add('middleC');
+        gameState6.middleC800 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC800.setDetune(800);
-        gameState6.middleC900 = this.sound.add('middleC');
+        gameState6.middleC900 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC900.setDetune(900);
-        gameState6.middleC1000 = this.sound.add('middleC');
+        gameState6.middleC1000 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1000.setDetune(1000);
-        gameState6.middleC1100 = this.sound.add('middleC');
+        gameState6.middleC1100 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1100.setDetune(1100);
-        gameState6.middleC1200 = this.sound.add('middleC');
+        gameState6.middleC1200 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1200.setDetune(1200);
-        gameState6.middleC1300 = this.sound.add('middleC');
+        gameState6.middleC1300 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1300.setDetune(1300);
-        gameState6.middleC1400 = this.sound.add('middleC');
+        gameState6.middleC1400 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1400.setDetune(1400);
-        gameState6.middleC1500 = this.sound.add('middleC');
+        gameState6.middleC1500 = this.sound.add('middleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1500.setDetune(1500);
       }
     }, this);
@@ -384,36 +508,68 @@ var Keyboard = new Phaser.Class({
       gameState6.instrument = 'piano'
       if (gameState6.pianoType !== 'choir') {
         gameState6.pianoType = 'choir'
-        gameState6.middleC = this.sound.add('choirmiddleC');
-        gameState6.middleC100 = this.sound.add('choirmiddleC');
+        gameState6.middleC = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
+        gameState6.middleC100 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC100.setDetune(100);
-        gameState6.middleC200 = this.sound.add('choirmiddleC');
+        gameState6.middleC200 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC200.setDetune(200);
-        gameState6.middleC300 = this.sound.add('choirmiddleC');
+        gameState6.middleC300 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC300.setDetune(300);
-        gameState6.middleC400 = this.sound.add('choirmiddleC');
+        gameState6.middleC400 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC400.setDetune(400);
-        gameState6.middleC500 = this.sound.add('choirmiddleC');
+        gameState6.middleC500 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC500.setDetune(500);
-        gameState6.middleC600 = this.sound.add('choirmiddleC');
+        gameState6.middleC600 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC600.setDetune(600);
-        gameState6.middleC700 = this.sound.add('choirmiddleC');
+        gameState6.middleC700 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC700.setDetune(700);
-        gameState6.middleC800 = this.sound.add('choirmiddleC');
+        gameState6.middleC800 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC800.setDetune(800);
-        gameState6.middleC900 = this.sound.add('choirmiddleC');
+        gameState6.middleC900 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC900.setDetune(900);
-        gameState6.middleC1000 = this.sound.add('choirmiddleC');
+        gameState6.middleC1000 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1000.setDetune(1000);
-        gameState6.middleC1100 = this.sound.add('choirmiddleC');
+        gameState6.middleC1100 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1100.setDetune(1100);
-        gameState6.middleC1200 = this.sound.add('choirmiddleC');
+        gameState6.middleC1200 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1200.setDetune(1200);
-        gameState6.middleC1300 = this.sound.add('choirmiddleC');
+        gameState6.middleC1300 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1300.setDetune(1300);
-        gameState6.middleC1400 = this.sound.add('choirmiddleC');
+        gameState6.middleC1400 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1400.setDetune(1400);
-        gameState6.middleC1500 = this.sound.add('choirmiddleC');
+        gameState6.middleC1500 = this.sound.add('choirmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1500.setDetune(1500);
       }
     }, this);
@@ -440,36 +596,68 @@ var Keyboard = new Phaser.Class({
       gameState6.instrument = 'piano'
       if (gameState6.pianoType !== 'strings') {
         gameState6.pianoType = 'strings'
-        gameState6.middleC = this.sound.add('stringsmiddleC');
-        gameState6.middleC100 = this.sound.add('stringsmiddleC');
+        gameState6.middleC = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
+        gameState6.middleC100 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC100.setDetune(100);
-        gameState6.middleC200 = this.sound.add('stringsmiddleC');
+        gameState6.middleC200 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC200.setDetune(200);
-        gameState6.middleC300 = this.sound.add('stringsmiddleC');
+        gameState6.middleC300 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC300.setDetune(300);
-        gameState6.middleC400 = this.sound.add('stringsmiddleC');
+        gameState6.middleC400 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC400.setDetune(400);
-        gameState6.middleC500 = this.sound.add('stringsmiddleC');
+        gameState6.middleC500 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC500.setDetune(500);
-        gameState6.middleC600 = this.sound.add('stringsmiddleC');
+        gameState6.middleC600 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC600.setDetune(600);
-        gameState6.middleC700 = this.sound.add('stringsmiddleC');
+        gameState6.middleC700 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC700.setDetune(700);
-        gameState6.middleC800 = this.sound.add('stringsmiddleC');
+        gameState6.middleC800 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC800.setDetune(800);
-        gameState6.middleC900 = this.sound.add('stringsmiddleC');
+        gameState6.middleC900 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC900.setDetune(900);
-        gameState6.middleC1000 = this.sound.add('stringsmiddleC');
+        gameState6.middleC1000 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1000.setDetune(1000);
-        gameState6.middleC1100 = this.sound.add('stringsmiddleC');
+        gameState6.middleC1100 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1100.setDetune(1100);
-        gameState6.middleC1200 = this.sound.add('stringsmiddleC');
+        gameState6.middleC1200 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1200.setDetune(1200);
-        gameState6.middleC1300 = this.sound.add('stringsmiddleC');
+        gameState6.middleC1300 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1300.setDetune(1300);
-        gameState6.middleC1400 = this.sound.add('stringsmiddleC');
+        gameState6.middleC1400 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1400.setDetune(1400);
-        gameState6.middleC1500 = this.sound.add('stringsmiddleC');
+        gameState6.middleC1500 = this.sound.add('stringsmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1500.setDetune(1500);
       }
     }, this);
@@ -485,36 +673,68 @@ var Keyboard = new Phaser.Class({
       gameState6.instrument = 'piano'
       if (gameState6.pianoType !== 'wurlitzer') {
         gameState6.pianoType = 'wurlitzer'
-        gameState6.middleC = this.sound.add('wurlmiddleC');
-        gameState6.middleC100 = this.sound.add('wurlmiddleC');
+        gameState6.middleC = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
+        gameState6.middleC100 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC100.setDetune(100);
-        gameState6.middleC200 = this.sound.add('wurlmiddleC');
+        gameState6.middleC200 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC200.setDetune(200);
-        gameState6.middleC300 = this.sound.add('wurlmiddleC');
+        gameState6.middleC300 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC300.setDetune(300);
-        gameState6.middleC400 = this.sound.add('wurlmiddleC');
+        gameState6.middleC400 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC400.setDetune(400);
-        gameState6.middleC500 = this.sound.add('wurlmiddleC');
+        gameState6.middleC500 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC500.setDetune(500);
-        gameState6.middleC600 = this.sound.add('wurlmiddleC');
+        gameState6.middleC600 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC600.setDetune(600);
-        gameState6.middleC700 = this.sound.add('wurlmiddleC');
+        gameState6.middleC700 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC700.setDetune(700);
-        gameState6.middleC800 = this.sound.add('wurlmiddleC');
+        gameState6.middleC800 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC800.setDetune(800);
-        gameState6.middleC900 = this.sound.add('wurlmiddleC');
+        gameState6.middleC900 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC900.setDetune(900);
-        gameState6.middleC1000 = this.sound.add('wurlmiddleC');
+        gameState6.middleC1000 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1000.setDetune(1000);
-        gameState6.middleC1100 = this.sound.add('wurlmiddleC');
+        gameState6.middleC1100 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1100.setDetune(1100);
-        gameState6.middleC1200 = this.sound.add('wurlmiddleC');
+        gameState6.middleC1200 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1200.setDetune(1200);
-        gameState6.middleC1300 = this.sound.add('wurlmiddleC');
+        gameState6.middleC1300 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1300.setDetune(1300);
-        gameState6.middleC1400 = this.sound.add('wurlmiddleC');
+        gameState6.middleC1400 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1400.setDetune(1400);
-        gameState6.middleC1500 = this.sound.add('wurlmiddleC');
+        gameState6.middleC1500 = this.sound.add('wurlmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1500.setDetune(1500);
       }
     }, this);
@@ -530,36 +750,68 @@ var Keyboard = new Phaser.Class({
       gameState6.instrument = 'piano'
       if (gameState6.pianoType !== 'guitar') {
         gameState6.pianoType = 'guitar'
-        gameState6.middleC = this.sound.add('guitarmiddleC');
-        gameState6.middleC100 = this.sound.add('guitarmiddleC');
+        gameState6.middleC = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
+        gameState6.middleC100 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC100.setDetune(100);
-        gameState6.middleC200 = this.sound.add('guitarmiddleC');
+        gameState6.middleC200 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC200.setDetune(200);
-        gameState6.middleC300 = this.sound.add('guitarmiddleC');
+        gameState6.middleC300 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC300.setDetune(300);
-        gameState6.middleC400 = this.sound.add('guitarmiddleC');
+        gameState6.middleC400 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC400.setDetune(400);
-        gameState6.middleC500 = this.sound.add('guitarmiddleC');
+        gameState6.middleC500 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC500.setDetune(500);
-        gameState6.middleC600 = this.sound.add('guitarmiddleC');
+        gameState6.middleC600 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC600.setDetune(600);
-        gameState6.middleC700 = this.sound.add('guitarmiddleC');
+        gameState6.middleC700 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC700.setDetune(700);
-        gameState6.middleC800 = this.sound.add('guitarmiddleC');
+        gameState6.middleC800 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC800.setDetune(800);
-        gameState6.middleC900 = this.sound.add('guitarmiddleC');
+        gameState6.middleC900 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC900.setDetune(900);
-        gameState6.middleC1000 = this.sound.add('guitarmiddleC');
+        gameState6.middleC1000 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1000.setDetune(1000);
-        gameState6.middleC1100 = this.sound.add('guitarmiddleC');
+        gameState6.middleC1100 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1100.setDetune(1100);
-        gameState6.middleC1200 = this.sound.add('guitarmiddleC');
+        gameState6.middleC1200 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1200.setDetune(1200);
-        gameState6.middleC1300 = this.sound.add('guitarmiddleC');
+        gameState6.middleC1300 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1300.setDetune(1300);
-        gameState6.middleC1400 = this.sound.add('guitarmiddleC');
+        gameState6.middleC1400 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1400.setDetune(1400);
-        gameState6.middleC1500 = this.sound.add('guitarmiddleC');
+        gameState6.middleC1500 = this.sound.add('guitarmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1500.setDetune(1500);
       }
     }, this);
@@ -575,36 +827,68 @@ var Keyboard = new Phaser.Class({
       gameState6.instrument = 'piano'
       if (gameState6.pianoType !== 'bass') {
         gameState6.pianoType = 'bass'
-        gameState6.middleC = this.sound.add('bassmiddleC');
-        gameState6.middleC100 = this.sound.add('bassmiddleC');
+        gameState6.middleC = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
+        gameState6.middleC100 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC100.setDetune(100);
-        gameState6.middleC200 = this.sound.add('bassmiddleC');
+        gameState6.middleC200 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC200.setDetune(200);
-        gameState6.middleC300 = this.sound.add('bassmiddleC');
+        gameState6.middleC300 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC300.setDetune(300);
-        gameState6.middleC400 = this.sound.add('bassmiddleC');
+        gameState6.middleC400 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC400.setDetune(400);
-        gameState6.middleC500 = this.sound.add('bassmiddleC');
+        gameState6.middleC500 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC500.setDetune(500);
-        gameState6.middleC600 = this.sound.add('bassmiddleC');
+        gameState6.middleC600 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC600.setDetune(600);
-        gameState6.middleC700 = this.sound.add('bassmiddleC');
+        gameState6.middleC700 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC700.setDetune(700);
-        gameState6.middleC800 = this.sound.add('bassmiddleC');
+        gameState6.middleC800 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC800.setDetune(800);
-        gameState6.middleC900 = this.sound.add('bassmiddleC');
+        gameState6.middleC900 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC900.setDetune(900);
-        gameState6.middleC1000 = this.sound.add('bassmiddleC');
+        gameState6.middleC1000 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1000.setDetune(1000);
-        gameState6.middleC1100 = this.sound.add('bassmiddleC');
+        gameState6.middleC1100 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1100.setDetune(1100);
-        gameState6.middleC1200 = this.sound.add('bassmiddleC');
+        gameState6.middleC1200 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1200.setDetune(1200);
-        gameState6.middleC1300 = this.sound.add('bassmiddleC');
+        gameState6.middleC1300 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1300.setDetune(1300);
-        gameState6.middleC1400 = this.sound.add('bassmiddleC');
+        gameState6.middleC1400 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1400.setDetune(1400);
-        gameState6.middleC1500 = this.sound.add('bassmiddleC');
+        gameState6.middleC1500 = this.sound.add('bassmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1500.setDetune(1500);
       }
     }, this);
@@ -620,36 +904,68 @@ var Keyboard = new Phaser.Class({
       gameState6.instrument = 'piano'
       if (gameState6.pianoType !== 'clav') {
         gameState6.pianoType = 'clav'
-        gameState6.middleC = this.sound.add('clavmiddleC');
-        gameState6.middleC100 = this.sound.add('clavmiddleC');
+        gameState6.middleC = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
+        gameState6.middleC100 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC100.setDetune(100);
-        gameState6.middleC200 = this.sound.add('clavmiddleC');
+        gameState6.middleC200 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC200.setDetune(200);
-        gameState6.middleC300 = this.sound.add('clavmiddleC');
+        gameState6.middleC300 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC300.setDetune(300);
-        gameState6.middleC400 = this.sound.add('clavmiddleC');
+        gameState6.middleC400 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC400.setDetune(400);
-        gameState6.middleC500 = this.sound.add('clavmiddleC');
+        gameState6.middleC500 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC500.setDetune(500);
-        gameState6.middleC600 = this.sound.add('clavmiddleC');
+        gameState6.middleC600 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC600.setDetune(600);
-        gameState6.middleC700 = this.sound.add('clavmiddleC');
+        gameState6.middleC700 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC700.setDetune(700);
-        gameState6.middleC800 = this.sound.add('clavmiddleC');
+        gameState6.middleC800 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC800.setDetune(800);
-        gameState6.middleC900 = this.sound.add('clavmiddleC');
+        gameState6.middleC900 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC900.setDetune(900);
-        gameState6.middleC1000 = this.sound.add('clavmiddleC');
+        gameState6.middleC1000 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1000.setDetune(1000);
-        gameState6.middleC1100 = this.sound.add('clavmiddleC');
+        gameState6.middleC1100 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1100.setDetune(1100);
-        gameState6.middleC1200 = this.sound.add('clavmiddleC');
+        gameState6.middleC1200 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1200.setDetune(1200);
-        gameState6.middleC1300 = this.sound.add('clavmiddleC');
+        gameState6.middleC1300 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1300.setDetune(1300);
-        gameState6.middleC1400 = this.sound.add('clavmiddleC');
+        gameState6.middleC1400 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1400.setDetune(1400);
-        gameState6.middleC1500 = this.sound.add('clavmiddleC');
+        gameState6.middleC1500 = this.sound.add('clavmiddleC', {
+          volume: keyboardVolume
+        });
         gameState6.middleC1500.setDetune(1500);
       }
     }, this);
@@ -740,56 +1056,118 @@ var Keyboard = new Phaser.Class({
     }).setDepth(1);
 
     //drum sounds
-    hiphopdrums1 = this.sound.add('hiphopdrums1');
+    hiphopdrums1 = this.sound.add('hiphopdrums1', {
+      volume: keyboardVolume
+    });
     hiphopdrums1.loop = true;
-    megamantom1 = this.sound.add('megamantom');
+    megamantom1 = this.sound.add('megamantom', {
+      volume: keyboardVolume
+    });
     megamantom1.setDetune(600);
-    megamantom2 = this.sound.add('megamantom');
-    megamantom3 = this.sound.add('megamantom');
+    megamantom2 = this.sound.add('megamantom', {
+      volume: keyboardVolume
+    });
+    megamantom3 = this.sound.add('megamantom', {
+      volume: keyboardVolume
+    });
     megamantom3.setDetune(-600);
-    megamantom4 = this.sound.add('megamantom');
+    megamantom4 = this.sound.add('megamantom', {
+      volume: keyboardVolume
+    });
     megamantom4.setDetune(-1200);
-    kick1 = this.sound.add('kick1');
-    kick2 = this.sound.add('kick2');
-    hihat1 = this.sound.add('hihat1');
-    hihat2 = this.sound.add('hihat2');
-    openhihat1 = this.sound.add('openhihat1');
-    tambourine1 = this.sound.add('tambourine1');
-    shaker1 = this.sound.add('shaker1');
-    shaker2 = this.sound.add('shaker2');
-    snare1 = this.sound.add('snare1');
-    snare2 = this.sound.add('snare2');
+    kick1 = this.sound.add('kick1', {
+      volume: keyboardVolume
+    });
+    kick2 = this.sound.add('kick2', {
+      volume: keyboardVolume
+    });
+    hihat1 = this.sound.add('hihat1', {
+      volume: keyboardVolume
+    });
+    hihat2 = this.sound.add('hihat2', {
+      volume: keyboardVolume
+    });
+    openhihat1 = this.sound.add('openhihat1', {
+      volume: keyboardVolume
+    });
+    tambourine1 = this.sound.add('tambourine1', {
+      volume: keyboardVolume
+    });
+    shaker1 = this.sound.add('shaker1', {
+      volume: keyboardVolume
+    });
+    shaker2 = this.sound.add('shaker2', {
+      volume: keyboardVolume
+    });
+    snare1 = this.sound.add('snare1', {
+      volume: keyboardVolume
+    });
+    snare2 = this.sound.add('snare2', {
+      volume: keyboardVolume
+    });
     //setting pitches. all generated from gameState6.middleC
-    gameState6.middleC = this.sound.add('middleC');
-    gameState6.middleC100 = this.sound.add('middleC');
+    gameState6.middleC = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
+    gameState6.middleC100 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC100.setDetune(100);
-    gameState6.middleC200 = this.sound.add('middleC');
+    gameState6.middleC200 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC200.setDetune(200);
-    gameState6.middleC300 = this.sound.add('middleC');
+    gameState6.middleC300 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC300.setDetune(300);
-    gameState6.middleC400 = this.sound.add('middleC');
+    gameState6.middleC400 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC400.setDetune(400);
-    gameState6.middleC500 = this.sound.add('middleC');
+    gameState6.middleC500 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC500.setDetune(500);
-    gameState6.middleC600 = this.sound.add('middleC');
+    gameState6.middleC600 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC600.setDetune(600);
-    gameState6.middleC700 = this.sound.add('middleC');
+    gameState6.middleC700 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC700.setDetune(700);
-    gameState6.middleC800 = this.sound.add('middleC');
+    gameState6.middleC800 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC800.setDetune(800);
-    gameState6.middleC900 = this.sound.add('middleC');
+    gameState6.middleC900 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC900.setDetune(900);
-    gameState6.middleC1000 = this.sound.add('middleC');
+    gameState6.middleC1000 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC1000.setDetune(1000);
-    gameState6.middleC1100 = this.sound.add('middleC');
+    gameState6.middleC1100 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC1100.setDetune(1100);
-    gameState6.middleC1200 = this.sound.add('middleC');
+    gameState6.middleC1200 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC1200.setDetune(1200);
-    gameState6.middleC1300 = this.sound.add('middleC');
+    gameState6.middleC1300 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC1300.setDetune(1300);
-    gameState6.middleC1400 = this.sound.add('middleC');
+    gameState6.middleC1400 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC1400.setDetune(1400);
-    gameState6.middleC1500 = this.sound.add('middleC');
+    gameState6.middleC1500 = this.sound.add('middleC', {
+      volume: keyboardVolume
+    });
     gameState6.middleC1500.setDetune(1500);
 
     //gameState6.octave controls
@@ -1129,131 +1507,16 @@ var Keyboard = new Phaser.Class({
     //recording button
     gameState6.keyObj.R = this.input.keyboard.addKey('R')
     gameState6.keyObj.R.on('up', function(event) {
-      record()
+      if (!recording){
+          record()
+      }
     });
+    this.scene.bringToTop();
   },
   update: function() {
     //runs 60 times per second
     if (playing) {
-      //playing the piano
-      for (const keyy of Object.keys(gameState6.sequences.piano)) {
-        let i = Object.keys(gameState6.sequences.piano).findIndex((keyIndex) => {
-          return keyIndex === keyy
-        })
-        if ((gameState6.sequences.piano[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.piano[keyy][playingTime] && !gameState6.sequences.piano[keyy][playingTime - 1])) {
-          gameState6.pianomiddleC[i].setDetune(1200 * gameState6.sequences.piano.octave[playingTime] + 100 * i - 100);
-          gameState6.pianomiddleC[i].play();
-        } else if (!gameState6.sequences.piano[keyy][playingTime]) {
-          if (gameState6.sequences.piano[keyy][playingTime - 1]) {
-            gameState6.pianomiddleC[i].stop();
-          }
-        }
-      }
-
-      //playing the bass
-      for (const keyy of Object.keys(gameState6.sequences.bass)) {
-        let i = Object.keys(gameState6.sequences.bass).findIndex((keyIndex) => {
-          return keyIndex === keyy
-        })
-        if ((gameState6.sequences.bass[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.bass[keyy][playingTime] && !gameState6.sequences.bass[keyy][playingTime - 1])) {
-          gameState6.bassmiddleC[i].setDetune(1200 * gameState6.sequences.bass.octave[playingTime] + 100 * i - 100);
-          gameState6.bassmiddleC[i].play();
-        } else if (!gameState6.sequences.bass[keyy][playingTime]) {
-          if (gameState6.sequences.bass[keyy][playingTime - 1]) {
-            gameState6.bassmiddleC[i].stop();
-          }
-        }
-      }
-
-      //playing the clav
-      for (const keyy of Object.keys(gameState6.sequences.clav)) {
-        let i = Object.keys(gameState6.sequences.clav).findIndex((keyIndex) => {
-          return keyIndex === keyy
-        })
-        if ((gameState6.sequences.clav[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.clav[keyy][playingTime] && !gameState6.sequences.clav[keyy][playingTime - 1])) {
-          gameState6.clavmiddleC[i].setDetune(1200 * gameState6.sequences.clav.octave[playingTime] + 100 * i - 100);
-          gameState6.clavmiddleC[i].play();
-        } else if (!gameState6.sequences.clav[keyy][playingTime]) {
-          if (gameState6.sequences.clav[keyy][playingTime - 1]) {
-            gameState6.clavmiddleC[i].stop();
-          }
-        }
-      }
-
-      //playing the strings
-      for (const keyy of Object.keys(gameState6.sequences.strings)) {
-        let i = Object.keys(gameState6.sequences.strings).findIndex((keyIndex) => {
-          return keyIndex === keyy
-        })
-        if ((gameState6.sequences.strings[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.strings[keyy][playingTime] && !gameState6.sequences.strings[keyy][playingTime - 1])) {
-          gameState6.stringsmiddleC[i].setDetune(1200 * gameState6.sequences.strings.octave[playingTime] + 100 * i - 100);
-          gameState6.stringsmiddleC[i].play();
-        } else if (!gameState6.sequences.strings[keyy][playingTime]) {
-          if (gameState6.sequences.strings[keyy][playingTime - 1]) {
-            gameState6.stringsmiddleC[i].stop();
-          }
-        }
-      }
-
-      //playing the wurlitzer
-      for (const keyy of Object.keys(gameState6.sequences.wurlitzer)) {
-        let i = Object.keys(gameState6.sequences.wurlitzer).findIndex((keyIndex) => {
-          return keyIndex === keyy
-        })
-        if ((gameState6.sequences.wurlitzer[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.wurlitzer[keyy][playingTime] && !gameState6.sequences.wurlitzer[keyy][playingTime - 1])) {
-          gameState6.wurlitzermiddleC[i].setDetune(1200 * gameState6.sequences.wurlitzer.octave[playingTime] + 100 * i - 100);
-          gameState6.wurlitzermiddleC[i].play();
-        } else if (!gameState6.sequences.wurlitzer[keyy][playingTime]) {
-          if (gameState6.sequences.wurlitzer[keyy][playingTime - 1]) {
-            gameState6.wurlitzermiddleC[i].stop();
-          }
-        }
-      }
-
-      //playing the choir
-      for (const keyy of Object.keys(gameState6.sequences.choir)) {
-        let i = Object.keys(gameState6.sequences.choir).findIndex((keyIndex) => {
-          return keyIndex === keyy
-        })
-        if ((gameState6.sequences.choir[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.choir[keyy][playingTime] && !gameState6.sequences.choir[keyy][playingTime - 1])) {
-          gameState6.choirmiddleC[i].setDetune(1200 * gameState6.sequences.choir.octave[playingTime] + 100 * i - 100);
-          gameState6.choirmiddleC[i].play();
-        } else if (!gameState6.sequences.choir[keyy][playingTime]) {
-          if (gameState6.sequences.choir[keyy][playingTime - 1]) {
-            gameState6.choirmiddleC[i].stop();
-          }
-        }
-      }
-
-      //playing the guitar
-      for (const keyy of Object.keys(gameState6.sequences.guitar)) {
-        let i = Object.keys(gameState6.sequences.guitar).findIndex((keyIndex) => {
-          return keyIndex === keyy
-        })
-        if ((gameState6.sequences.guitar[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.guitar[keyy][playingTime] && !gameState6.sequences.guitar[keyy][playingTime - 1])) {
-          gameState6.guitarmiddleC[i].setDetune(1200 * gameState6.sequences.guitar.octave[playingTime] + 100 * i - 100);
-          gameState6.guitarmiddleC[i].play();
-        } else if (!gameState6.sequences.guitar[keyy][playingTime]) {
-          if (gameState6.sequences.guitar[keyy][playingTime - 1]) {
-            gameState6.guitarmiddleC[i].stop();
-          }
-        }
-      }
-
-
-      //playing the drums
-      for (const keyy of Object.keys(gameState6.sequences.drums)) {
-        if ((gameState6.sequences.drums[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.drums[keyy][playingTime] && !gameState6.sequences.drums[keyy][playingTime - 1])) {
-          gameState6.drums[keyy].play();
-        }
-      }
-
-      //incrementing time and looping at 480
-      playingTime += 1;
-      if (playingTime === 480) {
-        console.log(`done playing`)
-        playingTime = 0
-      }
+      playbackCustomSong()
     }
 
     if (recording) {

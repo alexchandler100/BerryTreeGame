@@ -2185,13 +2185,18 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 4000,
-        narrative: `You have picked up your Yamaha Motif 6. This is a powerful keyboard. You can access it through the 5th blue button in your menu. `,
+        narrative: `This is your Yamaha Motif 6. This is a powerful keyboard.`,
         options: [{
           option: 'More',
           nextPage: 4001,
         }, {
           option: 'Got it',
           nextPage: undefined,
+        },
+        {
+          option: 'Play',
+          nextPage: undefined,
+          aftermath: openKeyboardNow
         },]
       },
 
@@ -2205,6 +2210,10 @@ var DialogueMenu = new Phaser.Class({
         }, {
           option: 'Hell Yeah',
           nextPage: undefined,
+        },{
+          option: 'Play',
+          nextPage: undefined,
+          aftermath: openKeyboard
         },]
       },
 

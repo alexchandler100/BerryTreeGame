@@ -109,6 +109,9 @@ let bossBattle = false;
 let bossBattleParameter = 0;
 
 //overworld parameters
+let openKeyboard = false;
+let customMusicStart = false;
+let firstStrike = false;
 let openingDialogue = false;
 let pageForDialogue = 1;
 let pointerScale = 1;
@@ -198,18 +201,18 @@ let chasersEnabled = false;
 let chaserInitiateFight = 0;
 let itemReward = '';
 let randomEncounterRewards = {
-  "Andy Capp's Hot Fries": .1,
-  'Labatt Max Ice': .1,
-  'Gatorade': .3,
-  'Monster': .3,
-  'Hamms': .3,
+  "Andy Capp's Hot Fries": .5,
+  'Labatt Max Ice': .2,
+  'Gatorade': .4,
+  'Monster': .4,
+  'Hamms': .4,
   'Larry Special': .2,
   'Wife Beater': .2,
-  'SP Booster': .1,
-  'HP Booster': .1,
-  'Damage Booster': .1,
-  'Fubu Shirt': .07,
-  'Camo Pants': .07,
+  'SP Booster': .2,
+  'HP Booster': .2,
+  'Damage Booster': .2,
+  'Fubu Shirt': .2,
+  'Camo Pants': .2,
 }
 
 let animObject = {
@@ -495,7 +498,7 @@ let liquorItem = 0;
 let larrySpecial = 0;
 let items = [];
 let itemEffects = {
-  "Andy Capp's Hot Fries": "SP Max",
+  "Andy Capp's Hot Fries": "SP Max, HP +10",
   'Labatt Max Ice': "HP +60, SP +15",
   "Monster": "SP +10, cure \n status ailments",
   "Gatorade": "HP +60, \n stamina max",
@@ -692,9 +695,135 @@ let equipmentDescriptions = {
   "Sprinting Shoes": {
     type: "Accessory",
     def: 0,
-    effect: "Athletics +.35",
+    effect: "Athletics +.35 \nFirst Strike",
     color: '#fff'
   },
+}
+
+function playbackCustomSong(){
+  //playing the piano
+  for (const keyy of Object.keys(gameState6.sequences.piano)) {
+    let i = Object.keys(gameState6.sequences.piano).findIndex((keyIndex) => {
+      return keyIndex === keyy
+    })
+    if ((gameState6.sequences.piano[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.piano[keyy][playingTime] && !gameState6.sequences.piano[keyy][playingTime - 1])) {
+      gameState6.pianomiddleC[i].setDetune(1200 * gameState6.sequences.piano.octave[playingTime] + 100 * i - 100);
+      gameState6.pianomiddleC[i].play();
+    } else if (!gameState6.sequences.piano[keyy][playingTime]) {
+      if (gameState6.sequences.piano[keyy][playingTime - 1]) {
+        gameState6.pianomiddleC[i].stop();
+      }
+    }
+  }
+
+  //playing the bass
+  for (const keyy of Object.keys(gameState6.sequences.bass)) {
+    let i = Object.keys(gameState6.sequences.bass).findIndex((keyIndex) => {
+      return keyIndex === keyy
+    })
+    if ((gameState6.sequences.bass[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.bass[keyy][playingTime] && !gameState6.sequences.bass[keyy][playingTime - 1])) {
+      gameState6.bassmiddleC[i].setDetune(1200 * gameState6.sequences.bass.octave[playingTime] + 100 * i - 100);
+      gameState6.bassmiddleC[i].play();
+    } else if (!gameState6.sequences.bass[keyy][playingTime]) {
+      if (gameState6.sequences.bass[keyy][playingTime - 1]) {
+        gameState6.bassmiddleC[i].stop();
+      }
+    }
+  }
+
+  //playing the clav
+  for (const keyy of Object.keys(gameState6.sequences.clav)) {
+    let i = Object.keys(gameState6.sequences.clav).findIndex((keyIndex) => {
+      return keyIndex === keyy
+    })
+    if ((gameState6.sequences.clav[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.clav[keyy][playingTime] && !gameState6.sequences.clav[keyy][playingTime - 1])) {
+      gameState6.clavmiddleC[i].setDetune(1200 * gameState6.sequences.clav.octave[playingTime] + 100 * i - 100);
+      gameState6.clavmiddleC[i].play();
+    } else if (!gameState6.sequences.clav[keyy][playingTime]) {
+      if (gameState6.sequences.clav[keyy][playingTime - 1]) {
+        gameState6.clavmiddleC[i].stop();
+      }
+    }
+  }
+
+  //playing the strings
+  for (const keyy of Object.keys(gameState6.sequences.strings)) {
+    let i = Object.keys(gameState6.sequences.strings).findIndex((keyIndex) => {
+      return keyIndex === keyy
+    })
+    if ((gameState6.sequences.strings[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.strings[keyy][playingTime] && !gameState6.sequences.strings[keyy][playingTime - 1])) {
+      gameState6.stringsmiddleC[i].setDetune(1200 * gameState6.sequences.strings.octave[playingTime] + 100 * i - 100);
+      gameState6.stringsmiddleC[i].play();
+    } else if (!gameState6.sequences.strings[keyy][playingTime]) {
+      if (gameState6.sequences.strings[keyy][playingTime - 1]) {
+        gameState6.stringsmiddleC[i].stop();
+      }
+    }
+  }
+
+  //playing the wurlitzer
+  for (const keyy of Object.keys(gameState6.sequences.wurlitzer)) {
+    let i = Object.keys(gameState6.sequences.wurlitzer).findIndex((keyIndex) => {
+      return keyIndex === keyy
+    })
+    if ((gameState6.sequences.wurlitzer[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.wurlitzer[keyy][playingTime] && !gameState6.sequences.wurlitzer[keyy][playingTime - 1])) {
+      gameState6.wurlitzermiddleC[i].setDetune(1200 * gameState6.sequences.wurlitzer.octave[playingTime] + 100 * i - 100);
+      gameState6.wurlitzermiddleC[i].play();
+    } else if (!gameState6.sequences.wurlitzer[keyy][playingTime]) {
+      if (gameState6.sequences.wurlitzer[keyy][playingTime - 1]) {
+        gameState6.wurlitzermiddleC[i].stop();
+      }
+    }
+  }
+
+  //playing the choir
+  for (const keyy of Object.keys(gameState6.sequences.choir)) {
+    let i = Object.keys(gameState6.sequences.choir).findIndex((keyIndex) => {
+      return keyIndex === keyy
+    })
+    if ((gameState6.sequences.choir[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.choir[keyy][playingTime] && !gameState6.sequences.choir[keyy][playingTime - 1])) {
+      gameState6.choirmiddleC[i].setDetune(1200 * gameState6.sequences.choir.octave[playingTime] + 100 * i - 100);
+      gameState6.choirmiddleC[i].play();
+    } else if (!gameState6.sequences.choir[keyy][playingTime]) {
+      if (gameState6.sequences.choir[keyy][playingTime - 1]) {
+        gameState6.choirmiddleC[i].stop();
+      }
+    }
+  }
+
+  //playing the guitar
+  for (const keyy of Object.keys(gameState6.sequences.guitar)) {
+    let i = Object.keys(gameState6.sequences.guitar).findIndex((keyIndex) => {
+      return keyIndex === keyy
+    })
+    if ((gameState6.sequences.guitar[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.guitar[keyy][playingTime] && !gameState6.sequences.guitar[keyy][playingTime - 1])) {
+      gameState6.guitarmiddleC[i].setDetune(1200 * gameState6.sequences.guitar.octave[playingTime] + 100 * i - 100);
+      gameState6.guitarmiddleC[i].play();
+    } else if (!gameState6.sequences.guitar[keyy][playingTime]) {
+      if (gameState6.sequences.guitar[keyy][playingTime - 1]) {
+        gameState6.guitarmiddleC[i].stop();
+      }
+    }
+  }
+
+
+  //playing the drums
+  for (const keyy of Object.keys(gameState6.sequences.drums)) {
+    if ((gameState6.sequences.drums[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.drums[keyy][playingTime] && !gameState6.sequences.drums[keyy][playingTime - 1])) {
+      gameState6.drums[keyy].play();
+    }
+  }
+
+  //incrementing time and looping at 480
+  playingTime += 1;
+  if (playingTime === 480) {
+    console.log(`done playing`)
+    playingTime = 0
+  }
+}
+
+function openKeyboardNow(){
+  openKeyboard = true;
 }
 //use this to complete a quest
 function completeQuest(title) {
@@ -711,8 +840,10 @@ function giveCrackhead1() {
 
 function sprintingShoes(player, bool) {
   if (bool === true) {
+    firstStrike = true;
     athletics += .35005
   } else {
+    firstStrike = false;
     athletics -= .35005
   }
 }
@@ -1279,6 +1410,10 @@ function useItem(object, player) {
       andycapps -= 1
       usable_items["Andy Capp's Hot Fries"] -= 1
       spObject[player] = maxSPObject[player]
+      hpObject[player] += 10
+      if (hpObject[player] >= maxHPObject[player]) {
+        hpObject[player] = maxHPObject[player]
+      }
     }
   } else if (object === "Labatt Max Ice") {
     if (usable_items["Labatt Max Ice"] >= 1) {

@@ -369,6 +369,9 @@ var LightWorld = new Phaser.Class({
   wake: function() {
     this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
     this.scene.sleep("PoolScore");
+    if (playing){
+      gameState.music.stop()
+    }
     if (loadedIndoorsThemes) {
       gameStateApt.indoors0.stop()
       gameStateApt.indoors1.stop()
@@ -3171,6 +3174,15 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    //to play custom keyboard music
+    if (playing && customMusicStart){
+      customMusicStart = false
+      customMusicPlaying = true
+      gameState.music.stop()
+    } else if (playing && customMusicPlaying){
+      playbackCustomSong()
+      }
+
     if (darkworldDialogue===1){
       this.openDialoguePage(705);
       darkworldDialogue=2;
@@ -3539,7 +3551,9 @@ var LightWorld = new Phaser.Class({
       gameState.linkWoods.stop();
       gameState.trevorWoods.stop();
       gameState.music.stop();
-      gameState.music.play();
+      if (!playing){
+          gameState.music.play();
+      }
     }
     //location settings for pool and volleyball court
     if (me.x > gameState.poolTL.x && me.y > gameState.poolTL.y && me.x < gameState.poolBR.x && me.y < gameState.poolBR.y) {
@@ -3759,7 +3773,6 @@ var LightWorld = new Phaser.Class({
       devMode2 = 0
       devMode3 = 0
       keysGet = 1;
-      keyboardGet = true;
       jeanClaude.joinParameter = true;
       jeanClaudeFirstTalk = 3;
       stripper.joinParameter = true;

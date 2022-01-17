@@ -55,15 +55,6 @@ var OverworldMenu = new Phaser.Class({
       scene_number=9
     }, this);
 
-    //switch to menu 5
-    gameState5.pausemenu_button5 = this.add.rectangle(270, 70, 20, 20, 0xfff);
-    gameState5.pausemenu_button5.setInteractive()
-    gameState5.pausemenu_button5.on('pointerup', function() {
-      if (keyboardGet===true){
-        scene_number=10
-      }
-    }, this);
-
     //exit button
     gameState5.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
     gameState5.exit_button.setInteractive()
@@ -174,10 +165,6 @@ var OverworldMenu = new Phaser.Class({
       redisplay=true
       redisplayItems=true
       this.scene.switch('EquipmentMenu');
-    } else if (scene_number === 10) {
-      redisplay=true
-      redisplayItems=true
-      this.scene.switch('Keyboard');
     }
   }
 });

@@ -52,14 +52,6 @@ var EquipmentMenu = new Phaser.Class({
       scene_number=9
     }, this);
 
-    //switch to menu 5
-    gameState4.pausemenu_button5 = this.add.rectangle(270, 70, 20, 20, 0xfff);
-    gameState4.pausemenu_button5.setInteractive()
-    gameState4.pausemenu_button5.on('pointerup', function() {
-      if (keyboardGet===true){
-        scene_number=10
-      }
-    }, this);
 
     //exit button
     gameState4.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
@@ -602,10 +594,6 @@ this.input.on('pointerout', function (pointer, justOut) {
       redisplay=true
       redisplayItems=true
       this.scene.switch('OverworldMenu');
-    } else if (scene_number === 10) {
-      redisplay=true
-      redisplayItems=true
-      this.scene.switch('Keyboard');
     }
     if (redisplay){
       for (a_item of equipment) {
