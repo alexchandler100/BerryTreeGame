@@ -107,7 +107,6 @@ let settingDepth = false;
 let bossType;
 let bossBattle = false;
 let bossBattleParameter = 0;
-let dioEnabled = true
 
 //overworld parameters
 let openingDialogue = false;

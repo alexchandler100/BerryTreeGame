@@ -577,7 +577,7 @@ this.input.on('pointerout', function (pointer, justOut) {
       }
       redisplay=true;
     });
-    
+
     gameState4.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
     gameState4.keyObjZ.on('down', function() {
       this.scene.stop();

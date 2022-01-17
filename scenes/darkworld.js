@@ -621,15 +621,27 @@ var DarkWorld = new Phaser.Class({
     //ai for chasers
 
     //ai for dio fight
-    if (distance(dioshrine, meDark) < 30 && diodialogue === 0 && worldTheme === 'dark' && brothersSeal===1 && dioEnabled===true) {
+    if (distance(dioshrine, meDark) < 30 && diodialogue === 0 && worldTheme === 'dark'&& launchParameter === false) {
       diodialogue = 1
+      pause = true;
+      this.scene.launch('SealMenu');
+      launchParameter = true
+      /*
       this.openDialoguePage(1200);
       gameStateDark.music.stop()
       gameStateDark.music = this.sound.add('windNoise');
       gameStateDark.music.loop = true;
       gameStateDark.music.play();
+      */
+    } else if (distance(dioshrine, meDark) < 30 && diodialogue === 1 && worldTheme === 'dark'&& launchParameter === false) {
+      this.openDialoguePage(1200);
+      gameStateDark.music.stop()
+      gameStateDark.music = this.sound.add('windNoise');
+      gameStateDark.music.loop = true;
+      gameStateDark.music.play();
+      diodialogue = 2;
     }
-    if (distance(dioshrine,meDark)>100 && diodialogue===1 && worldTheme === 'dark' ){
+    else if (distance(dioshrine,meDark)>100 && (diodialogue===1 || diodialogue===2) && worldTheme === 'dark' ){
       diodialogue=0
       window.setTimeout(() => {
         if (worldTheme ==='dark'){
