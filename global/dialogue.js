@@ -33,8 +33,9 @@ var DialogueMenu = new Phaser.Class({
       'fratboy3': [1,0],
       'fratboy4': [1,0],
       'fratboy5': [1,0],
-      'darkboy2': [1,0],
-      'dio': [1,0],
+      'darkboy2': [.85,0],
+      'dio': [1.3,0],
+      'fratboy2prime': [1,0],
     }
   },
   init: function(data) {
@@ -983,7 +984,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'smoke',
         page: 86,
-        narrative: "Original Homeboy: I can't FUCKING get past 65 points. Use the left/right keys to move, press up to jump, and press down to smoke your bong and increase your speed.",
+        narrative: "Original Homeboy: I got this game called 'Hausdorff Fuckery' whatever the fuck that means. I can't FUCKING get past 65 points. Use the left/right keys to move, press up to jump, and press down to smoke your bong and increase your speed.",
         options: [{
           option: 'shiiit hell yeah',
           nextPage: undefined,
@@ -1541,7 +1542,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'darkboy2',
         page: 700,
-        narrative: `Dark boy 2: Hey buddy, you seem like a cool guy and all, but since I've never seen you here in darkworld before, I just have to make sure about something before I let you go... Who do you worship?`,
+        narrative: `DB: Hausdorffs been fucking with you huh? I've never seen you here in darkworld before, I just have to make sure about something before I let you go... Who do you worship?`,
         options: [{
             option: 'Jesus',
             nextPage: 701,
@@ -1560,7 +1561,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'darkboy2',
         page: 701,
-        narrative: `Dark boy 2: Who the fuck is that? Anyway, wrong answer pal, gonna have to stab you.`,
+        narrative: `DB: Who the fuck is that? Anyway, wrong answer pal, gonna have to stab you.`,
         options: [{
           option: 'shiiiit',
           nextPage: undefined,
@@ -1571,7 +1572,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'darkboy2',
         page: 702,
-        narrative: `Dark boy 2: Thats cool... thats cool... *awkward silence* ... Anyway ... wrong answer... gonna have to stab you...`,
+        narrative: `DB: Thats cool... thats cool... *awkward silence* ... Anyway ... wrong answer... gonna have to stab you...`,
         options: [{
           option: 'cool man...',
           nextPage: undefined,
@@ -1582,11 +1583,51 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'darkboy2',
         page: 703,
-        narrative: `Dark boy 2: Dude for real? You're lucky you said that actually because otherwise I'd prolly have to stab you and let you bleed out here on the temple roof. But since you're cool, I'll send you back on your way... after we play a GAME huhuhh...`,
+        narrative: `DB: Dude for real? You're lucky you said that actually because otherwise I'd prolly have to stab you and let you bleed out here on the temple roof. But since you're cool, I'll send you back on your way... after we play a GAME huhuhh...`,
         options: [{
           option: 'right on...',
           nextPage: undefined,
-          aftermath: sendBack
+          aftermath: fightDarkboy
+        }, ]
+      },
+
+      {
+        character: 'me',
+        page: 704,
+        narrative: `That was fucked... I better not get in a fight right now... I need to rest or something. What the fuck was that shit?`,
+        options: [{
+          option: 'Goddamn',
+          nextPage: undefined,
+        }, ]
+      },
+
+      {
+        character: 'me',
+        page: 705,
+        narrative: `Was that a dream? Was I hallucinating? What the fuck was that shit about? I better sleep it off.`,
+        options: [{
+          option: 'Goddamn',
+          nextPage: undefined,
+        }, ]
+      },
+
+      {
+        character: 'dio',
+        page: 706,
+        narrative: `Thank you traveler. I bestow with with this Dio band. It is an ancient relic of unimaginable power.`,
+        options: [{
+          option: 'Goddamn',
+          nextPage: undefined,
+        }, ]
+      },
+
+      {
+        character: 'me',
+        page: 707,
+        narrative: `Was that real? Guess I had the wrong answer...`,
+        options: [{
+          option: '...',
+          nextPage: undefined,
         }, ]
       },
 
@@ -1601,7 +1642,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'fratboy2prime',
         page: 900,
         narrative: `StabBoy: I will EAT your HEART until you DIE!`,
         options: [{

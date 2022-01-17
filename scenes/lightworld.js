@@ -2354,6 +2354,7 @@ var LightWorld = new Phaser.Class({
     trevor.body.setCircle(60);
     trevor.body.setOffset(60, 180);
     hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false);
+    hausdorf.setDepth(hausdorf.y)
     stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
     stripper.body.setCircle(30);
     stripper.body.setOffset(25, 25);
@@ -2472,8 +2473,8 @@ var LightWorld = new Phaser.Class({
     //gameState.PlayerSpawnPoint.y=gameState.fratboy4SpawnPoint.y+50
     //to spawn at cwCarPath points
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "cwCarPath8")
-    //to spawn at highschool roof
-    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
+    //to spawn at high school roof
+    gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point")
     //to spawn at soccer net
     //gameState.PlayerSpawnPoint.x = map.findObject("Objects", obj => obj.name === "jon spawn point").x
     //gameState.PlayerSpawnPoint.y = map.findObject("Objects", obj => obj.name === "jon spawn point").y+50
@@ -3141,6 +3142,7 @@ var LightWorld = new Phaser.Class({
     this.add.existing(this.message);
 
     gameState.questLocations = {
+      'Hausdorffs?': map.findObject("Objects", obj => obj.name === "my apartment"),
       'Find Your Shit': map.findObject("Objects", obj => obj.name === "phone spawn point"),
       'Robo-Trip': map.findObject("Objects", obj => obj.name === "hausdorf spawn point"),
       'Frat Boy Wants to Stab': map.findObject("Objects", obj => obj.name === "fratboy2prime spawn point"),
@@ -3169,6 +3171,18 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    if (darkworldDialogue===1){
+      this.openDialoguePage(705);
+      darkworldDialogue=2;
+      activeQuests['Hausdorffs?'] = `I had a strange encounter with a dark looking fella when I was robo-tripping. I felt like I was in another dimension or some kind of mirror world. Shit was fucked, he said Hausdorffs have been fucking with me? Aren't Hausdorffs those little fucked up guys in that video game? I need some rest.`
+
+    } else if (darkworldDialogue===3){
+      this.openDialoguePage(706);
+      darkworldDialogue=4;
+    } else if (darkworldDialogue===5){
+      this.openDialoguePage(707);
+      darkworldDialogue=6;
+    }
     //quest locations for gps
     if (currentQuest === 'Jean Claude' || currentQuest === 'Jean Claude?') {
       gameState.questLocations['Jean Claude'] = {
@@ -3752,6 +3766,15 @@ var LightWorld = new Phaser.Class({
       trevor.joinParameter = true;
       al.joinParameter = true;
       bennett.joinParameter = true;
+      trevor.following = true;
+      al.following = true;
+      bennett.following = true;
+      trevor.x = me.x + 30;
+      trevor.y = me.y + 30;
+      al.x = me.x + 30;
+      al.y = me.y + 30;
+      bennett.x = me.x + 30;
+      bennett.y = me.y + 30;
       potentialParty["Jimmy"] = true;
       potentialParty["Al"] = true
       potentialParty["Bennett"] = true
@@ -3784,7 +3807,7 @@ var LightWorld = new Phaser.Class({
         usable_items["Labatt Max Ice"] = 1;
       }
       gameState.secret.play()
-      for (itemz of ["SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes"]) {
+      for (itemz of ["Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes"]) {
         equipment.push(itemz)
       }
       //good stuff
@@ -3819,12 +3842,14 @@ var LightWorld = new Phaser.Class({
       this.cameras.main.fade(1000);
       gameState.secret.play()
       this.cameras.main.shake(1000);
-      darkWorld = 2
-    } else if (darkWorld === 2) {
       gameState.music.stop();
+        darkWorld = 2
+    } else if (darkWorld === 2) {
       darkWorld = 0
-      this.cameras.main.fadeIn(1000, 0, 0, 0)
-      this.scene.switch("DarkWorld")
+      window.setTimeout(()=>{
+        this.cameras.main.fadeIn(1000, 0, 0, 0)
+        this.scene.switch("DarkWorld")
+      }, 1000)
     }
 
     //gameover and new game

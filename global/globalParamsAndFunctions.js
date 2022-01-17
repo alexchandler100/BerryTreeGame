@@ -223,7 +223,7 @@ let animObject = {
   "Derek": ['junkieright', 'junkieattack'],
   "Bill": ['ex_junkieright', 'ex_junkieattack'],
   'StabBoy 2': ['fratboy2primewalk', 'fratboy2primestab'],
-  'Dark Boy 2': ['darkboy2walk', 'darkboy2walk'],
+  'DB': ['darkboy2walk', 'darkboy2attack'],
   'Frank': ['frat5huhuh', 'frat5huhuh'],
 }
 
@@ -237,8 +237,8 @@ let sfxObject = {
   "Derek": "stabnoise",
   "Bill": "stabnoise",
   'StabBoy 2': "stabnoise",
-  'Dark Boy 2': "bodyhit",
-  'Frank': "bodyhit"
+  'Frank': "bodyhit",
+  "DB": "bitenoise",
 }
 
 let rr = 0;
@@ -681,7 +681,7 @@ let equipmentDescriptions = {
   "Dio Band": {
     type: "Accessory",
     def: 30,
-    effect: "An Unholy Relic. Prevents Bleeding, Prevents Blindness",
+    effect: "An Unholy Relic. \nPrevents Bleeding, \nPrevents Blindness \nDamage + 25",
     color: '#fff'
   },
   "Camo Duck Tape": {
@@ -736,10 +736,12 @@ function goldDuckTape(player, bool) {
 
 function dioBand(player, bool) {
   if (bool === true) {
+    damageObject[player] += 25
     bleedProofObject[player]=true
     blindProofObject[player]=true
     damageObject[player] += 30
   } else {
+    damageObject[player] -= 25
     bleedProofObject[player]=false
     blindProofObject[player]=false
     damageObject[player] -= 30
@@ -917,7 +919,7 @@ function saveGame() {
     girl4FirstDialogue: girl4FirstDialogue,
     highnessDialogue: highnessDialogue,
     alFirstTalk: alFirstTalk,
-    darkworldDialogue: darkworldDialogue,
+    //darkworldDialogue: darkworldDialogue,
     scene_number: scene_number,
     chaserInitiateFight: chaserInitiateFight,
     maxSPObject: maxSPObject,
@@ -988,7 +990,7 @@ function loadGame2() {
     girl4FirstDialogue = file.girl4FirstDialogue
     highnessDialogue = file.highnessDialogue
     alFirstTalk = file.alFirstTalk
-    darkworldDialogue = file.darkworldDialogue
+    //darkworldDialogue = file.darkworldDialogue
     scene_number = file.scene_number
     chaserInitiateFight = file.chaserInitiateFight
     maxSPObject = file.maxSPObject
@@ -1425,16 +1427,23 @@ function endRaceLoss() {
 }
 
 function getDead() { //to initiate gameover
-  gameOver = true;
+  //set health to 1 so you keep living in lightworld
+  hpObject["Mac"] = 1;
+  gameStateDark.music.stop();
+  gameState.spooky.stop();
+  gameState.holyDiver.stop();
+  gameState.music.play();
+  worldTheme = 'light';
+  darkworldDialogue = 5
 }
 
-function sendBack() { //call this after talking with darkboy to initiate fight and then send back to lightworld
+function fightDarkboy() { //call this after talking with darkboy to initiate fight and then send back to lightworld
   bossBattle = true
   bossBattleParameter = 1
   gameStateDark.music.stop()
   gameState.spooky.play()
   bossType = 'darkboy'
-  darkworldDialogue = 1
+  //darkworldDialogue = 1
 }
 
 function stabBoyFight() { //initiate stabboy fight

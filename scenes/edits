@@ -1,8 +1,57 @@
-this.trevorBackground = scene.add.rectangle(faceX-93, faceY-100, 93*2, 100*2, 0x000, 0).setOrigin(0,0);
-this.trevorBackground.strokeColor = 0xffffff;
-this.trevorBackground.fillColor = 0x6f6f6f;
-this.trevorBackground.fillAlpha = .25;
-this.trevorBackground.strokeWeight = 2;
-this.trevorBackground.strokeAlpha = 1;
-this.trevorBackground.isStroked = true;
-this.trevorBackground.isFilled = true;
+if (playerTexture === 0 && inPool === false && !this.gettingLaidOutByCar) {
+  // player Horizontal movement
+  if (this.cursors.left.isDown) {
+    meDark.body.setVelocityX(-50 * speed * athletics);
+  } else if (this.cursors.right.isDown) {
+    meDark.body.setVelocityX(50 * speed * athletics);
+  }
+  // player Vertical movement
+  if (this.cursors.up.isDown) {
+    meDark.body.setVelocityY(-50 * speed * athletics);
+  } else if (this.cursors.down.isDown) {
+    meDark.body.setVelocityY(50 * speed * athletics);
+  }
+  //player walking running animations
+  if (this.cursors.left.isDown && !diving && !kicking) {
+    meDark.flipX = true;
+    if (speed === 1) {
+      meDark.anims.play('rightwalk', true);
+    } else if (speed === 2 || speed === 3) {
+      meDark.anims.play('newrightrun', true);
+    } else if (speed > 3) {
+      meDark.anims.play('newrightsprint', true);
+    }
+  } else if (this.cursors.right.isDown && !diving && !kicking) {
+    meDark.flipX = false;
+    if (speed === 1) {
+      meDark.anims.play('rightwalk', true);
+    } else if (speed === 2 || speed === 3) {
+      meDark.anims.play('newrightrun', true);
+    } else if (speed > 3) {
+      meDark.anims.play('newrightsprint', true);
+    }
+  }
+  if (this.cursors.up.isDown && !(this.cursors.right.isDown) && !diving && !kicking) {
+    meDark.flipX = true;
+    if (speed === 1) {
+      meDark.anims.play('rightwalk', true);
+    } else if (speed === 2 || speed === 3) {
+      meDark.anims.play('newrightrun', true);
+    } else if (speed > 3) {
+      meDark.anims.play('newrightsprint', true);
+    }
+  } else if (this.cursors.down.isDown && !(this.cursors.left.isDown) && !diving && !kicking) {
+    meDark.flipX = false;
+    if (speed === 1) {
+      meDark.anims.play('rightwalk', true);
+    } else if (speed === 2 || speed === 3) {
+      meDark.anims.play('newrightrun', true);
+    } else if (speed > 3) {
+      meDark.anims.play('newrightsprint', true);
+    }
+  }
+  if (meDark.body.velocity.x === 0 && meDark.body.velocity.y === 0) {
+    meDark.anims.play('turn', true)
+    meDark.flipX = false;
+  }
+}

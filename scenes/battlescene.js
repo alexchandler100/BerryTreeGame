@@ -1102,10 +1102,10 @@ var BattleScene = new Phaser.Class({
       this.add.image(0, -125, `background${battleBackgroundIndex}`).setOrigin(0, 0);
     }
     if (bossBattle && bossType === 'darkboy') {
-      gameStateBattle.enem1 = new Enemy(this, 450, 250, 'darkboy2', null, 'Dark Boy 2', 1000, 20);
+      gameStateBattle.enem1 = new Enemy(this, 450, 250, 'darkboy2', null, 'DB', 1000, 20);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'dio') {
-      gameStateBattle.enem1 = new Enemy(this, 250, 100, 'dio', null, 'Dio', 1200, 45);
+      gameStateBattle.enem1 = new Enemy(this, 250, 300, 'dio', null, 'Dio', 1200, 45);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'fratboy2prime') {
       gameStateBattle.enem1 = new Enemy(this, 120, 200, 'fratboy2prime', null, 'StabBoy 2', 600, 30);
@@ -1399,23 +1399,6 @@ var BattleScene = new Phaser.Class({
       gameStateBattle.u = 0;
       gameStateBattle.damageText.scaleX = 2;
       gameStateBattle.damageText.scaleY = 2;
-      //destroy all status effect animations
-      /*
-      macX.destroy();
-      macBleed.destroy();
-      if (trevor.joinParameter && trevor.following) {
-          trevorX.destroy()
-          trevorBleed.destroy()
-      }
-      if (bennett.joinParameter && bennett.following) {
-        bennettX.destroy()
-        bennettBleed.destroy()
-      }
-      if (al.joinParameter && al.following) {
-        alX.destroy()
-        alBleed.destroy()
-      }
-      */
     }
     this.units.length = 0;
     // sleep the UI
@@ -1436,6 +1419,11 @@ var BattleScene = new Phaser.Class({
       this.scene.switch('LightWorld')
       gameState.music = this.sound.add('theme');
       worldTheme = 'light'
+      if (bossType === 'darkboy'){
+        darkworldDialogue = 1
+      } else if (bossType === 'dio'){
+        darkworldDialogue = 3
+      }
     } else {
       bossBattle = false;
       this.scene.switch('LightWorld');
@@ -1443,11 +1431,40 @@ var BattleScene = new Phaser.Class({
   },
   endBattleGameOver: function() {
     this.scene.sleep('UIScene');
-    if (bossBattle) {
+    if (bossBattle && bossType!='darkboy' && bossType!='dio') {
       gameState.dead.play();
       gameState.spooky.stop();
       gameState.holyDiver.stop();
       gameState.music = this.sound.add('theme');
+      this.scene.switch('LightWorld');
+      gameOver = true;
+      bossBattle = false;
+      worldTheme = 'light';
+    }  else if (bossBattle && (bossType==='darkboy' || bossType==='dio')) {
+      //set health to 1 so you keep living in lightworld
+      gameStateBattle.me.hp = 1;
+      hpObject["Mac"] = 1;
+      // clear state, remove sprites
+      this.heroes.length = 0;
+      this.enemies.length = 0;
+      for (var i = 0; i < this.units.length; i++) {
+        this.units[i].destroy();
+        //reset damage indicator
+        gameStateBattle.t = 0;
+        gameStateBattle.u = 0;
+        gameStateBattle.damageText.scaleX = 2;
+        gameStateBattle.damageText.scaleY = 2;
+      }
+      this.units.length = 0;
+      // sleep the UI
+      this.scene.sleep('UIScene');
+      gameState.spooky.stop();
+      gameState.holyDiver.stop();
+      gameState.music = this.sound.add('theme');
+      this.scene.switch('LightWorld');
+      bossBattle = false;
+      worldTheme = 'light';
+      this.openDialoguePage(704);
     } else {
       gameState.dead.play();
       if (gameState.battleSongIndex === 0) {
@@ -1469,11 +1486,27 @@ var BattleScene = new Phaser.Class({
       } else if (gameState.battleSongIndex === 8) {
         gameState.battlesong9.stop();
       }
+      this.scene.switch('LightWorld');
+      gameOver = true;
+      bossBattle = false;
+      worldTheme = 'light';
     }
-    this.scene.switch('LightWorld');
-    gameOver = true;
-    bossBattle = false;
-    worldTheme = 'light';
+
+  },
+  openDialoguePage: function(page) {
+    pageForDialogue = page
+    openingDialogue = true;
+    if (gameState.phoneBackground) {
+      if (gameState.camera1.visible) {
+        gameStateNav.phoneBackground.visible = false
+        gameState.camera1.visible = false
+        gameStateNav.gpsPointer.visible = false;
+      } else {
+        gameStateNav.phoneBackground.visible = true
+        gameState.camera1.visible = true;
+        gameStateNav.gpsPointer.visible = true;
+      }
+    }
   },
   wake: function() {      //this never seems to get called sommehow
       //set hp for party
@@ -2051,6 +2084,16 @@ var BattleScene = new Phaser.Class({
             this.units[this.index].anims.play(animObject[this.units[this.index].type][0], true);
             this.billBackWalk = true;
           }, 800);
+        } else if (this.units[this.index].type === "DB") {
+          settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
+          this.units[this.index].setScale(.7);
+          window.setTimeout(() => {
+            settingDepth = false;
+            this.units[this.index].setScale(1);
+          }, 2000);
+          this.units[this.index].setDepth(this.heroes[r].y - 1)
+          this.units[this.index].x = this.heroes[r].x-50;
+          this.units[this.index].y = this.heroes[r].y;
         } else {
           this.units[this.index].x = this.heroes[r].x - 70;
           this.units[this.index].y = this.heroes[r].y;

@@ -10,6 +10,21 @@ var DarkWorld = new Phaser.Class({
   init: function(data) {
     //this.message = data.message;
   },
+  openDialoguePage: function(page) {
+    pageForDialogue = page
+    openingDialogue = true;
+    if (gameState.phoneBackground) {
+      if (gameState.camera1.visible) {
+        gameStateNav.phoneBackground.visible = false
+        gameState.camera1.visible = false
+        gameStateNav.gpsPointer.visible = false;
+      } else {
+        gameStateNav.phoneBackground.visible = true
+        gameState.camera1.visible = true;
+        gameStateNav.gpsPointer.visible = true;
+      }
+    }
+  },
 
   //added this for battle scene and changed all instances of cursors to this.cursors (and removed const before cursors initialization)
   wake: function() {
@@ -17,15 +32,17 @@ var DarkWorld = new Phaser.Class({
     this.cursors.right.reset();
     this.cursors.up.reset();
     this.cursors.down.reset();
-    this.scene.restart("DarkWorld");
+    //this.scene.restart("DarkWorld");
     playerTexture=0;
+    gameStateDark.music.play();
+    meDark.x = gameStateDark.PlayerSpawnPoint.x;
+    meDark.y = gameStateDark.PlayerSpawnPoint.y;
   },
   onKeyInput: function(event) {
   },
   preload: function() {
     this.load.audio('holyDiver', ['assets/holyDiver.wav']);
     this.load.audio('slash', ['assets/slash.wav']);
-    this.load.audio('smack', ['assets/smack.wav']);
     this.load.audio('airsoft', ['assets/airsoft.wav']);
     this.load.audio('punch', ['assets/Punch.wav']);
     this.load.audio('battle1', ['assets/battle1.wav']);
@@ -50,8 +67,8 @@ var DarkWorld = new Phaser.Class({
       });
     this.load.spritesheet('darkboy2',
       'assets/darkboy2.png', {
-        frameWidth: 300,
-        frameHeight: 300
+        frameWidth: 200,
+        frameHeight: 250
       });
     this.load.spritesheet('me',
       'assets/me_running_BTJM.png', {
@@ -68,13 +85,13 @@ var DarkWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 300
       });
+      //loading tilesets and tilemaps
+      this.load.image("buildingsCustom", "assets/tilesets/EL_buildings.png");
       this.load.image("tuxmon-tiles", "assets/tilesets/tuxmon-sample-32px.png");
-      this.load.image("buildings1", "assets/tilesets/buildings1.png");
       this.load.image("elTiles", "assets/tilesets/el_tileset_custom.png");
-      this.load.image("buildingTiles", "assets/tilesets/buildings_custom.png");
       this.load.image("elTiles2", "assets/tilesets/[Base]BaseChip_pipo.png");
       this.load.image("carTiles", "assets/tilesets/car_tiles.png");
-    this.load.tilemapTiledJSON("dark_map", "assets/dark_east_lansing2.json");
+      this.load.tilemapTiledJSON("map", "assets/east_lansing.json");
   },
   create: function() {
     this.cameras.main.zoom = 2;
@@ -84,21 +101,22 @@ var DarkWorld = new Phaser.Class({
     gameStateDark.music.play();
 
     //making the map
-      mapDark = this.make.tilemap({
-        key: "dark_map"
+      map = this.make.tilemap({
+        key: "map"
       });
 
-      const tileset1Dark = mapDark.addTilesetImage("tuxmon-sample-32px", "tuxmon-tiles");
-      const tileset2Dark = mapDark.addTilesetImage("el_tileset_custom", "elTiles")
-      const tileset33Dark = mapDark.addTilesetImage("buildings_custom", "buildingTiles")
-      const tileset22Dark = mapDark.addTilesetImage("[Base]BaseChip_pipo", "elTiles2")
-      const tileset3Dark = mapDark.addTilesetImage("car_tiles", "carTiles");
-      const tileset4Dark = mapDark.addTilesetImage("buildings1", "buildings1");
-      const belowDark = mapDark.createDynamicLayer("Below2", tileset2Dark, 0, 0);
-      const buildingtopsDark = mapDark.createDynamicLayer("BuildingTops", tileset1Dark, 0, 0);
+      const tileset1 = map.addTilesetImage("tuxmon-sample-32px", "tuxmon-tiles");
+      const tileset2 = map.addTilesetImage("el_tileset_custom", "elTiles")
+      const tileset22 = map.addTilesetImage("[Base]BaseChip_pipo", "elTiles2")
+      const tileset3 = map.addTilesetImage("car_tiles", "carTiles");
+      const tileset4 = map.addTilesetImage("EL_buildings", "buildingsCustom");
+      const below = map.createDynamicLayer("Below2", tileset2, 0, 0);
+      const belowBottoms = map.createDynamicLayer("Below1", tileset2, 0, 0);
+      const buildingtops = map.createDynamicLayer("BuildingTops", tileset1, 0, 0);
+      const customBuildingsBelow = map.createDynamicLayer("CustomBuildings", tileset4, 0, 0).setDepth(1);
 
     //spawning objects
-    const DioShrineSpawnPoint = mapDark.findObject("Objects", obj => obj.name === "dioshrine spawn point");
+    const DioShrineSpawnPoint = map.findObject("Objects", obj => obj.name === "dioshrine spawn point");
 
     dioshrine = this.physics.add.sprite(DioShrineSpawnPoint.x+42, DioShrineSpawnPoint.y+26, 'dioshrine');
     dioshrine.setScale(.12)
@@ -106,26 +124,46 @@ var DarkWorld = new Phaser.Class({
     //spawning map layers which are under player
 
     //spawning map layers which are under player and npcs (should this be static? fix needed...)
-    const worldDark = mapDark.createDynamicLayer("World", tileset1Dark, 0, 0);
-    const world3Dark = mapDark.createDynamicLayer("World3", tileset33Dark, 0, 0);
-    const world2Dark = mapDark.createDynamicLayer("World2", tileset22Dark, 0, 0);
-    const specialDark = mapDark.createStaticLayer("Special", tileset4Dark, 0, 0);
-    const carsDark = mapDark.createStaticLayer("Cars", tileset3Dark, 0, 0);
+    const world = map.createDynamicLayer("World", tileset1, 0, 0).setDepth(0);
+    const world2 = map.createDynamicLayer("World2", tileset22, 0, 0);
+    const cars = map.createDynamicLayer("Cars", tileset3, 0, 0);
 
     //tinting for tiles
-      belowDark.forEachTile(
-        t => (t.tint = 0xa31199),
+
+    //color1hex = #ff5dea
+    //color2hex = #ff2b7e
+    //color3hex = #93945f
+
+    const color1 = 0xff5dea //below layers
+    const color2 = 0xff2b7e //buildings
+    const color3 = 0x93945f //world2
+
+      below.forEachTile(
+        t => (t.tint = color1),
       );
-      worldDark.forEachTile(
-        t => (t.tint = 0x777777),
+      belowBottoms.forEachTile(
+        t => (t.tint = color1),
       );
-      buildingtopsDark.forEachTile(
-        t => (t.tint = 0x777777),
+      world.forEachTile(
+        t => (t.tint = color2),
       );
+      buildingtops.forEachTile(
+        t => (t.tint = color2),
+      );
+      customBuildingsBelow.forEachTile(
+        t => (t.tint = color2),
+      );
+      cars.forEachTile(
+        t => (t.tint = color2),
+      );
+      world2.forEachTile(
+        t => (t.tint = color3),
+      );
+
     //fratboys
     fratboysDark = this.physics.add.group()
 
-    const Darkboy2SpawnPoint = mapDark.findObject("Objects", obj => obj.name === "darkboy1 spawn point");
+    const Darkboy2SpawnPoint = map.findObject("Objects", obj => obj.name === "darkboy1 spawn point");
 
     darkboy2 = fratboysDark.create(Darkboy2SpawnPoint.x, Darkboy2SpawnPoint.y, 'darkboy2');
     darkboy2.setScale(.14)
@@ -133,55 +171,62 @@ var DarkWorld = new Phaser.Class({
     darkboy2.body.setOffset(60, 100);
 
     //spawning player and setting properties
-    gameStateDark.PlayerSpawnPoint = mapDark.findObject("Objects", obj => obj.name === "hausdorf spawn point");
+    gameStateDark.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point");
     meDark = this.physics.add.sprite(gameStateDark.PlayerSpawnPoint.x, gameStateDark.PlayerSpawnPoint.y, 'me');
     meDark.setScale(.17);
     meDark.body.setSize(70, 90);
     meDark.body.setOffset(60, 100);
 
-    const aboveDark = mapDark.createStaticLayer("Above", tileset2Dark, 0, 0);
-    // create a boolean for tiles in Tiled called ''collides'' in the tileset editor and set collides = 'true'
-    worldDark.setCollisionByProperty({
+    //spawning layers which are above the player
+    const above = map.createStaticLayer("Above", tileset2, 0, 0).setDepth(100001);
+
+    //spawning layers which are above the player
+    const buildingsAbove = map.createStaticLayer("BuildingsAbove", tileset1, 0, 0).setDepth(100000);
+
+    const customBuildingsAbove = map.createStaticLayer("CustomBuildingsAbove", tileset4, 0, 0).setDepth(100001);
+
+
+    // Collisions. Note: must create a boolean for tiles in Tiled called ''collides'' in the tileset editor and set collides = 'true'
+    customBuildingsBelow.setCollisionByProperty({
       collides: true
     });
-    world2Dark.setCollisionByProperty({
+    belowBottoms.setCollisionByProperty({
       collides: true
     });
-    world3Dark.setCollisionByProperty({
+    world.setCollisionByProperty({
       collides: true
     });
-    carsDark.setCollisionByProperty({
+    world2.setCollisionByProperty({
       collides: true
     });
-    specialDark.setCollisionByProperty({
+
+    cars.setCollisionByProperty({
       collides: true
     });
-    aboveDark.setCollisionByProperty({
+
+    above.setCollisionByProperty({
       collides: true
     });
 
     //collisions with player and world
-    this.physics.add.collider(meDark, worldDark);
-    this.physics.add.collider(meDark, carsDark);
+    this.physics.add.collider(meDark, world);
+    this.physics.add.collider(meDark, cars);
 
     //colliders for fratboys
     this.physics.add.collider(fratboysDark, meDark);
-    this.physics.add.collider(fratboysDark, worldDark);
-    this.physics.add.collider(fratboysDark, carsDark);
-
-    this.physics.add.collider(worldDark, worldDark);
-
+    this.physics.add.collider(fratboysDark, world);
+    this.physics.add.collider(fratboysDark, cars);
     //colliders for car
-    this.physics.add.collider(carsDark, worldDark)
 
     // access main canmera and set bounds, set to follow player
     const cameraDark = this.cameras.main;
+    cameraDark.roundPixels = true;
     // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
-    this.physics.world.setBounds(0, 0, mapDark.widthInPixels, mapDark.heightInPixels, true, true, true, true);
+    this.physics.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true, true, true, true);
     meDark.setCollideWorldBounds(true);
 
     //camera to follow player and camera bounds
-    cameraDark.setBounds(0, 0, mapDark.widthInPixels, mapDark.heightInPixels);
+    cameraDark.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     cameraDark.startFollow(meDark, true);
 
     //dio animations
@@ -214,6 +259,16 @@ var DarkWorld = new Phaser.Class({
       }),
       frameRate: 5,
       repeat: -1
+    });
+
+    //darkboy2 animations
+    this.anims.create({
+      key: 'darkboy2attack',
+      frames: this.anims.generateFrameNumbers('darkboy2', {
+        frames: [3,0]
+      }),
+      frameRate: 2,
+      repeat: 0
     });
 
     //player animations
@@ -359,61 +414,42 @@ var DarkWorld = new Phaser.Class({
     this.input.keyboard.on("keydown", this.onKeyInput, this);
 
     var keyObj1 = this.input.keyboard.addKey('one'); // Get key object
-
     keyObj1.on('down', function(event) {
       zoom = .264;
     });
-
     var keyObj2 = this.input.keyboard.addKey('two'); // Get key object
-
     keyObj2.on('down', function(event) {
       zoom = .6
     });
-
     var keyObj3 = this.input.keyboard.addKey('three'); // Get key object
-
     keyObj3.on('down', function(event) {
       zoom = .76
     });
-
     var keyObj4 = this.input.keyboard.addKey('four'); // Get key object
-
     keyObj4.on('down', function(event) {
       zoom = 1
     });
-
     var keyObj5 = this.input.keyboard.addKey('five'); // Get key object
-
     keyObj5.on('down', function(event) {
       zoom = 1.6
     });
-
     var keyObj6 = this.input.keyboard.addKey('six'); // Get key object
-
     keyObj6.on('down', function(event) {
-      zoom = 2.25
+      zoom = 2
     });
-
     var keyObj7 = this.input.keyboard.addKey('seven'); // Get key object
-
     keyObj7.on('down', function(event) {
       zoom = 3
     });
-
     var keyObj8 = this.input.keyboard.addKey('eight'); // Get key object
-
     keyObj8.on('down', function(event) {
       zoom = 4
     });
-
     var keyObj9 = this.input.keyboard.addKey('nine'); // Get key object
-
     keyObj9.on('down', function(event) {
       zoom = 5
     });
-
     var keyObj0 = this.input.keyboard.addKey('zero'); // Get key object
-
     keyObj0.on('down', function(event) {
       zoom = 10
     });
@@ -486,6 +522,9 @@ var DarkWorld = new Phaser.Class({
   },
 
   update: function() {
+    if (worldTheme === 'light'){
+      this.scene.switch('LightWorld');
+    }
     //fail to buy weed
     // boss battle
     if (bossType === 'dio' && bossBattleParameter === 1) {
@@ -496,56 +535,19 @@ var DarkWorld = new Phaser.Class({
       this.scene.switch('BattleScene');
       bossBattleParameter = 0
     }
-    //enable dev mode
-    if (devMode1 + devMode2 + devMode3 >= 3) {
-      devMode1 = 0
-      devMode2 = 0
-      devMode3 = 0
-      speed = 7;
-      gas = 40;
-      keysGet = 1;
-      wentPro = 1;
-      alGet = 1;
-      brothersSeal = 1;
-      money = 1000;
-      hamms = 10;
-      monster = 10;
-      gatorade = 10;
-      gameState.secret.play()
-      maxHPObject['Mac'] += 200
-      maxSPObject['Mac'] += 30
-      damageObject['Mac'] += 50
-      maxHPObject['Jimmy'] += 200
-      maxSPObject['Jimmy'] += 30
-      damageObject['Jimmy'] += 50
-      maxHPObject['Al'] += 200
-      maxSPObject['Al'] += 30
-      damageObject['Al'] += 50
-      hpObject['Mac']= maxHPObject['Mac']
-      spObject['Mac']= maxSPObject['Mac']
-      hpObject['Jimmy']= maxHPObject['Jimmy']
-      spObject['Jimmy']= maxSPObject['Jimmy']
-      hpObject['Al']= maxHPObject['Al']
-      spObject['Al']= maxSPObject['Al']
-    }
+
     //new dark world dialogue
     if (darkWorld === 0 && worldTheme === 'dark' && newDarkDialogue === 0) {
       this.cameras.main.shake(1000);
-      initializePageDark(this)
-      let firstPage = fetchPageDark(800)
-      displayPageDark(this, firstPage)
+      this.openDialoguePage(800);
       newDarkDialogue = 1
     }
     //gameover and new game
     if (newGame === true && gameOver === false) {
-      initializePageDark(this)
-      let firstPage = fetchPageDark(1)
-      displayPageDark(this, firstPage)
+      this.openDialoguePage(1);
       newGame = false;
     } else if (newGame === false && gameOver === true) {
-      initializePageDark(this)
-      let page = fetchPageDark(300)
-      displayPageDark(this, page)
+      this.openDialoguePage(300);
       gameOver = 0
     }
 
@@ -612,12 +614,6 @@ var DarkWorld = new Phaser.Class({
       checkLevelDialogue = 0
     }
 
-    //getting money
-    if (moneyPlus) {
-      getTreeFitty();
-      moneyPlus = false;
-    }
-
     //camera and cursors
     this.cameras.main.zoom = zoom;
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -627,9 +623,7 @@ var DarkWorld = new Phaser.Class({
     //ai for dio fight
     if (distance(dioshrine, meDark) < 30 && diodialogue === 0 && worldTheme === 'dark' && brothersSeal===1 && dioEnabled===true) {
       diodialogue = 1
-      initializePageDark(this)
-      let page = fetchPageDark(1200)
-      displayPageDark(this, page)
+      this.openDialoguePage(1200);
       gameStateDark.music.stop()
       gameStateDark.music = this.sound.add('windNoise');
       gameStateDark.music.loop = true;
@@ -656,11 +650,17 @@ var DarkWorld = new Phaser.Class({
       darkboy2.anims.play('darkboy2walk', true)
     }
 
+    if (darkboy2.body.velocity.x>0){
+      darkboy2.flipX = true
+    } else {
+      darkboy2.flipX = false
+    }
+
     if (distance(darkboy2, meDark) < 30 && darkboydialogue === 0 && worldTheme === 'dark') {
-      darkboydialogue = 1
-      initializePageDark(this)
-      let page = fetchPageDark(700)
-      displayPageDark(this, page)
+      darkboydialogue = 1;
+      this.openDialoguePage(700);
+    } else if (distance(darkboy2, meDark) >100 && darkboydialogue === 1 && worldTheme === 'dark'){
+      darkboydialogue = 0;
     }
 
     //pause Menu (not working after gameover... fix needed)
@@ -678,102 +678,62 @@ var DarkWorld = new Phaser.Class({
     if (playerTexture === 0) {
       // player Horizontal movement
       if (this.cursors.left.isDown) {
-        meDark.body.setVelocityX(-50 * speed * highness);
+        meDark.body.setVelocityX(-50 * speed * athletics);
       } else if (this.cursors.right.isDown) {
-        meDark.body.setVelocityX(50 * speed * highness);
+        meDark.body.setVelocityX(50 * speed * athletics);
       }
-
       // player Vertical movement
       if (this.cursors.up.isDown) {
-        meDark.body.setVelocityY(-50 * speed * highness);
+        meDark.body.setVelocityY(-50 * speed * athletics);
       } else if (this.cursors.down.isDown) {
-        meDark.body.setVelocityY(50 * speed * highness);
+        meDark.body.setVelocityY(50 * speed * athletics);
       }
-
       //player walking running animations
-      if (this.cursors.left.isDown) {
-        if (speed === 1) {
-          meDark.anims.play('leftwalk', true);
-        } else if (speed === 2) {
-          meDark.anims.play('leftrun', true);
-        } else if (speed > 2) {
-          meDark.anims.play('leftsprint', true);
-        }
-      } else if (this.cursors.right.isDown) {
+      if (this.cursors.left.isDown && !diving && !kicking) {
+        meDark.flipX = true;
         if (speed === 1) {
           meDark.anims.play('rightwalk', true);
-        } else if (speed === 2) {
-          meDark.anims.play('rightrun', true);
-        } else if (speed > 2) {
-          meDark.anims.play('rightsprint', true);
+        } else if (speed === 2 || speed === 3) {
+          meDark.anims.play('newrightrun', true);
+        } else if (speed > 3) {
+          meDark.anims.play('newrightsprint', true);
+        }
+      } else if (this.cursors.right.isDown && !diving && !kicking) {
+        meDark.flipX = false;
+        if (speed === 1) {
+          meDark.anims.play('rightwalk', true);
+        } else if (speed === 2 || speed === 3) {
+          meDark.anims.play('newrightrun', true);
+        } else if (speed > 3) {
+          meDark.anims.play('newrightsprint', true);
         }
       }
-
-      if (this.cursors.up.isDown && !(this.cursors.right.isDown)) {
-        if (speed === 1) {
-          meDark.anims.play('leftwalk', true);
-        } else if (speed === 2) {
-          meDark.anims.play('leftrun', true);
-        } else if (speed > 2) {
-          meDark.anims.play('leftsprint', true);
-        }
-      } else if (this.cursors.down.isDown && !(this.cursors.left.isDown)) {
+      if (this.cursors.up.isDown && !(this.cursors.right.isDown) && !diving && !kicking) {
+        meDark.flipX = true;
         if (speed === 1) {
           meDark.anims.play('rightwalk', true);
-        } else if (speed === 2) {
-          meDark.anims.play('rightrun', true);
-        } else if (speed > 2) {
-          meDark.anims.play('rightsprint', true);
+        } else if (speed === 2 || speed === 3) {
+          meDark.anims.play('newrightrun', true);
+        } else if (speed > 3) {
+          meDark.anims.play('newrightsprint', true);
+        }
+      } else if (this.cursors.down.isDown && !(this.cursors.left.isDown) && !diving && !kicking) {
+        meDark.flipX = false;
+        if (speed === 1) {
+          meDark.anims.play('rightwalk', true);
+        } else if (speed === 2 || speed === 3) {
+          meDark.anims.play('newrightrun', true);
+        } else if (speed > 3) {
+          meDark.anims.play('newrightsprint', true);
         }
       }
       if (meDark.body.velocity.x === 0 && meDark.body.velocity.y === 0) {
         meDark.anims.play('turn', true)
-      }
-
-    }
-    // for when you get in the car
-    else if (playerTexture === 1) {
-      if (gas < 0) {
-        gas = 0
-      }
-      // Horizontal car movement
-      if (this.cursors.left.isDown && gas > 0) {
-        me.body.setVelocityX(-200 * speed);
-        gas -= .0013
-      } else if (this.cursors.right.isDown && gas > 0) {
-        me.body.setVelocityX(200 * speed);
-        gas -= .0013
-      }
-
-      // Vertical car movement
-      if (this.cursors.up.isDown && gas > 0) {
-        me.body.setVelocityY(-200 * speed);
-        gas -= .0013
-      } else if (this.cursors.down.isDown && gas > 0) {
-        me.body.setVelocityY(200 * speed);
-        gas -= .0013
-      }
-
-      //horizontal car animations
-      if (this.cursors.right.isDown && gas > 0) {
-        me.angle = 90
-        me.setSize(64, 32)
-        me.setOffset(0, 16)
-      } else if (this.cursors.left.isDown && gas > 0) {
-        me.angle = 270
-        me.setSize(64, 32)
-        me.setOffset(0, 16)
-      }
-      // Vertical car animation
-      else if (this.cursors.up.isDown && gas > 0) {
-        me.angle = 0
-        me.setSize(32, 64)
-        me.setOffset(16, 0)
-      } else if (this.cursors.down.isDown && gas > 0) {
-        me.angle = 180
-        me.setSize(32, 64)
-        me.setOffset(16, 0)
+        meDark.flipX = false;
       }
     }
+    meDark.x = Math.round(meDark.x);
+    meDark.y = Math.round(meDark.y);
+
   }
 });
