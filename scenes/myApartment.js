@@ -213,6 +213,7 @@ var MyApartment = new Phaser.Class({
     }
     this.scene.run("DialogueMenu");
     gameState.music.stop();
+    gameState.bossfight.stop();
     musRnd = Math.floor(Math.random() * 4);
     if (musRnd === 0) {
       gameStateApt.indoors0.play()
@@ -232,11 +233,14 @@ var MyApartment = new Phaser.Class({
     // gameStateApt.spawn changes to wherever we want to spawn but gameStateApt.enter is fixed
     gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
     gameStateApt.enter = mapApt.findObject("objects", obj => obj.name === "enter");
+    gameStateApt.trevorAptEnter = mapApt.findObject("objects", obj => obj.name === "trevor apartment");
     gameStateApt.elevatorUpstairs = mapApt.findObject("objects", obj => obj.name === "clubhouse elevator");
     gameStateApt.elevatorDownstairs = mapApt.findObject("objects", obj => obj.name === "downstairs elevator");
 
     if (indoorZone === 'myApartment') {
       gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
+    } else if (indoorZone === 'TrevorsApartment') {
+      gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "trevor apartment");
     } else if (indoorZone === 'clubhouse 731') {
       gameStateApt.spawn = gameState.clubhouseInside731Entrance;
     } else if (indoorZone === 'clubhouse woods') {
@@ -302,6 +306,7 @@ var MyApartment = new Phaser.Class({
       });
   },
   create: function() {
+
     //adding poolscore just in case
     if (!gameStateApt.poolscore) {
       gameStateApt.poolscore = this.add.text(1200 - 200, 10, '', {
@@ -518,6 +523,8 @@ var MyApartment = new Phaser.Class({
 
     //spawning player and setting properties
     gameStateApt.keyboard = mapApt.findObject("objects", obj => obj.name === "keyboard");
+    gameStateApt.trevorSpawnPoint = mapApt.findObject("objects", obj => obj.name === "trevor apt spawn point");
+    gameStateApt.trevorAptEnter = mapApt.findObject("objects", obj => obj.name === "trevor apartment");
     gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
     gameStateApt.enter = mapApt.findObject("objects", obj => obj.name === "enter");
     gameStateApt.elevatorUpstairs = mapApt.findObject("objects", obj => obj.name === "clubhouse elevator");
@@ -550,6 +557,8 @@ var MyApartment = new Phaser.Class({
     console.log(`indoor zone: ${indoorZone}`)
     if (indoorZone === 'myApartment') {
       gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "enter");
+    } else if (indoorZone === 'TrevorsApartment') {
+      gameStateApt.spawn = mapApt.findObject("objects", obj => obj.name === "trevor apartment");
     } else if (indoorZone === 'clubhouse 731') {
       gameStateApt.spawn = gameState.clubhouseInside731Entrance;
     } else if (indoorZone === 'clubhouse woods') {
@@ -571,6 +580,12 @@ var MyApartment = new Phaser.Class({
     joeApt.body.setSize(80, 50);
     joeApt.body.setOffset(60, 140);
     joeApt.setDepth(joeApt.y)
+
+    trevorApt = this.physics.add.sprite(gameStateApt.trevorSpawnPoint.x, gameStateApt.trevorSpawnPoint.y, 'trevor');
+    trevorApt.setScale(.35*.7);
+    trevorApt.body.setSize(80, 50);
+    trevorApt.body.setOffset(60, 140);
+    trevorApt.setDepth(trevorApt.y)
 
     stripperApt = new NPC(this, "stripper apt spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
     //stripperApt = this.physics.add.sprite(gameStateApt.stripperAptSpawnPoint.x, gameStateApt.stripperAptSpawnPoint.y, 'stripper');
@@ -985,6 +1000,13 @@ var MyApartment = new Phaser.Class({
         me.x = gameState.PlayerSpawnPoint.x - 48;
         me.y = gameState.PlayerSpawnPoint.y - 64;
         console.log(`switched to lightworld from my apartment door inside`)
+      } else if (distance(meApt, gameStateApt.trevorAptEnter)<30) {
+        scene_number = 2
+        this.scene.switch("LightWorld");
+        this.scene.sleep("PoolScore");
+        me.x = gameState.trevorsApartment.x;
+        me.y = gameState.trevorsApartment.y;
+        console.log(`switched to lightworld from my apartment door inside`)
       } else if (distance(yogaBlocks, meApt) < 40 && gotYogaBlocks === false) {
         console.log('got yoga blocks')
         gotYogaBlocks = true;
@@ -1080,6 +1102,17 @@ var MyApartment = new Phaser.Class({
   },
 
   update: function() {
+    if (startMegaman){
+      startMegaman = false;
+      this.scene.switch("Megaman")
+    }
+
+    if (distance(meApt,trevorApt)<30 && trevorAptFirstDialogue === 0){
+      trevorAptFirstDialogue = 1;
+      this.openDialoguePage(29)
+    } else if (distance(meApt,trevorApt)>60 && trevorAptFirstDialogue === 1){
+      trevorAptFirstDialogue = 0;
+    }
     if (keyboardGet && distance(meApt,gameStateApt.keyboard)>60){
       keyboardGet = false;
     }

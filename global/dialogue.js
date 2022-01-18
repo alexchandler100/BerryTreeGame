@@ -449,13 +449,14 @@ var DialogueMenu = new Phaser.Class({
 
       {
         character: 'trevor',
-        page: 24,
-        narrative: "Jimmy: Damnnn you went pro again. Right on. Gotta do more badass shit to get that BROTHER'S SEAL though that shit needs to be tight (you need 1000 points)",
+        page: 22,
+        narrative: "Jimmy: Dude HOLY FUCK! That level of kick-the-ball skill has earned you the motha fucking BROTHER'S SEAL. Damnnn theres a pool party?",
         options: [{
-          option: 'Shiiiit',
-          nextPage: undefined,
+          option: 'Hell yeah',
+          nextPage: undefined
         }, ]
       },
+
 
       {
         character: 'god',
@@ -467,13 +468,15 @@ var DialogueMenu = new Phaser.Class({
         }, ]
       },
 
+
+
       {
         character: 'trevor',
-        page: 22,
-        narrative: "Jimmy: Dude HOLY FUCK! That level of kick-the-ball skill has earned you the motha fucking BROTHER'S SEAL. Damnnn theres a pool party?",
+        page: 24,
+        narrative: "Jimmy: Damnnn you went pro again. Right on. Gotta do more badass shit to get that BROTHER'S SEAL though that shit needs to be tight (you need 1000 points)",
         options: [{
-          option: 'Hell yeah',
-          nextPage: undefined
+          option: 'Shiiiit',
+          nextPage: undefined,
         }, ]
       },
 
@@ -517,6 +520,31 @@ var DialogueMenu = new Phaser.Class({
         narrative: "Find a wide open space. The road is good, just watch for cars... Run with the ball away from Jimmy until he is just about to catch up. Then change directions by 90 degrees with the ball. Jimmy is not great at changing directions while chasing you. Repeat. Press delete/backspace to respawn the ball.",
         options: [{
           option: 'tight',
+          nextPage: undefined,
+        }]
+      },
+
+      {
+        character: 'me',
+        page: 28,
+        narrative: "I can't be just breaking into Jimmy's place...",
+        options: [{
+          option: 'right',
+          nextPage: undefined,
+        }]
+      },
+
+      {
+        character: 'trevor',
+        page: 29,
+        narrative: "Jimmy: Yo I can't beat this fucking boss. Wanna try?",
+        options: [{
+          option: 'Fer sherrr',
+          nextPage: undefined,
+          aftermath: playMegaman
+        },
+        {
+          option: 'Nahh',
           nextPage: undefined,
         }]
       },

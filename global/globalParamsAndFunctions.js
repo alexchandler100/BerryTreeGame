@@ -36,6 +36,8 @@ let screenText;
 let highScoreText;
 let damageText;
 let moneyText;
+let startMegaman = false;
+let trevorAptFirstDialogue = 0;
 let firstTimeCarGet = 0;
 let jeanClaudeFirstTalk = 0;
 let fratboy1FirstTalk = 0;
@@ -1707,6 +1709,10 @@ function getHigh() { //increases highness when you smoke weed
   highness = 3;
   time = 0;
   gameState.bongSound.play()
+}
+
+function playMegaman() { //computes distance between two things
+  startMegaman = true;
 }
 
 function distance(thing1, thing2) { //computes distance between two things

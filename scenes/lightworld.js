@@ -1120,6 +1120,8 @@ var LightWorld = new Phaser.Class({
     }
 
     //defining spawn points
+    gameState.myApartment = map.findObject("Objects", obj => obj.name === "my apartment");
+    gameState.trevorsApartment = map.findObject("Objects", obj => obj.name === "trevor apartment enter");
     gameState.YogaGirlSpawnPoint1 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 1");
     gameState.YogaGirlSpawnPoint2 = map.findObject("Objects", obj => obj.name === "yoga girl spawn point 2");
     gameState.fratboy1SpawnPoint = map.findObject("Objects", obj => obj.name === "fratboy1 spawn point");
@@ -2994,12 +2996,22 @@ var LightWorld = new Phaser.Class({
         }
         */
         //problem here if you go in apartment and then go in pool room, you warp to the wrong place when you change scenes
-      } else if (me.x > gameState.PlayerSpawnPoint.x - 64 && me.x < gameState.PlayerSpawnPoint.x - 32 && me.y > gameState.PlayerSpawnPoint.y - 84 && me.y < gameState.PlayerSpawnPoint.y - 32 && keysGet === 0) {
+      } else if (distance(me,gameState.myApartment)<30 && keysGet === 0) {
         cantGetIn = 1;
-      } else if (me.x > gameState.PlayerSpawnPoint.x - 64 && me.x < gameState.PlayerSpawnPoint.x - 32 && me.y > gameState.PlayerSpawnPoint.y - 84 && me.y < gameState.PlayerSpawnPoint.y - 32 && keysGet) {
+      } else if (distance(me,gameState.myApartment)<30 && keysGet) {
         //me.x = gameState.PlayerSpawnPoint.x;
         //me.y = gameState.PlayerSpawnPoint.y;
         indoorZone = "MyApartment"
+        scene_number = 'indoors'
+        this.scene.switch("MyApartment");
+      } else if (distance(me,gameState.trevorsApartment)<30 && !trevor.following) {
+        //me.x = gameState.PlayerSpawnPoint.x;
+        //me.y = gameState.PlayerSpawnPoint.y;
+        this.openDialoguePage(28)
+      } else if (distance(me,gameState.trevorsApartment)<30 && trevor.following) {
+        //me.x = gameState.PlayerSpawnPoint.x;
+        //me.y = gameState.PlayerSpawnPoint.y;
+        indoorZone = "TrevorsApartment"
         scene_number = 'indoors'
         this.scene.switch("MyApartment");
       } else if (me.x > gameState.clubhouse731TL.x && me.x < gameState.clubhouse731BR.x && me.y > gameState.clubhouse731TL.y && me.y < gameState.clubhouse731BR.y) {

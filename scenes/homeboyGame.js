@@ -237,6 +237,7 @@ var HomeboyGame = new Phaser.Class({
 
       }
     }
+    this.sys.events.on('wake', this.wake, this);
   },
   update: function() {
     if (cursors.left.isDown) {
