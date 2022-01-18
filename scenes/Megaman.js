@@ -19,8 +19,8 @@ var Megaman = new Phaser.Class({
             frameWidth: 45,
             frameHeight: 45
           });
-          this.load.audio("enemyDamage", "assets/EnemyDamage.wav");
-          this.load.audio("explosion", "assets/Explosion.wav");
+        this.load.audio("enemyDamage", "assets/EnemyDamage.wav");
+        this.load.audio("explosion", "assets/Explosion.wav");
         this.load.audio("lemonSound", "assets/lemon.wav");
         this.load.audio("slideSound", "assets/slideSound.wav");
         this.load.audio("bossFightTheme", "assets/megamanBossFight.wav");
@@ -285,7 +285,7 @@ var Megaman = new Phaser.Class({
         }, 100)
         this.penguinHealth-=2;
         this.enemyDamage.play();
-        console.log(this.myHealth)
+        console.log(this.penguinHealth)
         this.penguinHealthMeter.y = 20+100 - this.penguinHealth
         this.penguinHealthMeter.height = this.penguinHealth;
       }
@@ -294,6 +294,7 @@ var Megaman = new Phaser.Class({
     this.exitVictory = false;
   },
   update: function() {
+    //penguin dies
     if (this.penguinHealth<=0){
       this.exitVictory = true
       this.penguinHealthMeter.visible = false;
@@ -306,6 +307,21 @@ var Megaman = new Phaser.Class({
       window.setTimeout(()=>{
         this.scene.switch('Lightworld')
       })
+    }
+    //I die
+    if (player.y>500 || this.myHealth<=0){
+      player.anims.play('gethit', true)
+      this.explosion.play()
+      player.y = 50
+      player.x = 1000
+      this.myHealth = 100;
+      this.myHealthMeter.visible = false;
+      gameState.bossfight.stop()
+      window.setTimeout(()=>{
+        this.scene.switch('LightWorld')
+        scene_number = 2
+      }, 3000)
+
     }
     //ai for penguin
     //to avoid running into walls
@@ -350,15 +366,6 @@ var Megaman = new Phaser.Class({
                 }
             }
         }.bind(this));
-
-    if (player.y>500 || this.myHealth<=0){
-      player.anims.play('gethit', true)
-      this.explosion.play()
-      player.y = 50
-      gameState.bossfight.stop()
-      this.scene.switch('LightWorld')
-      scene_number = 2
-    }
     //animations
     if (this.gettingHit){
       player.anims.play('gethit', true)
