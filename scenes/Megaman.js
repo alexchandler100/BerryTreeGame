@@ -596,14 +596,14 @@ var Megaman = new Phaser.Class({
         stag.setVelocityY(directionVector(stag, player)[1] * 250)
       } else if (stag.body.blocked.left) {
         this.hitwall.play()
-        stag.body.setVelocityX(200)
+        stag.body.setVelocityX(250)
         this.stagGoingLeft = false
         if (this.stagGoingUp) {
           stag.body.setVelocityY(-350)
         }
       } else if (stag.body.blocked.right) {
         this.hitwall.play()
-        stag.body.setVelocityX(-200)
+        stag.body.setVelocityX(-250)
         this.stagGoingLeft = true
         if (this.stagGoingUp) {
           stag.body.setVelocityY(-350)
@@ -615,15 +615,15 @@ var Megaman = new Phaser.Class({
         this.stagGoingUp = true;
         if (this.stagGoingLeft) {
           if (this.stagHealth > 30) {
-            stag.body.setVelocityX(-250)
+            stag.body.setVelocityX(-150)
           } else {
-            stag.body.setVelocityX(-350)
+            stag.body.setVelocityX(-250)
           }
         } else {
           if (this.stagHealth > 30) {
-            stag.body.setVelocityX(250)
+            stag.body.setVelocityX(150)
           } else {
-            stag.body.setVelocityX(350)
+            stag.body.setVelocityX(250)
           }
         }
       }

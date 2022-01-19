@@ -213,7 +213,9 @@ var MyApartment = new Phaser.Class({
     }
     this.scene.run("DialogueMenu");
     gameState.music.stop();
-    gameState.bossfight.stop();
+    if (gameState.bossfight){
+      gameState.bossfight.stop();
+    }
     musRnd = Math.floor(Math.random() * 4);
     if (musRnd === 0) {
       gameStateApt.indoors0.play()

@@ -4402,7 +4402,7 @@ var LightWorld = new Phaser.Class({
         }
         kickTheBallScoreDisplayed = true
       }
-      if (distance(trevor, ball) < 20) {
+      if (distance(trevor, ball) < 30) {
         kickTheBallScoreDisplayed = false
         if (keepaway > keepawayHighScore) {
           keepawayHighScore = keepaway
