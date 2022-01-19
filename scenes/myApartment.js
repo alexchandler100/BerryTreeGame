@@ -1104,6 +1104,8 @@ var MyApartment = new Phaser.Class({
   update: function() {
     if (startMegaman){
       startMegaman = false;
+      this.scene.launch("MegamanUI");
+      //this.scene.run("MegamanUI");
       this.scene.switch("Megaman")
     }
 

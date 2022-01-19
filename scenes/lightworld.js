@@ -2850,6 +2850,8 @@ var LightWorld = new Phaser.Class({
     //collecting items
     var keyObjS = this.input.keyboard.addKey('S'); // Get key object
     keyObjS.on('down', function(event) {
+      console.log(`playerTexture: ${playerTexture}`)
+      console.log(playerTexture === 0 && me.body.velocity.x === 0 && me.body.velocity.y === 0 && keysGet > 0)
       numberOfItems = 0
       for (let i = 0; i < Object.keys(usable_items).length; i++) {
         numberOfItems += usable_items[Object.keys(usable_items)[i]]
@@ -2874,11 +2876,11 @@ var LightWorld = new Phaser.Class({
         if (trevor.following) {
           trevor.disableBody(true, true);
         }
-      }
-      if (playerTexture === 'board' && !this.ollie && (me.body.velocity.x**2+ me.body.velocity.y**2>150**2)) {
+      } else if (playerTexture === 'board' && !this.ollie && (me.body.velocity.x**2+ me.body.velocity.y**2>150**2)) {
         this.ollie = true;
         this.DialogueMenu.kickflipRotationDisplay.angle = 0;
       } else if (playerTexture === 1) {
+        console.log(`got in here somehow`)
         playerTexture = 0
         car.enableBody(true, me.x, me.y, true, true);
         me.setTexture('me', 0)
@@ -4104,9 +4106,9 @@ var LightWorld = new Phaser.Class({
       gameState.wutt.play()
       this.openDialoguePage(136)
       girl4FirstDialogue = 4
-    } else if (distance(me, girl4) > 400 && girl4FirstDialogue === 1 && trevor.joinParameter) {
+    } else if (distance(me, girl4) > 50 && girl4FirstDialogue === 1) {
       girl4FirstDialogue = 0
-    } else if (distance(me, girl4) > 400 && girl4FirstDialogue === 4 && trevor.joinParameter) {
+    } else if (distance(me, girl4) > 50 && girl4FirstDialogue === 4) {
       girl4FirstDialogue = 2
     }
     //dialogue ai for girl2
@@ -5013,43 +5015,62 @@ var LightWorld = new Phaser.Class({
         gas = 0
       }
       // Horizontal car movement
-      if (this.cursors.left.isDown && gas > 0) {
-        me.body.setVelocityX(-200 * speed);
-        gas -= .0009
-      } else if (this.cursors.right.isDown && gas > 0) {
-        me.body.setVelocityX(200 * speed);
-        gas -= .0009
-      }
-      // Vertical car movement
-      if (this.cursors.up.isDown && gas > 0) {
-        me.body.setVelocityY(-200 * speed);
-        gas -= .0009
-      } else if (this.cursors.down.isDown && gas > 0) {
-        me.body.setVelocityY(200 * speed);
-        gas -= .0009
-      }
-      //horizontal car animations
-      if (this.cursors.right.isDown && gas > 0) {
-        me.angle = 90;
-        me.setSize(64, 32);
-        me.setOffset(0, 16)
-      } else if (this.cursors.left.isDown && gas > 0) {
+      if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+        firstKeyDown = ''
+      } else if (this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+        firstKeyDown = 'left'
         me.angle = 270;
         me.setSize(64, 32);
         me.setOffset(0, 16)
-      }
-      // Vertical car animation
-      else if (this.cursors.up.isDown && gas > 0) {
+      } else if (!this.cursors.left.isDown && this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+        firstKeyDown = 'right'
+        me.angle = 90;
+        me.setSize(64, 32);
+        me.setOffset(0, 16)
+      } else if (!this.cursors.left.isDown && !this.cursors.right.isDown && this.cursors.up.isDown && !this.cursors.down.isDown){
+        firstKeyDown = 'up'
         me.angle = 0;
         me.setSize(32, 64);
         me.setOffset(16, 0)
-      } else if (this.cursors.down.isDown && gas > 0) {
+      } else if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && this.cursors.down.isDown){
+        firstKeyDown = 'down'
         me.angle = 180;
         me.setSize(32, 64);
         me.setOffset(16, 0)
-      } else {
-        me.setSize(32, 32);
-        me.setOffset(0, 16)
+      }
+
+
+      if (this.cursors.left.isDown && gas > 0) {
+        gas -= .0009
+        if (firstKeyDown === 'left'){
+          me.body.setVelocityX(-200 * speed);
+        } else {
+          me.body.setVelocityX(-50 * speed);
+        }
+      }
+      if (this.cursors.right.isDown && gas > 0) {
+        gas -= .0009
+        if (firstKeyDown === 'right'){
+            me.body.setVelocityX(200 * speed);
+        } else {
+          me.body.setVelocityX(50 * speed);
+        }
+      }
+      if (this.cursors.up.isDown && gas > 0) {
+        gas -= .0009
+        if (firstKeyDown === 'up'){
+            me.body.setVelocityY(-200 * speed);
+        } else {
+          me.body.setVelocityY(-50 * speed);
+        }
+      }
+      if (this.cursors.down.isDown && gas > 0) {
+        gas -= .0009
+        if (firstKeyDown === 'down'){
+            me.body.setVelocityY(200 * speed);
+        } else {
+          me.body.setVelocityY(50 * speed);
+        }
       }
     } else if (playerTexture === 'race') {
       // player Horizontal movement

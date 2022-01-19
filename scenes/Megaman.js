@@ -9,143 +9,70 @@ var Megaman = new Phaser.Class({
     //sumn
   },
   preload: function() {
-      this.load.spritesheet('megaman',
-        'assets/megaman.png', {
-          frameWidth: 32,
-          frameHeight: 32
-        });
-        this.load.spritesheet('penguin',
-          'assets/chillPenguin.png', {
-            frameWidth: 45,
-            frameHeight: 45
-          });
-          this.load.spritesheet('flameStag',
-            'assets/flameStag.png', {
-              frameWidth: 60,
-              frameHeight: 65
-            });
-        this.load.audio("enemyDamage", "assets/EnemyDamage.wav");
-        this.load.audio("explosion", "assets/Explosion.wav");
-        this.load.audio("lemonSound", "assets/lemon.wav");
-        this.load.audio("slideSound", "assets/slideSound.wav");
-        this.load.audio("bossFightTheme", "assets/megamanBossFight.wav");
-        this.load.image("megamanTiles", "assets/tilesets/megamanTiles.png");
-        this.load.image("lemon", "assets/lemon.png");
-        this.load.image("health", "assets/megamanHealth.png");
-        this.load.tilemapTiledJSON("megaMap", "assets/megaman.json");
+    this.load.spritesheet('megaman',
+      'assets/megaman.png', {
+        frameWidth: 32,
+        frameHeight: 32
+      });
+    this.load.spritesheet('penguin',
+      'assets/chillPenguin.png', {
+        frameWidth: 45,
+        frameHeight: 45
+      });
+    this.load.spritesheet('flameStag',
+      'assets/flameStag.png', {
+        frameWidth: 60,
+        frameHeight: 65
+      });
+    this.load.audio("enemyDamage", "assets/EnemyDamage.wav");
+    this.load.audio("explosion", "assets/Explosion.wav");
+    this.load.audio("hitwall", "assets/hitwall.wav");
+    this.load.audio("lemonSound", "assets/lemon.wav");
+    this.load.audio("slideSound", "assets/slideSound.wav");
+    this.load.audio("bossFightTheme", "assets/megamanBossFight.wav");
+    this.load.image("megamanTiles", "assets/tilesets/megamanTiles.png");
+    this.load.image("lemon", "assets/lemon.png");
+    this.load.tilemapTiledJSON("megaMap", "assets/megaman.json");
   },
-  wake: function(){
-      this.myHealth = 100;
-      this.myHealthMeter.visible = true;
-      if (this.penguinAlive){
-        this.penguinHealth = 100;
-        chill.x = 400;
-        chill.y = 200;
-      }
-      if (this.stagAlive){
-        this.stagHealth = 100;
-        stag.x = 400;
-        stag.y = 200;
-      }
-      player.x = 50;
-      player.y = 50;
-      player.visible = true;
-
-      //gameStateApt.indoors0.stop()
-      //gameStateApt.indoors1.stop()
-      //gameStateApt.indoors2.stop()
-      //gameStateApt.indoors3.stop()
-      //gameState.bossfight.play();
-  },
-  create: function() {
-    this.penguinAlive = true;
-    this.exitVictoryPenguin = false;
-
-    this.stagAlive = true;
-    this.exitVictoryStag = false
-
-    const camera = this.cameras.main;
-    camera.zoom = 1.8;
-    camera.setBounds(0, 0, 640,320);
-
-    gameState.bossfight = this.sound.add('bossFightTheme', {
-      volume: .7
-    });
-
-    gameState.bossfight.loop = true;
-
+  wake: function() {
+    this.scene.run("MegamanUI");
+    this.myHealth = 100;
+    this.playerAlive = true
+    this.MegamanUI.myHealthMeter.y = 40 + 200 - 2 * this.myHealth
+    this.MegamanUI.myHealthMeter.height = 2 * this.myHealth;
+    if (this.penguinAlive) {
+      this.camera.setBounds(this.chillTL.x, this.chillTL.y, this.chillBR.x, this.chillBR.y);
+      this.penguinHealth = 100;
+      chill.x = this.chillSpawnPoint.x;
+      chill.y = this.chillSpawnPoint.y;
+      player.x = this.spawnPointForChill.x
+      player.y = this.spawnPointForChill.y
+      this.MegamanUI.enemyHealthMeter.y = 40 + 200 - 2 * this.penguinHealth
+      this.MegamanUI.enemyHealthMeter.height = 2 * this.penguinHealth;
+    }
+    if (!this.penguinAlive && this.stagAlive) {
+      this.camera.setBounds(0, 0, 100 * 32, 100 * 32);
+      this.stagHealth = 100;
+      stag.x = this.stagSpawnPoint.x;
+      stag.y = this.stagSpawnPoint.y;
+      player.x = this.spawnPointForStag.x
+      player.y = this.spawnPointForStag.y
+      this.camera.startFollow(player, true);
+      this.camera.setBounds(this.stagTL.x, this.stagTL.y, this.stagBR.x, this.stagBR.y);
+      this.MegamanUI.enemyHealthMeter.y = 40 + 200 - 2 * this.stagHealth
+      this.MegamanUI.enemyHealthMeter.height = 2 * this.stagHealth;
+    }
+    player.visible = true;
     gameStateApt.indoors0.stop()
     gameStateApt.indoors1.stop()
     gameStateApt.indoors2.stop()
     gameStateApt.indoors3.stop()
-    gameState.bossfight.play()
+    gameState.bossfight.play();
 
-    megaMap = this.make.tilemap({
-      key: "megaMap"
-    });
+  },
+  create: function() {
 
-    const tilesetMega = megaMap.addTilesetImage("megamanTiles", "megamanTiles");
-    const background = megaMap.createStaticLayer("Background", tilesetMega, 0, 0);
-    const ground = megaMap.createStaticLayer("Ground", tilesetMega, 0, 0);
-
-    ground.setCollisionByProperty({
-      collides: true
-    });
-
-    this.lemon = this.sound.add('lemonSound', {
-      volume: .7
-    });
-
-    this.slideSound = this.sound.add('slideSound', {
-      volume: .7
-    });
-
-    this.enemyDamage = this.sound.add('enemyDamage', {
-      volume: .7
-    });
-    this.explosion = this.sound.add('explosion', {
-      volume: .7
-    });
-
-    chill = this.physics.add.sprite(400,200, 'penguin')
-    chill.body.setGravityY(300);
-    this.chillGoingLeft = true;
-
-    stag = this.physics.add.sprite(400,200, 'flameStag')
-    stag.body.setGravityY(300);
-    this.stagGoingLeft = true;
-    stag.disableBody(true, true);
-
-    player = this.physics.add.sprite(50,50, 'megaman');
-    player.setSize(25,28);
-    player.setOffset(0,0);
-    player.body.setGravityY(300);
-
-    player.setCollideWorldBounds(true);
-    chill.setCollideWorldBounds(true);
-    stag.setCollideWorldBounds(true);
-    this.physics.add.collider(player, ground);
-    this.physics.add.collider(chill, ground);
-    this.physics.add.collider(stag, ground);
-
-    this.lemons = this.physics.add.group({
-            defaultKey: 'lemon',
-            maxSize: 10
-        });
-
-    this.shoot = function() {
-          var lemon = this.lemons.get(player.x, player.y);
-          if (lemon) {
-              lemon.setActive(true);
-              lemon.setVisible(true);
-              if (player.flipX){
-                lemon.body.setVelocityX(300)
-              } else {
-                lemon.body.setVelocityX(-300)
-              }
-          }
-      }
-
+    this.MegamanUI = this.scene.get("MegamanUI");
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -161,7 +88,7 @@ var Megaman = new Phaser.Class({
     this.anims.create({
       key: 'stagpunch',
       frames: this.anims.generateFrameNumbers('flameStag', {
-        frames: [0,1,2,3,4,5]
+        frames: [0, 1, 2, 3, 4, 5]
       }),
       frameRate: 5,
       repeat: 0
@@ -170,16 +97,16 @@ var Megaman = new Phaser.Class({
     this.anims.create({
       key: 'stagrush',
       frames: this.anims.generateFrameNumbers('flameStag', {
-        frames: [7,8,9,10]
+        frames: [7, 8]
       }),
-      frameRate: 5,
+      frameRate: 2,
       repeat: 0
     });
 
     this.anims.create({
       key: 'stagjump',
       frames: this.anims.generateFrameNumbers('flameStag', {
-        frames: [11,12,13]
+        frames: [11, 12, 13]
       }),
       frameRate: 5,
       repeat: 0
@@ -188,7 +115,7 @@ var Megaman = new Phaser.Class({
     this.anims.create({
       key: 'chilldie',
       frames: this.anims.generateFrameNumbers('penguin', {
-        frames: [12, 12, 12, 12,13,14,15,15,16, 16, 16, 16, 16, 16]
+        frames: [12, 12, 12, 12, 13, 14, 15, 15, 16, 16, 16, 16, 16, 16]
       }),
       frameRate: 2,
       repeat: 0
@@ -197,7 +124,7 @@ var Megaman = new Phaser.Class({
     this.anims.create({
       key: 'chillattack',
       frames: this.anims.generateFrameNumbers('penguin', {
-        frames: [0,1,2,8,2]
+        frames: [0, 1, 2, 8, 2]
       }),
       frameRate: 5,
       repeat: 0
@@ -206,7 +133,7 @@ var Megaman = new Phaser.Class({
     this.anims.create({
       key: 'chillslide',
       frames: this.anims.generateFrameNumbers('penguin', {
-        frames: [6,7,8,11]
+        frames: [6, 7, 8, 11]
       }),
       frameRate: 5,
       repeat: 0
@@ -289,22 +216,126 @@ var Megaman = new Phaser.Class({
       frameRate: 5
     });
 
+    this.lemon = this.sound.add('lemonSound', {
+      volume: .7
+    });
+    this.slideSound = this.sound.add('slideSound', {
+      volume: .7
+    });
+    this.enemyDamage = this.sound.add('enemyDamage', {
+      volume: .7
+    });
+    this.hitwall = this.sound.add('hitwall', {
+      volume: .7
+    });
+    this.explosion = this.sound.add('explosion', {
+      volume: .7
+    });
+
+    gameState.bossfight = this.sound.add('bossFightTheme', {
+      volume: .4
+    });
+    gameState.bossfight.loop = true;
+    gameStateApt.indoors0.stop()
+    gameStateApt.indoors1.stop()
+    gameStateApt.indoors2.stop()
+    gameStateApt.indoors3.stop()
+    gameState.bossfight.play()
+
+    this.playerAlive = true;
+
+    //to start at stag, switch to false
+    this.penguinAlive = true;
+    this.exitVictoryPenguin = false;
+
+    this.stagAlive = true;
+    this.exitVictoryStag = false
+
+    megaMap = this.make.tilemap({
+      key: "megaMap"
+    });
+
+    const tilesetMega = megaMap.addTilesetImage("megamanTiles", "megamanTiles");
+    const background = megaMap.createStaticLayer("Background", tilesetMega, 0, 0);
+    const ground = megaMap.createStaticLayer("Ground", tilesetMega, 0, 0);
+    const onlyICollide = megaMap.createStaticLayer("OnlyICollide", tilesetMega, 0, 0);
+
+    ground.setCollisionByProperty({
+      collides: true
+    });
+
+    onlyICollide.setCollisionByProperty({
+      collides: true
+    });
+
+    this.spawnPointForChill = megaMap.findObject("Objects", obj => obj.name === "spawn point for chill");
+    this.spawnPointForStag = megaMap.findObject("Objects", obj => obj.name === "spawn point for stag");
+    this.chillSpawnPoint = megaMap.findObject("Objects", obj => obj.name === "chill spawn point");
+    this.stagSpawnPoint = megaMap.findObject("Objects", obj => obj.name === "stag spawn point");
+    this.chillTL = megaMap.findObject("Objects", obj => obj.name === "chillTL");
+    this.chillBR = megaMap.findObject("Objects", obj => obj.name === "chillBR");
+    this.stagTL = megaMap.findObject("Objects", obj => obj.name === "stagTL");
+    this.stagBR = megaMap.findObject("Objects", obj => obj.name === "stagBR");
+
+    chill = this.physics.add.sprite(this.chillSpawnPoint.x, this.chillSpawnPoint.y, 'penguin')
+    chill.body.setGravityY(300);
+    this.chillGoingLeft = true;
+    this.physics.add.collider(chill, ground);
+    this.penguinHealth = 100;
+
+    stag = this.physics.add.sprite(this.stagSpawnPoint.x, this.stagSpawnPoint.y, 'flameStag')
+    stag.body.setGravityY(300);
+    this.stagGoingLeft = true;
+    this.stagGoingUp = true;
+    stag.disableBody(true, true);
+    if (!this.penguinAlive && this.stagAlive) {
+      stag.enableBody(true, this.stagSpawnPoint.x, this.stagSpawnPoint.y, true, true);
+    }
+    this.physics.add.collider(stag, ground);
+    //this.physics.add.collider(stag, onlyICollide);
+    this.stagHealth = 100;
+
+    player = this.physics.add.sprite(this.spawnPointForChill.x, this.spawnPointForChill.y, 'megaman');
+    player.setSize(25, 28);
+    player.setOffset(0, 0);
+    player.body.setGravityY(300);
+    this.physics.add.collider(player, ground);
+    this.physics.add.collider(player, onlyICollide);
+    this.myHealth = 100;
+    this.fightOngoing = true;
+
+    this.lemons = this.physics.add.group({
+      defaultKey: 'lemon',
+      maxSize: 5
+    });
+
+    this.shoot = function() {
+      var lemon = this.lemons.get(player.x, player.y);
+      if (lemon) {
+        this.lemon.play()
+        lemon.setActive(true);
+        lemon.setVisible(true);
+        if (player.flipX) {
+          lemon.body.setVelocityX(300)
+        } else {
+          lemon.body.setVelocityX(-300)
+        }
+      }
+    }
+
     this.sliding = false;
     this.slidingCounter = 0;
 
-
-
     this.keyObjS = this.input.keyboard.addKey('S'); // Get key object
     this.keyObjS.on('down', function(event) {
-      if (!this.gettingHit){
-        this.lemon.play()
+      if (!this.gettingHit) {
         this.shoot()
       }
     }, this);
 
     this.keyObjD = this.input.keyboard.addKey('D'); // Get key object
     this.keyObjD.on('down', function(event) {
-      if (!this.gettingHit){
+      if (!this.gettingHit) {
         this.sliding = true;
         this.slideSound.play()
       }
@@ -314,59 +345,48 @@ var Megaman = new Phaser.Class({
       this.slidingCounter = 0;
     }, this);
 
-    this.myHealth = 100;
-    this.myHealthMeter = this.add.rectangle(20, 20, 10, 100, 0xe3ec3d).setOrigin(0,0);
-    this.myHealthMeterCover = this.add.image(20,20, 'health').setOrigin(0,0);
-
-    this.enemyHealthMeterCover = this.add.image(600,20, 'health').setOrigin(0,0).setDepth(1);
-
-    this.penguinHealth = 100;
-    this.penguinHealthMeter = this.add.rectangle(600, 20, 10, 100, 0xe3ec3d).setOrigin(0,0);
-
-    this.stagHealth = 100;
-    this.stagHealthMeter = this.add.rectangle(600, 20, 10, 100, 0xe3ec3d).setOrigin(0,0);
-    this.stagHealthMeter.visible = false;
-
     this.physics.add.overlap(player, chill, hitPlayer, null, this);
 
     this.physics.add.overlap(player, stag, hitPlayer, null, this);
 
     function hitPlayer() {
-      console.log(`prehitting player`)
-      if (!this.gettingHit) {
-        console.log(`hitting player`)
+      if (!this.gettingHit && this.fightOngoing) {
         this.gettingHit = true;
-        window.setTimeout(()=>{
+        window.setTimeout(() => {
           this.gettingHit = false;
         }, 1500)
-        this.myHealth-=15;
+        this.myHealth -= 15;
         this.enemyDamage.play();
-        console.log(this.myHealth)
-        this.myHealthMeter.y = 20+100 - this.myHealth
-        this.myHealthMeter.height = this.myHealth;
+        this.MegamanUI.myHealthMeter.y = 40 + 200 - 2 * this.myHealth
+        this.MegamanUI.myHealthMeter.height = 2 * this.myHealth;
       }
     }
 
-    this.physics.add.overlap(chill, this.lemons,  hitChill, null, this);
+    this.physics.add.overlap(chill, this.lemons, hitChill, null, this);
 
-    this.physics.add.overlap(stag, this.lemons,  hitStag, null, this);
+    this.physics.add.overlap(stag, this.lemons, hitStag, null, this);
 
     this.penguinGettingHit = false;
 
     this.stagGettingHit = false;
 
+    this.stagPunching = false;
+
+    this.stagPunchCounter = 0;
+
+    this.timeCounter = 0;
+
     function hitChill(chill, lemon) {
       lemon.setActive(false);
       if (!this.penguinGettingHit) {
         this.penguinGettingHit = true;
-        window.setTimeout(()=>{
+        window.setTimeout(() => {
           this.penguinGettingHit = false;
         }, 100)
-        this.penguinHealth-=2;
+        this.penguinHealth -= 2;
         this.enemyDamage.play();
-        console.log(`penguin: ${this.penguinHealth}`)
-        this.penguinHealthMeter.y = 20+100 - this.penguinHealth
-        this.penguinHealthMeter.height = this.penguinHealth;
+        this.MegamanUI.enemyHealthMeter.y = 40 + 200 - 2 * this.penguinHealth
+        this.MegamanUI.enemyHealthMeter.height = 2 * this.penguinHealth;
       }
     }
 
@@ -374,187 +394,271 @@ var Megaman = new Phaser.Class({
       lemon.setActive(false);
       if (!this.stagGettingHit) {
         this.stagGettingHit = true;
-        window.setTimeout(()=>{
+        window.setTimeout(() => {
           this.stagGettingHit = false;
         }, 100)
-        this.stagHealth-=2;
+        this.stagHealth -= 2;
         this.enemyDamage.play();
-        console.log(`stag: ${this.stagHealth}`)
-        this.stagHealthMeter.y = 20+100 - this.stagHealth
-        this.stagHealthMeter.height = this.stagHealth;
+        this.MegamanUI.enemyHealthMeter.y = 40 + 200 - 2 * this.stagHealth
+        this.MegamanUI.enemyHealthMeter.height = 2 * this.stagHealth;
       }
     }
     this.sys.events.on('wake', this.wake, this);
+
+    this.camera = this.cameras.main;
+    this.camera.zoom = 1.719;
+    this.camera.startFollow(player, true);
+    this.camera.setBounds(this.chillTL.x, this.chillTL.y, this.chillBR.x, this.chillBR.y);
+
+    if (this.penguinAlive) {
+      this.camera.setBounds(this.chillTL.x, this.chillTL.y, this.chillBR.x, this.chillBR.y);
+      this.penguinHealth = 100;
+      chill.x = this.chillSpawnPoint.x;
+      chill.y = this.chillSpawnPoint.y;
+      player.x = this.spawnPointForChill.x
+      player.y = this.spawnPointForChill.y
+      this.MegamanUI.enemyHealthMeter.y = 40 + 200 - 2 * this.penguinHealth
+      this.MegamanUI.enemyHealthMeter.height = 2 * this.penguinHealth;
+    } else if (!this.penguinAlive && this.stagAlive) {
+      this.camera.setBounds(0, 0, 100 * 32, 100 * 32);
+      this.stagHealth = 100;
+      stag.x = this.stagSpawnPoint.x;
+      stag.y = this.stagSpawnPoint.y;
+      player.x = this.spawnPointForStag.x
+      player.y = this.spawnPointForStag.y
+      this.camera.startFollow(player, true);
+      this.camera.setBounds(this.stagTL.x, this.stagTL.y, this.stagBR.x, this.stagBR.y);
+      this.MegamanUI.enemyHealthMeter.y = 40 + 200 - 2 * this.stagHealth
+      this.MegamanUI.enemyHealthMeter.height = 2 * this.stagHealth;
+    }
   },
   update: function() {
+    this.timeCounter += 1
     // ai for lemons
     this.lemons.children.each(function(b) {
-            if (b.active) {
-                if (b.x < 0 || b.x>700) {
-                    b.setActive(false);
-                }
-            }
-        }.bind(this));
+      if (b.active) {
+        if (b.x < player.x - 500 || b.x > player.x + 500) {
+          b.setActive(false);
+        }
+      }
+    }.bind(this));
     //penguin dies
-    if (this.penguinHealth<=0 && this.penguinAlive){
+    if (this.penguinHealth <= 0 && this.penguinAlive) {
+      this.fightOngoing = false;
       this.exitVictoryPenguin = true
-      this.penguinHealthMeter.visible = false;
+      this.MegamanUI.enemyHealthMeter.visible = false;
       this.penguinAlive = false
-      console.log(`end of penguin 0 `)
     }
-    if (this.exitVictoryPenguin){
-      console.log(`start of exit victory`)
+    if (this.exitVictoryPenguin) {
       this.exitVictoryPenguin = false;
       this.explosion.play();
       gameState.bossfight.stop()
-      window.setTimeout(()=>{
-        this.scene.switch('LightWorld')
-        scene_number = 2
+      window.setTimeout(() => { //disable boss
         chill.disableBody(true, true);
-        stag.enableBody(true, 400, 200, true, true);
-        this.stagHealthMeter.visible = true;
+      }, 3000)
+      window.setTimeout(() => {
         //enable the next boss here
+        this.fightOngoing = true;
+        stag.enableBody(true, this.stagSpawnPoint.x, this.stagSpawnPoint.y, true, true);
+        this.MegamanUI.enemyHealthMeter.visible = true;
+        this.scene.switch('LightWorld')
+        this.scene.sleep("MegamanUI");
+        scene_number = 2
       }, 5000)
-      console.log(`end of exit victory`)
     }
 
-    if (this.stagHealth<=0 && this.stagAlive){
+    if (this.stagHealth <= 0 && this.stagAlive) {
       this.exitVictoryStag = true
-      this.stagHealthMeter.visible = false;
+      this.MegamanUI.enemyHealthMeter.visible = false;
       this.stagAlive = false
-      console.log(`end of stag 0 `)
     }
-    if (this.exitVictoryStag){
-      console.log(`start of exit victory`)
+    if (this.exitVictoryStag) {
       this.exitVictoryStag = false;
       this.explosion.play();
       gameState.bossfight.stop()
-      window.setTimeout(()=>{
+      window.setTimeout(() => {
         this.scene.switch('LightWorld')
+        this.scene.sleep("MegamanUI");
         scene_number = 2
         stag.disableBody(true, true);
         //enable the next boss here
       }, 5000)
-      console.log(`end of exit victory stag`)
     }
     //I die
-    if (player.y>500 || this.myHealth<=0){
+    if (this.myHealth <= 0 && this.playerAlive) {
+      this.playerAlive = false
       player.anims.play('gethit', true)
       this.explosion.play()
-      player.y = 50
-      player.x = 50
-      player.visible = false;
-      this.myHealth = 100;
-      this.myHealthMeter.visible = false;
+      this.MegamanUI.myHealthMeter.visible = false;
       gameState.bossfight.stop()
-      window.setTimeout(()=>{
+      window.setTimeout(() => {
         this.scene.switch('LightWorld')
+        this.scene.sleep("MegamanUI");
         scene_number = 2
       }, 3000)
 
     }
     //ai for penguin
-    if (this.penguinAlive){
-      if (chill.x<50 && this.chillGoingLeft){   //to avoid running into walls
-        this.chillGoingLeft = false;
-      } else if (chill.x>600 && !this.chillGoingLeft){
-        this.chillGoingLeft = true;
+    if (this.penguinAlive) {
+      /*
+      if (this.timeCounter % 60 === 0) {
+        console.log(`chill x: ${chill.x}`)
+        console.log(`chill y: ${chill.y}`)
       }
-      if (chill.x<player.x - 250 && this.chillGoingLeft){    //to turn around if he's going in the opposite way of player
-        this.chillGoingLeft = false;
-      } else if (chill.x>player.x + 250 && !this.chillGoingLeft){
-        this.chillGoingLeft = true;
-      }
-      if (chill.body.blocked.down && !chill.body.blocked.left && !chill.body.blocked.right && this.chillGoingLeft){    //to make him slide on the ground and jump over bumps
-        chill.setVelocityX(-150)
-        chill.anims.play('chillslide',true)
-      } else if (chill.body.blocked.down && !chill.body.blocked.left && !chill.body.blocked.right && !this.chillGoingLeft){
-        chill.setVelocityX(150)
-        chill.anims.play('chillslide',true)
-      } else if (chill.body.blocked.left || chill.body.blocked.right){
-        chill.y-=30
-        chill.anims.play('chillattack',true)
-      }
-      if (chill.flipX && !chill.body.blocked.down){
-        chill.body.setVelocityX(150)
-      } else if (!chill.body.blocked.down){
-        chill.body.setVelocityX(-150)
-      }
+      */
 
-      if (chill.body.velocity.x>0){
+      //chil animations
+      if (chill.body.blocked.down) {
+        chill.anims.play('chillslide', true);
+        chill.angle = 0;
+      } else if (chill.body.blocked.right) {
+        chill.setFrame(12)
+        chill.angle = -90;
+      } else if (chill.body.blocked.left) {
+        chill.setFrame(12)
+        chill.angle = 90;
+      } else {
+        chill.anims.play('chillattack', true);
+        chill.angle = 0
+      }
+      if (chill.body.velocity.x > 0) {
         chill.flipX = true;
-      } else if (chill.body.velocity.x<0){
+      } else if (chill.body.velocity.x < 0) {
         chill.flipX = false;
       }
-    } else if (!this.penguinAlive){
+
+      //chill movement
+      if (this.chillGoingLeft) {
+        if (this.penguinHealth > 30) {
+          chill.body.setVelocityX(-150)
+        } else {
+          chill.body.setVelocityX(-250)
+        }
+      } else {
+        if (this.penguinHealth > 30) {
+          chill.body.setVelocityX(150)
+        } else {
+          chill.body.setVelocityX(250)
+        }
+      }
+
+      if (chill.body.blocked.left || chill.body.blocked.right) {
+        chill.body.setVelocityY(-150)
+      }
+
+      if (chill.y < 180 && chill.body.blocked.left) {
+        this.chillGoingLeft = false
+      } else if (chill.y < 180 && chill.body.blocked.right) {
+        this.chillGoingLeft = true
+      }
+
+    } else if (!this.penguinAlive) {
       chill.body.setVelocityX(0);
       chill.body.setVelocityY(0);
       chill.anims.play('chilldie', true);
     }
 
     //ai for stag
-    if (this.stagAlive && !this.penguinAlive){
-      if (stag.x<50 && this.stagGoingLeft){   //to avoid running into walls
-        this.stagGoingLeft = false;
-      } else if (stag.x>600 && !this.stagGoingLeft){
-        this.stagGoingLeft = true;
-      }
-      if (stag.x<player.x - 250 && this.stagGoingLeft){    //to turn around if he's going in the opposite way of player
-        this.stagGoingLeft = false;
-      } else if (stag.x>player.x + 250 && !this.stagGoingLeft){
-        this.stagGoingLeft = true;
-      }
-      if (stag.body.blocked.down && !stag.body.blocked.left && !stag.body.blocked.right && this.stagGoingLeft){    //to make him slide on the ground and jump over bumps
-        stag.setVelocityX(-150)
-        stag.anims.play('stagrush',true)
-      } else if (stag.body.blocked.down && !stag.body.blocked.left && !stag.body.blocked.right && !this.stagGoingLeft){
-        stag.setVelocityX(150)
-        stag.anims.play('stagrush',true)
-      } else if (stag.body.blocked.left || stag.body.blocked.right){
-        stag.y-=30
-        stag.anims.play('stagpunch',true)
-      }
-      if (stag.flipX && !stag.body.blocked.down){
-        stag.body.setVelocityX(150)
-      } else if (!stag.body.blocked.down){
-        stag.body.setVelocityX(-150)
-      }
-
-      if (stag.body.velocity.x>0){
+    if (this.stagAlive && !this.penguinAlive) {
+      //flipping
+      if (stag.body.velocity.x > 0) {
         stag.flipX = true;
-      } else if (stag.body.velocity.x<0){
+      } else if (stag.body.velocity.x < 0) {
         stag.flipX = false;
       }
-    } else if (!this.stagAlive){
+      //punch attack timer
+      if (this.timeCounter % 600 === 0 && !this.stagPunching) {
+        this.stagPunching = true;
+      } else if (this.stagPunching) {
+        this.stagPunchCounter += 1;
+      }
+      if (this.stagPunching && (distance(player,stag)<20 || stag.body.blocked.left || stag.body.blocked.right)) {
+        this.stagPunching = false;
+        this.stagPunchCounter = 0;
+      }
+
+      //animations for stag
+      if (this.stagPunching) { //punch when near player
+        stag.anims.play('stagpunch', true)
+        } else if (stag.body.blocked.down) {
+          stag.anims.play('stagrush', true);
+        } else if (stag.body.blocked.right) {
+          stag.anims.play('stagjump', true);
+        } else if (stag.body.blocked.left) {
+          stag.anims.play('stagjump', true);
+        } else {
+          stag.anims.play('stagrush', true);
+        }
+
+      //motion for stag
+      if (this.stagPunching && this.stagPunchCounter < 10) { //to turn around if he's going in the opposite way of player
+        stag.setVelocityX(directionVector(stag, player)[0] * 250)
+        stag.setVelocityY(directionVector(stag, player)[1] * 250)
+      } else if (stag.body.blocked.left) {
+        this.hitwall.play()
+        stag.body.setVelocityX(200)
+        this.stagGoingLeft = false
+        if (this.stagGoingUp) {
+          stag.body.setVelocityY(-350)
+        }
+      } else if (stag.body.blocked.right) {
+        this.hitwall.play()
+        stag.body.setVelocityX(-200)
+        this.stagGoingLeft = true
+        if (this.stagGoingUp) {
+          stag.body.setVelocityY(-350)
+        }
+      } else if (stag.body.blocked.up) {
+        this.hitwall.play()
+        this.stagGoingUp = false
+      } else if (stag.body.blocked.down) {
+        this.stagGoingUp = true;
+        if (this.stagGoingLeft) {
+          if (this.stagHealth > 30) {
+            stag.body.setVelocityX(-250)
+          } else {
+            stag.body.setVelocityX(-350)
+          }
+        } else {
+          if (this.stagHealth > 30) {
+            stag.body.setVelocityX(250)
+          } else {
+            stag.body.setVelocityX(350)
+          }
+        }
+      }
+    } else if (!this.penguinAlive && !this.stagAlive) {
       stag.body.setVelocityX(0);
       stag.body.setVelocityY(0);
       stag.anims.play('stagdie', true);
     }
 
     //animations
-    if (this.gettingHit){
+    if (this.gettingHit) {
       player.anims.play('gethit', true)
-    }
-    else {
-      if (player.body.velocity.x>0){
+    } else {
+      if (player.body.velocity.x > 0) {
         player.flipX = true;
-      } else if (player.body.velocity.x<0){
+      } else if (player.body.velocity.x < 0) {
         player.flipX = false;
       }
-      if (this.keyObjS.isDown && player.body.velocity.x===0){
+      if (this.keyObjS.isDown && player.body.velocity.x === 0) {
         player.anims.play('megashootground', true)
-      } else if (this.keyObjS.isDown && player.body.velocity.x!=0){
+      } else if (this.keyObjS.isDown && player.body.velocity.x != 0) {
         player.anims.play('megashootrun', true)
-      } else if (this.keyObjD.isDown && this.sliding){
-        if (this.slidingCounter>=30){
+      } else if (this.keyObjD.isDown && this.sliding) {
+        if (this.slidingCounter >= 30) {
           this.sliding = false;
         }
-        this.slidingCounter+=1;
+        this.slidingCounter += 1;
         player.anims.play('megaslide', true)
-        if (player.flipX){
-          player.x+=1
-        } else{
-          player.x-=1
+        if (player.flipX) {
+          player.x += 1;
+        } else {
+          player.x -= 1;
+        }
+        if (cursors.up.isDown){
+          player.y-=1;
         }
       } else if (cursors.left.isDown) {
         player.anims.play('megaleft', true);
@@ -566,7 +670,7 @@ var Megaman = new Phaser.Class({
         player.anims.play('turnmega', true);
       }
       if (!player.body.blocked.down) {
-        if (this.keyObjS.isDown){
+        if (this.keyObjS.isDown) {
           player.anims.play('megajumpshoot', true);
         } else {
           player.anims.play('megajump', true);
@@ -585,6 +689,34 @@ var Megaman = new Phaser.Class({
         player.setVelocityY(-200);
       }
     }
+
+  }
+});
+
+
+var MegamanUI = new Phaser.Class({
+  Extends: Phaser.Scene,
+  initialize: function() {
+    Phaser.Scene.call(this, {
+      "key": "MegamanUI"
+    });
+  },
+  init: function(data) {
+    //sumn
+  },
+  preload: function() {
+    this.load.image("healthBar", "assets/megamanHealth.png");
+  },
+  create: function() {
+    this.myHealthMeter = this.add.rectangle(40, 40, 20, 200, 0xe3ec3d).setOrigin(0, 0);
+    this.myHealthMeterCover = this.add.image(40, 40, 'healthBar').setOrigin(0, 0).setDepth(1).setScale(2);
+
+    this.enemyHealthMeter = this.add.rectangle(1160, 40, 20, 200, 0xe3ec3d).setOrigin(0, 0);
+    this.enemyHealthMeterCover = this.add.image(1160, 40, 'healthBar').setOrigin(0, 0).setDepth(1).setScale(2);
+
+    this.scene.bringToTop();
+  },
+  update: function() {
 
   }
 });

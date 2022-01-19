@@ -21,11 +21,13 @@ var HomeboyGame = new Phaser.Class({
   preload: function() {
     this.load.audio('bong', ['assets/bong.wav']);
     this.load.image('hausdorf', "assets/hausdorf.png");
+    this.load.image('background1', "assets/homeboyBackground1.png");
     this.load.audio('theme', ['assets/Fugginwitsumshiit.wav']);
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
+    this.load.image('cliff', 'assets/cliff.png');
     this.load.image('star', 'assets/weed.png');
-    this.load.image('bomb', 'assets/hausdorf.png');
+    this.load.image('hausdorf', 'assets/hausdorf.png');
     this.load.spritesheet('dude',
       'assets/hb_walk.png', {
         frameWidth: 101,
@@ -49,19 +51,22 @@ var HomeboyGame = new Phaser.Class({
     gameState.marioWoods.stop();
     gameState.trevorWoods.stop();
     gameState.mario2.play();
-    let bg = this.add.image(600, 300, 'sky');
-    var platforms;
-    platforms = this.physics.add.staticGroup();
+    let background = this.add.image(600, 300, 'background1');
+    let platforms = this.physics.add.staticGroup();
 
     //refreshbody is reauired because we have scaled a static object
-    platforms.create(600, 567, 'ground').setScale(3).refreshBody();
-    platforms.create(800, 400, 'ground');
-    platforms.create(100, 250, 'ground');
-    platforms.create(1050, 220, 'ground');
+    platforms.create(600, 567, 'ground').refreshBody().setDepth(567);
+    platforms.create(800, 400, 'ground').setScale(.33).refreshBody().setDepth(400);
+    platforms.create(100, 250, 'ground').setScale(.33).refreshBody().setDepth(250);
+    platforms.create(1050, 220, 'ground').setScale(.33).refreshBody().setDepth(220);
 
-    player = this.physics.add.sprite(100, 350, 'dude');
+    this.add.image(800,400+180, 'cliff').setDepth(399);
+    this.add.image(100,250+180, 'cliff').setDepth(249);
+    this.add.image(1050, 220+180, 'cliff').setDepth(219);
 
-    player.body.setSize(30, 80);
+    player = this.physics.add.sprite(100, 350, 'dude').setDepth(1000);
+    player.body.setSize(30, 45);
+    player.body.setOffset(30,30);
 
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
@@ -129,7 +134,7 @@ var HomeboyGame = new Phaser.Class({
       repeat: -1
     });
 
-    stars = this.physics.add.group({
+    nuggets = this.physics.add.group({
       key: 'star',
       repeat: 11,
       setXY: {
@@ -139,71 +144,72 @@ var HomeboyGame = new Phaser.Class({
       }
     });
 
-    stars.children.iterate(function(child) {
+    nuggets.children.iterate(function(child) {
+      child.body.setSize(20,20)
+      child.body.setOffset(10,20)
       child.body.setGravityY(301)
       child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
       child.setScale(Phaser.Math.FloatBetween(0.7, 1.2));
-      console.log(child._scaleX)
     });
-    this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(nuggets, platforms);
     //checks if the player overlaps with a star and collects star
-    this.physics.add.overlap(player, stars, collectStar, null, this);
+    this.physics.add.overlap(player, nuggets, collectNugget, null, this);
 
-    function collectStar(player, star) {
-      star.disableBody(true, true);
-      score += star._scaleX;
+    function collectNugget(player, nugget) {
+      nugget.disableBody(true, true);
+      score += nugget._scaleX;
       score = Math.round(score * 10) / 10
       scoreText.setText('Weed(grams): ' + score);
 
-      if (stars.countActive(true) === 0) {
+      if (nuggets.countActive(true) === 0) {
         buzz = 1
         buzzText.setText('buzz: ' + "Low");
-        stars.children.iterate(function(child) {
+        nuggets.children.iterate(function(child) {
           child.enableBody(true, child.x, 0, true, true);
         });
 
         var x = (player.x < 600) ? Phaser.Math.Between(600, 1200) : Phaser.Math.Between(0, 600);
-
-        var bomb = bombs.create(x, 16, 'bomb');
-        bomb.body.setGravityY(301)
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        var hausdorf = hausdorfs.create(x, 16, 'hausdorf');
+        hausdorf.body.setGravityY(301)
+        hausdorf.body.setSize(30,45)
+        hausdorf.body.setOffset(15,0)
+        hausdorf.setBounce(1);
+        hausdorf.setCollideWorldBounds(true);
+        hausdorf.setVelocity(Phaser.Math.Between(-200, 200), 20);
       }
     }
 
-
     scoreText = this.add.text(930, 16, 'Weed(grams): 0', {
       fontSize: '25px',
-      fill: '#001'
+      fill: '#ffffff'
     });
 
     highScoreText = this.add.text(1050, 70, `PB: ${highScoreToBeat}`, {
       fontSize: '25px',
-      fill: '#001'
+      fill: '#ffffff'
     });
 
     buzzText = this.add.text(16, 16, 'Buzz: Low', {
       fontSize: '25px',
-      fill: '#001'
+      fill: '#ffffff'
     });
 
     healthText = this.add.text(16, 40, 'Health: All Macked Up', {
       fontSize: '25px',
-      fill: '#001'
+      fill: '#ffffff'
     });
 
-    bombs = this.physics.add.group();
+    hausdorfs = this.physics.add.group();
 
-    this.physics.add.collider(bombs, platforms);
+    this.physics.add.collider(hausdorfs, platforms);
 
-    let bomb_collider = this.physics.add.collider(player, bombs, hitBomb, null, this);
+    let hausdorf_collider = this.physics.add.collider(player, hausdorfs, hitHausdorf, null, this);
 
-    function hitBomb(player, bomb) {
+    function hitHausdorf(player, hausdorf) {
       if (health === 2) {
-        bomb_collider.active = false
+        hausdorf_collider.active = false
         setTimeout(function() {
-          bomb_collider.active = true;
+          hausdorf_collider.active = true;
         }, 3000);
         health -= 1;
         healthText.setText('Health: ' + 'Shitty');

@@ -1,57 +1,59 @@
-if (playerTexture === 0 && inPool === false && !this.gettingLaidOutByCar) {
-  // player Horizontal movement
-  if (this.cursors.left.isDown) {
-    meDark.body.setVelocityX(-50 * speed * athletics);
-  } else if (this.cursors.right.isDown) {
-    meDark.body.setVelocityX(50 * speed * athletics);
+//ai for penguin
+if (this.penguinAlive) {
+  /*
+  if (this.timeCounter % 60 === 0) {
+    console.log(`stag x: ${stag.x}`)
+    console.log(`stag y: ${stag.y}`)
   }
-  // player Vertical movement
-  if (this.cursors.up.isDown) {
-    meDark.body.setVelocityY(-50 * speed * athletics);
-  } else if (this.cursors.down.isDown) {
-    meDark.body.setVelocityY(50 * speed * athletics);
+  */
+
+  //chil animations
+  if (stag.body.blocked.down) {
+    stag.anims.play('stagslide', true);
+    stag.angle = 0;
+  } else if (stag.body.blocked.right){
+    stag.setFrame(12)
+    stag.angle = -90;
+  } else if (stag.body.blocked.left){
+    stag.setFrame(12)
+    stag.angle = 90;
+  } else {
+    stag.anims.play('stagattack', true);
+    stag.angle = 0
   }
-  //player walking running animations
-  if (this.cursors.left.isDown && !diving && !kicking) {
-    meDark.flipX = true;
-    if (speed === 1) {
-      meDark.anims.play('rightwalk', true);
-    } else if (speed === 2 || speed === 3) {
-      meDark.anims.play('newrightrun', true);
-    } else if (speed > 3) {
-      meDark.anims.play('newrightsprint', true);
-    }
-  } else if (this.cursors.right.isDown && !diving && !kicking) {
-    meDark.flipX = false;
-    if (speed === 1) {
-      meDark.anims.play('rightwalk', true);
-    } else if (speed === 2 || speed === 3) {
-      meDark.anims.play('newrightrun', true);
-    } else if (speed > 3) {
-      meDark.anims.play('newrightsprint', true);
-    }
+  if (stag.body.velocity.x > 0) {
+    stag.flipX = true;
+  } else if (stag.body.velocity.x < 0) {
+    stag.flipX = false;
   }
-  if (this.cursors.up.isDown && !(this.cursors.right.isDown) && !diving && !kicking) {
-    meDark.flipX = true;
-    if (speed === 1) {
-      meDark.anims.play('rightwalk', true);
-    } else if (speed === 2 || speed === 3) {
-      meDark.anims.play('newrightrun', true);
-    } else if (speed > 3) {
-      meDark.anims.play('newrightsprint', true);
+
+  //stag movement
+  if (this.stagGoingLeft) {
+    if (this.penguinHealth>30){
+      stag.body.setVelocityX(-150)
+    } else {
+      stag.body.setVelocityX(-250)
     }
-  } else if (this.cursors.down.isDown && !(this.cursors.left.isDown) && !diving && !kicking) {
-    meDark.flipX = false;
-    if (speed === 1) {
-      meDark.anims.play('rightwalk', true);
-    } else if (speed === 2 || speed === 3) {
-      meDark.anims.play('newrightrun', true);
-    } else if (speed > 3) {
-      meDark.anims.play('newrightsprint', true);
+  } else {
+    if (this.penguinHealth>30){
+      stag.body.setVelocityX(150)
+    } else {
+      stag.body.setVelocityX(250)
     }
   }
-  if (meDark.body.velocity.x === 0 && meDark.body.velocity.y === 0) {
-    meDark.anims.play('turn', true)
-    meDark.flipX = false;
+
+  if (stag.body.blocked.left || stag.body.blocked.right) {
+    stag.body.setVelocityY(-150)
   }
+
+  if (stag.y < 180 && stag.body.blocked.left) {
+    this.stagGoingLeft = false
+  } else if (stag.y < 180 && stag.body.blocked.right) {
+    this.stagGoingLeft = true
+  }
+
+} else if (!this.penguinAlive) {
+  stag.body.setVelocityX(0);
+  stag.body.setVelocityY(0);
+  stag.anims.play('stagdie', true);
 }

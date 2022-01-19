@@ -18,6 +18,7 @@ let completedQuests = {
 }
 
 // it goes ['name', 'tiled object name for location']
+let firstKeyDown = ''
 let currentQuest = 'Find Your Shit'
 let blondeTalk=false;
 let carCrashDialogue = false;
