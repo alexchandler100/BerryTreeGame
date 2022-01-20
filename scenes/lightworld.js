@@ -1018,7 +1018,9 @@ var LightWorld = new Phaser.Class({
       volume: 1
     });
     // theme music set to play
-    gameState.music = this.sound.add('theme');
+    gameState.music = this.sound.add('theme', {
+      volume: 1.5
+    });
     gameState.music.loop = true;
     gameState.music.play();
     // theme for hb game
@@ -4389,7 +4391,6 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for trevor
-    if (distance(trevor, me) < 1000) {
       if (distance(trevor, ball) > 400 && trevor.following === false) {
         trevor.disableBody(true, true)
         trevor.enableBody(true, ball.x + Phaser.Math.FloatBetween(-150, 150), ball.y + Phaser.Math.FloatBetween(-100, 100), true, true);
@@ -4466,7 +4467,6 @@ var LightWorld = new Phaser.Class({
         items.push("Brothers Seal")
         brothersSeal = 1
       }
-    }
 
     //ai for jon (soccer game) (football) (score goals)
     if (distance(net1, me) < 10000) {
@@ -4830,9 +4830,19 @@ var LightWorld = new Phaser.Class({
       me.y = jeanPath[25].y;
       james.x = jeanPath[25].x+64;
       james.y = jeanPath[25].y;
+      if (trevor.following){
+        trevor.x = jeanPath[25].x+35;
+        trevor.y = jeanPath[25].y+30;
+      } if (al.following){
+        al.x = jeanPath[25].x+45;
+        al.y = jeanPath[25].y-30;
+      } if (bennett.following){
+        bennett.x = jeanPath[25].x+15;
+        bennett.y = jeanPath[25].y-15;
+      }
       me.body.setVelocity(0,0);
     }
-    if (!skateboardGet && playerTexture === 'board' && !(me.y>gameState.westburchamroadTL.y &&  me.y<gameState.eastburchamroadBR.y && me.x>gameState.westburchamroadTL.x && me.x< gameState.eastburchamroadBR.x)){
+    if (!skateboardGet && playerTexture === 'board' && !(me.y>gameState.westburchamroadTL.y - 50 &&  me.y<gameState.eastburchamroadBR.y+50 && me.x>gameState.westburchamroadTL.x - 50 && me.x< gameState.eastburchamroadBR.x + 50)){
       this.DialogueMenu.kickflipRotationDisplay.angle = 0;
       this.kickflipTimer = 0;
       this.ollieTimer = 0;
@@ -4848,9 +4858,12 @@ var LightWorld = new Phaser.Class({
       playerTexture = 0;
       this.DialogueMenu.kickflipRotationDisplay.angle = 0;
       this.DialogueMenu.kickflipRotationDisplay.visible = false;
+      kickflipScoreDisplayed = false;
       this.openDialoguePage(46)
       james.x = jamesPath[0].x;
       james.y = jamesPath[0].y;
+      james.position = 0;
+      this.ollie = false;
     }
     if (playerTexture === 'board' && !pause) {
       if (me.body.blocked.right || me.body.blocked.left || me.body.blocked.down || me.body.blocked.up){
@@ -4902,12 +4915,14 @@ var LightWorld = new Phaser.Class({
         this.openDialoguePage(45);
         this.kickflipCounter = 0;
         gameState.skateboard.stop()
+        this.ollie = false;
       }
       if (this.kickflipCounter===20 && brothersSealForSkateboarding === 0){
         this.openDialoguePage(455);
         items.push("Brothers Seal")
         brothersSeal = 1
         brothersSealForSkateboarding = 1
+        this.ollie = false;
       }
       //kickflip timer
       if (this.keyObjD.isDown && playerTexture === 'board' && this.ollie){

@@ -21,7 +21,7 @@ var HomeboyGame = new Phaser.Class({
   preload: function() {
     this.load.audio('bong', ['assets/bong.wav']);
     this.load.image('hausdorf', "assets/hausdorf.png");
-    this.load.image('background1', "assets/homeboyBackground1.png");
+    this.load.image('backgroundHB', "assets/homeboyBackground1.png");
     this.load.audio('theme', ['assets/Fugginwitsumshiit.wav']);
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
@@ -51,7 +51,7 @@ var HomeboyGame = new Phaser.Class({
     gameState.marioWoods.stop();
     gameState.trevorWoods.stop();
     gameState.mario2.play();
-    let background = this.add.image(600, 300, 'background1');
+    let background = this.add.image(600, 300, 'backgroundHB');
     let platforms = this.physics.add.staticGroup();
 
     //refreshbody is reauired because we have scaled a static object
