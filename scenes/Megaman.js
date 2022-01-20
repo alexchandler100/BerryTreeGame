@@ -285,6 +285,8 @@ var Megaman = new Phaser.Class({
 
     stag = this.physics.add.sprite(this.stagSpawnPoint.x, this.stagSpawnPoint.y, 'flameStag')
     stag.body.setGravityY(300);
+    stag.body.setSize(35,45);
+    stag.body.setOffset(15,20);
     this.stagGoingLeft = true;
     this.stagGoingUp = true;
     stag.disableBody(true, true);
@@ -296,8 +298,8 @@ var Megaman = new Phaser.Class({
     this.stagHealth = 100;
 
     player = this.physics.add.sprite(this.spawnPointForChill.x, this.spawnPointForChill.y, 'megaman');
-    player.setSize(25, 28);
-    player.setOffset(0, 0);
+    player.setSize(20, 28);
+    player.setOffset(5, 0);
     player.body.setGravityY(300);
     this.physics.add.collider(player, ground);
     this.physics.add.collider(player, onlyICollide);
@@ -450,6 +452,7 @@ var Megaman = new Phaser.Class({
       this.penguinAlive = false
     }
     if (this.exitVictoryPenguin) {
+      beatChill = 1;
       this.exitVictoryPenguin = false;
       this.explosion.play();
       gameState.bossfight.stop()
@@ -467,12 +470,14 @@ var Megaman = new Phaser.Class({
       }, 5000)
     }
 
+    // stag dies
     if (this.stagHealth <= 0 && this.stagAlive) {
       this.exitVictoryStag = true
       this.MegamanUI.enemyHealthMeter.visible = false;
       this.stagAlive = false
     }
     if (this.exitVictoryStag) {
+      beatStag = 1;
       this.exitVictoryStag = false;
       this.explosion.play();
       gameState.bossfight.stop()
@@ -486,6 +491,7 @@ var Megaman = new Phaser.Class({
     }
     //I die
     if (this.myHealth <= 0 && this.playerAlive) {
+      lostAtMegaman = 1;
       this.playerAlive = false
       player.anims.play('gethit', true)
       this.explosion.play()

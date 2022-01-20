@@ -3188,6 +3188,17 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+    //dialogue for megaman game
+    if (beatChill===1){
+      beatChill = 2
+      this.openDialoguePage(290);
+    } else if (beatStag===1){
+      beatStag = 2
+      this.openDialoguePage(292);
+    } else if (lostAtMegaman===1){
+      lostAtMegaman = 2
+      this.openDialoguePage(291);
+    }
     //to play custom keyboard music
     if (playing && customMusicStart){
       customMusicStart = false

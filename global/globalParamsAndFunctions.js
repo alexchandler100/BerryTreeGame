@@ -18,6 +18,9 @@ let completedQuests = {
 }
 
 // it goes ['name', 'tiled object name for location']
+let beatChill = 0;
+let lostAtMegaman = 0;
+let beatStag = 0;
 let firstKeyDown = ''
 let currentQuest = 'Find Your Shit'
 let blondeTalk=false;
@@ -701,6 +704,13 @@ let equipmentDescriptions = {
     effect: "Athletics +.35 \nFirst Strike",
     color: '#fff'
   },
+}
+
+function jimmyEnhanced(){
+  damageObject["Jimmy"] += 5;
+  hpObject["Jimmy"] += 20;
+  maxHPObject["Jimmy"] += 20;
+  gameState.itemGet.play()
 }
 
 function playbackCustomSong(){
@@ -1713,7 +1723,11 @@ function getHigh() { //increases highness when you smoke weed
 }
 
 function playMegaman() { //computes distance between two things
-  startMegaman = true;
+  gameState.bongSound.play()
+  window.setTimeout(()=>{
+    startMegaman = true;
+  },1000);
+
 }
 
 function distance(thing1, thing2) { //computes distance between two things
