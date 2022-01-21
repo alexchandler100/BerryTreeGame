@@ -710,7 +710,7 @@ function jimmyEnhanced(){
   damageObject["Jimmy"] += 5;
   hpObject["Jimmy"] += 20;
   maxHPObject["Jimmy"] += 20;
-  gameState.itemGet.play()
+  gameState.itemget.play()
 }
 
 function playbackCustomSong(){
