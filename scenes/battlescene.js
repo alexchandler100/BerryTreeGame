@@ -858,13 +858,15 @@ var BattleScene = new Phaser.Class({
     });
 
     this.startBattle();
-    // on wake event we call startBattle too
+    // on wake event we call start Battle too
     this.sys.events.on('wake', this.startBattle, this);
     //use uiscene functions
     this.UIScene = this.scene.get("UIScene");
 
+    this.walkingCounter = 0;
 
-    //status effects create
+
+    //status effects create (these can be put into startbattle)
     airsoft = this.physics.add.sprite(-50, -50, 'airsoft').setDepth(1000).setScale(4);
     spray = this.physics.add.sprite(-50, -50, 'pepperSpray').setDepth(1000);
     mohawk = this.physics.add.sprite(-50, -50, 'mohawk').setDepth(1000);
@@ -886,6 +888,15 @@ var BattleScene = new Phaser.Class({
     trevorBleed.anims.play('bleedingfast', true)
   },
   update: function() {
+    if (this.walkingCounter<= 150){
+      this.walkingCounter+=1;
+      for (let i=0; i<this.enemies.length; i++){
+        this.enemies[i].x+=3;
+      }
+      for (let i=0; i<this.heroes.length; i++){
+        this.heroes[i].x-=3;
+      }
+    }
     if (stamina>=30){
       gameState.outOfBreath.stop()
       playingOutOfBreath = false
@@ -1063,54 +1074,7 @@ var BattleScene = new Phaser.Class({
     gameStateBattle.damageText.scaleY -= .005
   },
   startBattle: function() {
-    /*
-    if (gameStateBattle.firstStrike){
-      console.log(`launch first strike test`)
-      if (runaway){
-        gameStateBattle.firstStrike.setText('Jew got first strike!')
-      } else {
-        gameStateBattle.firstStrike.setText('Jew got first strike!')
-      }
-        gameStateBattle.firstStrikeDisplay.visible = true;
-        gameStateBattle.firstStrikeDisplayFront.visible = true;
-        gameStateBattle.firstStrike.visible = true;
-        window.setTimeout(() => {
-          gameStateBattle.firstStrikeDisplay.visible = false;
-          gameStateBattle.firstStrikeDisplayFront.visible = false;
-          gameStateBattle.firstStrike.visible = false;
-        }, 3000);
-    }
-    */
-
-    numberOfPlayers = 1
-    if (trevor.following) {
-      numberOfPlayers += 1
-    }
-    if (al.following) {
-      numberOfPlayers += 1
-    }
-    if (bennett.following) {
-      numberOfPlayers += 1
-    }
-    //enemies
-
-    let enems = [
-      ['crackhead', 'Melvin', 1, 15, crackhead, 'crackheadright'],
-      ['ex_junkie', 'Bill', 25, 8, ex_junkie, 'ex_junkieright'],
-      ['junkie', 'Derek', 40, 8, junkie, 'junkieright'],
-      ['fratboy1', 'Chad', 65, 8, fratboy1, 'frat1jump'],
-      ['fratboy2', 'Dylan', 20, 8, fratboy2, 'frat2right'],
-      ['fratboy3', 'Cam', 30, 11, fratboy3, 'frat3right'],
-      ['fratboy4', 'Jackson', 20, 10, fratboy4, 'frat4right'],
-    ]
-
-/*
-    enems=[];  //to get a specific enemy
-    for (let i=0; i<7 ;i++){
-      enems.push(['ex_junkie', 'Bill', 30, 8, ex_junkie, 'ex_junkieright'])
-  }*/
-
-
+  //add in background
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
     } else if (bossBattle && (bossType === 'fratboy2prime')) {
@@ -1122,6 +1086,24 @@ var BattleScene = new Phaser.Class({
     } else { // add random background or location based background
       this.add.image(0, -125, `background${battleBackgroundIndex}`).setOrigin(0, 0);
     }
+    //determining the number of party members present
+    numberOfPlayers = 1 + trevor.following + al.following + bennett.following
+    console.log(`number of players: ${numberOfPlayers}`)
+    //add in enemies
+    let enems = [
+      ['crackhead', 'Melvin', 1, 15, crackhead, 'crackheadright'],
+      ['ex_junkie', 'Bill', 25, 8, ex_junkie, 'ex_junkieright'],
+      ['junkie', 'Derek', 40, 8, junkie, 'junkieright'],
+      ['fratboy1', 'Chad', 65, 8, fratboy1, 'frat1jump'],
+      ['fratboy2', 'Dylan', 20, 8, fratboy2, 'frat2right'],
+      ['fratboy3', 'Cam', 30, 11, fratboy3, 'frat3right'],
+      ['fratboy4', 'Jackson', 20, 10, fratboy4, 'frat4right'],
+    ]
+/*
+    enems=[];  //to get a specific enemy
+    for (let i=0; i<7 ;i++){
+      enems.push(['ex_junkie', 'Bill', 30, 8, ex_junkie, 'ex_junkieright'])
+  }*/
     if (bossBattle && bossType === 'darkboy') {
       gameStateBattle.enem1 = new Enemy(this, 450, 250, 'darkboy2', null, 'DB', 1000, 20);
       this.add.existing(gameStateBattle.enem1);
@@ -1144,29 +1126,30 @@ var BattleScene = new Phaser.Class({
       this.add.existing(gameStateBattle.enem1);
     } else {
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)
-      gameStateBattle.enem1 = new Enemy(this, 450, 250, enems[rr][0], null, enems[rr][1], enems[rr][2] + 15 * (levelObject['Mac'] - 1), enems[rr][3] + Math.floor(enems[rr][3] / 4) * (levelObject['Mac'] - 1));
+      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 250, enems[rr][0], null, enems[rr][1], enems[rr][2] + 15 * (levelObject['Mac'] - 1), enems[rr][3] + Math.floor(enems[rr][3] / 4) * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem1);
       if (set1.size === 2) {
-        gameStateBattle.enem2 = new Enemy(this, 400, 300, enems[ss][0], null, enems[ss][1], enems[ss][2] + 15 * (levelObject['Mac'] - 1), enems[ss][3] + Math.floor(enems[ss][3] / 4) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem2 = new Enemy(this, 400 - 450, 300, enems[ss][0], null, enems[ss][1], enems[ss][2] + 15 * (levelObject['Mac'] - 1), enems[ss][3] + Math.floor(enems[ss][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem2);
       }
       if (set2.size === 3 && numberOfPlayers >= 2) {
-        gameStateBattle.enem3 = new Enemy(this, 350, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (levelObject['Mac'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 4) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem3 = new Enemy(this, 350 - 450, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (levelObject['Mac'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem3);
       }
       if (set3.size === 4 && numberOfPlayers >= 3) {
-        gameStateBattle.enem4 = new Enemy(this, 300, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (levelObject['Mac'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 4) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem4 = new Enemy(this, 300 - 450, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (levelObject['Mac'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem4);
       }
       if (set4.size === 5 && numberOfPlayers >= 3) {
-        gameStateBattle.enem5 = new Enemy(this, 250, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (levelObject['Mac'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 4) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem5 = new Enemy(this, 250 - 450, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (levelObject['Mac'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 4) * (levelObject['Mac'] - 1));
         this.add.existing(gameStateBattle.enem5);
       }
+
     }
 
     //recall inputs look like (scene, x, y, texture, frame, type, hp, damage)
     // player characters - warrior
-    gameStateBattle.me = new PlayerCharacter(this, 850, 250, "me", 1, "Mac", hpObject['Mac'], damageObject['Mac']);
+    gameStateBattle.me = new PlayerCharacter(this, 850 + 450, 250, "me", 1, "Mac", hpObject['Mac'], damageObject['Mac']);
     if (hpObject['Mac'] > 0) {
       this.add.existing(gameStateBattle.me);
       gameStateBattle.me.active = true
@@ -1177,7 +1160,7 @@ var BattleScene = new Phaser.Class({
     }
 
     if (al.following) {
-      gameStateBattle.al = new PlayerCharacter(this, 800, 300, "al", 4, "Al", hpObject['Al'], damageObject['Al']);
+      gameStateBattle.al = new PlayerCharacter(this, 800 + 450, 300, "al", 4, "Al", hpObject['Al'], damageObject['Al']);
       if (hpObject['Al'] > 0) {
         this.add.existing(gameStateBattle.al);
         gameStateBattle.al.active = true
@@ -1189,7 +1172,7 @@ var BattleScene = new Phaser.Class({
     }
 
     if (trevor.following) {
-      gameStateBattle.trevor = new PlayerCharacter(this, 750, 350, "trevor", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
+      gameStateBattle.trevor = new PlayerCharacter(this, 750 + 450, 350, "trevor", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
       if (hpObject['Jimmy'] > 0) {
         this.add.existing(gameStateBattle.trevor);
         gameStateBattle.trevor.active = true
@@ -1201,7 +1184,7 @@ var BattleScene = new Phaser.Class({
     }
 
     if (bennett.following) {
-      gameStateBattle.bennett = new PlayerCharacter(this, 1001, 325, "bennett", 4, "Bennett", hpObject['Bennett'], damageObject['Bennett']);
+      gameStateBattle.bennett = new PlayerCharacter(this, 1001 + 450, 325, "bennett", 4, "Bennett", hpObject['Bennett'], damageObject['Bennett']);
       if (hpObject['Bennett'] > 0) {
         this.add.existing(gameStateBattle.bennett);
         gameStateBattle.bennett.active = true
@@ -2178,7 +2161,15 @@ var UIScene = new Phaser.Class({
     //remap actions
     this.actionsMenu.actionsRemap()
     // first move
-    this.battleScene.nextTurn();
+    window.setTimeout(()=>{
+      this.battleScene.nextTurn();
+    }, 2500);
+    this.bannerBack = this.add.rectangle(0, 0, 1200, 600, 0x000).setOrigin(0,0).setDepth(1001);
+      this.tweens.add({
+          targets: this.bannerBack,
+          duration: 1000,
+          alpha: 0
+      });
   },
   onEnemy: function(index) {
     this.heroesMenu.deselect();

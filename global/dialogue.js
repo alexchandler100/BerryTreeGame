@@ -575,7 +575,8 @@ var DialogueMenu = new Phaser.Class({
         narrative: "Without the distraction of unbeaten bosses, Jimmy has grown stronger. Jimmy gets +20 HP and +5 Damage (permanent)",
         options: [{
           option: 'Hell yeah',
-          nextPage: jimmyEnhanced,
+          nextPage: undefined,
+          aftermath: jimmyEnhanced
         },]
       },
 

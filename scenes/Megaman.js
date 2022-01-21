@@ -485,7 +485,7 @@ var Megaman = new Phaser.Class({
         window.setTimeout(() => {
           this.stagGettingHit = false;
         }, 200)
-        this.stagHealth -= 2;
+        this.stagHealth -= 4;
         this.enemyDamage.play();
         this.MegamanUI.enemyHealthMeter.y = 40 + 196 - 2 * this.stagHealth + 2;
         this.MegamanUI.enemyHealthMeter.height = 2 * this.stagHealth;
@@ -661,7 +661,7 @@ var Megaman = new Phaser.Class({
       }
       if (this.timeCounter % 250 === 0 && this.penguinHealth<40) {
         this.sprayIce(chill)
-      } else if (this.timeCounter % 250 === 10 && this.penguinHealth<20) {
+      } else if (this.timeCounter % 250 === 125 && this.penguinHealth<20) {
         this.sprayIce2(chill)
       }
 

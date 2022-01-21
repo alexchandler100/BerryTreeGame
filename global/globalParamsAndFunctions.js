@@ -1726,7 +1726,7 @@ function playMegaman() { //computes distance between two things
   gameState.bongSound.play()
   window.setTimeout(()=>{
     startMegaman = true;
-  },1000);
+  },3000);
 
 }
 
