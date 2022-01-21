@@ -537,7 +537,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'trevor',
         page: 29,
-        narrative: "Jimmy: Yo I can't beat this fucking boss. Wanna smoke this bong and give it a try? (Press S to shoot and D to slide. You can even perform an air dash with D.)",
+        narrative: "Jimmy: Yo I can't beat this fucking boss. Wanna smoke this joint and give it a try? (Press S to shoot and D to slide. You can even perform an air dash with D.)",
         options: [{
           option: 'Fer sherrr',
           nextPage: undefined,
@@ -552,7 +552,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'me',
         page: 290,
-        narrative: "Shiiiit I'm too high... I gotta get outta here. At least I beat that guy. I should go back at some point.",
+        narrative: "Shiiiit I'm too high... I had to go outside. At least I beat that guy. I should go back at some point and see whats next.",
         options: [{
           option: 'Hell yeah',
           nextPage: undefined,
@@ -562,7 +562,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'me',
         page: 291,
-        narrative: "I'm too high... I gotta get outta here. That fucking boss was hard. I should go back at some point.",
+        narrative: "Goddamn I'm way too high... I had to go outside. That boss was fucking hard. I should go back at some point and try again.",
         options: [{
           option: 'Hell yeah',
           nextPage: undefined,
@@ -572,7 +572,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 292,
-        narrative: "Without the distraction of unbeaten bosses, Jimmy has grown stronger Jimmy gets +20 HP and +5 Damage (permanent)",
+        narrative: "Without the distraction of unbeaten bosses, Jimmy has grown stronger. Jimmy gets +20 HP and +5 Damage (permanent)",
         options: [{
           option: 'Hell yeah',
           nextPage: jimmyEnhanced,

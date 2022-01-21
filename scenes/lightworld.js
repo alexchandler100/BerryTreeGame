@@ -469,6 +469,7 @@ var LightWorld = new Phaser.Class({
     if (worldTheme === 'light' && playerTexture === 0 && keepaway <= 100 && !diving && pageDisplayed === 0) {
       //keepaway<400 because otherwise fight can disrupt quest dialogue for jimmy
       //this.cameras.main.flash(1000)
+      this.start.play();
       gameState.swimNoise.stop();
       gameState.meWalkingSound.stop();
       gameState.meRunningSound.stop();
@@ -505,6 +506,7 @@ var LightWorld = new Phaser.Class({
   },
   preload: function() {
     //loading audio
+    this.load.audio('startSound', 'assets/smrpg_battlestart.wav')
     this.load.audio('cardiB', ['assets/cardiB.wav']);
     this.load.audio('skateboard', ['assets/skateboard.wav']);
     this.load.audio('ollie_takeoff', ['assets/ollie_takeoff.mp3']);
@@ -830,6 +832,9 @@ var LightWorld = new Phaser.Class({
     gameState.camera1.zoom = .051
     //console.log(gameState.camera1)
     //sound effects and music
+    this.start = this.sound.add('startSound', {
+      volume: .7
+    });
     gameState.swimNoise = this.sound.add('swimNoise', {
       volume: .6
     });
