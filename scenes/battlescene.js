@@ -1319,6 +1319,7 @@ var BattleScene = new Phaser.Class({
   },
   endBattleVictory: function() {
     // grants experience items and money
+    this.walkingCounter = 0;
     openFightDialogue = false;
     numberOfFights += 1;
     battleBackground = ''
@@ -1434,6 +1435,7 @@ var BattleScene = new Phaser.Class({
     }
   },
   endBattleGameOver: function() {
+    this.walkingCounter = 0;
     this.scene.sleep('UIScene');
     if (bossBattle && bossType!='darkboy' && bossType!='dio') {
       gameState.dead.play();
