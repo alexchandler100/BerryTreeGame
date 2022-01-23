@@ -18,6 +18,7 @@ let completedQuests = {
 }
 
 // it goes ['name', 'tiled object name for location']
+let switchToNextWeapon = false;
 let beatChill = 0;
 let lostAtMegaman = 0;
 let beatStag = 0;

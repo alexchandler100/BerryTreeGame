@@ -1922,7 +1922,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'me',
         page: 1800,
-        narrative: `Damnnnn that was fucking dumb... shiiiiit... (you're all fucked up, you should rest and recover... or at least drink some beers)`,
+        narrative: `Damnnnn that was fucking dumb... shiiiiit... (you're all fucked up, you should rest and recover... or at least drink some beers). You can get your car again where you originally found it.`,
         options: [{
           option: 'Shiiiiit',
           nextPage: undefined,

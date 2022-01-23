@@ -797,6 +797,69 @@ var BattleScene = new Phaser.Class({
     //battle animation
 
     this.anims.create({
+      key: 'attack_improved',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [4, 0, 4, 0, 4, 6]
+      }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'attack_improved2',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [4, 0, 4, 2, 4, 7]
+      }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'attack_improved3',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [4, 3, 4, 1, 4, 5]
+      }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'attack_improved4',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [4, 1, 4, 7, 4, 8]
+      }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'special_combo',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [4, 2, 4, 0, 4, 1, 4, 3, 4, 5, 4, 8]
+      }),
+      frameRate: 5,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'bouncing',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [9, 10, 11, 12, 13, 14, 13, 12, 11, 10]
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'fuck_everybody_up',
+      frames: this.anims.generateFrameNumbers('me_boxing', {
+        frames: [6, 4, 5, 4, 6, 4, 7, 4, 8, 4, 1, 4]
+      }),
+      frameRate: 4.44,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: 'throw',
       frames: this.anims.generateFrameNumbers('mohawk', {
         start: 0,
@@ -1091,13 +1154,13 @@ var BattleScene = new Phaser.Class({
     console.log(`number of players: ${numberOfPlayers}`)
     //add in enemies
     let enems = [
-      ['crackhead', 'Melvin', 1, 15, crackhead, 'crackheadright'],
-      ['ex_junkie', 'Bill', 25, 8, ex_junkie, 'ex_junkieright'],
-      ['junkie', 'Derek', 40, 8, junkie, 'junkieright'],
-      ['fratboy1', 'Chad', 65, 8, fratboy1, 'frat1jump'],
-      ['fratboy2', 'Dylan', 20, 8, fratboy2, 'frat2right'],
-      ['fratboy3', 'Cam', 30, 11, fratboy3, 'frat3right'],
-      ['fratboy4', 'Jackson', 20, 10, fratboy4, 'frat4right'],
+      ['crackhead', 'Melvin', 1, 13, crackhead, 'crackheadright'],
+      ['ex_junkie', 'Bill', 20, 7, ex_junkie, 'ex_junkieright'],
+      ['junkie', 'Derek', 35, 7, junkie, 'junkieright'],
+      ['fratboy1', 'Chad', 60, 7, fratboy1, 'frat1jump'],
+      ['fratboy2', 'Dylan', 20, 7, fratboy2, 'frat2right'],
+      ['fratboy3', 'Cam', 25, 10, fratboy3, 'frat3right'],
+      ['fratboy4', 'Jackson', 20, 9, fratboy4, 'frat4right'],
     ]
 /*
     enems=[];  //to get a specific enemy
@@ -1793,29 +1856,29 @@ var BattleScene = new Phaser.Class({
         spObject['Mac'] -= 8
         gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('fuck_everybody_up', false);
-        /*
-        for (let i=0;i<6;i++){
-            this.units[this.index].attack(this.aliveEnemies[i%this.aliveEnemies.length])
-        }*/
+        settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
+        window.setTimeout(() => {
+          settingDepth = false;
+        }, 2999);
         for (let i = 0; i < 6; i++) {
           window.setTimeout(() => {
             gameState.punchSound.play()
+            gameStateBattle.me.setDepth(this.aliveEnemies[target].y + (-1)**(i+1))
             this.units[this.index].attack(this.aliveEnemies[i % this.aliveEnemies.length])
             gameStateBattle.me.x = this.aliveEnemies[i % this.aliveEnemies.length].x + 80;
             gameStateBattle.me.y = this.aliveEnemies[i % this.aliveEnemies.length].y;
-          }, 500 * i);
+          }, 450 * i);
         }
         window.setTimeout(() => {
           gameStateBattle.me.x = 850;
           gameStateBattle.me.y = 250;
-          //gameStateBattle.me.flipX = true;
           gameStateBattle.me.anims.play('bouncing', true);
         }, 3500);
       } else { // if you dont have enough SP, go again
         this.scene.scene.events.emit("Message", "Shiiiit you ain't got the SP for that shiit");
         this.index--;
       }
-      this.UIScene.actionsMenu.actionsRemap()
+      this.UIScene.actionsMenu.actionsRemap();
     }
     //special attack for Jimmy
     else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Double Smack (4)') {

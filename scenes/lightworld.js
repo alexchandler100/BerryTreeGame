@@ -653,11 +653,6 @@ var LightWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 200
       });
-    this.load.spritesheet('meSwimming',
-      'assets/me_swimming.png', {
-        frameWidth: 200,
-        frameHeight: 200
-      });
     this.load.spritesheet('dio',
       'assets/Dio.png', {
         frameWidth: 200,
@@ -858,7 +853,7 @@ var LightWorld = new Phaser.Class({
       volume: 1
     });
     gameState.iwantsomecrack = this.sound.add('iwantsomecrack', {
-      volume: 1
+      volume: 1.8
     });
     gameState.airsoft = this.sound.add('airsoft', {
       volume: .5
@@ -1162,7 +1157,7 @@ var LightWorld = new Phaser.Class({
     const WalletSpawnPoint = map.findObject("Objects", obj => obj.name === "wallet spawn point");
     gameState.BallSpawnPoint = map.findObject("Objects", obj => obj.name === "ball spawn point");
     gameState.VolleyballSpawnPoint = map.findObject("Objects", obj => obj.name === "volleyball spawn point");
-    const CarSpawnPoint = map.findObject("Objects", obj => obj.name === "car spawn point");
+    this.CarSpawnPoint = map.findObject("Objects", obj => obj.name === "car spawn point");
     const DioShrineSpawnPoint = map.findObject("Objects", obj => obj.name === "dioshrine spawn point");
     const BurchamPoolSpawnPoint = map.findObject("Objects", obj => obj.name === "burchampool spawn point");
 
@@ -1394,24 +1389,6 @@ var LightWorld = new Phaser.Class({
       }),
       frameRate: 5,
       repeat: 0
-    });
-
-    this.anims.create({
-      key: 'leftswim',
-      frames: this.anims.generateFrameNumbers('meSwimming', {
-        frames: [0, 1]
-      }),
-      frameRate: 3,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'rightswim',
-      frames: this.anims.generateFrameNumbers('meSwimming', {
-        frames: [3, 4]
-      }),
-      frameRate: 3,
-      repeat: -1
     });
 
     this.anims.create({
@@ -2109,10 +2086,19 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'meDeadSkateboard',
       frames: this.anims.generateFrameNumbers('me', {
-        frames: [34]
+        frames: [35]
       }),
       frameRate: 1,
       repeat: 0
+    });
+
+    this.anims.create({
+      key: 'rightswim',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [32,33,34]
+      }),
+      frameRate: 3,
+      repeat: -1
     });
 
     this.anims.create({
@@ -2158,71 +2144,6 @@ var LightWorld = new Phaser.Class({
       }),
       frameRate: 8,
       repeat: -1
-    });
-
-
-
-    this.anims.create({
-      key: 'attack_improved',
-      frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [4, 0, 4, 0, 4, 6]
-      }),
-      frameRate: 5,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'attack_improved2',
-      frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [4, 0, 4, 2, 4, 7]
-      }),
-      frameRate: 5,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'attack_improved3',
-      frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [4, 3, 4, 1, 4, 5]
-      }),
-      frameRate: 5,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'attack_improved4',
-      frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [4, 1, 4, 7, 4, 8]
-      }),
-      frameRate: 5,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'special_combo',
-      frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [4, 2, 4, 0, 4, 1, 4, 3, 4, 5, 4, 8]
-      }),
-      frameRate: 5,
-      repeat: 0
-    });
-
-    this.anims.create({
-      key: 'bouncing',
-      frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [9, 10, 11, 12, 13, 14, 13, 12, 11, 10]
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'fuck_everybody_up',
-      frames: this.anims.generateFrameNumbers('me_boxing', {
-        frames: [6, 4, 5, 4, 6, 4, 7, 4, 8, 4, 1, 4]
-      }),
-      frameRate: 5,
-      repeat: 0
     });
 
     this.anims.create({
@@ -2308,7 +2229,7 @@ var LightWorld = new Phaser.Class({
     //spawning interactable objects
 
     //spawning car
-    car = this.physics.add.sprite(CarSpawnPoint.x - 200, CarSpawnPoint.y, 'car4');
+    car = this.physics.add.sprite(this.CarSpawnPoint.x - 200, this.CarSpawnPoint.y, 'car4');
 
     //spawning flowers
     flowers = this.physics.add.sprite(gameState.altonBR.x - 16, gameState.altonBR.y + 16, 'flowers');
@@ -2857,8 +2778,6 @@ var LightWorld = new Phaser.Class({
     //collecting items
     var keyObjS = this.input.keyboard.addKey('S'); // Get key object
     keyObjS.on('down', function(event) {
-      console.log(`playerTexture: ${playerTexture}`)
-      console.log(playerTexture === 0 && me.body.velocity.x === 0 && me.body.velocity.y === 0 && keysGet > 0)
       numberOfItems = 0
       for (let i = 0; i < Object.keys(usable_items).length; i++) {
         numberOfItems += usable_items[Object.keys(usable_items)[i]]
@@ -2887,7 +2806,6 @@ var LightWorld = new Phaser.Class({
         this.ollie = true;
         this.DialogueMenu.kickflipRotationDisplay.angle = 0;
       } else if (playerTexture === 1) {
-        console.log(`got in here somehow`)
         playerTexture = 0
         car.enableBody(true, me.x, me.y, true, true);
         me.setTexture('me', 0)
@@ -3148,10 +3066,10 @@ var LightWorld = new Phaser.Class({
     spawns = this.physics.add.group({
       classType: Phaser.GameObjects.Zone
     });
-    for (var i = 0; i < 1800; i++) {
+    for (var i = 0; i < 1500; i++) { //it was 1800 for a long time. I scaled it back to 1500
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-      // parameters are x, y, width, height
+      // creates a spawn zone at x,y. parameters are x, y, width, height
       spawns.create(x, y, 20, 20);
     }
     this.physics.add.overlap(me, spawns, this.onMeetEnemy1, false, this);
@@ -3466,6 +3384,9 @@ var LightWorld = new Phaser.Class({
         car.disableBody(true, true);
         carCrashDialogue = true;
       }, 2200);
+      window.setTimeout(() => {
+        car.enableBody(true, this.CarSpawnPoint.x, this.CarSpawnPoint.y, true, true);
+      }, 2500);
       gameState.carCrash.play();
     }
     if (carCrashDialogue) {
@@ -3821,8 +3742,9 @@ var LightWorld = new Phaser.Class({
       bennett.x = me.x + 30;
       bennett.y = me.y + 30;
       potentialParty["Jimmy"] = true;
-      potentialParty["Al"] = true
-      potentialParty["Bennett"] = true
+      potentialParty["Al"] = true;
+      potentialParty["Bennett"] = true;
+      specialObject["Mac"].push("Fuck Everybody Up (8)");
       brothersSeal = 1;
       brothersSealForSkateboarding = 1;
       money += 10;
@@ -4806,14 +4728,18 @@ var LightWorld = new Phaser.Class({
       }
       //player walking running animations
       if (this.cursors.left.isDown) {
-        me.anims.play('leftswim', true);
+        me.anims.play('rightswim', true);
+        me.flipX = true;
       } else if (this.cursors.right.isDown) {
         me.anims.play('rightswim', true);
+        me.flipX = false;
       }
       if (this.cursors.up.isDown && !(this.cursors.right.isDown)) {
-        me.anims.play('leftswim', true);
+        me.anims.play('rightswim', true);
+        me.flipX = false;
       } else if (this.cursors.down.isDown && !(this.cursors.left.isDown)) {
         me.anims.play('rightswim', true);
+        me.flipX = true;
       }
     }
 

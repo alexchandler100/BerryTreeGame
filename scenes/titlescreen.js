@@ -93,6 +93,7 @@ var TitleScreen = new Phaser.Class({
       this.titleTime = 0;
       this.buttonPushed = true;
       titleHausdorf.destroy()
+      this.scale.startFullscreen();
       /*
       hausdorfs.children.iterate(function(child) {
         child.destroy()

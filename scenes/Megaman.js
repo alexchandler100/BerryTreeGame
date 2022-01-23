@@ -29,22 +29,29 @@ var Megaman = new Phaser.Class({
     this.load.audio("hitwall", "assets/hitwall.wav");
     this.load.audio("lemonSound", "assets/lemon.wav");
     this.load.audio("iceSound", "assets/iceball.wav");
+    this.load.audio("fireSound", "assets/fireSound.wav");
     this.load.audio("slideSound", "assets/slideSound.wav");
     this.load.audio("bossFightTheme", "assets/megamanBossFight.wav");
     this.load.image("megamanTiles", "assets/tilesets/megamanTiles.png");
     this.load.image("iceball", "assets/iceball.png");
+    this.load.image("fireball", "assets/fireball.png");
     this.load.image("lemon", "assets/lemon.png");
     this.load.tilemapTiledJSON("megaMap", "assets/megaman.json");
   },
   wake: function() {
+    this.pause = true;
+    window.setTimeout(()=>{
+      this.pause = false
+    }, 2000);
     this.scene.run("MegamanUI");
     this.myHealth = 98;
+    this.myIceMeter = 98;
     this.playerAlive = true
     this.MegamanUI.myHealthMeter.y = 40 + 196 - 2 * this.myHealth + 2;
     this.MegamanUI.myHealthMeter.height = 2 * this.myHealth;
     if (this.penguinAlive) {
       this.camera.setBounds(this.chillTL.x, this.chillTL.y, this.chillBR.x, this.chillBR.y);
-      this.penguinHealth = 100;
+      this.penguinHealth = 98;
       chill.x = this.chillSpawnPoint.x;
       chill.y = this.chillSpawnPoint.y;
       player.x = this.spawnPointForChill.x
@@ -54,7 +61,7 @@ var Megaman = new Phaser.Class({
     }
     if (!this.penguinAlive && this.stagAlive) {
       this.camera.setBounds(0, 0, 100 * 32, 100 * 32);
-      this.stagHealth = 100;
+      this.stagHealth = 98;
       stag.x = this.stagSpawnPoint.x;
       stag.y = this.stagSpawnPoint.y;
       player.x = this.spawnPointForStag.x
@@ -106,6 +113,15 @@ var Megaman = new Phaser.Class({
     });
 
     this.anims.create({
+      key: 'stagretreat',
+      frames: this.anims.generateFrameNumbers('flameStag', {
+        frames: [8,9]
+      }),
+      frameRate: 4,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: 'stagjump',
       frames: this.anims.generateFrameNumbers('flameStag', {
         frames: [11, 12, 13]
@@ -117,9 +133,9 @@ var Megaman = new Phaser.Class({
     this.anims.create({
       key: 'stagground',
       frames: this.anims.generateFrameNumbers('flameStag', {
-        frames: [16, 21,22,23,24,25,25, 25, 25, 25, 25]
+        frames: [21,22,23,24,25,24,23,22]
       }),
-      frameRate: 8,
+      frameRate: 14,
       repeat: 0
     });
 
@@ -233,6 +249,9 @@ var Megaman = new Phaser.Class({
     this.iceSound = this.sound.add('iceSound', {
       volume: .7
     });
+    this.fireSound = this.sound.add('fireSound', {
+      volume: .7
+    });
     this.slideSound = this.sound.add('slideSound', {
       volume: .7
     });
@@ -295,7 +314,7 @@ var Megaman = new Phaser.Class({
     chill.body.setGravityY(300);
     this.chillGoingLeft = true;
     this.physics.add.collider(chill, ground);
-    this.penguinHealth = 100;
+    this.penguinHealth = 98;
 
     stag = this.physics.add.sprite(this.stagSpawnPoint.x, this.stagSpawnPoint.y, 'flameStag')
     stag.body.setGravityY(300);
@@ -309,7 +328,7 @@ var Megaman = new Phaser.Class({
     }
     this.physics.add.collider(stag, ground);
     //this.physics.add.collider(stag, onlyICollide);
-    this.stagHealth = 100;
+    this.stagHealth = 98;
 
     player = this.physics.add.sprite(this.spawnPointForChill.x, this.spawnPointForChill.y, 'megaman');
     player.setSize(20, 28);
@@ -331,6 +350,11 @@ var Megaman = new Phaser.Class({
       //maxSize: 50
     });
 
+    this.fireballs = this.physics.add.group({
+      defaultKey: 'fireball',
+      //maxSize: 50
+    });
+
     this.shoot = function() {
       var lemon = this.lemons.get(player.x, player.y);
       if (lemon) {
@@ -346,7 +370,7 @@ var Megaman = new Phaser.Class({
     }
 
     this.shootIce = function(shooter, target) {
-      var lemon = this.iceballs.get(shooter.x, shooter.y).setScale(1);
+      var lemon = this.iceballs.get(shooter.x + 50*directionVector(shooter,target)[0], shooter.y + 50*directionVector(shooter,target)[1]).setScale(1);
       if (lemon) {
         this.iceSound.play()
         lemon.setActive(true);
@@ -357,6 +381,18 @@ var Megaman = new Phaser.Class({
         }
         lemon.body.setVelocityX(directionVector(shooter,target)[0]*iceSpeed)
         lemon.body.setVelocityY(directionVector(shooter,target)[1]*iceSpeed)
+      }
+    }
+
+    this.shootFire = function(shooter, target) {
+      var lemon = this.fireballs.get(shooter.x + 20*directionVector(shooter,target)[0], shooter.y + 20*directionVector(shooter,target)[1]).setScale(1);
+      if (lemon) {
+        this.fireSound.play()
+        lemon.setActive(true);
+        lemon.setVisible(true);
+        let fireSpeed = 260;
+        lemon.body.setVelocityX(directionVector(shooter,target)[0]*fireSpeed)
+        lemon.body.setVelocityY(directionVector(shooter,target)[1]*fireSpeed)
       }
     }
 
@@ -407,11 +443,34 @@ var Megaman = new Phaser.Class({
     this.sliding = false;
     this.slidingCounter = 0;
 
+/*
+    this.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
+    this.keyObjZ.on('down', function(event) {
+      if (this.pause){
+        this.pause = false
+      } else {
+        this.pause = true
+      }
+
+    }, this);
+    */
+
     this.keyObjS = this.input.keyboard.addKey('S'); // Get key object
     this.keyObjS.on('down', function(event) {
-      if (!this.gettingHit) {
-        this.shoot()
+      if (switchToNextWeapon && this.playerShootIceMeter>=120){
+        this.shootIce(player,stag)
+        this.playerShootIceMeter = 0
+      } else if (!switchToNextWeapon){
+        if (!this.gettingHit) {
+          this.shoot()
+        }
       }
+
+    }, this);
+
+    this.keyObjP = this.input.keyboard.addKey('P'); // Get key object
+    this.keyObjP.on('down', function(event) {
+      switchToNextWeapon = true
     }, this);
 
     this.keyObjD = this.input.keyboard.addKey('D'); // Get key object
@@ -447,13 +506,19 @@ var Megaman = new Phaser.Class({
 
     this.physics.add.overlap(stag, this.lemons, hitStag, null, this);
 
+    this.physics.add.overlap(this.iceballs, stag, hitStag, null, this);
+
     this.physics.add.overlap(player, this.iceballs, hitPlayer, null, this);
+
+    this.physics.add.overlap(player, this.fireballs, hitPlayer, null, this);
 
     this.penguinGettingHit = false;
 
     this.stagGettingHit = false;
 
     this.stagPunching = false;
+
+    this.stagPunchingDone = false;
 
     this.stagPunchCounter = 0;
 
@@ -462,6 +527,8 @@ var Megaman = new Phaser.Class({
     this.rando =  Math.random() + 1;
 
     this.setChillVelocity = false;
+
+    this.playerShootIceMeter = 0;
 
 
     function hitChill(chill, lemon) {
@@ -485,7 +552,11 @@ var Megaman = new Phaser.Class({
         window.setTimeout(() => {
           this.stagGettingHit = false;
         }, 200)
-        this.stagHealth -= 4;
+        if (!switchToNextWeapon){
+          this.stagHealth -= 4;
+        } else if (switchToNextWeapon){
+          this.stagHealth -= 5;
+        }
         this.enemyDamage.play();
         this.MegamanUI.enemyHealthMeter.y = 40 + 196 - 2 * this.stagHealth + 2;
         this.MegamanUI.enemyHealthMeter.height = 2 * this.stagHealth;
@@ -521,6 +592,12 @@ var Megaman = new Phaser.Class({
     }
   },
   update: function() {
+    if (this.pause) {
+      this.physics.pause();
+    } else {
+      this.physics.resume()
+    }
+    this.playerShootIceMeter+=1;
     this.timeCounter += 1
     // ai for lemons
     this.lemons.children.each(function(b) {
@@ -534,6 +611,14 @@ var Megaman = new Phaser.Class({
 
     this.iceballs.children.each(function(b) {
       b.angle+=2
+    }.bind(this));
+
+    this.fireballs.children.each(function(b) {
+      if (player.x > b.x){
+        b.angle = Math.atan((player.y-b.y)/(player.x-b.x))
+      } else {
+        b.angle = Math.atan((player.y-b.y)/(player.x-b.x)) + 180
+      }
     }.bind(this));
 
 
@@ -604,7 +689,8 @@ var Megaman = new Phaser.Class({
 
     }
     //ai for penguin
-    if (this.penguinAlive) {
+
+    if (this.penguinAlive && !this.pause) {
       //chil animations
       if (chill.body.blocked.down) {
         chill.anims.play('chillslide', true);
@@ -674,7 +760,7 @@ var Megaman = new Phaser.Class({
     }
 
     //ai for stag
-    if (this.stagAlive && !this.penguinAlive) {
+    if (this.stagAlive && !this.penguinAlive && !this.pause) {
       //flipping
       if (stag.body.velocity.x > 0) {
         stag.flipX = true;
@@ -682,19 +768,33 @@ var Megaman = new Phaser.Class({
         stag.flipX = false;
       }
       //punch attack timer
-      if (this.timeCounter % 600 === 0 && !this.stagPunching) {
+      if (this.timeCounter % 400 === 0 && !this.stagPunching && distance(player,stag)>150) {
         this.stagPunching = true;
-      } else if (this.stagPunching) {
-        this.stagPunchCounter += 1;
+        window.setTimeout(()=>{
+          this.stagPunching = false;
+        }, 1000)
       }
+      if (this.timeCounter % 800 === 0) {
+        this.shootFire(stag,player)
+      }
+
       if (this.stagPunching && (distance(player,stag)<20 || stag.body.blocked.left || stag.body.blocked.right)) {
         this.stagPunching = false;
+        this.stagPunchingDone = true;
         this.stagPunchCounter = 0;
+      }
+      if (this.stagPunchingDone) {
+        window.setTimeout(()=>{
+          this.stagPunchingDone = false
+        }, 1000)
       }
 
       //animations for stag
       if (this.stagPunching) { //punch when near player
-        stag.anims.play('stagpunch', true)
+        stag.anims.play('stagrush', true)
+        this.stagPunchCounter+=1;
+      } else if (this.stagPunchingDone) { //punch when near player
+        stag.anims.play('stagretreat', true)
         } else if (stag.body.blocked.down) {
           stag.anims.play('stagground', true);
         } else if (stag.body.blocked.right) {
@@ -706,9 +806,12 @@ var Megaman = new Phaser.Class({
         }
 
       //motion for stag
-      if (this.stagPunching && this.stagPunchCounter < 10) { //to turn around if he's going in the opposite way of player
-        stag.setVelocityX(directionVector(stag, player)[0] * 250)
-        stag.setVelocityY(directionVector(stag, player)[1] * 250)
+      if (this.stagPunching && this.stagPunchCounter < 5) { //to turn around if he's going in the opposite way of player
+        stag.setVelocityX(directionVector(stag, player)[0] * 400)
+        stag.setVelocityY(directionVector(stag, player)[1] * 400)
+      } else if (this.stagPunchingDone) { //to turn around if he's going in the opposite way of player
+        stag.setVelocityX(-directionVector(stag, player)[0] * 250)
+        stag.setVelocityY(-directionVector(stag, player)[1] * 250)
       } else if (stag.body.blocked.left) {
         this.hitwall.play()
         stag.body.setVelocityX(350)
@@ -732,13 +835,13 @@ var Megaman = new Phaser.Class({
           if (this.stagHealth > 30) {
             stag.body.setVelocityX(-250)
           } else {
-            stag.body.setVelocityX(-250)
+            stag.body.setVelocityX(-350)
           }
         } else {
           if (this.stagHealth > 30) {
             stag.body.setVelocityX(250)
           } else {
-            stag.body.setVelocityX(250)
+            stag.body.setVelocityX(350)
           }
         }
       }
@@ -806,6 +909,7 @@ var Megaman = new Phaser.Class({
     }
 
   }
+
 });
 
 
@@ -828,7 +932,11 @@ var MegamanUI = new Phaser.Class({
   },
   create: function() {
     this.myHealthMeter = this.add.rectangle(40, 40, 20, 200, 0xe3ec3d).setOrigin(0, 0);
+    this.myWeaponMeter = this.add.rectangle(70, 40, 20, 200, 0x2145e2).setOrigin(0, 0);
+    this.myWeaponMeter.visible = false;
     this.myHealthMeterCover = this.add.image(40, 40, 'healthBar').setOrigin(0, 0).setDepth(1).setScale(2).setFrame(0);
+    this.myWeaponMeterCover = this.add.image(70, 40, 'healthBar').setOrigin(0, 0).setDepth(1).setScale(2).setFrame(0);
+    this.myWeaponMeterCover.visible = false;
 
     this.enemyHealthMeter = this.add.rectangle(1160, 40, 20, 200, 0xe3ec3d).setOrigin(0, 0);
     this.enemyHealthMeterCover = this.add.image(1160, 40, 'healthBar').setOrigin(0, 0).setDepth(1).setScale(2).setFrame(1);
@@ -836,6 +944,13 @@ var MegamanUI = new Phaser.Class({
     this.scene.bringToTop();
   },
   update: function() {
-
+    if (switchToNextWeapon)
+      if (this.myWeaponMeter.visible){
+        this.myWeaponMeter.visible = false;
+        this.myWeaponMeterCover.visible = false;
+      } else {
+        this.myWeaponMeter = true;
+        this.myWeaponMeterCover.visible = true;
+      }
   }
 });
