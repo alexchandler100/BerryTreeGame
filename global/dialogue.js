@@ -395,15 +395,20 @@ var DialogueMenu = new Phaser.Class({
         narrative: "Parked my car somewhere by the woods I think... maybe behind 711 Burcham.",
         options: [{
             option: 'Right on',
-            nextPage: undefined,
-            aftermath: openQuestLog
-          },
-          {
-            option: 'Hell yeah',
-            nextPage: undefined,
+            nextPage: 777,
             aftermath: openQuestLog
           },
         ]
+      },
+
+      {
+        character: 'god',
+        page: 777,
+        narrative: "Use the buttons U,I,O,P to control magnitude of acceleration (U is slowest, P is fastest). Press a directional key to accelerate that direction. Press D to apply the brakes. Press S to exit the car once stopped. Be careful when turning, its easy to crash. Note you do not need to keep holding a direction once at full speed. Use your brakes and control your acceleration wisely. Crashing totally fucking sucks. If you crash at full speed, your car will be totaled.",
+        options: [{
+          option: 'Ok goddamn',
+          nextPage: undefined,
+        }, ]
       },
 
       {
@@ -2017,7 +2022,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 3002,
-        narrative: `2-Ball Pool: To score a point, in a single shot, a ball must be pocketed and the cue ball must hit both balls. You can score 3 points if you additionally pocket the other ball on the same shot. Good luck! `,
+        narrative: `2-Ball Pool: To score a point, in a single shot, a ball must be pocketed and the cue ball must hit both balls. You can score 2 points if you additionally pocket the other ball on the same shot. Good luck! `,
         options: [{
           option: 'What about English?',
           nextPage: 3003,

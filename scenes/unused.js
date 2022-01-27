@@ -43,3 +43,16 @@ if (playerTexture === 0 && gameState.pointer.isDown) {
   }
 }
 */
+
+// Horizontal car movement
+if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+  firstKeyDown = ''
+} else if (this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+  firstKeyDown = 'left'
+} else if (!this.cursors.left.isDown && this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+  firstKeyDown = 'right'
+} else if (!this.cursors.left.isDown && !this.cursors.right.isDown && this.cursors.up.isDown && !this.cursors.down.isDown){
+  firstKeyDown = 'up'
+} else if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && this.cursors.down.isDown){
+  firstKeyDown = 'down'
+}

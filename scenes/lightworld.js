@@ -405,7 +405,7 @@ var LightWorld = new Phaser.Class({
     }
   },
   getHitByCar: function() {
-    if (!this.gettingHitByCar && !this.ollie) {
+    if (!this.gettingHitByCar && !this.ollie && playerTexture!==1) {
       gameState.carhit.play()
       this.gettingHitByCar = true
       if (stamina > 10 && playerTexture === 0) {
@@ -414,7 +414,10 @@ var LightWorld = new Phaser.Class({
         stamina -= 15
       }
         me.setFrame(12)
-      }
+      } else if (!this.gettingHitByCar && !this.ollie && playerTexture===1) {
+        gameState.carhit.play()
+        this.gettingHitByCar = true
+        }
   },
   onMeetEnemy1: function(player, zone) {
     if (worldTheme === 'light' && playerTexture === 0 && inPool === false && !chasersEnabled) {
@@ -2805,7 +2808,7 @@ var LightWorld = new Phaser.Class({
       } else if (playerTexture === 'board' && !this.ollie && (me.body.velocity.x**2+ me.body.velocity.y**2>150**2)) {
         this.ollie = true;
         this.DialogueMenu.kickflipRotationDisplay.angle = 0;
-      } else if (playerTexture === 1) {
+      } else if (playerTexture === 1 && me.body.velocity.x**2+me.body.velocity.y**2<10**2) {
         playerTexture = 0
         car.enableBody(true, me.x, me.y, true, true);
         me.setTexture('me', 0)
@@ -3279,7 +3282,9 @@ var LightWorld = new Phaser.Class({
 
     if (this.gettingLaidOutByCar && !this.gettingUpFromCarHit) {
       me.angle += this.gettingLaidOutByCarAngularSpeed;
-      me.setFrame(this.gettingLaidOutByCarFrame)
+      if (playerTexture===0){
+        me.setFrame(this.gettingLaidOutByCarFrame)
+      }
       me.body.setVelocityX(this.gettingLaidOutByCarvelocity[0])
       me.body.setVelocityY(this.gettingLaidOutByCarvelocity[1])
       if (me.body.blocked.up || me.body.blocked.down || me.body.blocked.left || me.body.blocked.right) {
@@ -3287,7 +3292,9 @@ var LightWorld = new Phaser.Class({
         gameState.bodyhit.play();
       }
     } else if (this.gettingLaidOutByCar && this.gettingUpFromCarHit) {
-      me.setFrame(25);
+      if (playerTexture===0){
+          me.setFrame(25);
+      }
       me.angle = 0;
       me.body.setVelocityX(0)
       me.body.setVelocityY(0)
@@ -3353,7 +3360,7 @@ var LightWorld = new Phaser.Class({
       this.cameras.main.shake(2000);
     }
     //car crash
-    if (playerTexture === 1 && !me.body.blocked.none && speed >= 3) {
+    if (playerTexture === 1 && !me.body.blocked.none && (me.body.velocity.x**2+me.body.velocity.y**2>900**2)) {
       pause = true
       speed = 1
       playerTexture = 0
@@ -3661,7 +3668,7 @@ var LightWorld = new Phaser.Class({
       swimNoisePlaying = true
       me.body.setSize(70, 70);
       me.body.setOffset(60, 0);
-    } else if (inPool === false) {
+    } else if (inPool === false && playerTexture === 0) { //added playertexture requirement to fix car glitch
       gameState.swimNoise.stop()
       swimNoisePlaying = false
       me.body.setSize(70, 90); //this sets the general size and offset for player(probably not the best way to organize but it is what it is)
@@ -4649,7 +4656,7 @@ var LightWorld = new Phaser.Class({
     }
 
     //player animations and controls
-    if (!this.gettingLaidOutByCar && playerTexture!='board') {
+    if (!this.gettingLaidOutByCar && playerTexture!='board' && playerTexture!=1) {
       me.body.setVelocity(0);
     }
 
@@ -4966,69 +4973,94 @@ var LightWorld = new Phaser.Class({
 
     //player walking running animations
 
-    // for when you get in the car
+    // for when you get in the car (controls for car)
     else if (playerTexture === 1) {
       if (gas < 0) {
         gas = 0
       }
+
       // Horizontal car movement
       if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
         firstKeyDown = ''
       } else if (this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
         firstKeyDown = 'left'
-        me.angle = 270;
-        me.setSize(64, 32);
-        me.setOffset(0, 16)
       } else if (!this.cursors.left.isDown && this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
         firstKeyDown = 'right'
-        me.angle = 90;
-        me.setSize(64, 32);
-        me.setOffset(0, 16)
       } else if (!this.cursors.left.isDown && !this.cursors.right.isDown && this.cursors.up.isDown && !this.cursors.down.isDown){
         firstKeyDown = 'up'
-        me.angle = 0;
-        me.setSize(32, 64);
-        me.setOffset(16, 0)
       } else if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && this.cursors.down.isDown){
         firstKeyDown = 'down'
-        me.angle = 180;
-        me.setSize(32, 64);
-        me.setOffset(16, 0)
       }
 
+      if (this.keyObjD.isDown){ //apply the brakes when you press D
+        me.body.setVelocityX(me.body.velocity.x*8/10)
+        me.body.setVelocityY(me.body.velocity.y*8/10)
+      }
 
       if (this.cursors.left.isDown && gas > 0) {
         gas -= .0009
-        if (firstKeyDown === 'left'){
-          me.body.setVelocityX(-200 * speed);
-        } else {
-          me.body.setVelocityX(-50 * speed);
-        }
+          if (firstKeyDown==='left'){
+            me.body.setVelocityX(me.body.velocity.x-7*speed);
+          } else {
+            me.body.setVelocityX(me.body.velocity.x-3*speed);
+          }
       }
       if (this.cursors.right.isDown && gas > 0) {
         gas -= .0009
-        if (firstKeyDown === 'right'){
-            me.body.setVelocityX(200 * speed);
+        if (firstKeyDown==='right'){
+          me.body.setVelocityX(me.body.velocity.x+7*speed);
         } else {
-          me.body.setVelocityX(50 * speed);
+          me.body.setVelocityX(me.body.velocity.x+3*speed);
         }
       }
       if (this.cursors.up.isDown && gas > 0) {
         gas -= .0009
-        if (firstKeyDown === 'up'){
-            me.body.setVelocityY(-200 * speed);
+        if (firstKeyDown==='up'){
+          me.body.setVelocityY(me.body.velocity.y-7*speed);
         } else {
-          me.body.setVelocityY(-50 * speed);
+          me.body.setVelocityY(me.body.velocity.y-3*speed);
         }
       }
       if (this.cursors.down.isDown && gas > 0) {
         gas -= .0009
-        if (firstKeyDown === 'down'){
-            me.body.setVelocityY(200 * speed);
+        if (firstKeyDown==='down'){
+          me.body.setVelocityY(me.body.velocity.y+7*speed);
         } else {
-          me.body.setVelocityY(50 * speed);
+          me.body.setVelocityY(me.body.velocity.y+3*speed);
         }
       }
+
+      if (me.body.velocity.x>250*speed){
+        me.body.setVelocityX(250*speed)
+      } else if (me.body.velocity.x<-250*speed){
+        me.body.setVelocityX(-250*speed)
+      } else if (me.body.velocity.y>250*speed){
+        me.body.setVelocityY(250*speed)
+      } else if (me.body.velocity.y<-250*speed){
+        me.body.setVelocityY(-250*speed)
+      }
+
+      //sets body angle and size depending on 4 different velocity conditions
+      if (me.body.velocity.x < 0 && me.body.velocity.x**2>me.body.velocity.y**2){
+        me.angle = 270;
+        me.body.setSize(64, 32);
+        me.body.setOffset(0, 16)
+      } else if (me.body.velocity.x > 0 && me.body.velocity.x**2>me.body.velocity.y**2){
+        me.angle = 90;
+        me.body.setSize(64, 32);
+        me.body.setOffset(0, 16)
+      } else if (me.body.velocity.y < 0 && me.body.velocity.x**2<me.body.velocity.y**2){
+        me.angle = 0;
+        me.body.setSize(32, 64);
+        me.body.setOffset(16, 0)
+      } else if (me.body.velocity.y > 0 && me.body.velocity.x**2<me.body.velocity.y**2){
+        me.angle = 180;
+        me.body.setSize(32, 64);
+        me.body.setOffset(16, 0)
+      }
+
+
+
     } else if (playerTexture === 'race') {
       // player Horizontal movement
       if (this.cursors.left.isDown) {
