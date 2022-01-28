@@ -320,7 +320,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 4,
-        narrative: 'PRESS Z TO ACCESS THE MENU AND CLICK THE EXIT BUTTON TO EXIT. EXAMINE MENU ITEMS BY HOVERING THE CURSOR OVER THEM. MENU ITEMS CAN BE USED BY DRAGGING AND DROPPING THEM INTO APPROPRIATE PLACES IN THE MENU. THE X KEY OPENS THE QUEST LOG.',
+        narrative: 'PRESS Z TO ACCESS THE MENU AND PRESS Z AGAIN TO EXIT. EXAMINE MENU ITEMS BY HOVERING THE CURSOR OVER THEM. MENU ITEMS CAN BE USED BY DRAGGING AND DROPPING THEM INTO APPROPRIATE PLACES IN THE MENU. THE X KEY OPENS AND CLOSES THE QUEST LOG.',
         options: [{
           option: 'More',
           nextPage: 8
@@ -395,20 +395,10 @@ var DialogueMenu = new Phaser.Class({
         narrative: "Parked my car somewhere by the woods I think... maybe behind 711 Burcham.",
         options: [{
             option: 'Right on',
-            nextPage: 777,
+            nextPage: undefined,
             aftermath: openQuestLog
           },
         ]
-      },
-
-      {
-        character: 'god',
-        page: 777,
-        narrative: "Use the buttons U,I,O,P to control magnitude of acceleration (U is slowest, P is fastest). Press a directional key to accelerate that direction. Press D to apply the brakes. Press S to exit the car once stopped. Be careful when turning, its easy to crash. Note you do not need to keep holding a direction once at full speed. Use your brakes and control your acceleration wisely. Crashing totally fucking sucks. If you crash at full speed, your car will be totaled.",
-        options: [{
-          option: 'Ok goddamn',
-          nextPage: undefined,
-        }, ]
       },
 
       {
@@ -417,8 +407,27 @@ var DialogueMenu = new Phaser.Class({
         narrative: "Tight, I better head up to the gas station and get some shit. Better not crash though... (go to the Mobile station at Abbott and E. Saginaw.)",
         options: [{
           option: 'Lets go.',
+          nextPage: 777,
+        }, ]
+      },
+
+      {
+        character: 'god',
+        page: 777,
+        narrative: "Use the buttons U,I,O,P to control magnitude of acceleration (U is slowest, P is fastest). Press a directional key to accelerate that direction. Press D to apply the brakes.",
+        options: [{
+          option: 'What else...',
+          nextPage: 778,
+        }, ]
+      },
+
+      {
+        character: 'god',
+        page: 778,
+        narrative: "Press S to exit the car once stopped. Be careful when turning, its easy to crash. Note you do not need to keep holding a direction once at full speed. Use your brakes and control your acceleration wisely. Crashing totally fucking sucks. If you crash at full speed, your car will be totaled.",
+        options: [{
+          option: 'Ok goddamn',
           nextPage: undefined,
-          aftermath: openQuestLog
         }, ]
       },
 
@@ -543,6 +552,21 @@ var DialogueMenu = new Phaser.Class({
         character: 'trevor',
         page: 29,
         narrative: "Jimmy: Yo I can't beat this fucking boss. Wanna smoke this joint and give it a try? (Press S to shoot and D to slide. You can even perform an air dash with D.)",
+        options: [{
+          option: 'Fer sherrr',
+          nextPage: undefined,
+          aftermath: playMegaman
+        },
+        {
+          option: 'Nahh',
+          nextPage: undefined,
+        }]
+      },
+
+      {
+        character: 'trevor',
+        page: 299,
+        narrative: "Jimmy: Damnnnn you beat penguin? Yo this guy is hard as fuck though. Wanna try? Yo you can switch weapons if you press the BACKSPACE button. Pretty sure ice kills this guy but he's still hard as fuck.",
         options: [{
           option: 'Fer sherrr',
           nextPage: undefined,
@@ -1081,7 +1105,7 @@ var DialogueMenu = new Phaser.Class({
         page: 98,
         narrative: 'Becca: Hey how did you get in here?',
         options: [{
-            option: "Can't tell you",
+            option: "Shiiiit",
             nextPage: 99
           },
           {

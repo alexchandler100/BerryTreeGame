@@ -61,7 +61,7 @@ var Megaman = new Phaser.Class({
     }, 2000);
     this.scene.run("MegamanUI");
     this.myHealth = 98;
-    this.myIceMeter = 98;
+    this.MegamanUI.myIce = 98;
     this.playerAlive = true
     this.MegamanUI.myHealthMeter.y = 40 + 196 - 2 * this.myHealth + 2;
     this.MegamanUI.myHealthMeter.height = 2 * this.myHealth;
@@ -302,12 +302,20 @@ var Megaman = new Phaser.Class({
 
     this.playerAlive = true;
 
-    //to start at stag, switch to false
     this.penguinAlive = true;
     this.exitVictoryPenguin = false;
 
+    this.weapons = [];
+    this.weaponIndex = 0;
+
     this.stagAlive = true;
     this.exitVictoryStag = false
+
+    //to start at stag, uncomment the following
+/*
+    this.penguinAlive = false;
+    this.weapons.push("Ice")
+    */
 
     megaMap = this.make.tilemap({
       key: "megaMap"
@@ -515,20 +523,15 @@ var Megaman = new Phaser.Class({
 
     this.keyObjS = this.input.keyboard.addKey('S'); // Get key object
     this.keyObjS.on('down', function(event) {
-      if (switchToNextWeapon && this.playerShootIceMeter >= 120) {
+      if (this.weaponIndex === 1 && this.MegamanUI.myIce >= 98/8 && !this.gettingHit) {
         this.shootIce(player, stag)
-        this.playerShootIceMeter = 0
-      } else if (!switchToNextWeapon) {
+        this.MegamanUI.myIce -= 98/8
+      } else if (this.weaponIndex === 0) {
         if (!this.gettingHit) {
           this.shoot()
         }
       }
 
-    }, this);
-
-    this.keyObjP = this.input.keyboard.addKey('P'); // Get key object
-    this.keyObjP.on('down', function(event) {
-      switchToNextWeapon = true
     }, this);
 
     this.keyObjD = this.input.keyboard.addKey('D'); // Get key object
@@ -586,9 +589,6 @@ var Megaman = new Phaser.Class({
 
     this.setChillVelocity = false;
 
-    this.playerShootIceMeter = 0;
-
-
     function hitChill(chill, lemon) {
       lemon.setActive(false);
       if (!this.penguinGettingHit) {
@@ -610,10 +610,10 @@ var Megaman = new Phaser.Class({
         window.setTimeout(() => {
           this.stagGettingHit = false;
         }, 200)
-        if (!switchToNextWeapon) {
+        if (this.weaponIndex === 0) {
           this.stagHealth -= 4;
-        } else if (switchToNextWeapon) {
-          this.stagHealth -= 5;
+        } else if (this.weaponIndex === 1) {
+          this.stagHealth -= 10;
         }
         this.enemyDamage.play();
         this.MegamanUI.enemyHealthMeter.y = 40 + 196 - 2 * this.stagHealth + 2;
@@ -665,7 +665,6 @@ var Megaman = new Phaser.Class({
           this.gainlife.play();
       }
     }
-    this.playerShootIceMeter += 1;
     this.timeCounter += 1
     // ai for lemons
     this.lemons.children.each(function(b) {
@@ -689,13 +688,32 @@ var Megaman = new Phaser.Class({
       }
     }.bind(this));
 
-
-    //penguin dies
-    if (this.penguinHealth <= 0 && this.penguinAlive) {
+    //I die
+    if (this.myHealth <= 0 && this.playerAlive) {
+      this.iceballs.children.each(function(b) {
+        b.destroy()
+      }.bind(this));
+      lostAtMegaman = 1;
+      this.playerAlive = false
+      player.anims.play('gethit', true)
+      this.explosion.play()
+      this.MegamanUI.myHealthMeter.visible = false;
+      gameState.bossfight.stop()
+      window.setTimeout(() => {
+        this.scene.switch('LightWorld')
+        this.scene.sleep("MegamanUI");
+        scene_number = 2
+      }, 3000)
+    } else if (this.penguinHealth <= 0 && this.penguinAlive) {  //penguin dies
       this.fightOngoing = false;
       this.exitVictoryPenguin = true
       this.MegamanUI.enemyHealthMeter.visible = false;
       this.penguinAlive = false
+      this.weapons.push("Ice")
+    } else if (this.stagHealth <= 0 && this.stagAlive) { // stag dies
+      this.exitVictoryStag = true
+      this.MegamanUI.enemyHealthMeter.visible = false;
+      this.stagAlive = false
     }
     if (this.exitVictoryPenguin) {
       this.iceballs.children.each(function(b) {
@@ -717,15 +735,7 @@ var Megaman = new Phaser.Class({
         this.scene.sleep("MegamanUI");
         scene_number = 2
       }, 5000)
-    }
-
-    // stag dies
-    if (this.stagHealth <= 0 && this.stagAlive) {
-      this.exitVictoryStag = true
-      this.MegamanUI.enemyHealthMeter.visible = false;
-      this.stagAlive = false
-    }
-    if (this.exitVictoryStag) {
+    } else if (this.exitVictoryStag) {
       beatStag = 1;
       this.exitVictoryStag = false;
       this.explosion.play();
@@ -738,24 +748,7 @@ var Megaman = new Phaser.Class({
         //enable the next boss here
       }, 5000)
     }
-    //I die
-    if (this.myHealth <= 0 && this.playerAlive) {
-      this.iceballs.children.each(function(b) {
-        b.destroy()
-      }.bind(this));
-      lostAtMegaman = 1;
-      this.playerAlive = false
-      player.anims.play('gethit', true)
-      this.explosion.play()
-      this.MegamanUI.myHealthMeter.visible = false;
-      gameState.bossfight.stop()
-      window.setTimeout(() => {
-        this.scene.switch('LightWorld')
-        this.scene.sleep("MegamanUI");
-        scene_number = 2
-      }, 3000)
 
-    }
     //ai for penguin
 
     if (this.penguinAlive && !this.pause) {
@@ -999,10 +992,23 @@ var MegamanUI = new Phaser.Class({
         frameHeight: 110
       });
   },
+  onKeyInput: function(event) {
+    if (event.code === "Backspace") {
+      console.log(`weapons: ${this.Megaman.weapons}`)
+      console.log(`weapon index: ${this.Megaman.weaponIndex}`)
+      this.Megaman.weaponIndex+=1;
+      if (this.Megaman.weaponIndex>this.Megaman.weapons.length){
+        this.Megaman.weaponIndex = 0
+      }
+    }
+  },
   create: function() {
+    this.input.keyboard.on("keydown", this.onKeyInput, this);
+    this.Megaman = this.scene.get("Megaman");
     this.myHealthMeter = this.add.rectangle(40, 40, 20, 200, 0xe3ec3d).setOrigin(0, 0);
-    this.myWeaponMeter = this.add.rectangle(70, 40, 20, 200, 0x2145e2).setOrigin(0, 0);
-    this.myWeaponMeter.visible = false;
+    this.myIceMeter = this.add.rectangle(70, 40, 20, 200, 0x2145e2).setOrigin(0, 0);
+    this.myIceMeter.visible = false;
+    this.myIce = 98;
     this.myHealthMeterCover = this.add.image(40, 40, 'healthBar').setOrigin(0, 0).setDepth(1).setScale(2).setFrame(0);
     this.myWeaponMeterCover = this.add.image(70, 40, 'healthBar').setOrigin(0, 0).setDepth(1).setScale(2).setFrame(0);
     this.myWeaponMeterCover.visible = false;
@@ -1013,13 +1019,14 @@ var MegamanUI = new Phaser.Class({
     this.scene.bringToTop();
   },
   update: function() {
-    if (switchToNextWeapon)
-      if (this.myWeaponMeter.visible) {
-        this.myWeaponMeter.visible = false;
+    if (this.Megaman.weaponIndex === 0){
+        this.myIceMeter.visible = false;
         this.myWeaponMeterCover.visible = false;
-      } else {
-        this.myWeaponMeter = true;
+      } else if (this.Megaman.weaponIndex === 1){
+        this.myIceMeter.visible = true;
         this.myWeaponMeterCover.visible = true;
+        this.myIceMeter.y = 40 + 196 - 2 * this.myIce + 2;
+        this.myIceMeter.height = 2 * this.myIce;
       }
   }
 });

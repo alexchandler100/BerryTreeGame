@@ -269,7 +269,6 @@ var Keyboard = new Phaser.Class({
 
     //set to music button
     gameState6.set_button = this.add.rectangle(20, 70, 100, 20, 0xfff).setOrigin(0,0);
-    gameState6.set_button.setInteractive()
     gameState6.set_button.on('pointerup', function() {
       customMusicStart = true;
       playing = true;
@@ -292,11 +291,12 @@ var Keyboard = new Phaser.Class({
       fill: '#fff'
     }).setDepth(1);
     gameState6.set_button.width = setText.width
+    gameState6.set_button.setInteractive()
 
     //unset to music button (same as exit button actually)
     gameState6.unset_button = this.add.rectangle(20, 20, 100, 20, 0xfff).setOrigin(0,0);
-    gameState6.unset_button.setInteractive()
     gameState6.unset_button.on('pointerup', function() {
+      customMusicPlaying = false
       playing = false;
       launchParameter=false;
       scene_number = 'indoors';
@@ -317,6 +317,7 @@ var Keyboard = new Phaser.Class({
       fill: '#fff'
     }).setDepth(1);
     gameState6.unset_button.width = unsetText.width
+    gameState6.unset_button.setInteractive();
 
     gameState6.pianomiddleC = {}
     for (let i = 0; i < 16; i++) {

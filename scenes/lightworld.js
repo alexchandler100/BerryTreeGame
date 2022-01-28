@@ -554,6 +554,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('heyy', ['assets/heyy.wav']);
     this.load.audio('erggh', ['assets/erggh.wav']);
     this.load.audio('hello', ['assets/Hello.wav']);
+    this.load.audio('whatWeGoingToDo', ['assets/whatWeGoingToDo.wav']);
     this.load.audio('wutt', ['assets/wutt.wav']);
     this.load.audio('ooo', ['assets/ooo.wav']);
     this.load.audio('block', ['assets/block.wav']);
@@ -907,7 +908,7 @@ var LightWorld = new Phaser.Class({
       volume: 1
     });
     gameState.cardiB = this.sound.add('cardiB', {
-      volume: .6
+      volume: 1
     });
     gameState.crashBoard = this.sound.add('crashBoard', {
       volume: 1
@@ -934,6 +935,9 @@ var LightWorld = new Phaser.Class({
       volume: .6
     });
     gameState.hello = this.sound.add('hello', {
+      volume: 1
+    });
+    gameState.whatWeGoingToDo = this.sound.add('whatWeGoingToDo', {
       volume: 1
     });
     gameState.wutt = this.sound.add('wutt', {
@@ -3070,10 +3074,13 @@ var LightWorld = new Phaser.Class({
       classType: Phaser.GameObjects.Zone
     });
     for (var i = 0; i < 1500; i++) { //it was 1800 for a long time. I scaled it back to 1500
-      var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-      var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+      var xx = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+      var yy = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // creates a spawn zone at x,y. parameters are x, y, width, height
-      spawns.create(x, y, 20, 20);
+      var zonePoint = {x:xx, y:yy};
+      if (distance(zonePoint,gameState.PlayerSpawnPoint)>100){
+        spawns.create(xx, yy, 20, 20);
+      }
     }
     this.physics.add.overlap(me, spawns, this.onMeetEnemy1, false, this);
     this.physics.add.overlap(me, chasersGroup, this.onMeetEnemy2, false, this);
@@ -3491,7 +3498,7 @@ var LightWorld = new Phaser.Class({
       playerTexture = 0
     }
     //this is supposed to change to random woods theme when in woods, but not sure how to initiate something only once on zone change... fix needed...
-    if (changeThemeSong && overworldSong === 'woods') {
+    if (changeThemeSong && overworldSong === 'woods' && !customMusicPlaying) {
       changeThemeSong = false;
       gameState.music.stop()
       gameState.marioWoods.stop()
@@ -3505,7 +3512,7 @@ var LightWorld = new Phaser.Class({
       } else if (mscRnd === 2) {
         gameState.trevorWoods.play();
       }
-    } else if (changeThemeSong && overworldSong === 'theme') {
+    } else if (changeThemeSong && overworldSong === 'theme' && !customMusicPlaying) {
       changeThemeSong = false;
       gameState.marioWoods.stop();
       gameState.linkWoods.stop();
@@ -4016,6 +4023,7 @@ var LightWorld = new Phaser.Class({
 
     //ai for adeline
     if (distance(me, adeline) < 40 && adelineFirstTalk === 0 && trevor.joinParameter && girl2FirstDialogue >= 1) {
+      gameState.whatWeGoingToDo.play();
       adelineFirstTalk = 1
       this.openDialoguePage(3500)
       if (!activeQuests["Adeline is pissed"]) {

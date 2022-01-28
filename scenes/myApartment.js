@@ -1096,6 +1096,8 @@ var MyApartment = new Phaser.Class({
       }
     }, this);
 
+    this.Megaman = this.scene.get("Megaman");
+
     this.sys.events.on('wake', this.wake, this);
     this.scene.launch("PoolScore");
     this.scene.run("PoolScore");
@@ -1111,11 +1113,25 @@ var MyApartment = new Phaser.Class({
       this.scene.switch("Megaman")
     }
 
+    //opens penguin fight if penguin is alive, and opens stag fight if stag is alive
     if (distance(meApt,trevorApt)<30 && trevorAptFirstDialogue === 0){
       trevorAptFirstDialogue = 1;
       this.openDialoguePage(29)
     } else if (distance(meApt,trevorApt)>60 && trevorAptFirstDialogue === 1){
-      trevorAptFirstDialogue = 0;
+      if (this.Megaman.penguinAlive){
+        trevorAptFirstDialogue = 0;
+      } else {
+        trevorAptFirstDialogue = 2;
+      }
+    } else if (distance(meApt,trevorApt)<30 && trevorAptFirstDialogue === 2){
+      trevorAptFirstDialogue = 3;
+      this.openDialoguePage(299)
+    } else if (distance(meApt,trevorApt)>60 && trevorAptFirstDialogue === 3){
+      if (this.Megaman.stagAlive){
+        trevorAptFirstDialogue = 2;
+      } else {
+        trevorAptFirstDialogue = 4;
+      }
     }
     if (keyboardGet && distance(meApt,gameStateApt.keyboard)>60){
       keyboardGet = false;
