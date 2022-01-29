@@ -50,7 +50,7 @@ var NPC = new Phaser.Class({
   Extends: Phaser.Physics.Arcade.Sprite,
   //notes: dialogue is a dictionary of audio objects like {"al": alSound} (fix needed...)
   // left, right, up, down are strings like 'alright' or 'jonleft'
-  initialize: function NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue, joinParameter) {
+  initialize: function NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, idle, dialogue, joinParameter, slowFollowRate, fastFollowRate, idleFollowRate) {
     let point;
     if (scene_number === 'indoors') {
       point = mapApt.findObject("objects", obj => obj.name === spawnPoint);
@@ -67,7 +67,11 @@ var NPC = new Phaser.Class({
     this.right = right;
     this.up = up;
     this.down = down;
+    this.idle = idle;
     this.dialogue = dialogue;
+    this.slowFollowRate = slowFollowRate;
+    this.fastFollowRate = fastFollowRate;
+    this.idleFollowRate = idleFollowRate;
     this.position = 0;
     this.stuck = false;
     this.stuckTimer = 0;
@@ -97,9 +101,25 @@ var NPC = new Phaser.Class({
   // to follow player and join party
   follow: function(player, strength = 1) {
     if (this.following && !this.stuck && inPool === false) {
-      if (distance(this.body, player) > 20) {
-        this.body.velocity.x = (player.x - this.body.x) * strength
-        this.body.velocity.y = (player.y - this.body.y) * strength
+      if (distance(this.body, player) > 400) { //appears near you if following and too far away
+        let xx = (Math.random()-.5)*60;
+        let yy = (Math.random()-.5)*60;
+        this.disableBody(true, true);
+        this.enableBody(true, me.x+xx, me.y+yy, true, true);
+      } else if (distance(this.body, player) > 200) { // if you are running away they follow you and change frame rate depending on their speed
+        if (spriteSpeed(this)<200){
+          this.anims.msPerFrame = this.slowFollowRate;
+        } else if (spriteSpeed(this)>200){
+          this.anims.msPerFrame = this.fastFollowRate;
+        }
+        this.body.velocity.x = Math.sign(player.x - this.body.x)*(player.x - this.body.x)**2/300 * strength
+        this.body.velocity.y = Math.sign(player.y - this.body.y)*(player.y - this.body.y)**2/300 * strength
+      } else if (distance(this.body, player) < 100 && (this.type==="Trevor" ||this.type==="Jean Claude" || this.type==="James" || this.type==="Stripper")) {
+        this.body.setVelocity(0,0);
+        this.randomWalk(2);
+        this.anims.msPerFrame = this.idleFollowRate;
+      } else if (distance(this.body, player) < 100 && ( this.type==="Bennett" || this.type==="Al")) {
+        this.body.setVelocity(0,0);
       }
     } else if (this.following && !this.stuck && inPool) {
       this.body.velocity.x = (beachball.x - this.body.x) * 2
@@ -113,6 +133,7 @@ var NPC = new Phaser.Class({
     if (this.body.velocity.x > 50 || this.body.velocity.x < -50 || this.body.velocity.y > 50 || this.body.velocity.y < -50) {
       this.body.velocity.x = 0;
       this.body.velocity.y = 0;
+
     }
   },
   chase: function(thing2, strength = 1.2, offset = 0) { //makes thing1 chase thing2 with strength and offset
@@ -205,15 +226,19 @@ var NPC = new Phaser.Class({
   },
   animate: function(thresh = 10) {
     this.setDepth(this.y)
-    if (this.body.velocity.x > thresh) {
-      this.anims.play(this.right, true);
-    } else if (this.body.velocity.x < -1 * thresh) {
-      this.anims.play(this.left, true);
-    }
-    if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y > thresh) {
-      this.anims.play(this.down, true)
-    } else if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y < -1 * thresh) {
-      this.anims.play(this.up, true)
+    if (distance(this.body,me)>200 || !this.following){
+      if (this.body.velocity.x > thresh) {
+        this.anims.play(this.right, true);
+      } else if (this.body.velocity.x < -1 * thresh) {
+        this.anims.play(this.left, true);
+      }
+      if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y > thresh) {
+        this.anims.play(this.down, true)
+      } else if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y < -1 * thresh) {
+        this.anims.play(this.up, true)
+      }
+    } else if (distance(this.body,me)<100 && this.following){
+      this.anims.play(this.idle, true);
     }
   },
 });
@@ -1719,6 +1744,14 @@ var LightWorld = new Phaser.Class({
       repeat: -1
     });
     this.anims.create({
+      key: 'bennettidle',
+      frames: this.anims.generateFrameNumbers('bennett', {
+        frames: [12, 13, 14]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
+    this.anims.create({
       key: 'bennett_attack',
       frames: this.anims.generateFrameNumbers('bennettattack', {
         frames: [2]
@@ -1879,6 +1912,15 @@ var LightWorld = new Phaser.Class({
       frames: this.anims.generateFrameNumbers('trevor', {
         start: 0,
         end: 3
+      }),
+      frameRate: 7,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'trevoridle',
+      frames: this.anims.generateFrameNumbers('trevor', {
+        frames: [10,10,14,15,16,17,16,15,14,11,11,14,15,16,17,16,15,14,12,12,14,15,16,17,16,15,14]
       }),
       frameRate: 7,
       repeat: -1
@@ -2194,6 +2236,15 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
+      key: 'alidle',
+      frames: this.anims.generateFrameNumbers('al', {
+        frames: [9,0,9,0,9,0,5,5,5]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
       key: 'alattack',
       frames: this.anims.generateFrameNumbers('al', {
         start: 5,
@@ -2274,31 +2325,30 @@ var LightWorld = new Phaser.Class({
     const world2 = map.createDynamicLayer("World2", tileset22, 0, 0);
     const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
 
-    //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, dialogue)
-    bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennett_run", potentialParty["Bennett"]);
-    al = new NPC(this, "alPath0", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "holdon", potentialParty["Al"]);
-    al.x += 10
-    joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "punch", false);
+    //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, idle, dialogue)
+    bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennettidle", "bennett_run", potentialParty["Bennett"], 250, 125, 3000);
+    al = new NPC(this, "alPath0", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "alidle", "holdon", potentialParty["Al"], 250, 125, 2000);
+    joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "joeright" , "punch", false, 250, 125, 1000);
     joe.body.setCircle(30);
     joe.body.setOffset(45, 55);
-    jon = new NPC(this, "jon spawn point", "jon", 0, "Homeboy Jon", "jonleft", "jonright", "jonleft", "jonright", "bitenoise", false);
+    jon = new NPC(this, "jon spawn point", "jon", 0, "Homeboy Jon", "jonleft", "jonright", "jonleft", "jonright", "jonright", "bitenoise", false, 250, 125, 1000);
     jon.body.setSize(120, 20);
     jon.body.setOffset(40, 150); //overriding scale given by NPC class
-    james = new NPC(this, "james spawn point", "james", 0, "James", "jamesleft", "jamesright", "jamesup", "jamesdown", "bitenoise", false);
+    james = new NPC(this, "james spawn point", "james", 0, "James", "jamesleft", "jamesright", "jamesup", "jamesdown", "jamesdown", "bitenoise", false, 250, 125, 1000);
     james.body.setCircle(180);
     james.body.setOffset(50, 100); //overriding scale given by NPC class
-    oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke", "bong", false);
+    oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke","smoke", "bong", false, 250, 125, 1000);
     oghomeboy.body.immovable = true;
     oghomeboy.body.moves = false;
-    trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevorrightfast", "bong", potentialParty["Jimmy"]);
+    trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevoridle", "bong", potentialParty["Jimmy"], 250, 125, 100);
     trevor.body.setCircle(60);
     trevor.body.setOffset(60, 180);
-    hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false);
+    hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false, 250, 125, 1000);
     hausdorf.setDepth(hausdorf.y)
-    stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
+    stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "stripperdown", "bong", false, 250, 125, 1000);
     stripper.body.setCircle(30);
     stripper.body.setOffset(25, 25);
-    jeanClaude = new NPC(this, "jeanPath0", "jeanClaude", 0, "JeanClaude", "jeanleft", "jeanright", "jeanleft", "jeanright", "bong", false);
+    jeanClaude = new NPC(this, "jeanPath0", "jeanClaude", 0, "JeanClaude", "jeanleft", "jeanright", "jeanleft", "jeanright", "jeanright", "bong", false, 250, 125, 1000);
     jeanClaude.body.setCircle(30);
     jeanClaude.body.setOffset(25, 25);
 
@@ -2347,7 +2397,7 @@ var LightWorld = new Phaser.Class({
       child.setOffset(110, 80);
     });
 
-    crackhead = new NPC(this, "crackhead spawn point", "crackhead", 0, "Melvin", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "punch", false);
+    crackhead = new NPC(this, "crackhead spawn point", "crackhead", 0, "Melvin", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "punch", false);
 
     crackhead.setScale(.25);
     crackhead.setCircle(30);
@@ -3123,6 +3173,7 @@ var LightWorld = new Phaser.Class({
   },
 
   update: function() {
+
     //dialogue for megaman game
     if (beatChill===1){
       beatChill = 2
@@ -3216,6 +3267,9 @@ var LightWorld = new Phaser.Class({
     }
     //global time
     overworldClock += 1;
+    if (overworldClock %60===0){
+      console.log(spriteSpeed(me))
+    }
     //console.log(trevor.body.blocked.up || trevor.body.blocked.down || trevor.body.blocked.right || trevor.body.blocked.left)
     /*
     if (overworldClock%60===0){
