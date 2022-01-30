@@ -131,6 +131,10 @@ var OverworldMenu = new Phaser.Class({
 
     this.mySeal1 = this.physics.add.sprite(800,200,'sealEmpty')
     this.mySeal2 = this.physics.add.sprite(950,200,'sealEmpty')
+    this.mySeal3 = this.physics.add.sprite(800,350,'sealEmpty')
+    this.mySeal4 = this.physics.add.sprite(950,350,'sealEmpty')
+    this.mySeal5 = this.physics.add.sprite(750,275,'sealEmpty')
+    this.mySeal6 = this.physics.add.sprite(1000,275,'sealEmpty')
 
     gameState5.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
     gameState5.keyObjZ.on('down', function() {

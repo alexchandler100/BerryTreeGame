@@ -967,7 +967,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'jon',
         page: 76,
-        narrative: "Homeboy Jon: Damn man you're badass at kick-the-ball. You earned this, here you go take it. You can run fast as shit with these.",
+        narrative: "Homeboy Jon: Damn man you're badass at kick-the-ball. Yrrgg rggg grrrg, here you go take these sprinting shoes. You can run fast as shit with these.",
         options: [{
           option: 'Sweeet',
           nextPage: undefined,
@@ -1702,7 +1702,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'dio',
         page: 706,
-        narrative: `Thank you traveler. I bestow with with this Dio band. It is an ancient relic of unimaginable power.`,
+        narrative: `Thank you traveler. I bestow you with this magical band. It is an ancient relic of unimaginable power.`,
         options: [{
           option: 'Goddamn',
           nextPage: undefined,

@@ -116,6 +116,7 @@ let bossBattle = false;
 let bossBattleParameter = 0;
 
 //overworld parameters
+let jamesToggleFollow = false;
 let openKeyboard = false;
 let customMusicStart = false;
 let firstStrike = false;
@@ -555,6 +556,8 @@ let equipmentTypes = {
   "Snowpants": "Jimmy_lower",
   "Red Shirt": "Al_upper",
   "Red Sweatpants": "Al_lower",
+  "Running Shirt": "Bennett_upper",
+  "Running Shorts": "Bennett_lower",
   "SP Booster": "accessory",
   "HP Booster": "accessory",
   "Damage Booster": "accessory",
@@ -576,6 +579,8 @@ let equipmentList = {
   "Snowpants": snowpants,
   "Red Shirt": redShirt,
   "Red Sweatpants": redSweatpants,
+  "Running Shirt": runningShirt,
+  "Running Shorts": runningShorts,
   "SP Booster": spBooster,
   "HP Booster": hpBooster,
   "Damage Booster": damageBooster,
@@ -591,6 +596,18 @@ let equipmentList = {
   "Sprinting Shoes": sprintingShoes,
 }
 let equipmentDescriptions = {
+  "Running Shirt": {
+    type: "Bennett Body",
+    def: 5,
+    effect: "None",
+    color: '#fa7800'
+  },
+  "Running Shorts": {
+    type: "Bennett Legs",
+    def: 3,
+    effect: "None",
+    color: '#fa7800'
+  },
   "Camo T-Shirt": {
     type: "Mac Body",
     def: 2,
@@ -940,6 +957,22 @@ function redShirt(player, bool) {
   }
 }
 
+function runningShirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 5
+  } else {
+    defenseObject[player] -= 5
+  }
+}
+
+function runningShorts(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 3
+  } else {
+    defenseObject[player] -= 3
+  }
+}
+
 function redSweatpants(player, bool) {
   if (bool === true) {
     defenseObject[player] += 2
@@ -1030,6 +1063,11 @@ let equipped = {
   "Al": {
     upper: "Red Shirt",
     lower: "Red Sweatpants",
+    accessory: "",
+  },
+  "Bennett": {
+    upper: "Running Shirt",
+    lower: "Running Shorts",
     accessory: "",
   }
 }
@@ -1185,14 +1223,12 @@ function sleep() {
   spObject["Jimmy"] = maxSPObject["Jimmy"];
   spObject["Al"] = maxSPObject["Al"];
   spObject["Bennett"] = maxSPObject["Bennett"];
-  //console.log("You feel refreshed")
 }
 
 function scoreGoal() {
   volleyballScore += 1
   volleyball.disableBody(true, true)
   volleyball.enableBody(true, gameState.VolleyballSpawnPoint.x - 32, gameState.VolleyballSpawnPoint.y - 250, true, true);
-  //console.log(volleyballScore)
 }
 
 
@@ -1326,7 +1362,7 @@ function directionVector(obj1, obj2) {
 function followPath (unit, path, speed=50){
   if (distance(unit,path[unit.position])<20 && !unit.changeDirection){
     //console.log(unit.type)
-    if (unit.type==="James"){
+    if (unit.type==="Jean Claude"){
       console.log(`changing from ${unit.position} to ${unit.position+1}`)
       console.log(path[unit.position+1])
     }

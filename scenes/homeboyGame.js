@@ -41,12 +41,25 @@ var HomeboyGame = new Phaser.Class({
     );
   },
   wake: function(){
+    health = 2;
+    buzz = 1;
+    score = 0;
     gameState.linkWoods.stop();
     gameState.marioWoods.stop();
     gameState.trevorWoods.stop();
     gameState.mario2.play();
   },
+  onKeyInput: function(event) {
+    if (event.code === "Backspace") {
+      health = 2;
+      buzz = 1;
+      score = 0;
+      this.scene.restart('HomeboyGame');
+      this.scene.switch('LightWorld');
+    }
+  },
   create: function() {
+    this.input.keyboard.on("keydown", this.onKeyInput, this);
     gameState.linkWoods.stop();
     gameState.marioWoods.stop();
     gameState.trevorWoods.stop();

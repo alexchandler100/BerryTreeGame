@@ -132,18 +132,26 @@ this.input.on('pointerout', function (pointer, justOut) {
   }
 });
 
+let nameFontSize = '25px';
+let typeFontSize = '20px';
+let vgap1 = 30;
+let vgap2 = 20;
+let vgap3 = 40;
+let hgap1 = 70;
+let hgap2 = 140;
+
     macText = this.add.text(225, 100, `Mac`, {
-      fontSize: '35px',
+      fontSize: nameFontSize,
       fill: '#068c1b'
     });
 
-    macBodyText = this.add.text(125, 140, `Body: `, {
-      fontSize: '25px',
+    macBodyText = this.add.text(125, 100 + vgap1, `Body: `, {
+      fontSize: typeFontSize,
       fill: '#fff'
     });
 
-    macBodyEquippedText = this.add.text(125+100, 140, `${equipped["Mac"].upper}`, {
-      fontSize: '25px',
+    macBodyEquippedText = this.add.text(125+hgap1, 100 + vgap1, `${equipped["Mac"].upper}`, {
+      fontSize: typeFontSize,
       fill: '#068c1b'
     }).setDepth(1);
     macBodyEquippedText.setInteractive().on('pointerdown', function(){
@@ -161,7 +169,7 @@ this.input.on('pointerout', function (pointer, justOut) {
     //this.input.setDraggable(macBodyEquippedText);
 
     //  A drop zone for mac body text
-    var zoneMacBody = this.add.zone(125+100+75, 140+15, 170, 30).setRectangleDropZone(170, 30);
+    var zoneMacBody = this.add.zone(125+hgap1+75, 100 + vgap1 +15, 170, 30).setRectangleDropZone(170, 30);
 
     //  Just a visual display of the drop zone
     var graphicsMacBody = this.add.graphics();
@@ -169,13 +177,13 @@ this.input.on('pointerout', function (pointer, justOut) {
     graphicsMacBody.strokeRect(zoneMacBody.x - zoneMacBody.input.hitArea.width/2, zoneMacBody.y-zoneMacBody.input.hitArea.height/2, zoneMacBody.input.hitArea.width, zoneMacBody.input.hitArea.height);
     graphicsMacBody.visible=false;
 
-    macLegsText = this.add.text(125, 170, `Legs: `, {
-      fontSize: '25px',
+    macLegsText = this.add.text(125, 100 +vgap1 + vgap2, `Legs: `, {
+      fontSize: typeFontSize,
       fill: '#fff'
     });
 
-    macLegsEquippedText = this.add.text(125+100, 170, `${equipped["Mac"].lower}`, {
-      fontSize: '25px',
+    macLegsEquippedText = this.add.text(125+hgap1, 100 +vgap1 + vgap2, `${equipped["Mac"].lower}`, {
+      fontSize: typeFontSize,
       fill: '#068c1b'
     }).setDepth(1);
     macLegsEquippedText.setInteractive().on('pointerdown', function(){
@@ -193,7 +201,7 @@ this.input.on('pointerout', function (pointer, justOut) {
     //this.input.setDraggable(macLegsEquippedText);
 
     //  A drop zone for mac legs text
-    var zoneMacLegs = this.add.zone(125+100+75, 170+15, 170, 30).setRectangleDropZone(170, 30);
+    var zoneMacLegs = this.add.zone(125+hgap1+75, 100+vgap1+vgap2+15, 170, 30).setRectangleDropZone(170, 30);
 
     //  Just a visual display of the drop zone
     var graphicsMacLegs = this.add.graphics();
@@ -201,13 +209,13 @@ this.input.on('pointerout', function (pointer, justOut) {
     graphicsMacLegs.strokeRect(zoneMacLegs.x - zoneMacLegs.input.hitArea.width/2, zoneMacLegs.y-zoneMacLegs.input.hitArea.height/2, zoneMacLegs.input.hitArea.width, zoneMacLegs.input.hitArea.height);
     graphicsMacLegs.visible=false;
 
-    macAccessoryText = this.add.text(125, 200, `Accessory: `, {
-      fontSize: '25px',
+    macAccessoryText = this.add.text(125, 100 + vgap1+2*vgap2, `Accessory: `, {
+      fontSize: typeFontSize,
       fill: '#fff'
     });
 
-    macAccessoryEquippedText = this.add.text(125+170, 200, `${equipped["Mac"].accessory}`, {
-      fontSize: '25px',
+    macAccessoryEquippedText = this.add.text(125 + hgap2, 100 + vgap1+2*vgap2, `${equipped["Mac"].accessory}`, {
+      fontSize: typeFontSize,
       fill: '#fff'
     }).setDepth(1);
     macAccessoryEquippedText.setInteractive().on('pointerdown', function(){
@@ -225,7 +233,7 @@ this.input.on('pointerout', function (pointer, justOut) {
     //this.input.setDraggable(macAccessoryEquippedText);
 
     //  A drop zone for mac accessory
-    var zoneMacAccessory = this.add.zone(125+170+75, 200+15, 170, 30).setRectangleDropZone(170, 30);
+    var zoneMacAccessory = this.add.zone(125+hgap2+75, 100+vgap1+2*vgap2 + 15, 170, 30).setRectangleDropZone(170, 30);
 
     //  Just a visual display of the drop zone
     var graphicsMacAccessory = this.add.graphics();
@@ -235,18 +243,18 @@ this.input.on('pointerout', function (pointer, justOut) {
 
 
     if (al.following){
-      alText = this.add.text(225, 250, `Al`, {
-        fontSize: '35px',
+      alText = this.add.text(225, 100+vgap1 + 2*vgap2 + vgap3, `Al`, {
+        fontSize: nameFontSize,
         fill: '#cb0000'
       });
 
-      alBodyText = this.add.text(125, 300, `Body: `, {
-        fontSize: '25px',
+      alBodyText = this.add.text(125, 100 + 2*vgap1 + 2*vgap2 + vgap3, `Body: `, {
+        fontSize: typeFontSize,
         fill: '#fff'
       });
 
-      alBodyEquippedText = this.add.text(125+100, 300, `${equipped["Al"].upper}`, {
-        fontSize: '25px',
+      alBodyEquippedText = this.add.text(125+hgap1, 100 + 2*vgap1 + 2*vgap2 + vgap3, `${equipped["Al"].upper}`, {
+        fontSize: typeFontSize,
         fill: '#cb0000'
       }).setDepth(1);
       alBodyEquippedText.setInteractive().on('pointerdown', function(){
@@ -264,15 +272,15 @@ this.input.on('pointerout', function (pointer, justOut) {
       //this.input.setDraggable(alBodyEquippedText);
 
       //  A drop zone for mac body text
-      var zoneAlBody = this.add.zone(125+100+75, 300+15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneAlBody = this.add.zone(125+hgap1+75, 100 + 2*vgap1 + 2*vgap2 + vgap3+15, 170, 30).setRectangleDropZone(170, 30);
 
-      alLegsText = this.add.text(125, 330, `Legs: `, {
-        fontSize: '25px',
+      alLegsText = this.add.text(125, 100 + 2*vgap1 + 3*vgap2 + vgap3, `Legs: `, {
+        fontSize: typeFontSize,
         fill: '#fff'
       });
 
-      alLegsEquippedText = this.add.text(125+100, 330, `${equipped["Al"].lower}`, {
-        fontSize: '25px',
+      alLegsEquippedText = this.add.text(125+hgap1, 100 + 2*vgap1 + 3*vgap2 + vgap3, `${equipped["Al"].lower}`, {
+        fontSize: typeFontSize,
         fill: '#cb0000'
       }).setDepth(1);
       alLegsEquippedText.setInteractive().on('pointerdown', function(){
@@ -290,15 +298,15 @@ this.input.on('pointerout', function (pointer, justOut) {
       //this.input.setDraggable(alLegsEquippedText);
 
       //  A drop zone for mac body text
-      var zoneAlLegs = this.add.zone(125+100+75, 330+15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneAlLegs = this.add.zone(125+hgap1+75, 100 + 2*vgap1 + 3*vgap2 + vgap3+15, 170, 30).setRectangleDropZone(170, 30);
 
-      alAccessoryText = this.add.text(125, 360, `Accessory: `, {
-        fontSize: '25px',
+      alAccessoryText = this.add.text(125, 100 + 2*vgap1 + 4*vgap2 + vgap3, `Accessory: `, {
+        fontSize: typeFontSize,
         fill: '#fff'
       });
 
-      alAccessoryEquippedText = this.add.text(125+170, 360, `${equipped["Al"].accessory}`, {
-        fontSize: '25px',
+      alAccessoryEquippedText = this.add.text(125+hgap2, 100 + 2*vgap1 + 4*vgap2 + vgap3, `${equipped["Al"].accessory}`, {
+        fontSize: typeFontSize,
         fill: '#fff'
       }).setDepth(1);
       alAccessoryEquippedText.setInteractive().on('pointerdown', function(){
@@ -316,22 +324,22 @@ this.input.on('pointerout', function (pointer, justOut) {
       //this.input.setDraggable(alAccessoryEquippedText);
 
       //  A drop zone for mac body text
-      var zoneAlAccessory = this.add.zone(125+170+75, 360+15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneAlAccessory = this.add.zone(125+hgap2+75, 100 + 2*vgap1 + 4*vgap2 + vgap3 +15, 170, 30).setRectangleDropZone(170, 30);
     }
 
     if (trevor.following){
-      jimmyText = this.add.text(225, 410, `Jimmy`, {
-        fontSize: '35px',
+      jimmyText = this.add.text(225, 100 + 2*vgap1 + 4*vgap2 + 2*vgap3, `Jimmy`, {
+        fontSize: nameFontSize,
         fill: '#0f15a1'
       });
 
-      jimmyBodyText = this.add.text(125, 460, `Body: `, {
-        fontSize: '25px',
+      jimmyBodyText = this.add.text(125, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3, `Body: `, {
+        fontSize: typeFontSize,
         fill: '#fff'
       });
 
-      jimmyBodyEquippedText = this.add.text(125+100, 460, `${equipped["Jimmy"].upper}`, {
-        fontSize: '25px',
+      jimmyBodyEquippedText = this.add.text(125+hgap1, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3, `${equipped["Jimmy"].upper}`, {
+        fontSize: typeFontSize,
         fill: '#0f15a1'
       }).setDepth(1);
       jimmyBodyEquippedText.setInteractive().on('pointerdown', function(){
@@ -349,15 +357,15 @@ this.input.on('pointerout', function (pointer, justOut) {
       //this.input.setDraggable(jimmyBodyEquippedText);
 
       //  A drop zone for mac body text
-      var zoneJimmyBody = this.add.zone(125+100+75, 460+15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneJimmyBody = this.add.zone(125+hgap1+75, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
 
-      jimmyLegsText = this.add.text(125, 490, `Legs: `, {
-        fontSize: '25px',
+      jimmyLegsText = this.add.text(125, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3, `Legs: `, {
+        fontSize: typeFontSize,
         fill: '#fff'
       });
 
-      jimmyLegsEquippedText = this.add.text(125+100, 490, `${equipped["Jimmy"].lower}`, {
-        fontSize: '25px',
+      jimmyLegsEquippedText = this.add.text(125+hgap1, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3, `${equipped["Jimmy"].lower}`, {
+        fontSize: typeFontSize,
         fill: '#0f15a1'
       }).setDepth(1);
       jimmyLegsEquippedText.setInteractive().on('pointerdown', function(){
@@ -375,15 +383,15 @@ this.input.on('pointerout', function (pointer, justOut) {
       //this.input.setDraggable(jimmyLegsEquippedText);
 
       //  A drop zone for mac body text
-      var zoneJimmyLegs = this.add.zone(125+100+75, 490+15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneJimmyLegs = this.add.zone(125+hgap1+75, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
 
-      jimmyAccessoryText = this.add.text(125, 520, `Accessory: `, {
-        fontSize: '25px',
+      jimmyAccessoryText = this.add.text(125, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3, `Accessory: `, {
+        fontSize: typeFontSize,
         fill: '#fff'
       });
 
-      jimmyAccessoryEquippedText = this.add.text(125+170, 520, `${equipped["Jimmy"].accessory}`, {
-        fontSize: '25px',
+      jimmyAccessoryEquippedText = this.add.text(125+hgap2, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3, `${equipped["Jimmy"].accessory}`, {
+        fontSize: typeFontSize,
         fill: '#fff'
       }).setDepth(1);
       jimmyAccessoryEquippedText.setInteractive().on('pointerdown', function(){
@@ -401,8 +409,94 @@ this.input.on('pointerout', function (pointer, justOut) {
       //this.input.setDraggable(jimmyAccessoryEquippedText);
 
       //  A drop zone for mac body text
-      var zoneJimmyAccessory = this.add.zone(125+170+75, 520+15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneJimmyAccessory = this.add.zone(125+hgap2+75, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
     }
+
+    if (bennett.following){
+      bennettText = this.add.text(225, 100 + 3*vgap1 + 6*vgap2 + 3*vgap3, `Bennett`, {
+        fontSize: nameFontSize,
+        fill: '#fa7800'
+      });
+
+      bennettBodyText = this.add.text(125, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3, `Body: `, {
+        fontSize: typeFontSize,
+        fill: '#fff'
+      });
+
+      bennettBodyEquippedText = this.add.text(125+hgap1, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3, `${equipped["Bennett"].upper}`, {
+        fontSize: typeFontSize,
+        fill: '#fa7800'
+      }).setDepth(1);
+      bennettBodyEquippedText.setInteractive().on('pointerdown', function(){
+        if (bennettBodyEquippedText._text!==''){
+          //apply function to take status effects off from equipment
+          let statFunctionOff = equipmentList[equipped["Bennett"].upper];
+          statFunctionOff("Bennett",false);
+          //put the equipped item back in inventory
+          equipment.push(bennettBodyEquippedText._text);
+          equipped["Bennett"].upper=''
+          bennettBodyEquippedText.setText('')
+          redisplay=true
+        }
+      })
+      //this.input.setDraggable(bennettBodyEquippedText);
+
+      //  A drop zone for mac body text
+      var zoneBennettBody = this.add.zone(125+hgap1+75, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+
+      bennettLegsText = this.add.text(125, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3, `Legs: `, {
+        fontSize: typeFontSize,
+        fill: '#fff'
+      });
+
+      bennettLegsEquippedText = this.add.text(125+hgap1, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3, `${equipped["Bennett"].lower}`, {
+        fontSize: typeFontSize,
+        fill: '#fa7800'
+      }).setDepth(1);
+      bennettLegsEquippedText.setInteractive().on('pointerdown', function(){
+        if (bennettLegsEquippedText._text!==''){
+          //apply function to take status effects off from equipment
+          let statFunctionOff = equipmentList[equipped["Bennett"].lower];
+          statFunctionOff("Bennett",false);
+          //put the equipped item back in inventory
+          equipment.push(bennettLegsEquippedText._text);
+          equipped["Bennett"].lower=''
+          bennettLegsEquippedText.setText('')
+          redisplay=true
+        }
+      })
+      //this.input.setDraggable(bennettLegsEquippedText);
+
+      //  A drop zone for mac body text
+      var zoneBennettLegs = this.add.zone(125+hgap1+75, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+
+      bennettAccessoryText = this.add.text(125, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3, `Accessory: `, {
+        fontSize: typeFontSize,
+        fill: '#fff'
+      });
+
+      bennettAccessoryEquippedText = this.add.text(125+hgap2, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3, `${equipped["Bennett"].accessory}`, {
+        fontSize: typeFontSize,
+        fill: '#fff'
+      }).setDepth(1);
+      bennettAccessoryEquippedText.setInteractive().on('pointerdown', function(){
+        if (bennettAccessoryEquippedText._text!==''){
+          //apply function to take status effects off from equipment
+          let statFunctionOff = equipmentList[equipped["Bennett"].accessory];
+          statFunctionOff("Bennett",false);
+          //put the equipped item back in inventory
+          equipment.push(bennettAccessoryEquippedText._text);
+          equipped["Bennett"].accessory=''
+          bennettAccessoryEquippedText.setText('')
+          redisplay=true
+        }
+      })
+      //this.input.setDraggable(bennettAccessoryEquippedText);
+
+      //  A drop zone for mac body text
+      var zoneBennettAccessory = this.add.zone(125+hgap2+75, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+    }
+
 
     this.input.on('drop', function (pointer, gameObject, dropZone) {
       if (dropZone===zoneMacBody && equipmentTypes[gameObject._text]==="Mac_upper"){
@@ -563,6 +657,68 @@ this.input.on('pointerout', function (pointer, justOut) {
         gameObject.destroy();
         let statFunctionOn = equipmentList[equipped["Jimmy"].accessory];
         statFunctionOn("Jimmy",true);
+      } else if (dropZone===zoneBennettBody && equipmentTypes[gameObject._text]==="Bennett_upper"){
+        //apply function to take status effects off from equipment
+        if (equipmentList[equipped["Bennett"].upper]){
+          let statFunctionOff = equipmentList[equipped["Bennett"].upper];
+          statFunctionOff("Bennett",false);
+          //put the equipped item back in inventory
+          equipment.push(bennettBodyEquippedText._text);
+        }
+        //equip the new item
+        equipped['Bennett'].upper = gameObject._text;
+        bennettBodyEquippedText.setText(gameObject._text);
+        //get rid of the unneeded text object and remove the newly equipped item from inventory
+        const index = equipment.indexOf(gameObject._text);
+        if (index > -1) {
+          equipment.splice(index, 1);
+        }
+        gameObject.destroy();
+        //apply the status effects of new equipment item
+        let statFunctionOn = equipmentList[equipped["Bennett"].upper];
+        statFunctionOn("Bennett",true);
+      }
+      else if (dropZone===zoneBennettLegs && equipmentTypes[gameObject._text]==="Bennett_lower"){
+        if (equipmentList[equipped["Bennett"].lower]){
+          //apply function to take status effects off from equipment
+          let statFunctionOff = equipmentList[equipped["Bennett"].lower];
+          statFunctionOff("Bennett",false);
+          //put the equipped item back in inventory
+          equipment.push(bennettLegsEquippedText._text);
+        }
+        //equip the new item
+        equipped['Bennett'].lower = gameObject._text;
+        bennettLegsEquippedText.setText(gameObject._text);
+        //get rid of the unneeded text object and remove the newly equipped item from inventory
+        const index = equipment.indexOf(gameObject._text);
+        if (index > -1) {
+          equipment.splice(index, 1);
+        }
+        gameObject.destroy();
+        //apply the status effects of new equipment item
+        let statFunctionOn = equipmentList[equipped["Bennett"].lower];
+        statFunctionOn("Bennett",true);
+      }
+      else if (dropZone===zoneBennettAccessory && equipmentTypes[gameObject._text]==="accessory"){
+        //apply function to take status effects off from equipment
+        if (equipped["Bennett"].accessory){
+          let statFunctionOff = equipmentList[equipped["Bennett"].accessory];
+          statFunctionOff("Bennett",false);
+          //put the equipped item back in inventory
+          equipment.push(bennettAccessoryEquippedText._text);
+        }
+        //equip the new item
+        equipped['Bennett'].accessory = gameObject._text;
+        bennettAccessoryEquippedText.setText(gameObject._text);
+        //get rid of the unneeded text object and remove the newly equipped item from inventory
+        const index = equipment.indexOf(gameObject._text);
+        if (index > -1) {
+          equipment.splice(index, 1);
+        }
+        gameObject.destroy();
+        //apply the status effects of new equipment item
+        let statFunctionOn = equipmentList[equipped["Bennett"].accessory];
+        statFunctionOn("Bennett",true);
       }
       else {
         gameObject.destroy()

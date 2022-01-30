@@ -135,6 +135,12 @@ var PauseMenu = new Phaser.Class({
         fill: '#fff'
       });
 
+      if (bennett.following)
+        jimmyHpText = this.add.text(175, 340, `Bennett HP: ${hpObject['Bennett']}/${maxHPObject['Bennett']} \nBennett SP: ${spObject['Bennett']}/${maxSPObject['Bennett']} \nBennett EXP: ${expObject['Bennett']}/${100*3**(levelObject['Bennett']-1)} \nBennett LVL: ${levelObject['Bennett']} \nBennett DMG: ${damageObject['Bennett']} \nBennett DEF: ${defenseObject['Bennett']}`, {
+          fontSize: '25px',
+          fill: '#fff'
+        });
+
       this.input.keyboard.on("keydown", this.onKeyInput, this);
 
       gameState1.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object

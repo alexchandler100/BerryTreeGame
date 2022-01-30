@@ -311,7 +311,7 @@ var Unit = new Phaser.Class({
     this.menuItem = item;
   },
   // attack the target unit
-  attack: function(target) {
+  attack: function(target, strength = 1) {
     gameStateBattle.rnd = Math.floor(Math.random() * 10);
     if (defendOn[this.type]) {
       defendOn[this.type] = false
@@ -346,7 +346,7 @@ var Unit = new Phaser.Class({
       dd = this.damage + extra_damage;
     }
     if (target.living) {
-      let d = Math.max(0, dd);
+      let d = Math.max(0, dd)*strength;
       if (blindObject[this.type]) {
         d = Math.floor(d / 2)
       }
@@ -1185,7 +1185,7 @@ var BattleScene = new Phaser.Class({
       gameStateBattle.enem5 = new Enemy(this, 200 - 450, 325, enems[2][0], null, enems[2][1], enems[2][2] + 3 * (levelObject['Mac'] - 1), enems[2][3] + enems[2][3] / 3 * (levelObject['Mac'] - 1));
       this.add.existing(gameStateBattle.enem5);
     } else if (bossBattle && bossType === 'frank') {
-      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 250, 'fratboy5', null, 'Frank', 1000, 35);
+      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 300, 'fratboy5', null, 'Frank', 1000, 35);
       this.add.existing(gameStateBattle.enem1);
     } else {
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)
@@ -1864,7 +1864,7 @@ var BattleScene = new Phaser.Class({
           window.setTimeout(() => {
             gameState.punchSound.play()
             gameStateBattle.me.setDepth(this.aliveEnemies[target].y + (-1)**(i+1))
-            this.units[this.index].attack(this.aliveEnemies[i % this.aliveEnemies.length])
+            this.units[this.index].attack(this.aliveEnemies[i % this.aliveEnemies.length], .5)
             gameStateBattle.me.x = this.aliveEnemies[i % this.aliveEnemies.length].x + 80;
             gameStateBattle.me.y = this.aliveEnemies[i % this.aliveEnemies.length].y;
           }, 450 * i);

@@ -589,7 +589,7 @@ var MyApartment = new Phaser.Class({
     trevorApt.body.setOffset(60, 140);
     trevorApt.setDepth(trevorApt.y)
 
-    stripperApt = new NPC(this, "stripper apt spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "bong", false);
+    stripperApt = new NPC(this, "stripper apt spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown",  "stripperidle", "bong", false, 250, 125, 4000);
     //stripperApt = this.physics.add.sprite(gameStateApt.stripperAptSpawnPoint.x, gameStateApt.stripperAptSpawnPoint.y, 'stripper');
     stripperApt.setScale(.5)
     if (stripper.following) {

@@ -18,6 +18,7 @@ var ItemsMenu = new Phaser.Class({
     this.load.image('macFace', "assets/MacFace.png");
     this.load.image('alFace', "assets/AlFace.png");
     this.load.image('jimmyFace', "assets/JimmyFace.png");
+    this.load.image('bennettFace', "assets/BennettFace.png");
   },
   create: function() {
     function onlyUnique(value, index, self) {
@@ -76,6 +77,7 @@ var ItemsMenu = new Phaser.Class({
     let macsFaceX = 580;
     let alsFaceX = macsFaceX + faceSeparation;
     let trevorsFaceX = alsFaceX + faceSeparation;
+    let bennettsFaceX = macsFaceX;
 
 
     var macsFace = this.add.image(macsFaceX,faceY, 'macFace').setOrigin(0,0).setDepth(1);
@@ -109,6 +111,17 @@ var ItemsMenu = new Phaser.Class({
             this.trevorBackground.isStroked = true;
             this.trevorBackground.isFilled = true;
     }
+    if (bennett.following){
+      var bennettsFace = this.add.image(bennettsFaceX,faceY + 200, 'bennettFace').setOrigin(0,0).setDepth(1);
+            this.bennettBackground = this.add.rectangle(bennettsFaceX-25, faceY + 200 -25, bennettsFace.width + 50, bennettsFace.height + 25, 0x000, 0).setOrigin(0,0);
+            this.bennettBackground.strokeColor = 0xffffff;
+            this.bennettBackground.fillColor = 0xfa7800;
+            this.bennettBackground.fillAlpha = .4;
+            this.bennettBackground.strokeWeight = 2;
+            this.bennettBackground.strokeAlpha = 1;
+            this.bennettBackground.isStroked = true;
+            this.bennettBackground.isFilled = true;
+    }
 
     gameState2.macText = this.add.text(macsFaceX+7, textY, '', {
       fontSize: '15px',
@@ -122,6 +135,10 @@ var ItemsMenu = new Phaser.Class({
       fontSize: '15px',
       fill: '#fff'
     });
+    gameState2.bennettText = this.add.text(bennettsFaceX+7, textY + 200, '', {
+      fontSize: '15px',
+      fill: '#fff'
+    });
     gameState2.macText.setText(`HP: ${hpObject["Mac"]}/${maxHPObject["Mac"]} \nSP: ${spObject["Mac"]}/${maxSPObject["Mac"]}`)
 if (al.following){
   gameState2.alText.setText(`HP: ${hpObject["Al"]}/${maxHPObject["Al"]} \nSP: ${spObject["Al"]}/${maxSPObject["Al"]}`)
@@ -129,14 +146,19 @@ if (al.following){
 if (trevor.following){
   gameState2.jimmyText.setText(`HP: ${hpObject["Jimmy"]}/${maxHPObject["Jimmy"]} \nSP: ${spObject["Jimmy"]}/${maxSPObject["Jimmy"]}`)
 }
+if (bennett.following){
+  gameState2.bennettText.setText(`HP: ${hpObject["Bennett"]}/${maxHPObject["Bennett"]} \nSP: ${spObject["Bennett"]}/${maxSPObject["Bennett"]}`)
+}
 
     //  A drop zone for mac face
     var zoneMac = this.add.zone(550+75, 150+75, 150, 150).setRectangleDropZone(150, 150);
     var zoneAl = this.add.zone(725+75, 150+75, 150, 150).setRectangleDropZone(150, 150);
     var zoneJimmy = this.add.zone(900+75, 150+75, 150, 150).setRectangleDropZone(150, 150);
+    var zoneBennett = this.add.zone(550+75, 150 + 200 +75, 150, 150).setRectangleDropZone(150, 150);
     zoneMac.name="Mac"
     zoneAl.name="Al"
     zoneJimmy.name="Jimmy"
+    zoneBennett.name="Bennett"
 
     menuText = this.add.text(500, 60, "Items", {
       fontSize: '30px',
@@ -178,7 +200,7 @@ if (trevor.following){
   gameState2.tempText.setDepth(3)
 
   this.input.on('pointerover', function (pointer, justOver) {
-    if (justOver[0].name && justOver[0].name!=="Mac" && justOver[0].name!=="Al" && justOver[0].name!=="Jimmy"){
+    if (justOver[0].name && justOver[0].name!=="Mac" && justOver[0].name!=="Al" && justOver[0].name!=="Jimmy" && justOver[0].name!=="Bennett"){
       gameState2.tempBackground.x=pointer.x+150;
       gameState2.tempBackground.y=pointer.y-15;
       gameState2.tempBackground.visible=true;
@@ -227,6 +249,9 @@ gameState2.keyObjZ.on('down', function() {
       }
       if (trevor.following){
         gameState2.jimmyText.setText(`HP: ${hpObject["Jimmy"]}/${maxHPObject["Jimmy"]} \nSP: ${spObject["Jimmy"]}/${maxSPObject["Jimmy"]}`)
+      }
+      if (bennett.following){
+        gameState2.bennettText.setText(`HP: ${hpObject["Bennett"]}/${maxHPObject["Bennett"]} \nSP: ${spObject["Bennett"]}/${maxSPObject["Bennett"]}`)
       }
       for (a_item of Object.keys(usable_items)) {
         if (gameState2.newItem[a_item])

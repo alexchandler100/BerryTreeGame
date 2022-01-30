@@ -78,6 +78,7 @@ var NPC = new Phaser.Class({
     this.stuckTimerStart = false;
     this.stuckTimerOngoing = false;
     this.changeDirection = false;
+    this.idleRadius = 130;
     this.setInteractive().on('pointerup', function() {
       if (this.following === false && this.joinParameter) {
         this.following = true;
@@ -98,28 +99,57 @@ var NPC = new Phaser.Class({
     }
     */
   },
+  animate: function(thresh = 10) {
+    this.setDepth(this.y)
+    if (distance(this.body,me) > this.idleRadius || !this.following){
+      if (this.body.velocity.x > thresh) {
+        this.anims.play(this.right, true);
+      } else if (this.body.velocity.x < -1 * thresh) {
+        this.anims.play(this.left, true);
+      }
+      if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y > thresh) {
+        this.anims.play(this.down, true)
+      } else if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y < -1 * thresh) {
+        this.anims.play(this.up, true)
+      }
+    } else if (distance(this.body,me) < this.idleRadius - 20 && this.following){
+      this.anims.play(this.idle, true);
+    }
+  },
   // to follow player and join party
   follow: function(player, strength = 1) {
     if (this.following && !this.stuck && inPool === false) {
-      if (distance(this.body, player) > 400) { //appears near you if following and too far away
+      if (distance(this.body, player) > 600 && playerTexture === 0) { //appears near you if following and too far away
         let xx = (Math.random()-.5)*60;
         let yy = (Math.random()-.5)*60;
         this.disableBody(true, true);
-        this.enableBody(true, me.x+xx, me.y+yy, true, true);
-      } else if (distance(this.body, player) > 200) { // if you are running away they follow you and change frame rate depending on their speed
+        this.enableBody(true, player.x+xx, player.y+yy, true, true);
+      } else if (distance(this.body, player) > this.idleRadius) { // if you are running away they follow you and change frame rate depending on their speed
         if (spriteSpeed(this)<200){
           this.anims.msPerFrame = this.slowFollowRate;
         } else if (spriteSpeed(this)>200){
           this.anims.msPerFrame = this.fastFollowRate;
         }
-        this.body.velocity.x = Math.sign(player.x - this.body.x)*(player.x - this.body.x)**2/300 * strength
-        this.body.velocity.y = Math.sign(player.y - this.body.y)*(player.y - this.body.y)**2/300 * strength
-      } else if (distance(this.body, player) < 100 && (this.type==="Trevor" ||this.type==="Jean Claude" || this.type==="James" || this.type==="Stripper")) {
-        this.body.setVelocity(0,0);
+        this.body.velocity.x = Math.sign(player.x - this.body.x)*(player.x - this.body.x)**2/500 * strength
+        this.body.velocity.y = Math.sign(player.y - this.body.y)*(player.y - this.body.y)**2/500 * strength
+      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type==="Jimmy"|| this.type==="James")) {
+        if (overworldClock%60 === 0){
+            this.body.setVelocity(0,0);
+        }
         this.randomWalk(2);
         this.anims.msPerFrame = this.idleFollowRate;
-      } else if (distance(this.body, player) < 100 && ( this.type==="Bennett" || this.type==="Al")) {
+      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type==="Jean Claude")) {
+        if (spriteSpeed(player) <50 && this.body.x>player.x && this.body.x<player.x+15){
+          this.x = player.x+15
+        } else if (spriteSpeed(player) <50 && this.body.x<player.x && this.body.x>player.x-15){
+          this.x = player.x-15
+        }
+        this.body.setVelocityX((player.x - this.body.x) * strength)
+        this.body.setVelocityY((player.y - this.body.y) * strength)
+        this.anims.msPerFrame = this.idleFollowRate;
+      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type==="Bennett" || this.type==="Al" || this.type==="Stripper")) {
         this.body.setVelocity(0,0);
+        this.anims.msPerFrame = this.idleFollowRate;
       }
     } else if (this.following && !this.stuck && inPool) {
       this.body.velocity.x = (beachball.x - this.body.x) * 2
@@ -224,23 +254,7 @@ var NPC = new Phaser.Class({
     }
 
   },
-  animate: function(thresh = 10) {
-    this.setDepth(this.y)
-    if (distance(this.body,me)>200 || !this.following){
-      if (this.body.velocity.x > thresh) {
-        this.anims.play(this.right, true);
-      } else if (this.body.velocity.x < -1 * thresh) {
-        this.anims.play(this.left, true);
-      }
-      if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y > thresh) {
-        this.anims.play(this.down, true)
-      } else if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y < -1 * thresh) {
-        this.anims.play(this.up, true)
-      }
-    } else if (distance(this.body,me)<100 && this.following){
-      this.anims.play(this.idle, true);
-    }
-  },
+
 });
 
 var Car = new Phaser.Class({
@@ -413,6 +427,7 @@ var LightWorld = new Phaser.Class({
     if (stripperBanged) { //after you bang, she stops following
       stripper.following = false;
       stripper.joinParameter = false;
+      stripper.position = 9
       stripper.x = stripperPath[9].x - 2;
       stripper.y = stripperPath[9].y;
       jeanClaude.x = stripper.x;
@@ -1374,10 +1389,9 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
-      key: 'jeanright',
+      key: 'jeanidle',
       frames: this.anims.generateFrameNumbers('jeanClaude', {
-        start: 4,
-        end: 6
+        frames: [0,4,5,6,7,6,7,6,7,6,7,6,7,6,7,6,5,4]
       }),
       frameRate: 10,
       repeat: -1
@@ -1408,6 +1422,15 @@ var LightWorld = new Phaser.Class({
       frames: this.anims.generateFrameNumbers('stripper', {
         start: 6,
         end: 9
+      }),
+      frameRate: 5,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'stripperidle',
+      frames: this.anims.generateFrameNumbers('stripper', {
+        frames: [0,5,10]
       }),
       frameRate: 5,
       repeat: -1
@@ -2144,7 +2167,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'rightswim',
       frames: this.anims.generateFrameNumbers('me', {
-        frames: [32,33,34]
+        frames: [32,33,33]
       }),
       frameRate: 3,
       repeat: -1
@@ -2238,7 +2261,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'alidle',
       frames: this.anims.generateFrameNumbers('al', {
-        frames: [9,0,9,0,9,0,5,5,5]
+        frames: [9,9,9,0,0,0,9,9,9,0,0,0,9,9,9,0,0,0,10,11,12,13,14,15,5,5,5,5,5,5]
       }),
       frameRate: 2,
       repeat: -1
@@ -2326,8 +2349,8 @@ var LightWorld = new Phaser.Class({
     const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
 
     //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, idle, dialogue)
-    bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennettidle", "bennett_run", potentialParty["Bennett"], 250, 125, 3000);
-    al = new NPC(this, "alPath0", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "alidle", "holdon", potentialParty["Al"], 250, 125, 2000);
+    bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennettidle", "bennett_run", potentialParty["Bennett"], 250, 125, 5000);
+    al = new NPC(this, "alPath0", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "alidle", "holdon", potentialParty["Al"], 250, 125, 250);
     joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "joeright" , "punch", false, 250, 125, 1000);
     joe.body.setCircle(30);
     joe.body.setOffset(45, 55);
@@ -2345,10 +2368,10 @@ var LightWorld = new Phaser.Class({
     trevor.body.setOffset(60, 180);
     hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false, 250, 125, 1000);
     hausdorf.setDepth(hausdorf.y)
-    stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "stripperdown", "bong", false, 250, 125, 1000);
+    stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "stripperidle", "bong", false, 250, 125, 4000);
     stripper.body.setCircle(30);
     stripper.body.setOffset(25, 25);
-    jeanClaude = new NPC(this, "jeanPath0", "jeanClaude", 0, "JeanClaude", "jeanleft", "jeanright", "jeanleft", "jeanright", "jeanright", "bong", false, 250, 125, 1000);
+    jeanClaude = new NPC(this, "jeanPath0", "jeanClaude", 0, "Jean Claude", "jeanleft", "jeanleft", "jeanleft", "jeanleft", "jeanidle", "bong", false, 250, 125, 1000/6);
     jeanClaude.body.setCircle(30);
     jeanClaude.body.setOffset(25, 25);
 
@@ -3039,7 +3062,9 @@ var LightWorld = new Phaser.Class({
         this.kickflipTimerRunning = true;
         //console.log(this.kickflipTimer)
       } else if (playerTexture === 0 && skateboardGet) {
-        playerTexture = 'board'
+        playerTexture = 'board';
+        me.setVelocity(0,0);
+        jamesToggleFollow = true;
       }
     }, this);
 
@@ -3128,7 +3153,7 @@ var LightWorld = new Phaser.Class({
       var yy = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // creates a spawn zone at x,y. parameters are x, y, width, height
       var zonePoint = {x:xx, y:yy};
-      if (distance(zonePoint,gameState.PlayerSpawnPoint)>100){
+      if (distance(zonePoint,gameState.PlayerSpawnPoint)>400){
         spawns.create(xx, yy, 20, 20);
       }
     }
@@ -3267,37 +3292,9 @@ var LightWorld = new Phaser.Class({
     }
     //global time
     overworldClock += 1;
-    if (overworldClock %60===0){
-      console.log(spriteSpeed(me))
-    }
-    //console.log(trevor.body.blocked.up || trevor.body.blocked.down || trevor.body.blocked.right || trevor.body.blocked.left)
-    /*
-    if (overworldClock%60===0){
-      if (trevor.body.blocked.up){
-        console.log(`trevor blocked up`)
-      } else if (trevor.body.blocked.right){
-        console.log(`trevor blocked right`)
-      } else if (trevor.body.blocked.down){
-        console.log(`trevor blocked down`)
-      } else if (trevor.body.blocked.left){
-        console.log(`trevor blocked left`)
-      }
-    }
-    */
 
     if (!pause && chasersEnabled) {
-      if (chaserClock % 60 === 0) {
-        //console.log(`Chaser Clock: ${chaserClock/60}`)
-      }
       chaserClock += 1
-    }
-    if (chaserClock === 60 * 7) {
-      //console.log(`run away`)
-      //runaway = true;
-    } else if (chaserClock === 60 * 14) {
-      //console.log(`disappear`)
-      //chasersEnabled = false;
-      //runaway = false;
     }
     //fratboys ai
     fratboys.children.iterate(function(child) {
@@ -3404,7 +3401,6 @@ var LightWorld = new Phaser.Class({
     if (stamina <= 30 && playingOutOfBreath === false) {
       gameState.outOfBreath.play()
       playingOutOfBreath = true
-      //console.log(`playing out of breath sound`)
     } else if (stamina >= 30 && playingOutOfBreath === true) {
       gameState.outOfBreath.stop()
       playingOutOfBreath = false
@@ -3803,12 +3799,16 @@ var LightWorld = new Phaser.Class({
       trevor.following = true;
       al.following = true;
       bennett.following = true;
+      jeanClaude.following = true;
+      stripper.following = true;
+      /*
       trevor.x = me.x + 30;
       trevor.y = me.y + 30;
       al.x = me.x + 30;
       al.y = me.y + 30;
       bennett.x = me.x + 30;
       bennett.y = me.y + 30;
+      */
       potentialParty["Jimmy"] = true;
       potentialParty["Al"] = true;
       potentialParty["Bennett"] = true;
@@ -3977,6 +3977,12 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for jeanClaude
+    if (jeanClaude.body.velocity.x > 1) {
+      jeanClaude.flipX = true;
+    }
+    if (jeanClaude.body.velocity.x < -1) {
+      jeanClaude.flipX = false;
+    }
     if (!jeanClaude.following) {
       //jeanClaude.getUnstuck()
       //seemed to just be getting her stuck strangely enough...
@@ -3998,7 +4004,7 @@ var LightWorld = new Phaser.Class({
       activeQuests["Jean Claude"] = "Ok so I got him to follow me... I wonder who he belongs to. Maybe I can find his owner."
       jeanClaudeFirstTalk = 3;
     } else if (jeanClaude.following && jeanClaudeFirstTalk === 3) {
-      jeanClaude.follow(me, .5);
+      jeanClaude.follow(me, .8);
       jeanClaude.animate(2);
     }
     if (jeanClaude.following && distance(jeanClaude, stripper) < 100 && distance(me, stripper) < 30 && jeanClaudeFirstTalk === 3) {
@@ -4010,7 +4016,7 @@ var LightWorld = new Phaser.Class({
       completeQuest("Jean Claude?")
       stripper.joinParameter = true;
     } else if (jeanClaudeFirstTalk === 5) {
-      jeanClaude.follow(stripper, .5);
+      jeanClaude.follow(stripper, .8);
       jeanClaude.animate(2);
     }
 
@@ -4043,7 +4049,7 @@ var LightWorld = new Phaser.Class({
         stripperFirstTalk = 2
       }
     } else if (stripper.following) {
-      stripper.follow(me, .55);
+      stripper.follow(me, .9);
       stripper.animate(5)
       if (stripper.body.velocity.x > 3) {
         stripper.flipX = true;
@@ -4053,7 +4059,7 @@ var LightWorld = new Phaser.Class({
     }
     if (stripperBanged) { //after you bang, she stops following
       followPath(stripper, stripperPath)
-      jeanClaude.follow(stripper, .5)
+      jeanClaude.follow(stripper, .8)
     }
 
 
@@ -4196,7 +4202,7 @@ var LightWorld = new Phaser.Class({
       activeQuests["Gotta Find My Car"] = "I found my keys in the woods, but now I don't know where my damn car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
       window.setTimeout(() => {
         this.openDialoguePage(6)
-      }, 3000);
+      }, 2000);
     }
 
     //dialogue for getting car first time
@@ -4257,11 +4263,20 @@ var LightWorld = new Phaser.Class({
     james.follow(me, .6)
     james.animate(40);
     //james.getUnstuck();
-    if (playerTexture!='board' || this.skateboard){
-      followPath(james, jamesPath, 125)
-    } else {
+
+    if (playerTexture==='board' && jamesToggleFollow){
       james.joinParameter = true;
       james.following = true;
+      jamesToggleFollow = false
+    } else if (playerTexture!=='board' && jamesToggleFollow) {
+      james.following = false;
+      jamesToggleFollow = false;
+      james.disableBody(true, true)
+      james.enableBody(true, jamesPath[james.position].x+5, jamesPath[james.position].y+5, true, true);
+    }
+
+    if (playerTexture !== 'board'){
+      followPath(james, jamesPath, 125)
     }
 
 
@@ -4778,7 +4793,6 @@ var LightWorld = new Phaser.Class({
       }
       if (me.body.velocity.x === 0 && me.body.velocity.y === 0) {
         me.anims.play('turn', true)
-        me.flipX = false;
       }
     }
     // for when you get in pool
@@ -4817,6 +4831,7 @@ var LightWorld = new Phaser.Class({
       speed = 4;
     }
     if (playerTexture === 'board' && startSkateboardScene){
+      jamesToggleFollow = true;
       stamina = 100;
       this.DialogueMenu.kickflipRotationDisplay.angle = 0;
       this.kickflipTimer = 0;
@@ -4830,16 +4845,6 @@ var LightWorld = new Phaser.Class({
       me.y = jeanPath[25].y;
       james.x = jeanPath[25].x+64;
       james.y = jeanPath[25].y;
-      if (trevor.following){
-        trevor.x = jeanPath[25].x+35;
-        trevor.y = jeanPath[25].y+30;
-      } if (al.following){
-        al.x = jeanPath[25].x+45;
-        al.y = jeanPath[25].y-30;
-      } if (bennett.following){
-        bennett.x = jeanPath[25].x+15;
-        bennett.y = jeanPath[25].y-15;
-      }
       me.body.setVelocity(0,0);
     }
     if (!skateboardGet && playerTexture === 'board' && !(me.y>gameState.westburchamroadTL.y - 50 &&  me.y<gameState.eastburchamroadBR.y+50 && me.x>gameState.westburchamroadTL.x - 50 && me.x< gameState.eastburchamroadBR.x + 50)){
@@ -4856,9 +4861,10 @@ var LightWorld = new Phaser.Class({
     }
     if (playerTexture === 'board' && stamina<=10 && !skateboardGet){
       playerTexture = 0;
-      this.DialogueMenu.kickflipRotationDisplay.angle = 0;
+      jamesToggleFollow = true;
       this.DialogueMenu.kickflipRotationDisplay.visible = false;
       kickflipScoreDisplayed = false;
+      this.DialogueMenu.kickflipRotationDisplay.angle = 0;
       this.openDialoguePage(46)
       james.x = jamesPath[0].x;
       james.y = jamesPath[0].y;
@@ -4868,7 +4874,6 @@ var LightWorld = new Phaser.Class({
     if (playerTexture === 'board' && !pause) {
       if (me.body.blocked.right || me.body.blocked.left || me.body.blocked.down || me.body.blocked.up){
         stamina -= 5;
-        //console.log(`stamina: ${stamina}`)
         me.anims.play('meDeadSkateboard', true);
         this.kickflipCounter=0;
         kickflipScoreDisplayed = false;
@@ -4876,6 +4881,10 @@ var LightWorld = new Phaser.Class({
         gameState.skateboard.stop()
         if (skateboardGet){
           playerTexture = 0;
+          jamesToggleFollow = true;
+          this.DialogueMenu.kickflipRotationDisplay.visible = false;
+          kickflipScoreDisplayed = false;
+          this.DialogueMenu.kickflipRotationDisplay.angle = 0;
         }
         me.setVelocity(0,0);
         pause = true;
@@ -4919,8 +4928,7 @@ var LightWorld = new Phaser.Class({
       }
       if (this.kickflipCounter===20 && brothersSealForSkateboarding === 0){
         this.openDialoguePage(455);
-        items.push("Brothers Seal")
-        brothersSeal = 1
+        items.push("Brothers Seal (board)")
         brothersSealForSkateboarding = 1
         this.ollie = false;
       }
@@ -4958,14 +4966,12 @@ var LightWorld = new Phaser.Class({
         }
         if (this.ollieTimer === 1){
           gameState.ollie_takeoff.play();
-          //console.log(`playing ollie_takeoff`)
         }
         if (this.ollieTimer > 70) {
           this.ollie = false;
           this.ollieTimer = 0;
           gameState.ollie_land.play();
           me.anims.play('board_right', true);
-          //console.log(`playing ollie_land`)
         }
         if (this.cursors.left.isDown && !this.kickflip) {
           me.anims.play('ollie_right', true);
@@ -4989,9 +4995,6 @@ var LightWorld = new Phaser.Class({
             //this.DialogueMenu.kickflipRotationDisplay.visible = false;
             this.DialogueMenu.kickflipRotationDisplay.angle = 0;
           }, 500)
-          //console.log(this.ollieTimer - this.kickflipTimer);
-          //console.log(`ollie: ${this.ollieTimer}`);
-          //console.log(`kickflip: ${this.kickflipTimer}`);
           if (Math.abs(this.ollieTimer - this.kickflipTimer-10) < 2) {
             this.ollie = false;
             this.kickflip = false;
@@ -5019,9 +5022,12 @@ var LightWorld = new Phaser.Class({
             kickflipScoreDisplayed = false;
             if (skateboardGet){
               playerTexture = 0;
+              jamesToggleFollow = true;
+              this.DialogueMenu.kickflipRotationDisplay.visible = false;
+              kickflipScoreDisplayed = false;
+              this.DialogueMenu.kickflipRotationDisplay.angle = 0;
             }
             me.anims.play('meDeadSkateboard', true);
-            //console.log(`stamina: ${stamina}`)
             gameState.crashBoard.play()
             me.setVelocity(0,0);
             pause = true;
