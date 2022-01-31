@@ -496,6 +496,19 @@ var Unit = new Phaser.Class({
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
         }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_drink_gatorade', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === "Bennett") {
+        gameStateBattle.bennett.anims.play('bennett_drink_gatorade', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
+        }, 2999);
       }
       gameState.drinkGatorade.play()
       this.scene.events.emit("Message", this.type + " drinks a gatorade to recover 60 HP");
@@ -531,6 +544,19 @@ var Unit = new Phaser.Class({
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
         }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_drink_monster', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === "Bennett") {
+        gameStateBattle.bennett.anims.play('bennett_drink_monster', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
+        }, 2999);
       }
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a monster to recover 10 SP");
@@ -538,8 +564,8 @@ var Unit = new Phaser.Class({
       monster -= 1
       usable_items["Monster"] -= 1;
       spObject[this.type] += 10
-      bleedingObject[player]=0;
-      blindObject[player]=0;
+      bleedingObject[this.type]=0;
+      blindObject[this.type]=0;
       if (spObject[this.type] >= maxSPObject[this.type]) {
         spObject[this.type] = maxSPObject[this.type]
       }
@@ -655,6 +681,19 @@ var Unit = new Phaser.Class({
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
         }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_drink_hamms', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === "Bennett") {
+        gameStateBattle.bennett.anims.play('bennett_drink_hamms', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
+        }, 2999);
       }
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a hamms to recover 20 HP and 5 SP");
@@ -706,6 +745,9 @@ var Unit = new Phaser.Class({
       } else if (this.type==="Jimmy"){
         gameStateBattle.trevor.anims.play('trevorDead',true)
         gameStateBattle.trevor.flipX = false;
+      } else if (this.type==="Bennett"){
+        gameStateBattle.bennett.anims.play('bennettDead',true)
+        gameStateBattle.bennett.flipX = false;
       } else if (this.type==="Cam" || this.type==="Dylan" || this.type==="Chad" ||this.type==="Jackson" ||this.type==="Derek" ||this.type==="Bill" || this.type==="Melvin" ){
         this.runaway = true
       }
@@ -1609,7 +1651,7 @@ var BattleScene = new Phaser.Class({
       }
       this.units[this.index].gatorade()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == "Andy Capp's Hot Fries") {
-      if (gatorade === 0) {
+      if (andycapps === 0) {
         this.index--
       }
       this.units[this.index].andyCapps()
@@ -1640,7 +1682,7 @@ var BattleScene = new Phaser.Class({
       this.units[this.index].liquor()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Attack') {
       //attack animations
-        this.units[this.index].attack(this.aliveEnemies[target]);
+      this.units[this.index].attack(this.aliveEnemies[target]);
       settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
       window.setTimeout(() => {
         settingDepth = false;

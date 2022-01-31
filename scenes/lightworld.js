@@ -1766,6 +1766,34 @@ var LightWorld = new Phaser.Class({
       frameRate: 3,
       repeat: -1
     });
+
+    this.anims.create({
+      key: 'bennett_drink_monster',
+      frames: this.anims.generateFrameNumbers('bennettattack', {
+        frames: [7,8]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'bennett_drink_hamms',
+      frames: this.anims.generateFrameNumbers('bennettattack', {
+        frames: [7,9]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'bennett_drink_gatorade',
+      frames: this.anims.generateFrameNumbers('bennettattack', {
+        frames: [7,10]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
     this.anims.create({
       key: 'bennettidle',
       frames: this.anims.generateFrameNumbers('bennett', {
@@ -1780,6 +1808,14 @@ var LightWorld = new Phaser.Class({
         frames: [2]
       }),
       frameRate: 5,
+      repeat: 0
+    });
+    this.anims.create({
+      key: 'bennettdead',
+      frames: this.anims.generateFrameNumbers('bennettattack', {
+        frames: [5]
+      }),
+      frameRate: 1,
       repeat: 0
     });
     this.anims.create({
@@ -2235,6 +2271,33 @@ var LightWorld = new Phaser.Class({
         end: 2
       }),
       frameRate: 3,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'al_drink_hamms',
+      frames: this.anims.generateFrameNumbers('al', {
+        frames: [16,18]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'al_drink_monster',
+      frames: this.anims.generateFrameNumbers('al', {
+        frames: [16,17]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'al_drink_gatorade',
+      frames: this.anims.generateFrameNumbers('al', {
+        frames: [16,19]
+      }),
+      frameRate: 2,
       repeat: -1
     });
 

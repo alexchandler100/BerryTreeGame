@@ -2675,6 +2675,24 @@ var DialogueMenu = new Phaser.Class({
           damageObject['Jimmy'] += 5
           hpObject['Jimmy'] = maxHPObject['Jimmy'];
           spObject['Jimmy'] = maxSPObject['Jimmy']
+        } else if (expObject['Bennett'] >= 100 * 3 ** (i - 1) && levelObject['Bennett'] === i) {
+          levelObject['Bennett'] += 1;
+          this.initializePage(this)
+          let page = {
+            character: 'god',
+            page: 502,
+            narrative: `Good shit man, Bennett has progressed to level ${levelObject['Bennett']}. Bennett's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            options: [{
+              option: 'sweet',
+              nextPage: 602,
+            }, ]
+          }
+          this.displayPage(this, page)
+          maxHPObject['Bennett'] += 15;
+          maxSPObject['Bennett'] += 5;
+          damageObject['Bennett'] += 5
+          hpObject['Bennett'] = maxHPObject['Bennett'];
+          spObject['Bennett'] = maxSPObject['Bennett']
         } else {
           openFightDialogue = true;
         }
