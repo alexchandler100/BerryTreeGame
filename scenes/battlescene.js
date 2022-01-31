@@ -89,7 +89,7 @@ var MenuItem = new Phaser.Class({
     Phaser.GameObjects.Text.call(this, scene, x, y, text, {
       color: "#ffffff",
       align: "left",
-      fontSize: 30
+      fontSize: 25
     });
   },
   select: function() {
@@ -117,7 +117,11 @@ var Menu = new Phaser.Class({
     this.selected = false;
   },
   addMenuItem: function(unit) {
-    var menuItem = new MenuItem(0, this.menuItems.length * 30, unit, this.scene);
+    var menuItem = new MenuItem(0, this.menuItems.length * 25, unit, this.scene);
+    if (this.menuItems.length>=6){
+      menuItem.x = 200;
+      menuItem.y = this.menuItems.length * 25 - 6*25
+    }
     this.menuItems.push(menuItem);
     this.add(menuItem);
     return menuItem;
@@ -581,17 +585,30 @@ var Unit = new Phaser.Class({
     if (maxice >= 1) {
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
-        gameStateBattle.me.anims.play('drink_monster', true);
+        gameStateBattle.me.anims.play('drink_maxice', true);
         window.setTimeout(() => {
           //gameStateBattle.me.flipX = true;
           gameStateBattle.me.anims.play('bouncing', true);
         }, 2999);
       } else if (this.type === "Jimmy") {
-        gameStateBattle.trevor.anims.play('trevor_drink_monster', true);
+        gameStateBattle.trevor.anims.play('trevor_drink_maxice', true);
         gameStateBattle.trevor.flipX = false;
         window.setTimeout(() => {
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
+        }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_drink_maxice', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === "Bennett") {
+        gameStateBattle.bennett.anims.play('bennett_drink_maxice', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
         }, 2999);
       }
       gameState.drinkCan.play()
@@ -618,6 +635,36 @@ var Unit = new Phaser.Class({
       defendOn[this.type] = false
     }
     if (larrySpecial >= 1) {
+
+      if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
+        gameStateBattle.me.anims.play('larry_special', true);
+        window.setTimeout(() => {
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
+        }, 2999);
+      } else if (this.type === "Jimmy") {
+        gameStateBattle.trevor.anims.play('trevor_larry_special', true);
+        gameStateBattle.trevor.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.trevor.anims.play('trevorright', true);
+          gameStateBattle.trevor.flipX = true;
+        }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_larry_special', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === "Bennett") {
+        gameStateBattle.bennett.anims.play('bennett_larry_special', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
+        }, 2999);
+      }
+      gameState.larrySpecialSound.play();
       larrySpecial -= 1
       usable_items["Larry Special"] -= 1
       this.hp = maxHPObject[this.type]
@@ -633,6 +680,36 @@ var Unit = new Phaser.Class({
       defendOn[this.type] = false
     }
     if (andycapps >= 1) {
+
+      if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
+        gameStateBattle.me.anims.play('eat_andycapps', true);
+        window.setTimeout(() => {
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
+        }, 2999);
+      } else if (this.type === "Jimmy") {
+        gameStateBattle.trevor.anims.play('trevor_eat_andycapps', true);
+        gameStateBattle.trevor.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.trevor.anims.play('trevorright', true);
+          gameStateBattle.trevor.flipX = true;
+        }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_eat_andycapps', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === "Bennett") {
+        gameStateBattle.bennett.anims.play('bennett_eat_andycapps', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
+        }, 2999);
+      }
+      gameState.eating_andycapps.play();
       andycapps -= 1
       usable_items["Andy Capp's Hot Fries"] -= 1
       spObject[this.type] = maxSPObject[this.type]
@@ -654,6 +731,36 @@ var Unit = new Phaser.Class({
       defendOn[this.type] = false
     }
     if (liquorItem >= 1) {
+
+      if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
+        gameStateBattle.me.anims.play('drink_liquor', true);
+        window.setTimeout(() => {
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
+        }, 2999);
+      } else if (this.type === "Jimmy") {
+        gameStateBattle.trevor.anims.play('trevor_drink_liquor', true);
+        gameStateBattle.trevor.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.trevor.anims.play('trevorright', true);
+          gameStateBattle.trevor.flipX = true;
+        }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_drink_liquor', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === "Bennett") {
+        gameStateBattle.bennett.anims.play('bennett_drink_liquor', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
+        }, 2999);
+      }
+      gameState.drinking_liquor.play();
       liquorItem -= 1
       usable_items["Liquor"] -= 1
       spObject[this.type] = maxSPObject[this.type]
@@ -828,12 +935,21 @@ var BattleScene = new Phaser.Class({
               frameHeight: 55
             });
       this.load.audio('smack', ['assets/smack.mp3']);
+      this.load.audio('eating_andycapps', ['assets/eating_andycapps.wav']);
+      this.load.audio('drinking_liquor', ['assets/drinking_liquor.wav']);
 
     //this.load.image(`background1`, 'assets/burcham_battle.png');
   },
   create: function() {
     this.smack = this.sound.add('smack', {
       volume: .25
+    });
+
+    gameState.eating_andycapps = this.sound.add('eating_andycapps', {
+      volume: 0.8
+    });
+    gameState.drinking_liquor = this.sound.add('drinking_liquor', {
+      volume: 0.8
     });
 
     //battle animation

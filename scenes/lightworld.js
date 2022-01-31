@@ -619,6 +619,7 @@ var LightWorld = new Phaser.Class({
     this.load.audio('poolcollide', ['assets/poolcollide.wav']);
     this.load.audio('poolpocket', ['assets/poolpocket.wav']);
     this.load.audio('drinkCan', ['assets/drinkCan.wav']);
+    this.load.audio('larry_special_sound', ['assets/larry_special_sound.wav']);
     this.load.audio('drinkGatorade', ['assets/drinkGatorade.wav']);
     this.load.audio('menuSelect', ['assets/menuSelect.wav']);
     this.load.audio('menuSelect2', ['assets/menuSelect2.wav']);
@@ -1047,10 +1048,13 @@ var LightWorld = new Phaser.Class({
       volume: 1
     });
     gameState.drinkCan = this.sound.add('drinkCan', {
-      volume: 0.6
+      volume: 0.8
+    });
+    gameState.larrySpecialSound = this.sound.add('larry_special_sound', {
+      volume: 0.8
     });
     gameState.drinkGatorade = this.sound.add('drinkGatorade', {
-      volume: 0.6
+      volume: 0.8
     });
     gameState.menuSelect = this.sound.add('menuSelect', {
       volume: 0.5
@@ -1768,6 +1772,15 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
+      key: 'bennett_larry_special',
+      frames: this.anims.generateFrameNumbers('bennettattack', {
+        frames: [5,7,7]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
+
+    this.anims.create({
       key: 'bennett_drink_monster',
       frames: this.anims.generateFrameNumbers('bennettattack', {
         frames: [7,8]
@@ -1789,6 +1802,33 @@ var LightWorld = new Phaser.Class({
       key: 'bennett_drink_gatorade',
       frames: this.anims.generateFrameNumbers('bennettattack', {
         frames: [7,10]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'bennett_eat_andycapps',
+      frames: this.anims.generateFrameNumbers('bennettattack', {
+        frames: [7,11]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'bennett_drink_maxice',
+      frames: this.anims.generateFrameNumbers('bennettattack', {
+        frames: [7,12]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'bennett_drink_liquor',
+      frames: this.anims.generateFrameNumbers('bennettattack', {
+        frames: [7,13]
       }),
       frameRate: 2,
       repeat: -1
@@ -2021,6 +2061,42 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
 
+    this.anims.create({
+      key: 'trevor_larry_special',
+      frames: this.anims.generateFrameNumbers('trevor', {
+        frames: [21]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'trevor_eat_andycapps',
+      frames: this.anims.generateFrameNumbers('trevor', {
+        frames: [18]
+      }),
+      frameRate: 3,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'trevor_drink_maxice',
+      frames: this.anims.generateFrameNumbers('trevor', {
+        frames: [19]
+      }),
+      frameRate: 3,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'trevor_drink_liquor',
+      frames: this.anims.generateFrameNumbers('trevor', {
+        frames: [20]
+      }),
+      frameRate: 3,
+      repeat: 0
+    });
+
     //player animations
     this.anims.create({
       key: 'ball',
@@ -2129,6 +2205,15 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
+      key: 'larry_special',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [0, 49,49]
+      }),
+      frameRate: 3,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: 'drink_hamms',
       frames: this.anims.generateFrameNumbers('me', {
         frames: [0, 19, 19, 0, 19, 19, 0, 19, 19, 0]
@@ -2141,6 +2226,33 @@ var LightWorld = new Phaser.Class({
       key: 'drink_gatorade',
       frames: this.anims.generateFrameNumbers('me', {
         frames: [0, 20, 20, 0, 20, 20, 0, 20, 20, 0]
+      }),
+      frameRate: 3,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'eat_andycapps',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [0, 45,46]
+      }),
+      frameRate: 3,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'drink_maxice',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [0, 47, 47]
+      }),
+      frameRate: 3,
+      repeat: 0
+    });
+
+    this.anims.create({
+      key: 'drink_liquor',
+      frames: this.anims.generateFrameNumbers('me', {
+        frames: [0, 48, 48]
       }),
       frameRate: 3,
       repeat: 0
@@ -2298,6 +2410,42 @@ var LightWorld = new Phaser.Class({
         frames: [16,19]
       }),
       frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'al_eat_andycapps',
+      frames: this.anims.generateFrameNumbers('al', {
+        frames: [16,20]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'al_drink_maxice',
+      frames: this.anims.generateFrameNumbers('al', {
+        frames: [16,21]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'al_drink_liquor',
+      frames: this.anims.generateFrameNumbers('al', {
+        frames: [16,22]
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'al_larry_special',
+      frames: this.anims.generateFrameNumbers('al', {
+        frames: [9,9,10,11,12,13,14,15,]
+      }),
+      frameRate: 4,
       repeat: -1
     });
 
@@ -3879,32 +4027,22 @@ var LightWorld = new Phaser.Class({
       brothersSeal = 1;
       brothersSealForSkateboarding = 1;
       money += 10;
-      hamms += 1;
-      monster += 1;
-      maxice += 1;
-      andycapps += 1;
-      gatorade += 1;
-      larrySpecial += 1;
+      hamms += 5;
+      monster += 5;
+      maxice += 5;
+      andycapps += 5;
+      gatorade += 5;
+      larrySpecial += 5;
+      liquorItem +=5
       equipped["Mac"].accessory = "Sprinting Shoes"
       sprintingShoes("Mac", true)
-      usable_items["Hamms"] += 1;
-      usable_items["Monster"] += 1;
-      usable_items["Gatorade"] += 1;
-      if (usable_items["Larry Special"]) {
-        usable_items["Larry Special"] += 1;
-      } else {
-        usable_items["Larry Special"] = 1;
-      }
-      if (usable_items["Andy Capp's Hot Fries"]) {
-        usable_items["Andy Capp's Hot Fries"] += 1;
-      } else {
-        usable_items["Andy Capp's Hot Fries"] = 1;
-      }
-      if (usable_items["Labatt Max Ice"]) {
-        usable_items["Labatt Max Ice"] += 1;
-      } else {
-        usable_items["Labatt Max Ice"] = 1;
-      }
+      usable_items["Hamms"] += 5;
+      usable_items["Monster"] += 5;
+      usable_items["Gatorade"] += 5;
+      usable_items["Larry Special"] = 5;
+      usable_items["Andy Capp's Hot Fries"] = 5;
+      usable_items["Labatt Max Ice"] = 5;
+      usable_items["Liquor"] = 5;
       gameState.secret.play()
       for (itemz of ["Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes"]) {
         equipment.push(itemz)
