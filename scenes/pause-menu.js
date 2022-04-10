@@ -66,6 +66,10 @@ var PauseMenu = new Phaser.Class({
       fill: '#fff'
     });
 
+//Save function needs some work... its broken. Lets just disable it for now... better than
+//the current issue of saving and freezing the game
+
+/*
     //save button
     gameState1.save_button = this.add.rectangle(780, 70, 80, 20, 0xfff);
     gameState1.save_button.setInteractive()
@@ -79,7 +83,9 @@ var PauseMenu = new Phaser.Class({
       fontSize: '25px',
       fill: '#fff'
     });
+    */
 
+/*
     //load button
     gameState1.load_button = this.add.rectangle(880, 70, 80, 20, 0xfff);
     gameState1.load_button.setInteractive()
@@ -87,12 +93,13 @@ var PauseMenu = new Phaser.Class({
       this.scene.stop();
       scene_number = 2;
       pause = false;
-      loadGame();
+      loadGame2();
     }, this);
     loadText = this.add.text(880-28, 70-14, 'load', {
       fontSize: '25px',
       fill: '#fff'
     });
+    */
 
     //full button
     gameState1.full_button = this.add.rectangle(980, 70, 80, 20, 0xfff);

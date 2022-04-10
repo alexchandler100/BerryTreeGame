@@ -1,12 +1,10 @@
+//game start paramters
+let gameOver = false;
+let newGame = true;
+
 //keyboard parameters
 let keyboardGet = false;
 let keyboardDialogue;
-
-//billiard parameters
-let eightInPocket = false;
-let nineInPocket = false;
-let cueInPocket = false;
-let _timerStart = false
 
 //dialogue parameters
 let activeQuests = {
@@ -16,24 +14,36 @@ let activeQuests = {
 let completedQuests = {
   'Wake Up': 'Well you did do one thing so far. Good job.',
 }
+let currentQuest = 'Find Your Shit'
 
 // it goes ['name', 'tiled object name for location']
+//megaman parameters
 let switchToNextWeapon = false;
 let beatChill = 0;
 let lostAtMegaman = 0;
 let beatStag = 0;
+
+//car parameters
 let firstKeyDown = '';
-let currentQuest = 'Find Your Shit'
-let blondeTalk=false;
 let carCrashDialogue = false;
-let adventure = 0;
 let gasAlert = 0;
+
+//homeboy game parameters
+let adventure = 0;
+
+//skateboard parameters
+let startSkateboardScene = false;
+let skateboardGet = false;
+let kickflipScoreDisplayed = false;
+
+
+//dialogue parameters
 let buyFailed = 0;
 let pageDisplayed = 0; //supposed to fix issue with multiple pages displaying causing errors
-let kickflipScoreDisplayed = false;
 let backgroundDisplayed = 0;
 let stripperBanged = false;
 let fratboy2primedialogue = 0;
+let blondeTalk=false;
 let newDarkDialogue = 0;
 let darkboydialogue = 0;
 let diodialogue = 0;
@@ -69,7 +79,7 @@ let ergh = 0;
 let holdon = 0
 let beatbox = 0;
 let blocked = 0;
-let newGame = true;
+
 let checkLevelDialogue = 0;
 let evanFirstDialogue = 0;
 let anthonyFirstDialogue = 0;
@@ -87,28 +97,7 @@ let alFirstTalk = 0;
 let darkworldDialogue = 0;
 let jonChaseX = 20;
 let gotYogaBlocks=false;
-let skillDialogue = {
-  "Mac": {
-    3: false,
-    5: false,
-    7: false
-  },
-  "Al": {
-    3: false,
-    5: false,
-    7: false
-  },
-  "Jimmy": {
-    3: false,
-    5: false,
-    7: false
-  },
-  "Bennett": {
-    3: false,
-    5: false,
-    7: false
-  }
-}
+
 //boss battle parameters
 let settingDepth = false;
 let bossType;
@@ -148,7 +137,7 @@ let launchParameter = false; //this just makes sure the gas station scene isn't 
 let indoorZone = ''
 let shakeTheWorld = false;
 let bennettGet = false;
-let skateboardGet = false;
+
 let alGet = false;
 let swimNoisePlaying = false;
 let walkNoisePlaying = false;
@@ -162,7 +151,7 @@ let speed = 1;
 let keepaway = 0;
 let keepawayHighScore = 0;
 let playerTexture = 0;
-let startSkateboardScene = false;
+
 let brothersSeal = 0;
 let brothersSealForSkateboarding = 0;
 let highness = 1;
@@ -173,9 +162,8 @@ let devMode2 = 0;
 let devMode3 = 0;
 let athletics = 1;
 let cantGetIn = 0;
-let restart = false;
-let loading = false;
-let saveFileExists = false;
+
+let saveFileExists = true;
 let scene_number = 2;
 let equipment = []
 let overworldSong = 'theme'
@@ -184,16 +172,29 @@ let raceBegin = false;
 let raceOngoing = false;
 let winRace = 0;
 let wonRace = 0;
-let potentialParty = {
-  "Al": false,
-  "Jimmy": false,
-  "Bennett": false
-};
-let currentParty = {
-  "Al": false,
-  "Jimmy": false,
-  "Bennett": false
-};
+
+//dark world/ light world parameters
+let sentBack = 0;
+let worldTheme = 'light'
+let darkWorld = 0;
+let hausdorfTexture = 0;
+
+//item parameters
+let gas = 6;
+let phoneGet = 0;
+let walletGet = 0;
+let liquorGet = 0;
+let flowersGet = 0;
+let keysGet = 0;
+let doitS = 0;
+let money = 0;
+let hamms = 2;
+let monster = 0;
+let maxice = 0;
+let andycapps = 0;
+let gatorade = 0;
+let liquorItem = 0;
+let larrySpecial = 0;
 
 //battle parameters
 let numberOfPlayers = 1;
@@ -260,7 +261,7 @@ let set1 = new Set([]);
 let set2 = new Set([]);
 let set3 = new Set([]);
 let set4 = new Set([]);
-let gameOver = false;
+
 
 // it goes [name, right anim, scale, circle size, offsetX, offsetY]
 //fix needed so chasers do not interact poorly with "above" layer of map
@@ -482,28 +483,40 @@ let damageObject = {
   'Bennett': 45,
 };
 
-//dark world/ light world parameters
-let sentBack = 0;
-let worldTheme = 'light'
-let darkWorld = 0;
-let hausdorfTexture = 0;
+let potentialParty = {
+  "Al": false,
+  "Jimmy": false,
+  "Bennett": false
+};
+let currentParty = {
+  "Al": false,
+  "Jimmy": false,
+  "Bennett": false
+};
 
-//item parameters
-let gas = 6;
-let phoneGet = 0;
-let walletGet = 0;
-let liquorGet = 0;
-let flowersGet = 0;
-let keysGet = 0;
-let doitS = 0;
-let money = 0;
-let hamms = 2;
-let monster = 0;
-let maxice = 0;
-let andycapps = 0;
-let gatorade = 0;
-let liquorItem = 0;
-let larrySpecial = 0;
+let skillDialogue = {
+  "Mac": {
+    3: false,
+    5: false,
+    7: false
+  },
+  "Al": {
+    3: false,
+    5: false,
+    7: false
+  },
+  "Jimmy": {
+    3: false,
+    5: false,
+    7: false
+  },
+  "Bennett": {
+    3: false,
+    5: false,
+    7: false
+  }
+}
+
 let items = [];
 let itemEffects = {
   "Andy Capp's Hot Fries": "SP Max, HP +10",
@@ -724,6 +737,233 @@ let equipmentDescriptions = {
   },
 }
 
+let equipped = {
+  "Mac": {
+    upper: "Camo T-Shirt",
+    lower: "Jeans",
+    accessory: "",
+  },
+  "Jimmy": {
+    upper: "Blue Shirt",
+    lower: "Snowpants",
+    accessory: "",
+  },
+  "Al": {
+    upper: "Red Shirt",
+    lower: "Red Sweatpants",
+    accessory: "",
+  },
+  "Bennett": {
+    upper: "Running Shirt",
+    lower: "Running Shorts",
+    accessory: "",
+  }
+}
+
+function saveGame() {
+  saveFileExists = true;
+  var file = {
+    activeQuests:activeQuests,
+    completedQuests:completedQuests,
+    currentQuest:currentQuest,
+    beatStag:beatStag,
+    skateboardGet:skateboardGet,
+    stripperBanged:stripperBanged,
+    fratboy2primedialogue:fratboy2primedialogue,
+    newDarkDialogue:newDarkDialogue,
+    darkboydialogue:darkboydialogue,
+    diodialogue:diodialogue,
+    trevorAptFirstDialogue:trevorAptFirstDialogue,
+    firstTimeCarGet:firstTimeCarGet,
+    jeanClaudeFirstTalk:jeanClaudeFirstTalk,
+    jamesFirstTalk:jamesFirstTalk,
+    jonFirstTalk:jonFirstTalk,
+    yogagirlFirstTalk:yogagirlFirstTalk,
+    stripperFirstTalk:stripperFirstTalk,
+    adelineFirstTalk:adelineFirstTalk,
+    volleyballScore:volleyballScore,
+    firstPoolParty:firstPoolParty,
+    ogFirstTalk:ogFirstTalk,
+    gunTalk:gunTalk,
+    joeGet:joeGet,
+    jamesGet:jamesGet,
+    jimmyJoinParam:jimmyJoinParam,
+    neverBeenPro:neverBeenPro,
+    checkLevelDialogue:checkLevelDialogue,
+    evanFirstDialogue:evanFirstDialogue,
+    anthonyFirstDialogue:anthonyFirstDialogue,
+    girl1FirstDialogue:girl1FirstDialogue,
+    girl2FirstDialogue:girl2FirstDialogue,
+    girl3FirstDialogue:girl3FirstDialogue,
+    girl4FirstDialogue:girl4FirstDialogue,
+    crackheadFirstTalk:crackheadFirstTalk,
+    moneyToCrackhead:moneyToCrackhead,
+    crackheadJoin:crackheadJoin,
+    crackheadFirstJoin:crackheadFirstJoin,
+    highnessDialogue:highnessDialogue,
+    alFirstTalk:alFirstTalk,
+    darkworldDialogue:darkworldDialogue,
+    jonChaseX:jonChaseX,
+    gotYogaBlocks:gotYogaBlocks,
+    firstStrike:firstStrike,
+    pointerScale:pointerScale,
+    numberOfFights:numberOfFights,
+    bennettGet:bennettGet,
+    alGet:alGet,
+    keepawayHighScore:keepawayHighScore,
+    playerTexture:playerTexture,
+    brothersSeal:brothersSeal,
+    brothersSealForSkateboarding:brothersSealForSkateboarding,
+    athletics:athletics,
+    scene_number:scene_number,
+    equipment:equipment,
+    worldTheme:worldTheme,
+    gas:gas,
+    phoneGet:phoneGet,
+    walletGet:walletGet,
+    liquorGet:liquorGet,
+    flowersGet:flowersGet,
+    keysGet:keysGet,
+    doitS:doitS,
+    money:money,
+    hamms:hamms,
+    monster:monster,
+    maxice:maxice,
+    andycapps:andycapps,
+    gatorade:gatorade,
+    liquorItem:liquorItem,
+    larrySpecial:larrySpecial,
+    numberOfPlayers:numberOfPlayers,
+    specialObject:specialObject,
+    bleedProofObject:bleedProofObject,
+    neverMissObject:neverMissObject,
+    blindProofObject:blindProofObject,
+    blindObject:blindObject,
+    bleedingObject:bleedingObject,
+    maxSPObject:maxSPObject,
+    spObject:spObject,
+    critObject:critObject,
+    defenseObject:defenseObject,
+    hpObject:hpObject,
+    maxHPObject:maxHPObject,
+    expObject:expObject,
+    levelObject:levelObject,
+    damageObject:damageObject,
+    potentialParty:potentialParty,
+    currentParty:currentParty,
+    skillDialogue:skillDialogue,
+    items:items,
+    all_usable_items:all_usable_items,
+    usable_items:usable_items,
+    numberOfItems:numberOfItems,
+    players:players,
+    equipped:equipped,
+  };
+  localStorage.setItem('saveFile', JSON.stringify(file));
+}
+
+function loadGame2() {
+  if (saveFileExists) {
+    var file = JSON.parse(localStorage.getItem('saveFile'));
+    activeQuests = file.activeQuests
+    completedQuests = file.completedQuests
+    currentQuest = file.currentQuest
+    beatStag = file.beatStag
+    skateboardGet = file.skateboardGet
+    stripperBanged = file.stripperBanged
+    fratboy2primedialogue = file.fratboy2primedialogue
+    newDarkDialogue = file.newDarkDialogue
+    darkboydialogue = file.darkboydialogue
+    diodialogue = file.diodialogue
+    trevorAptFirstDialogue = file.trevorAptFirstDialogue
+    firstTimeCarGet = file.firstTimeCarGet
+    jeanClaudeFirstTalk = file.jeanClaudeFirstTalk
+    jamesFirstTalk = file.jamesFirstTalk
+    jonFirstTalk = file.jonFirstTalk
+    yogagirlFirstTalk = file.yogagirlFirstTalk
+    stripperFirstTalk = file.stripperFirstTalk
+    adelineFirstTalk = file.adelineFirstTalk
+    volleyballScore = file.volleyballScore
+    firstPoolParty = file.firstPoolParty
+    ogFirstTalk = file.ogFirstTalk
+    gunTalk = file.gunTalk
+    joeGet = file.joeGet
+    jamesGet = file.jamesGet
+    jimmyJoinParam = file.jimmyJoinParam
+    neverBeenPro = file.neverBeenPro
+    checkLevelDialogue = file.checkLevelDialogue
+    evanFirstDialogue = file.evanFirstDialogue
+    anthonyFirstDialogue = file.anthonyFirstDialogue
+    girl1FirstDialogue = file.girl1FirstDialogue
+    girl2FirstDialogue = file.girl2FirstDialogue
+    girl3FirstDialogue = file.girl3FirstDialogue
+    girl4FirstDialogue = file.girl4FirstDialogue
+    crackheadFirstTalk = file.crackheadFirstTalk
+    moneyToCrackhead = file.moneyToCrackhead
+    crackheadJoin = file.crackheadJoin
+    crackheadFirstJoin = file.crackheadFirstJoin
+    highnessDialogue = file.highnessDialogue
+    alFirstTalk = file.alFirstTalk
+    darkworldDialogue = file.darkworldDialogue
+    jonChaseX = file.jonChaseX
+    gotYogaBlocks = file.gotYogaBlocks
+    firstStrike = file.firstStrike
+    pointerScale = file.pointerScale
+    numberOfFights = file.numberOfFights
+    bennettGet = file.bennettGet
+    alGet = file.alGet
+    keepawayHighScore = file.keepawayHighScore
+    playerTexture = file.playerTexture
+    brothersSeal = file.brothersSeal
+    brothersSealForSkateboarding = file.brothersSealForSkateboarding
+    athletics = file.athletics
+    scene_number = file.scene_number
+    equipment = file.equipment
+    worldTheme = file.worldTheme
+    gas = file.gas
+    phoneGet = file.phoneGet
+    walletGet = file.walletGet
+    liquorGet = file.liquorGet
+    flowersGet = file.flowersGet
+    keysGet = file.keysGet
+    doitS = file.doitS
+    money = file.money
+    hamms = file.hamms
+    monster = file.monster
+    maxice = file.maxice
+    andycapps = file.andycapps
+    gatorade = file.gatorade
+    liquorItem = file.liquorItem
+    larrySpecial = file.larrySpecial
+    numberOfPlayers = file.numberOfPlayers
+    specialObject = file.specialObject
+    bleedProofObject = file.bleedProofObject
+    neverMissObject = file.neverMissObject
+    blindProofObject = file.blindProofObject
+    blindObject = file.blindObject
+    bleedingObject = file.bleedingObject
+    maxSPObject = file.maxSPObject
+    spObject = file.spObject
+    critObject = file.critObject
+    defenseObject = file.defenseObject
+    hpObject = file.hpObject
+    maxHPObject = file.maxHPObject
+    expObject = file.expObject
+    levelObject = file.levelObject
+    damageObject = file.damageObject
+    potentialParty = file.potentialParty
+    currentParty = file.currentParty
+    skillDialogue = file.skillDialogue
+    items = file.items
+    all_usable_items = file.all_usable_items
+    usable_items = file.usable_items
+    numberOfItems = file.numberOfItems
+    players = file.players
+    equipped = file.equipped
+  }
+}
+
+
 function jimmyEnhanced(){
   damageObject["Jimmy"] += 5;
   hpObject["Jimmy"] += 20;
@@ -848,7 +1088,6 @@ function playbackCustomSong(){
   //incrementing time and looping at 480
   playingTime += 1;
   if (playingTime === 480) {
-    console.log(`done playing`)
     playingTime = 0
   }
 }
@@ -1049,170 +1288,6 @@ function wifeBeater(player, bool) {
   }
 }
 
-let equipped = {
-  "Mac": {
-    upper: "Camo T-Shirt",
-    lower: "Jeans",
-    accessory: "",
-  },
-  "Jimmy": {
-    upper: "Blue Shirt",
-    lower: "Snowpants",
-    accessory: "",
-  },
-  "Al": {
-    upper: "Red Shirt",
-    lower: "Red Sweatpants",
-    accessory: "",
-  },
-  "Bennett": {
-    upper: "Running Shirt",
-    lower: "Running Shorts",
-    accessory: "",
-  }
-}
-
-
-
-
-function saveGame() {
-  saveFileExists = true;
-  var file = {
-    fratboy2primedialogue: fratboy2primedialogue,
-    newDarkDialogue: newDarkDialogue,
-    darkboydialogue: darkboydialogue,
-    firstTimeCarGet: firstTimeCarGet,
-    fratboy1FirstTalk: fratboy1FirstTalk,
-    fratboy2FirstTalk: fratboy2FirstTalk,
-    fratboy3FirstTalk: fratboy3FirstTalk,
-    fratboy4FirstTalk: fratboy4FirstTalk,
-    fratboy5FirstTalk: fratboy5FirstTalk,
-    jamesFirstTalk: jamesFirstTalk,
-    joeFirstTalk: joeFirstTalk,
-    bennettFirstTalk: bennettFirstTalk,
-    jonFirstTalk: jonFirstTalk,
-    firstPoolParty: firstPoolParty,
-    ogFirstTalk: ogFirstTalk,
-    gunTalk: gunTalk,
-    newGame: newGame,
-    girl1FirstDialogue: girl1FirstDialogue,
-    girl2FirstDialogue: girl2FirstDialogue,
-    girl3FirstDialogue: girl3FirstDialogue,
-    girl4FirstDialogue: girl4FirstDialogue,
-    highnessDialogue: highnessDialogue,
-    alFirstTalk: alFirstTalk,
-    //darkworldDialogue: darkworldDialogue,
-    scene_number: scene_number,
-    chaserInitiateFight: chaserInitiateFight,
-    maxSPObject: maxSPObject,
-    spObject: spObject,
-    critObject: critObject,
-    defenseObject: defenseObject,
-    hpObject: hpObject,
-    maxHPObject: maxHPObject,
-    expObject: expObject,
-    levelObject: levelObject,
-    damageObject: damageObject,
-    sentBack: sentBack,
-    worldTheme: worldTheme,
-    darkWorld: darkWorld,
-    keepawayHighScore: keepawayHighScore,
-    playerTexture: playerTexture,
-    brothersSeal: brothersSeal,
-    wentPro: trevor.joinParameter,
-    highness: highness,
-    gas: gas,
-    items: items,
-    phoneGet: phoneGet,
-    walletGet: walletGet,
-    keysGet: keysGet,
-    alGet: al.joinParameter,
-    bennettGet: bennett.joinParameter,
-    money: money,
-    hamms: hamms,
-    monster: monster,
-    gatorade: gatorade,
-    equipment: equipment,
-    trevorfollowing: trevor.following,
-    alfollowing: al.following,
-    bennettfollowing: bennett.following,
-    potentialParty: potentialParty,
-  };
-  localStorage.setItem('saveFile', JSON.stringify(file));
-}
-
-function loadGame() {
-  loading = true;
-  restart = true;
-}
-
-function loadGame2() {
-  if (saveFileExists) {
-    var file = JSON.parse(localStorage.getItem('saveFile'));
-    fratboy2primedialogue = file.fratboy2primedialogue
-    newDarkDialogue = file.newDarkDialogue
-    darkboydialogue = file.darkboydialogue
-    firstTimeCarGet = file.firstTimeCarGet
-    fratboy1FirstTalk = file.fratboy1FirstTalk
-    fratboy2FirstTalk = file.fratboy2FirstTalk
-    fratboy3FirstTalk = file.fratboy3FirstTalk
-    fratboy4FirstTalk = file.fratboy4FirstTalk
-    fratboy5FirstTalk = file.fratboy5FirstTalk
-    jamesFirstTalk = file.jamesFirstTalk
-    joeFirstTalk = file.joeFirstTalk
-    bennettFirstTalk = file.bennettFirstTalk
-    jonFirstTalk = file.jonFirstTalk
-    firstPoolParty = file.firstPoolParty
-    ogFirstTalk = file.ogFirstTalk
-    gunTalk = file.gunTalk
-    newGame = file.newGame
-    girl1FirstDialogue = file.girl1FirstDialogue
-    girl2FirstDialogue = file.girl2FirstDialogue
-    girl3FirstDialogue = file.girl3FirstDialogue
-    girl4FirstDialogue = file.girl4FirstDialogue
-    highnessDialogue = file.highnessDialogue
-    alFirstTalk = file.alFirstTalk
-    //darkworldDialogue = file.darkworldDialogue
-    scene_number = file.scene_number
-    chaserInitiateFight = file.chaserInitiateFight
-    maxSPObject = file.maxSPObject
-    spObject = file.spObject
-    critObject = file.critObject
-    defenseObject = file.defenseObject
-    hpObject = file.hpObject
-    maxHPObject = file.maxHPObject
-    expObject = file.expObject
-    levelObject = file.levelObject
-    damageObject = file.damageObject
-    sentBack = file.sentBack
-    worldTheme = file.worldTheme
-    darkWorld = file.darkWorld
-    keepawayHighScore = file.keepawayHighScore
-    playerTexture = file.playerTexture
-    brothersSeal = file.brothersSeal
-    trevor.joinParameter = file.wentPro
-    highness = file.highness
-    gas = file.gas
-    items = file.items
-    phoneGet = file.phoneGet
-    walletGet = file.walletGet
-    keysGet = file.keysGet
-    al.joinParameter = file.alGet
-    bennett.joinParameter = file.bennettGet
-    money = file.money
-    hamms = file.hamms
-    monster = file.monster
-    gatorade = file.gatorade
-    usable_items["Monster"] = file.monster
-    usable_items["Gatorade"] = file.gatorade
-    usable_items["Hamms"] = file.hamms
-    equipment = file.equipment
-    trevor.following = file.trevorfollowing
-    al.following = file.alfollowing
-    bennett.following = file.bennettfollowing
-    potentialParty = file.potentialParty
-  }
-}
 
 function sleep() {
   hpObject["Mac"] = maxHPObject["Mac"];
@@ -1363,16 +1438,11 @@ function followPath (unit, path, speed=50){
   if (distance(unit,path[unit.position])<20 && !unit.changeDirection){
     //console.log(unit.type)
     if (unit.type==="Jean Claude"){
-      console.log(`changing from ${unit.position} to ${unit.position+1}`)
-      console.log(path[unit.position+1])
     }
     unit.position+=1
     unit.changeDirection=true
   } else if (distance(unit,path[unit.position])>25 && unit.changeDirection){
     unit.changeDirection=false
-    if (unit.type==="James"){
-      console.log(`current target position ${unit.position}`)
-    }
   }
   if (unit.position === path.length){
     unit.position=0

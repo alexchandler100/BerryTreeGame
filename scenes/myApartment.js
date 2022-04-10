@@ -4,6 +4,12 @@ let musRnd = 0
 let englishIndicator = {}
 let loadedIndoorsThemes = false;
 let startFollow = true;
+
+//billiard parameters
+let eightInPocket = false;
+let nineInPocket = false;
+let cueInPocket = false;
+let _timerStart = false
 let inPoolTableZone = false;
 let poolDialogue = true;
 let twoballscore = 0;
@@ -1065,7 +1071,7 @@ var MyApartment = new Phaser.Class({
             sleepyText.setText('')
             this.physics.resume()
           }, 6000);
-        } else if (stripperApt.following) {
+        } else if (stripperApt.following  && !stripperBanged) {
           console.log(`shes following`)
           window.setTimeout(() => {
             gameState.itemget.play();

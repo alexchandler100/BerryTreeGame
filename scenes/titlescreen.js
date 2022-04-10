@@ -52,7 +52,8 @@ var TitleScreen = new Phaser.Class({
     this.scene.launch("LightWorld")
     this.scene.launch('DialogueMenu');
     this.scene.stop();
-*/
+    */
+
     this.bannerSound = this.sound.add('banner', {
       volume: .5
     });

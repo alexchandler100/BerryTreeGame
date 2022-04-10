@@ -92,12 +92,6 @@ var NPC = new Phaser.Class({
     this.setSize(sizeAndOffset[this.texture.key].size[0], sizeAndOffset[this.texture.key].size[1])
     this.setOffset(sizeAndOffset[this.texture.key].offset[0], sizeAndOffset[this.texture.key].offset[1])
     this.sound0 = scene.sound.add(this.dialogue);
-    /*
-    if (loading) {
-      loading = false;
-      loadGame2();
-    }
-    */
   },
   animate: function(thresh = 10) {
     this.setDepth(this.y)
@@ -554,7 +548,6 @@ var LightWorld = new Phaser.Class({
     this.load.audio('skateboard', ['assets/skateboard.wav']);
     this.load.audio('ollie_takeoff', ['assets/ollie_takeoff.mp3']);
     this.load.audio('crashBoard', ['assets/crashBoard.wav']);
-
     this.load.audio('ollie_land', ['assets/ollie_land.mp3']);
     this.load.audio('carhit', ['assets/carhit.mp3']);
     this.load.audio('outOfBreath', ['assets/outOfBreath.mp3']);
@@ -3956,13 +3949,6 @@ var LightWorld = new Phaser.Class({
     } else if (speed === 1 || (me.body.velocity.x) ** 2 + (me.body.velocity.y) ** 2 === 0) {
       gameState.meRunningSound.stop()
       runNoisePlaying = false
-    }
-
-    //to restart the scene
-    if (restart) {
-      restart = false;
-      gameState.music.stop();
-      this.scene.restart()
     }
     //cant get inside apartment
     if (cantGetIn === 1) {

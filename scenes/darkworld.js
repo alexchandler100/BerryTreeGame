@@ -626,13 +626,6 @@ var DarkWorld = new Phaser.Class({
       pause = true;
       this.scene.launch('SealMenu');
       launchParameter = true
-      /*
-      this.openDialoguePage(1200);
-      gameStateDark.music.stop()
-      gameStateDark.music = this.sound.add('windNoise');
-      gameStateDark.music.loop = true;
-      gameStateDark.music.play();
-      */
     } else if (distance(dioshrine, meDark) < 30 && diodialogue === 1 && worldTheme === 'dark'&& launchParameter === false) {
       this.openDialoguePage(1200);
       gameStateDark.music.stop()

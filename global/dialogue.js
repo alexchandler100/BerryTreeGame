@@ -1545,7 +1545,7 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'Load game',
           nextPage: undefined,
-          aftermath: loadGame
+          aftermath: loadGame2
         }, ],
       },
 

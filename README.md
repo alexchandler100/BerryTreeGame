@@ -1,6 +1,10 @@
-This repository contains source code for the video game Berry Tree: Hausdorffs in the Darkworld, created by myself and based on my experience as a undergraduate student at Michigan State University.
+This repository contains source code for the video game Berry Tree.
 
 # To play:
+
+Download the [itch.io app](https://itch.io/app) and search for "Berry Tree". Always make sure to upgrade to the most current version before playing.
+
+# To build from source:
 
 clone the repository and run a local host from within the directory:
 Open a terminal in the directory and using python2 run the code
@@ -15,6 +19,12 @@ Then go to a web browser and type in:
 
 localhost:8910
 
-If localhost:8910 gets messed up somehow just change 8910 to 8911 or anything really (just run both lines of code with the new server number).
+Change the host number as needed (sometimes source code updates will not show until you change host number).
 
 Note: You should set your monitor refresh rate to 60hz. If it is faster than this, the update function will run twice the normal speed and the game will be almost unplayable (this seems to be an issue with phaser 3).
+
+For the Developer: To push to itch.io via Butler, duplicate the BerryTreeGame folder, remove all hidden git data, and run the command
+
+butler push BerryTreeGame_Butler piman01/berry-tree:win-linux-mac-stable
+
+from a terminal in the directory which contains the BerryTreeGame folder.

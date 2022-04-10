@@ -1551,15 +1551,16 @@ var BattleScene = new Phaser.Class({
       items.push('Empty NyQuil')
       gameState.spooky.stop()
     } else if (bossBattle && bossType === 'dio') {
-      exp += 200 * 3 ** (levelObject['Mac'] - 1)
-      reward = 100
-      money += reward
-      equipment.push('Dio Band')
-      gameState.holyDiver.stop()
-      gameState.music.stop()
-      gameState.spooky.stop()
-      dioshrine.disableBody(true, true)
-      dioEnabled = false
+      exp += 200 * 3 ** (levelObject['Mac'] - 1);
+      reward = 100;
+      money += reward;
+      equipment.push('Dio Band');
+      gameState.holyDiver.stop();
+      gameState.music.stop();
+      gameState.spooky.stop();
+      dioshrine.disableBody(true, true);
+      dioEnabled = false;
+      diodialogue = 3;
     } else if (bossBattle && bossType === 'fratboy2prime') {
       exp += 100 * 3 ** (levelObject['Mac'] - 1)
       reward = 20
