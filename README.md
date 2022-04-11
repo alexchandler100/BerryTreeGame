@@ -27,7 +27,7 @@ Change the host number as needed (sometimes source code updates will not show un
 
 # For the Developer:
 
-To push the build to itch.io, we use the Butler framework. Install [Butler](https://itch.io/docs/butler/installing.html) and add it to your path as described in the link. Once a new build is finalized, to push to itch.io via Butler, duplicate the BerryTreeGame folder. Call the new folder BerryTreeGame_Butler. Remove all hidden git data (with the git files, itch.io will tell you that you're trying to upload too many files), and run the command
+To push the build to itch.io, we use the Butler framework. Install [Butler](https://itch.io/docs/butler/installing.html) and add it to your path as described in the link. Once a new build is finalized, to push to itch.io via Butler, duplicate the BerryTreeGame folder. Rename the new folder BerryTreeGame_Butler. Remove all hidden git data (with the git files, itch.io will tell you that you're trying to upload too many files), and run the command
 
 ```console
 butler push BerryTreeGame_Butler piman01/berry-tree:win-linux-mac-stable
