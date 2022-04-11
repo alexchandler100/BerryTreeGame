@@ -278,6 +278,15 @@ var DialogueMenu = new Phaser.Class({
     censoredPageExists[290]=true
     censoredPageExists[291]=true
     censoredPageExists[30]=true
+    censoredPageExists[31]=true
+    censoredPageExists[1400]=true
+    censoredPageExists[1601]=true
+    censoredPageExists[1603]=true
+    censoredPageExists[1800]=true
+    censoredPageExists[3014]=true
+    censoredPageExists[3026]=true
+    censoredPageExists[5000]=true
+    censoredPageExists[50]=true
     this.pages = [
       {
         character: 'god',
@@ -1022,6 +1031,21 @@ var DialogueMenu = new Phaser.Class({
           },
           {
             option: "Shiiit.",
+            nextPage: undefined
+          },
+        ]
+      },
+
+      {
+        character: 'joe',
+        page: 50+1000000,
+        narrative: "Joe: What's up dude? Wanna play some pool?",
+        options: [{
+            option: "Yeahh.",
+            nextPage: 51
+          },
+          {
+            option: "Okayyy.",
             nextPage: undefined
           },
         ]
