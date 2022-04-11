@@ -287,6 +287,7 @@ var DialogueMenu = new Phaser.Class({
     censoredPageExists[3026]=true
     censoredPageExists[5000]=true
     censoredPageExists[50]=true
+    censoredPageExists[401]=true
     this.pages = [
       {
         character: 'god',
@@ -1755,6 +1756,17 @@ var DialogueMenu = new Phaser.Class({
         narrative: `Shiiit you really fucked them up.`,
         options: [{
           option: 'Fuck yeah',
+          nextPage: undefined,
+          aftermath: levelCheck
+        }, ]
+      },
+
+      {
+        character: 'god',
+        page: 401+1000000,
+        narrative: `Good job...`,
+        options: [{
+          option: '...',
           nextPage: undefined,
           aftermath: levelCheck
         }, ]
