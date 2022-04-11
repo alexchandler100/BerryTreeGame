@@ -33,4 +33,4 @@ To push the build to itch.io, we use the Butler framework. Install [Butler](http
 butler push BerryTreeGame_Butler piman01/berry-tree:win-linux-mac-stable
 ```
 
-from a terminal in the directory which contains the BerryTreeGame folder.
+from a terminal in the directory which contains the BerryTreeGame_Butler folder.
