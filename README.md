@@ -25,7 +25,7 @@ Then go to a web browser and type in: [localhost:8910](http://localhost:8910/).
 
 Change the host number as needed (sometimes source code updates will not show until you change host number). Any 4-digit number will work.
 
-#For the Developer:
+# For the Developer:
 
 To push the build to itch.io, we use the Butler framework. Install [Butler](https://itch.io/docs/butler/installing.html) and add it to your path as described in the link. Once a new build is finalized, to push to itch.io via Butler, duplicate the BerryTreeGame folder. Call the new folder BerryTreeGame_Butler. Remove all hidden git data (with the git files, itch.io will tell you that you're trying to upload too many files), and run the command
 
