@@ -1057,7 +1057,7 @@ var DialogueMenu = new Phaser.Class({
         page: 51,
         narrative: "Joe: Alright dude, lets head over to the clubhouse. Feel like making some bets?",
         options: [{
-            option: "Fuck yeah.",
+            option: "Yeah for sure.",
             nextPage: 52,
           },
           {
@@ -1743,11 +1743,7 @@ var DialogueMenu = new Phaser.Class({
         character: 'god',
         page: 300,
         narrative: 'Game Over... You done goofed.',
-        options: [{
-          option: 'Load game',
-          nextPage: undefined,
-          aftermath: loadGame2
-        }, ],
+        options: [],
       },
 
       {
@@ -1764,7 +1760,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 401+1000000,
-        narrative: `Good job...`,
+        narrative: `........`,
         options: [{
           option: '...',
           nextPage: undefined,
