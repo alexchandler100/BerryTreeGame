@@ -3374,7 +3374,7 @@ var LightWorld = new Phaser.Class({
 
     gameState.questLocations = {
       'Hausdorffs?': map.findObject("Objects", obj => obj.name === "my apartment"),
-      'Find Your Shit': map.findObject("Objects", obj => obj.name === "phone spawn point"),
+      'Find Your Stuff': map.findObject("Objects", obj => obj.name === "phone spawn point"),
       'Robo-Trip': map.findObject("Objects", obj => obj.name === "hausdorf spawn point"),
       'Frat Boy Wants to Stab': map.findObject("Objects", obj => obj.name === "fratboy2prime spawn point"),
       'Jean Claude': map.findObject("Objects", obj => obj.name === "jeanPath0"),
@@ -4375,7 +4375,7 @@ var LightWorld = new Phaser.Class({
     if (phoneGet + walletGet === 2 && keysGet === 0) {
       phoneGet += 1;
       walletGet += 1;
-      completeQuest('Find Your Shit')
+      completeQuest('Find Your Stuff')
       activeQuests["Gotta Find My Keys"] = "I found my wallet and phone by the volleyball court, but I still have no idea where my keys are. I have a feeling I was in the woods last night. God damnit."
       window.setTimeout(() => {
         this.openDialoguePage(5)
@@ -4386,7 +4386,7 @@ var LightWorld = new Phaser.Class({
     if (phoneGet + walletGet + keysGet === 5) {
       completeQuest("Gotta Find My Keys")
       keysGet += 1;
-      activeQuests["Gotta Find My Car"] = "I found my keys in the woods, but now I don't know where my damn car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
+      activeQuests["Gotta Find My Car"] = "I found my keys in the woods, but now I don't know where my car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
       window.setTimeout(() => {
         this.openDialoguePage(6)
       }, 2000);
