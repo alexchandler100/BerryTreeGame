@@ -7,6 +7,8 @@ let keyboardGet = false;
 let keyboardDialogue;
 
 //dialogue parameters
+let censored = true;
+let censoredPageExists={};
 let activeQuests = {
   'Find Your Shit': 'You got all drunk last night and lost your keys, phone, and wallet. Seems like you probably left them somewhere at 731 Burcham Apartments.',
   'Robo-Trip': 'Today would be a real good day to get some tussin. Nothing to do, might as well fuck with some tussin. I feel like I had some last night on the high school roof but never drank it. Maybe its still up there...',
