@@ -21,7 +21,7 @@ or with python3 you may use
 python -m http.server 8910
 ```
 
-Then go to a web browser and type in: [localhost:8910](localhost:8910).
+Then go to a web browser and type in: [localhost:8910](http://localhost:8036/).
 
 Change the host number as needed (sometimes source code updates will not show until you change host number). Any 4-digit number will work.
 
