@@ -303,7 +303,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 9999+1000000,
-        narrative: "Arrggggg............",
+        narrative: "Rrrggggg............",
         options: [{
             option: '....',
             nextPage: 1
@@ -329,7 +329,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 1+1000000,
-        narrative: "I don't feel good AT ALL, I definitely need a gatorade and a monster. Wait... where is my wallet... My phone... MY KEYS??? Man what did I do yesterday? Guess I lost my keys and just slept outside...",
+        narrative: "I don't feel good AT ALL, I need a gatorade and a monster immediately. Wait... where is my wallet... My phone... MY KEYS??? Man what did I do yesterday? Guess I lost my keys and just slept outside...",
         options: [{
             option: 'Try to remember',
             nextPage: 2

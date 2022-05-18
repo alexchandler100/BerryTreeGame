@@ -587,7 +587,10 @@ var LightWorld = new Phaser.Class({
     this.load.audio('heyy', ['assets/heyy.wav']);
     this.load.audio('erggh', ['assets/erggh.wav']);
     this.load.audio('hello', ['assets/Hello.wav']);
-    this.load.audio('whatWeGoingToDo', ['assets/whatWeGoingToDo.wav']);
+    this.load.audio('adeline_idk', ['assets/adeline_idk.wav']);
+    this.load.audio('adeline_hungry', ['assets/adeline_hungry.wav']);
+    this.load.audio('adeline_wtf', ['assets/adeline_wtf.wav']);
+    this.load.audio('adeline_scared', ['assets/adeline_scared.wav']);
     this.load.audio('wutt', ['assets/wutt.wav']);
     this.load.audio('ooo', ['assets/ooo.wav']);
     this.load.audio('block', ['assets/block.wav']);
@@ -971,7 +974,7 @@ var LightWorld = new Phaser.Class({
     gameState.hello = this.sound.add('hello', {
       volume: 1
     });
-    gameState.whatWeGoingToDo = this.sound.add('whatWeGoingToDo', {
+    gameState.adeline_idk = this.sound.add('adeline_idk', {
       volume: 1
     });
     gameState.wutt = this.sound.add('wutt', {
@@ -4270,7 +4273,7 @@ var LightWorld = new Phaser.Class({
 
     //ai for adeline
     if (distance(me, adeline) < 40 && adelineFirstTalk === 0 && trevor.joinParameter && girl2FirstDialogue >= 1) {
-      gameState.whatWeGoingToDo.play();
+      gameState.adeline_idk.play();
       adelineFirstTalk = 1
       this.openDialoguePage(3500)
       if (!activeQuests["Adeline is pissed"]) {

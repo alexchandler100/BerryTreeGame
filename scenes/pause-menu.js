@@ -101,6 +101,20 @@ var PauseMenu = new Phaser.Class({
     });
     */
 
+
+        //controls button
+        let control_x = 850;
+        gameState1.controls_button = this.add.rectangle(control_x, 70, 140, 20, 0xfff);
+        gameState1.controls_button.setInteractive()
+        gameState1.controls_button.on('pointerup', function() {
+          scene_number=99
+        }, this);
+        loadText = this.add.text(control_x-56, 70-14, 'controls', {
+          fontSize: '25px',
+          fill: '#fff'
+        });
+
+
     //full button
     gameState1.full_button = this.add.rectangle(980, 70, 80, 20, 0xfff);
     gameState1.full_button.setInteractive()
@@ -174,6 +188,11 @@ var PauseMenu = new Phaser.Class({
       redisplay=true
       redisplayItems=true
       this.scene.switch('OverworldMenu');
+    }
+    else if (scene_number === 99) {
+      redisplay=true
+      redisplayItems=true
+      this.scene.switch('ControlsScene');
     }
   }
 });
