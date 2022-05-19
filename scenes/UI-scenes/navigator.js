@@ -11,10 +11,10 @@ var Navigator = new Phaser.Class({
     //sumn
   },
   preload: function() {
-    this.load.image('phoneBackground', "assets/phoneBackground.png");
+    this.load.image('phoneBackground', "assets/images/phoneBackground.png");
 
     this.load.spritesheet('gpsPointer',
-      'assets/gpsPointer.png', {
+      'assets/images/gpsPointer.png', {
         frameWidth: 100,
         frameHeight: 11
       });

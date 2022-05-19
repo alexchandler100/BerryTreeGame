@@ -11,7 +11,7 @@ var GasStation = new Phaser.Class({
     //sumn
   },
   preload: function() {
-    this.load.audio('chaching', ['assets/chaching.mp3']);
+    this.load.audio('chaching', ['assets/audio/chaching.mp3']);
 
   },
   create: function() {

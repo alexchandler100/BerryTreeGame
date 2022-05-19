@@ -15,10 +15,11 @@ var ItemsMenu = new Phaser.Class({
     //sumn
   },
   preload: function() {
-    this.load.image('macFace', "assets/MacFace.png");
-    this.load.image('alFace', "assets/AlFace.png");
-    this.load.image('jimmyFace', "assets/JimmyFace.png");
-    this.load.image('bennettFace', "assets/BennettFace.png");
+    //images
+    this.load.image('macFace', "assets/images/MacFace.png");
+    this.load.image('alFace', "assets/images/AlFace.png");
+    this.load.image('jimmyFace', "assets/images/JimmyFace.png");
+    this.load.image('bennettFace', "assets/images/BennettFace.png");
   },
   create: function() {
     function onlyUnique(value, index, self) {

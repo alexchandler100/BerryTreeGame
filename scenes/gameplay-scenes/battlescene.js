@@ -901,44 +901,54 @@ var BattleScene = new Phaser.Class({
     this.billBackWalk = false
   },
   preload: function() {
-    gameStateBattle.images = ['assets/burcham_battle.png', 'assets/battle_abbott_bigapple.png', 'assets/battle_abbott_mobile.png',
-      'assets/battle_abbott_postoffice.png', 'assets/battle_abbott_trees.png', 'assets/battle_burcham_frathouse_streetview.png',
-      'assets/battle_burcham_houses_streetview.png', 'assets/battle_burcham_road_street_view.png', 'assets/battle_burcham_street_near_abbott.png', 'assets/battle_EL_highschool_streetview.png',
-      'assets/battle_woods.png', 'assets/battle_z731pool.png', 'assets/battle_z_volleyball.png',
-      'assets/battle_z_711_burcham.png', 'assets/battle_z_burcham_woods.png', 'assets/battle_z_burchamplace.png',
+    gameStateBattle.images = [
+      'assets/images/burcham_battle.png',
+      'assets/images/battle_abbott_bigapple.png',
+      'assets/images/battle_abbott_mobile.png',
+      'assets/images/battle_abbott_postoffice.png',
+      'assets/images/battle_abbott_trees.png',
+      'assets/images/battle_burcham_frathouse_streetview.png',
+      'assets/images/battle_burcham_houses_streetview.png',
+      'assets/images/battle_burcham_road_street_view.png',
+      'assets/images/battle_burcham_street_near_abbott.png',
+      'assets/images/battle_EL_highschool_streetview.png',
+      'assets/images/battle_woods.png',
+      'assets/images/battle_z731pool.png',
+      'assets/images/battle_z_volleyball.png',
+      'assets/images/battle_z_711_burcham.png',
+      'assets/images/battle_z_burcham_woods.png',
+      'assets/images/battle_z_burchamplace.png',
     ]
     for (let i = 0; i < gameStateBattle.images.length; i++) {
       this.load.image(`background${i}`, gameStateBattle.images[i]);
     }
-    this.load.image(`school_roof`, 'assets/school_roof.png');
-    this.load.image(`burcham_walk`, 'assets/burcham_walk.png');
-    this.load.image(`burcham_walk_front`, 'assets/burcham_walk_front.png');
-    this.load.image(`blinded`, 'assets/blinded.png');
+    this.load.image(`school_roof`, 'assets/images/school_roof.png');
+    this.load.image(`burcham_walk`, 'assets/images/burcham_walk.png');
+    this.load.image(`burcham_walk_front`, 'assets/images/burcham_walk_front.png');
+    this.load.image(`blinded`, 'assets/images/blinded.png');
     this.load.spritesheet('bleeding',
-      'assets/bleeding.png', {
+      'assets/images/bleeding.png', {
         frameWidth: 50,
         frameHeight: 50
       });
       this.load.spritesheet('pepperSpray',
-        'assets/pepperSpray.png', {
+        'assets/images/pepperSpray.png', {
           frameWidth: 200,
           frameHeight: 80
         });
         this.load.spritesheet('airsoft',
-          'assets/airsoft.png', {
+          'assets/images/airsoft.png', {
             frameWidth: 50,
             frameHeight: 30
           });
           this.load.spritesheet('mohawk',
-            'assets/mohawk.png', {
+            'assets/images/mohawk.png', {
               frameWidth: 25,
               frameHeight: 55
             });
-      this.load.audio('smack', ['assets/smack.mp3']);
-      this.load.audio('eating_andycapps', ['assets/eating_andycapps.wav']);
-      this.load.audio('drinking_liquor', ['assets/drinking_liquor.wav']);
-
-    //this.load.image(`background1`, 'assets/burcham_battle.png');
+      this.load.audio('smack', ['assets/audio/smack.mp3']);
+      this.load.audio('eating_andycapps', ['assets/audio/eating_andycapps.wav']);
+      this.load.audio('drinking_liquor', ['assets/audio/drinking_liquor.wav']);
   },
   create: function() {
     this.smack = this.sound.add('smack', {

@@ -42,13 +42,13 @@ var DialogueMenu = new Phaser.Class({
     //sumn
   },
   preload: function() {
-    this.load.image('board_front', "assets/board_front.png");
-    this.load.image('evanAnthony', "assets/evanAnthony.png");
-    this.load.image('god', "assets/god.png");
-    this.load.image('macFace', "assets/MacFace.png");
-    this.load.image('alFace', "assets/AlFace.png");
-    this.load.image('jimmyFace', "assets/JimmyFace.png");
-    this.load.image("camoBorder",'assets/camoBorder.png')
+    this.load.image('board_front', "assets/images/board_front.png");
+    this.load.image('evanAnthony', "assets/images/evanAnthony.png");
+    this.load.image('god', "assets/images/god.png");
+    this.load.image('macFace', "assets/images/MacFace.png");
+    this.load.image('alFace', "assets/images/AlFace.png");
+    this.load.image('jimmyFace', "assets/images/JimmyFace.png");
+    this.load.image("camoBorder",'assets/images/camoBorder.png')
   },
   fetchPage: function(page) {
     return this.pages.find(function(e) {
@@ -321,7 +321,8 @@ var DialogueMenu = new Phaser.Class({
           },
           {
             option: 'Whatever',
-            nextPage: undefined
+            nextPage: undefined,
+            aftermath: openControls
           },
         ]
       },
@@ -336,7 +337,8 @@ var DialogueMenu = new Phaser.Class({
           },
           {
             option: 'Whatever',
-            nextPage: undefined
+            nextPage: undefined,
+            aftermath: openControls
           },
         ]
       },
@@ -362,7 +364,8 @@ var DialogueMenu = new Phaser.Class({
           },
           {
             option: 'Yeah I know',
-            nextPage: undefined
+            nextPage: undefined,
+            aftermath: openControls
           },
         ]
       },
@@ -393,7 +396,8 @@ var DialogueMenu = new Phaser.Class({
         narrative: 'WATCH YOUR STAMINA BAR! IF IT DROPS BELOW 30 PERCENT, YOUR PARTY DOES LESS DAMAGE AND LANDS LESS OFTEN IN BATTLE.',
         options: [{
           option: 'Right on',
-          nextPage: undefined
+          nextPage: undefined,
+          aftermath: openControls
         },
         {
           option: "Tips?",

@@ -41,47 +41,50 @@ var DarkWorld = new Phaser.Class({
   onKeyInput: function(event) {
   },
   preload: function() {
-    this.load.audio('holyDiver', ['assets/holyDiver.wav']);
-    this.load.audio('slash', ['assets/slash.wav']);
-    this.load.audio('airsoft', ['assets/airsoft.wav']);
-    this.load.audio('punch', ['assets/Punch.wav']);
-    this.load.audio('battle1', ['assets/battle1.wav']);
-    this.load.audio('battle2', ['assets/battle2.wav']);
-    this.load.audio('battle3', ['assets/battle3.wav']);
-    this.load.audio('battle4', ['assets/battle4.wav']);
-    this.load.audio('battle5', ['assets/battle5.wav']);
-    this.load.audio('battle6', ['assets/battle6.wav']);
-    this.load.audio('spooky', ['assets/spooky.wav']);
-    this.load.audio('itemget', ['assets/itemget.wav']);
-    this.load.audio('secret', ['assets/secret.wav']);
-    this.load.audio('beatbox', ['assets/beatbox.wav']);
-    this.load.image('hausdorf', "assets/hausdorf.png");
-    this.load.image('quil', "assets/quil.png");
-    this.load.image('dioshrine', "assets/dio_statue.png");
-    this.load.audio('dark_theme', ['assets/dark_theme.wav']);
-    this.load.audio('windNoise', ['assets/windNoise.wav']);
+    //audio
+    this.load.audio('holyDiver', ['assets/audio/holyDiver.wav']);
+    this.load.audio('slash', ['assets/audio/slash.wav']);
+    this.load.audio('airsoft', ['assets/audio/airsoft.wav']);
+    this.load.audio('punch', ['assets/audio/Punch.wav']);
+    this.load.audio('battle1', ['assets/audio/battle1.wav']);
+    this.load.audio('battle2', ['assets/audio/battle2.wav']);
+    this.load.audio('battle3', ['assets/audio/battle3.wav']);
+    this.load.audio('battle4', ['assets/audio/battle4.wav']);
+    this.load.audio('battle5', ['assets/audio/battle5.wav']);
+    this.load.audio('battle6', ['assets/audio/battle6.wav']);
+    this.load.audio('spooky', ['assets/audio/spooky.wav']);
+    this.load.audio('itemget', ['assets/audio/itemget.wav']);
+    this.load.audio('secret', ['assets/audio/secret.wav']);
+    this.load.audio('beatbox', ['assets/audio/beatbox.wav']);
+    this.load.audio('dark_theme', ['assets/audio/dark_theme.wav']);
+    this.load.audio('windNoise', ['assets/audio/windNoise.wav']);
+    //images
+    this.load.image('hausdorf', "assets/images/hausdorf.png");
+    this.load.image('quil', "assets/images/quil.png");
+    this.load.image('dioshrine', "assets/images/dio_statue.png");
+    //spritesheets
     this.load.spritesheet('dio',
-      'assets/Dio.png', {
+      'assets/images/Dio.png', {
         frameWidth: 200,
         frameHeight: 233
       });
     this.load.spritesheet('darkboy2',
-      'assets/darkboy2.png', {
+      'assets/images/darkboy2.png', {
         frameWidth: 200,
         frameHeight: 250
       });
     this.load.spritesheet('me',
-      'assets/me_running_BTJM.png', {
+      'assets/images/me_running_BTJM.png', {
         frameWidth: 200,
         frameHeight: 200
       });
     this.load.spritesheet('al',
-      'assets/homeboy_al.png', {
+      'assets/images/homeboy_al.png', {
         frameWidth: 200,
         frameHeight: 250
       });
     this.load.spritesheet('trevor',
-      'assets/trevor_walking.png', {
+      'assets/images/trevor_walking.png', {
         frameWidth: 200,
         frameHeight: 300
       });
@@ -91,7 +94,7 @@ var DarkWorld = new Phaser.Class({
       this.load.image("elTiles", "assets/tilesets/el_tileset_custom.png");
       this.load.image("elTiles2", "assets/tilesets/[Base]BaseChip_pipo.png");
       this.load.image("carTiles", "assets/tilesets/car_tiles.png");
-      this.load.tilemapTiledJSON("map", "assets/east_lansing.json");
+      this.load.tilemapTiledJSON("map", "assets/json/east_lansing.json");
   },
   create: function() {
     this.cameras.main.zoom = 2;

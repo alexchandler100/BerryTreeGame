@@ -10,34 +10,36 @@ var Megaman = new Phaser.Class({
   },
   preload: function() {
     this.load.spritesheet('megaman',
-      'assets/megaman.png', {
+      'assets/images/megaman.png', {
         frameWidth: 32,
         frameHeight: 32
       });
     this.load.spritesheet('penguin',
-      'assets/chillPenguin.png', {
+      'assets/images/chillPenguin.png', {
         frameWidth: 45,
         frameHeight: 45
       });
     this.load.spritesheet('flameStag',
-      'assets/flameStag.png', {
+      'assets/images/flameStag.png', {
         frameWidth: 60,
         frameHeight: 65
       });
-    this.load.audio("enemyDamage", "assets/EnemyDamage.wav");
-    this.load.audio("gainlife", "assets/gainlife.wav");
-    this.load.audio("explosion", "assets/Explosion.wav");
-    this.load.audio("hitwall", "assets/hitwall.wav");
-    this.load.audio("lemonSound", "assets/lemon.wav");
-    this.load.audio("iceSound", "assets/iceball.wav");
-    this.load.audio("fireSound", "assets/fireSound.wav");
-    this.load.audio("slideSound", "assets/slideSound.wav");
-    this.load.audio("bossFightTheme", "assets/megamanBossFight.wav");
+    //audio
+    this.load.audio("enemyDamage", "assets/audio/EnemyDamage.wav");
+    this.load.audio("gainlife", "assets/audio/gainlife.wav");
+    this.load.audio("explosion", "assets/audio/Explosion.wav");
+    this.load.audio("hitwall", "assets/audio/hitwall.wav");
+    this.load.audio("lemonSound", "assets/audio/lemon.wav");
+    this.load.audio("iceSound", "assets/audio/iceball.wav");
+    this.load.audio("fireSound", "assets/audio/fireSound.wav");
+    this.load.audio("slideSound", "assets/audio/slideSound.wav");
+    this.load.audio("bossFightTheme", "assets/audio/megamanBossFight.wav");
+    //images
     this.load.image("megamanTiles", "assets/tilesets/megamanTiles.png");
-    this.load.image("iceball", "assets/iceball.png");
-    this.load.image("fireball", "assets/fireball.png");
-    this.load.image("lemon", "assets/lemon.png");
-    this.load.tilemapTiledJSON("megaMap", "assets/megaman.json");
+    this.load.image("iceball", "assets/images/iceball.png");
+    this.load.image("fireball", "assets/images/fireball.png");
+    this.load.image("lemon", "assets/images/lemon.png");
+    this.load.tilemapTiledJSON("megaMap", "assets/json/megaman.json");
   },
   wake: function() {
     this.iceballs.children.each(function(b) {
@@ -987,7 +989,7 @@ var MegamanUI = new Phaser.Class({
   },
   preload: function() {
     this.load.spritesheet('healthBar',
-      'assets/megamanHealth.png', {
+      'assets/images/megamanHealth.png', {
         frameWidth: 10,
         frameHeight: 110
       });
