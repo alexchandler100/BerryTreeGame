@@ -400,7 +400,7 @@ var LightWorld = new Phaser.Class({
     }
   },
   wake: function() {
-    this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
+    this.input.setDefaultCursor('url(assets/images/handPointer.png), pointer');
     this.scene.sleep("PoolScore");
     if (playing){
       gameState.music.stop()
@@ -543,116 +543,117 @@ var LightWorld = new Phaser.Class({
   },
   preload: function() {
     //loading audio
-    this.load.audio('startSound', 'assets/smrpg_battlestart.wav')
-    this.load.audio('cardiB', ['assets/cardiB.wav']);
-    this.load.audio('skateboard', ['assets/skateboard.wav']);
-    this.load.audio('ollie_takeoff', ['assets/ollie_takeoff.mp3']);
-    this.load.audio('crashBoard', ['assets/crashBoard.wav']);
-    this.load.audio('ollie_land', ['assets/ollie_land.mp3']);
-    this.load.audio('carhit', ['assets/carhit.mp3']);
-    this.load.audio('outOfBreath', ['assets/outOfBreath.mp3']);
-    this.load.audio('carcrash', ['assets/carcrash.wav']);
-    this.load.audio('trevorWoods', ['assets/trevorwoods.wav']);
-    this.load.audio('marioWoods', ['assets/8mario_forest.mp3']);
-    this.load.audio('linkWoods', ['assets/8link_forest.mp3']);
-    this.load.audio('mario2', ['assets/9mario2.wav']);
-    this.load.audio('swimNoise', ['assets/swimNoise.wav']);
-    this.load.audio('holyDiver', ['assets/holyDiver.wav']);
-    this.load.audio('slash', ['assets/slash.wav']);
-    this.load.audio('spray', ['assets/spray.mp3']);
-    this.load.audio('bodyhit', ['assets/bodyhit.wav']);
-    this.load.audio('throw', ['assets/throw.mp3']);
-    this.load.audio('bichon_bark', ['assets/bichon_bark.wav']);
-    this.load.audio('airsoft', ['assets/airsoft.wav']);
-    this.load.audio('punch', ['assets/punch.wav']);
-    this.load.audio('stabnoise', ['assets/stabnoise.wav']);
-    this.load.audio('shatter', ['assets/shatter.mp3']);
-    this.load.audio('mohawkGround', ['assets/mohawkGround.mp3']);
-    this.load.audio('bitenoise', ['assets/bitenoise.wav']);
-    this.load.audio('battle1', ['assets/battle1.wav']);
-    this.load.audio('battle2', ['assets/battle2.wav']);
-    this.load.audio('battle3', ['assets/battle3.wav']);
-    this.load.audio('battle4', ['assets/battle4.wav']);
-    this.load.audio('battle5', ['assets/battle5.wav']);
-    this.load.audio('battle6', ['assets/battle6.wav']);
-    this.load.audio('battle7', ['assets/battle7.wav']);
-    this.load.audio('battle8', ['assets/battle8.mp3']);
-    this.load.audio('battle9', ['assets/battle9.wav']);
-    this.load.audio('spooky', ['assets/spooky.wav']);
-    this.load.audio('ball1', ['assets/ball1.wav']);
-    this.load.audio('ball2', ['assets/ball2.wav']);
-    this.load.audio('bennett_run', ['assets/bennett.wav']);
-    this.load.audio('me_walking', ['assets/me_walking.mp3']);
-    this.load.audio('arnold_bennett', ['assets/arnold_bennett.mp3']);
-    this.load.audio('heyy', ['assets/heyy.wav']);
-    this.load.audio('erggh', ['assets/erggh.wav']);
-    this.load.audio('hello', ['assets/Hello.wav']);
-    this.load.audio('adeline_idk', ['assets/adeline_idk.wav']);
-    this.load.audio('adeline_hungry', ['assets/adeline_hungry.wav']);
-    this.load.audio('adeline_wtf', ['assets/adeline_wtf.wav']);
-    this.load.audio('adeline_scared', ['assets/adeline_scared.wav']);
-    this.load.audio('wutt', ['assets/wutt.wav']);
-    this.load.audio('ooo', ['assets/ooo.wav']);
-    this.load.audio('block', ['assets/block.wav']);
-    this.load.audio('iwantsomecrack', ['assets/iwantsomecrack.mp3']);
-    this.load.audio('itemget', ['assets/itemget.wav']);
-    this.load.audio('siren1', ['assets/cop_siren_1.wav']);
-    this.load.audio('siren2', ['assets/cop_siren_2.wav']);
-    this.load.audio('honk1', ['assets/honk1.wav']);
-    this.load.audio('honk2', ['assets/honk2.wav']);
-    this.load.audio('honk3', ['assets/honk3.wav']);
-    this.load.audio('carScream1', ['assets/carScream1.wav']);
-    this.load.audio('carScream2', ['assets/carScream2.wav']);
-    this.load.audio('carScream3', ['assets/carScream3.wav']);
-    this.load.audio('carScream4', ['assets/carScream4.wav']);
-    this.load.audio('carScream5', ['assets/carScream5.wav']);
-    this.load.audio('carScream6', ['assets/carScream6.wav']);
-    this.load.audio('carScream7', ['assets/carScream7.wav']);
-    this.load.audio('carScream8', ['assets/carScream8.wav']);
+    this.load.audio('startSound', 'assets/audio/smrpg_battlestart.wav')
+    this.load.audio('brown_rap', 'assets/audio/brown_rap.wav')
+    this.load.audio('cardiB', ['assets/audio/cardiB.wav']);
+    this.load.audio('skateboard', ['assets/audio/skateboard.wav']);
+    this.load.audio('ollie_takeoff', ['assets/audio/ollie_takeoff.mp3']);
+    this.load.audio('crashBoard', ['assets/audio/crashBoard.wav']);
+    this.load.audio('ollie_land', ['assets/audio/ollie_land.mp3']);
+    this.load.audio('carhit', ['assets/audio/carhit.mp3']);
+    this.load.audio('outOfBreath', ['assets/audio/outOfBreath.mp3']);
+    this.load.audio('carcrash', ['assets/audio/carcrash.wav']);
+    this.load.audio('trevorWoods', ['assets/audio/trevorwoods.wav']);
+    this.load.audio('marioWoods', ['assets/audio/8mario_forest.mp3']);
+    this.load.audio('linkWoods', ['assets/audio/8link_forest.mp3']);
+    this.load.audio('mario2', ['assets/audio/9mario2.wav']);
+    this.load.audio('swimNoise', ['assets/audio/swimNoise.wav']);
+    this.load.audio('holyDiver', ['assets/audio/holyDiver.wav']);
+    this.load.audio('slash', ['assets/audio/slash.wav']);
+    this.load.audio('spray', ['assets/audio/spray.mp3']);
+    this.load.audio('bodyhit', ['assets/audio/bodyhit.wav']);
+    this.load.audio('throw', ['assets/audio/throw.mp3']);
+    this.load.audio('bichon_bark', ['assets/audio/bichon_bark.wav']);
+    this.load.audio('airsoft', ['assets/audio/airsoft.wav']);
+    this.load.audio('punch', ['assets/audio/punch.wav']);
+    this.load.audio('stabnoise', ['assets/audio/stabnoise.wav']);
+    this.load.audio('shatter', ['assets/audio/shatter.mp3']);
+    this.load.audio('mohawkGround', ['assets/audio/mohawkGround.mp3']);
+    this.load.audio('bitenoise', ['assets/audio/bitenoise.wav']);
+    this.load.audio('battle1', ['assets/audio/battle1.wav']);
+    this.load.audio('battle2', ['assets/audio/battle2.wav']);
+    this.load.audio('battle3', ['assets/audio/battle3.wav']);
+    this.load.audio('battle4', ['assets/audio/battle4.wav']);
+    this.load.audio('battle5', ['assets/audio/battle5.wav']);
+    this.load.audio('battle6', ['assets/audio/battle6.wav']);
+    this.load.audio('battle7', ['assets/audio/battle7.wav']);
+    this.load.audio('battle8', ['assets/audio/battle8.mp3']);
+    this.load.audio('battle9', ['assets/audio/battle9.wav']);
+    this.load.audio('spooky', ['assets/audio/spooky.wav']);
+    this.load.audio('ball1', ['assets/audio/ball1.wav']);
+    this.load.audio('ball2', ['assets/audio/ball2.wav']);
+    this.load.audio('bennett_run', ['assets/audio/bennett.wav']);
+    this.load.audio('me_walking', ['assets/audio/me_walking.mp3']);
+    this.load.audio('arnold_bennett', ['assets/audio/arnold_bennett.mp3']);
+    this.load.audio('heyy', ['assets/audio/heyy.wav']);
+    this.load.audio('erggh', ['assets/audio/erggh.wav']);
+    this.load.audio('hello', ['assets/audio/Hello.wav']);
+    this.load.audio('adeline_idk', ['assets/audio/adeline_idk.wav']);
+    this.load.audio('adeline_hungry', ['assets/audio/adeline_hungry.wav']);
+    this.load.audio('adeline_wtf', ['assets/audio/adeline_wtf.wav']);
+    this.load.audio('adeline_scared', ['assets/audio/adeline_scared.wav']);
+    this.load.audio('wutt', ['assets/audio/wutt.wav']);
+    this.load.audio('ooo', ['assets/audio/ooo.wav']);
+    this.load.audio('block', ['assets/audio/block.wav']);
+    this.load.audio('iwantsomecrack', ['assets/audio/iwantsomecrack.mp3']);
+    this.load.audio('itemget', ['assets/audio/itemget.wav']);
+    this.load.audio('siren1', ['assets/audio/cop_siren_1.wav']);
+    this.load.audio('siren2', ['assets/audio/cop_siren_2.wav']);
+    this.load.audio('honk1', ['assets/audio/honk1.wav']);
+    this.load.audio('honk2', ['assets/audio/honk2.wav']);
+    this.load.audio('honk3', ['assets/audio/honk3.wav']);
+    this.load.audio('carScream1', ['assets/audio/carScream1.wav']);
+    this.load.audio('carScream2', ['assets/audio/carScream2.wav']);
+    this.load.audio('carScream3', ['assets/audio/carScream3.wav']);
+    this.load.audio('carScream4', ['assets/audio/carScream4.wav']);
+    this.load.audio('carScream5', ['assets/audio/carScream5.wav']);
+    this.load.audio('carScream6', ['assets/audio/carScream6.wav']);
+    this.load.audio('carScream7', ['assets/audio/carScream7.wav']);
+    this.load.audio('carScream8', ['assets/audio/carScream8.wav']);
 
-    this.load.audio('dead', ['assets/dead.wav']);
-    this.load.audio('poolhit', ['assets/poolhit.wav']);
-    this.load.audio('poolcollide', ['assets/poolcollide.wav']);
-    this.load.audio('poolpocket', ['assets/poolpocket.wav']);
-    this.load.audio('drinkCan', ['assets/drinkCan.wav']);
-    this.load.audio('larry_special_sound', ['assets/larry_special_sound.wav']);
-    this.load.audio('drinkGatorade', ['assets/drinkGatorade.wav']);
-    this.load.audio('menuSelect', ['assets/menuSelect.wav']);
-    this.load.audio('menuSelect2', ['assets/menuSelect2.wav']);
-    this.load.audio('secret', ['assets/secret.wav']);
-    this.load.audio('start', ['assets/start.wav']);
-    this.load.audio('bong', ['assets/bong.wav']);
-    this.load.audio('al', ['assets/al.wav']);
-    this.load.audio('holdon', ['assets/holdon.wav']);
-    this.load.audio('beatbox', ['assets/beatbox.wav']);
-    this.load.audio('carNoise', ['assets/shitty_car.wav']);
-    this.load.audio('theme', ['assets/fugginwitsumshiit.wav']);
-    this.load.audio('dark_theme', ['assets/dark_theme.wav']);
-    this.load.audio('windNoise', ['assets/windNoise.wav']);
+    this.load.audio('dead', ['assets/audio/dead.wav']);
+    this.load.audio('poolhit', ['assets/audio/poolhit.wav']);
+    this.load.audio('poolcollide', ['assets/audio/poolcollide.wav']);
+    this.load.audio('poolpocket', ['assets/audio/poolpocket.wav']);
+    this.load.audio('drinkCan', ['assets/audio/drinkCan.wav']);
+    this.load.audio('larry_special_sound', ['assets/audio/larry_special_sound.wav']);
+    this.load.audio('drinkGatorade', ['assets/audio/drinkGatorade.wav']);
+    this.load.audio('menuSelect', ['assets/audio/menuSelect.wav']);
+    this.load.audio('menuSelect2', ['assets/audio/menuSelect2.wav']);
+    this.load.audio('secret', ['assets/audio/secret.wav']);
+    this.load.audio('start', ['assets/audio/start.wav']);
+    this.load.audio('bong', ['assets/audio/bong.wav']);
+    this.load.audio('al', ['assets/audio/al.wav']);
+    this.load.audio('holdon', ['assets/audio/holdon.wav']);
+    this.load.audio('beatbox', ['assets/audio/beatbox.wav']);
+    this.load.audio('carNoise', ['assets/audio/shitty_car.wav']);
+    this.load.audio('theme', ['assets/audio/fugginwitsumshiit.wav']);
+    this.load.audio('dark_theme', ['assets/audio/dark_theme.wav']);
+    this.load.audio('windNoise', ['assets/audio/windNoise.wav']);
     //menu items icons
-    this.load.image('monsterIcon', "assets/monster.png");
-    this.load.image('maxiceIcon', "assets/maxice.png");
-    this.load.image('andycappsIcon', "assets/andycapps.png");
-    this.load.image('flowers', "assets/flowers.png");
-    this.load.image('liquorIcon', "assets/liquorIcon.png");
-    this.load.image('hammsIcon', "assets/hamms.png");
-    this.load.image('larrySpecialIcon', "assets/larrySpecial.png");
-    this.load.image('gatoradeIcon', "assets/gatorade.png");
+    this.load.image('monsterIcon', "assets/images/monster.png");
+    this.load.image('maxiceIcon', "assets/images/maxice.png");
+    this.load.image('andycappsIcon', "assets/images/andycapps.png");
+    this.load.image('flowers', "assets/images/flowers.png");
+    this.load.image('liquorIcon', "assets/images/liquorIcon.png");
+    this.load.image('hammsIcon', "assets/images/hamms.png");
+    this.load.image('larrySpecialIcon', "assets/images/larrySpecial.png");
+    this.load.image('gatoradeIcon', "assets/images/gatorade.png");
     //loading sprite images
-    this.load.image('towel1', "assets/towel1.png");
-    this.load.image('towel2', "assets/towel2.png");
-    this.load.image('poolchair1', "assets/poolchair1.png");
-    this.load.image('poolchair2', "assets/poolchair2.png");
-    this.load.image('hausdorf', "assets/hausdorf.png");
-    this.load.image('quil', "assets/quil.png");
-    this.load.image('dioshrine', "assets/dio_statue.png");
-    this.load.image('car_keys', "assets/car_keys.png");
-    this.load.image('girl4', "assets/girl4.png");
-    this.load.image('net', "assets/net.png");
-    this.load.image('phone', "assets/phone.png");
-    this.load.image('wallet', "assets/wallet.png");
-    this.load.image('liquor', "assets/liquor.png");
-    this.load.image('yogamat', "assets/yogamat.png");
+    this.load.image('towel1', "assets/images/towel1.png");
+    this.load.image('towel2', "assets/images/towel2.png");
+    this.load.image('poolchair1', "assets/images/poolchair1.png");
+    this.load.image('poolchair2', "assets/images/poolchair2.png");
+    this.load.image('hausdorf', "assets/images/hausdorf.png");
+    this.load.image('quil', "assets/images/quil.png");
+    this.load.image('dioshrine', "assets/images/dio_statue.png");
+    this.load.image('car_keys', "assets/images/car_keys.png");
+    this.load.image('girl4', "assets/images/girl4.png");
+    this.load.image('net', "assets/images/net.png");
+    this.load.image('phone', "assets/images/phone.png");
+    this.load.image('wallet', "assets/images/wallet.png");
+    this.load.image('liquor', "assets/images/liquor.png");
+    this.load.image('yogamat', "assets/images/yogamat.png");
     //loading spritesheets
     this.load.spritesheet('cars',
       'assets/tilesets/car_tiles.png', {
@@ -660,188 +661,188 @@ var LightWorld = new Phaser.Class({
         frameHeight: 64
       });
     this.load.spritesheet('pool',
-      'assets/burcham_pool_animated.png', {
+      'assets/images/burcham_pool_animated.png', {
         frameWidth: 112,
         frameHeight: 176
       });
     this.load.spritesheet('explosion',
-      'assets/explosion-4.png', {
+      'assets/images/explosion-4.png', {
         frameWidth: 128,
         frameHeight: 128
       });
     this.load.spritesheet('blonde',
-      'assets/blonde.png', {
+      'assets/images/blonde.png', {
         frameWidth: 96,
         frameHeight: 115
       });
     this.load.spritesheet('stripper',
-      'assets/stripper.png', {
+      'assets/images/stripper.png', {
         frameWidth: 120,
         frameHeight: 120
       });
     this.load.spritesheet('jeanClaude',
-      'assets/jeanClaude.png', {
+      'assets/images/jeanClaude.png', {
         frameWidth: 100,
         frameHeight: 80
       });
     this.load.spritesheet('adeline',
-      'assets/adeline.png', {
+      'assets/images/adeline.png', {
         frameWidth: 200,
         frameHeight: 200
       });
     this.load.spritesheet('yogagirl',
-      'assets/yogagirl.png', {
+      'assets/images/yogagirl.png', {
         frameWidth: 200,
         frameHeight: 200
       });
     this.load.spritesheet('dio',
-      'assets/Dio.png', {
+      'assets/images/Dio.png', {
         frameWidth: 200,
         frameHeight: 233
       });
     this.load.spritesheet('fratboy2prime',
-      'assets/fratboy2prime.png', {
+      'assets/images/fratboy2prime.png', {
         frameWidth: 300,
         frameHeight: 300
       });
     this.load.spritesheet('junkie',
-      'assets/junkie.png', {
+      'assets/images/junkie.png', {
         frameWidth: 130,
         frameHeight: 200
       });
     this.load.spritesheet('crackhead',
-      'assets/crackhead.png', {
+      'assets/images/crackhead.png', {
         frameWidth: 165,
         frameHeight: 176
       });
     this.load.spritesheet('ex_junkie',
-      'assets/ex_junkie.png', {
+      'assets/images/ex_junkie.png', {
         frameWidth: 200,
         frameHeight: 200
       });
     this.load.spritesheet('fratboy1',
-      'assets/fratboy1.png', {
+      'assets/images/fratboy1.png', {
         frameWidth: 165,
         frameHeight: 250
       });
     this.load.spritesheet('fratboy2',
-      'assets/fratboy2.png', {
+      'assets/images/fratboy2.png', {
         frameWidth: 140,
         frameHeight: 250
       });
 
     this.load.spritesheet('fratboy3',
-      'assets/fratboy3.png', {
+      'assets/images/fratboy3.png', {
         frameWidth: 150,
         frameHeight: 250
       });
     this.load.spritesheet('fratboy4',
-      'assets/fratboy4.png', {
+      'assets/images/fratboy4.png', {
         frameWidth: 300,
         frameHeight: 250
       });
     this.load.spritesheet('fratboy5',
-      'assets/fratboy5.png', {
+      'assets/images/fratboy5.png', {
         frameWidth: 300,
         frameHeight: 350
       });
     this.load.spritesheet('car4',
-      'assets/car4.png', {
+      'assets/images/car4.png', {
         frameWidth: 64,
         frameHeight: 64
       });
     this.load.spritesheet('canjam-0',
-      'assets/canjam-0.png', {
+      'assets/images/canjam-0.png', {
         frameWidth: 200,
         frameHeight: 1200
       });
     this.load.spritesheet('canjam-1',
-      'assets/canjam-1.png', {
+      'assets/images/canjam-1.png', {
         frameWidth: 200,
         frameHeight: 1200
       });
     this.load.spritesheet('me',
-      'assets/me_running_BTJM.png', {
+      'assets/images/me_running_BTJM.png', {
         frameWidth: 200,
         frameHeight: 200
       });
     this.load.spritesheet('me_boxing',
-      'assets/me_boxing.png', {
+      'assets/images/me_boxing.png', {
         frameWidth: 200,
         frameHeight: 200
       });
     this.load.spritesheet('bennett',
-      'assets/bennett.png', {
+      'assets/images/bennett.png', {
         frameWidth: 200,
         frameHeight: 250
       });
     this.load.spritesheet('bennettattack',
-      'assets/bennettattack.png', {
+      'assets/images/bennettattack.png', {
         frameWidth: 200,
         frameHeight: 250
       });
     this.load.spritesheet('joe',
-      'assets/joe.png', {
+      'assets/images/joe.png', {
         frameWidth: 200,
         frameHeight: 250
       });
     this.load.spritesheet('james',
-      'assets/james.png', {
+      'assets/images/james.png', {
         frameWidth: 200,
         frameHeight: 280
       });
     this.load.spritesheet('al',
-      'assets/al.png', {
+      'assets/images/al.png', {
         frameWidth: 200,
         frameHeight: 250
       });
     this.load.spritesheet('jon',
-      'assets/jon_running.png', {
+      'assets/images/jon_running.png', {
         frameWidth: 200,
         frameHeight: 200
       });
     this.load.spritesheet('trevor',
-      'assets/trevor_walking.png', {
+      'assets/images/trevor_walking.png', {
         frameWidth: 200,
         frameHeight: 300
       });
     this.load.spritesheet('volleyball',
-      'assets/soccer_ball.png', {
+      'assets/images/soccer_ball.png', {
         frameWidth: 20,
         frameHeight: 20
       });
     this.load.spritesheet('ball',
-      'assets/volleyball.png', {
+      'assets/images/volleyball.png', {
         frameWidth: 16,
         frameHeight: 16
       });
     this.load.spritesheet('beachball',
-      'assets/beachball.png', {
+      'assets/images/beachball.png', {
         frameWidth: 32,
         frameHeight: 32
       });
     this.load.spritesheet('grl_dnc',
-      'assets/grl_dnc.png', {
+      'assets/images/grl_dnc.png', {
         frameWidth: 38,
         frameHeight: 88
       });
     this.load.spritesheet('girl1',
-      'assets/girl1.png', {
+      'assets/images/girl1.png', {
         frameWidth: 84,
         frameHeight: 194
       });
     this.load.spritesheet('girl2',
-      'assets/girl2.png', {
+      'assets/images/girl2.png', {
         frameWidth: 86,
         frameHeight: 204
       });
     this.load.spritesheet('girl3',
-      'assets/girl3.png', {
+      'assets/images/girl3.png', {
         frameWidth: 86,
         frameHeight: 188
       });
     this.load.spritesheet('smoke',
-      'assets/smokesheet.png', {
+      'assets/images/smokesheet.png', {
         frameWidth: 101,
         frameHeight: 97
       }
@@ -852,12 +853,12 @@ var LightWorld = new Phaser.Class({
     this.load.image("elTiles", "assets/tilesets/el_tileset_custom.png");
     this.load.image("elTiles2", "assets/tilesets/[Base]BaseChip_pipo.png");
     this.load.image("carTiles", "assets/tilesets/car_tiles.png");
-    this.load.tilemapTiledJSON("map", "assets/east_lansing.json");
+    this.load.tilemapTiledJSON("map", "assets/json/east_lansing.json");
   },
   create: function() {
     this.cameras.main.fadeIn(7000, 0, 0, 0)
     //default pointer
-    this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
+    this.input.setDefaultCursor('url(assets/images/handPointer.png), pointer');
     //camera controls
     const camera = this.cameras.main;
 
@@ -868,6 +869,9 @@ var LightWorld = new Phaser.Class({
     gameState.camera1.zoom = .051
     //console.log(gameState.camera1)
     //sound effects and music
+    this.brown_rap = this.sound.add('brown_rap', {
+      volume: 1
+    });
     this.start = this.sound.add('startSound', {
       volume: .7
     });
@@ -2734,11 +2738,11 @@ var LightWorld = new Phaser.Class({
     gameState.pointer = this.input.activePointer;
 
     this.input.on('pointerdown', function(pointer) {
-      this.input.setDefaultCursor('url(assets/handPointerClosed.png), pointer');
+      this.input.setDefaultCursor('url(assets/images/handPointerClosed.png), pointer');
     }, this);
 
     this.input.on('pointerup', function(pointer) {
-      this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
+      this.input.setDefaultCursor('url(assets/images/handPointer.png), pointer');
     }, this);
 
     //spawning layers which are above the player
@@ -3572,6 +3576,7 @@ var LightWorld = new Phaser.Class({
     if (distance(me, gameState.anthonySpawnPoint) < 30 && anthonyFirstDialogue === 0) {
       anthonyFirstDialogue = 1
       this.openDialoguePage(6000)
+      this.brown_rap.play()
     } else if (distance(me, gameState.evanSpawnPoint) < 30 && evanFirstDialogue === 0) {
       evanFirstDialogue = 1
       this.openDialoguePage(7000)
@@ -4424,6 +4429,10 @@ var LightWorld = new Phaser.Class({
     } else if (scene_number === 10 && launchParameter === false) {
       pause = true;
       this.scene.launch('QuestLog');
+      launchParameter = true
+    } else if (scene_number === 99 && launchParameter === false) {
+      pause = true;
+      this.scene.launch('ControlsScene');
       launchParameter = true
     }
     // this next part is only here so that numbers in the character menu update every frame... maybe this is causing some issues with speed? (fix needed...)

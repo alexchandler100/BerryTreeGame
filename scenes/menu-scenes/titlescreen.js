@@ -40,11 +40,13 @@ var TitleScreen = new Phaser.Class({
     //sumn
   },
   preload: function() {
-    this.load.audio('banner','assets/banner.mp3');
-    this.load.audio('trueStory','assets/trueStory.mp3');
-    this.load.image('hausdorf', "assets/hausdorf.png");
-    this.load.image('quil', "assets/quil.png");
-    this.load.image('banner', 'assets/banner.png');
+    //audio
+    this.load.audio('banner','assets/audio/banner.mp3');
+    this.load.audio('trueStory','assets/audio/trueStory.mp3');
+    //images
+    this.load.image('hausdorf', "assets/images/hausdorf.png");
+    this.load.image('quil', "assets/images/quil.png");
+    this.load.image('banner', 'assets/images/banner.png');
   },
   create: function() {
     //to skip title, uncomment
@@ -62,13 +64,13 @@ var TitleScreen = new Phaser.Class({
     });
     this.titleTime = 0;
     this.buttonPushed = false;
-    this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
+    this.input.setDefaultCursor('url(assets/images/handPointer.png), pointer');
     this.input.on('pointerdown', function(pointer) {
-      this.input.setDefaultCursor('url(assets/handPointerClosed.png), pointer');
+      this.input.setDefaultCursor('url(assets/images/handPointerClosed.png), pointer');
     }, this);
 
     this.input.on('pointerup', function(pointer) {
-      this.input.setDefaultCursor('url(assets/handPointer.png), pointer');
+      this.input.setDefaultCursor('url(assets/images/handPointer.png), pointer');
     }, this);
 
     function onlyUnique(value, index, self) {

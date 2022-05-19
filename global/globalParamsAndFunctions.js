@@ -965,6 +965,9 @@ function loadGame2() {
   }
 }
 
+function openControls(){
+  scene_number=99
+}
 
 function jimmyEnhanced(){
   damageObject["Jimmy"] += 5;

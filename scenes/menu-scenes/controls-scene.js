@@ -11,7 +11,7 @@ var ControlsScene = new Phaser.Class({
   onKeyInput: function(event) {
   },
   preload: function() {
-    this.load.image('controls', "assets/controls.png");
+    this.load.image('controls', "assets/images/controls.png");
   },
 
   create: function() {

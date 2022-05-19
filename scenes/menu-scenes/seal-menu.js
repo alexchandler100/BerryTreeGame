@@ -14,9 +14,9 @@ var SealMenu = new Phaser.Class({
     //sumn
   },
   preload: function() {
-    this.load.image('seal1', "assets/seal1.png");
-    this.load.image('seal2', "assets/seal2.png");
-    this.load.image('sealEmpty', "assets/sealEmpty.png");
+    this.load.image('seal1', "assets/images/seal1.png");
+    this.load.image('seal2', "assets/images/seal2.png");
+    this.load.image('sealEmpty', "assets/images/sealEmpty.png");
   },
   create: function() {
     function onlyUnique(value, index, self) {

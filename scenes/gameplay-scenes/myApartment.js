@@ -195,11 +195,11 @@ var MyApartment = new Phaser.Class({
   init: function(data) {
     gameState.music.stop()
   },
-  openDialoguePage: function (page){
+  openDialoguePage: function(page) {
     pageForDialogue = page
     openingDialogue = true;
-    if (gameState.phoneBackground){
-      if (gameState.camera1.visible){
+    if (gameState.phoneBackground) {
+      if (gameState.camera1.visible) {
         gameStateNav.phoneBackground.visible = false
         gameState.camera1.visible = false
         gameStateNav.gpsPointer.visible = false;
@@ -219,7 +219,7 @@ var MyApartment = new Phaser.Class({
     }
     this.scene.run("DialogueMenu");
     gameState.music.stop();
-    if (gameState.bossfight){
+    if (gameState.bossfight) {
       gameState.bossfight.stop();
     }
     musRnd = Math.floor(Math.random() * 4);
@@ -284,34 +284,40 @@ var MyApartment = new Phaser.Class({
     }
   },
   preload: function() {
-    this.load.image('yogamat', "assets/yogamat.png");
-    this.load.image('liquorApt', "assets/liquor.png");
-    this.load.image('yogaBlocks', "assets/yogaBlocks.png");
-    this.load.image('monsterApt', "assets/monster.png");
-    this.load.image('hammsApt', "assets/hamms.png");
-    this.load.image('larrySpecialApt', "assets/larrySpecial.png");
-    this.load.audio('ohshit', ['assets/ohshitohshit.wav']);
-    this.load.audio('chalk', ['assets/chalk.wav']);
-    this.load.audio('indoors0', ['assets/aidsBoogerBoogerAids.wav']);
-    this.load.audio('indoors1', ['assets/blessed.wav']);
-    this.load.audio('indoors2', ['assets/hungryMath.wav']);
-    this.load.audio('indoors3', ['assets/trick_daddy.wav']);
+    //audio
+    this.load.audio('ohshit', ['assets/audio/ohshitohshit.wav']);
+    this.load.audio('chalk', ['assets/audio/chalk.wav']);
+    this.load.audio('indoors0', ['assets/audio/aidsBoogerBoogerAids.wav']);
+    this.load.audio('indoors1', ['assets/audio/blessed.wav']);
+    this.load.audio('indoors2', ['assets/audio/hungryMath.wav']);
+    this.load.audio('indoors3', ['assets/audio/trick_daddy.wav']);
+    //images
+    this.load.image('yogamat', "assets/images/yogamat.png");
+    this.load.image('liquorApt', "assets/images/liquor.png");
+    this.load.image('yogaBlocks', "assets/images/yogaBlocks.png");
+    this.load.image('monsterApt', "assets/images/monster.png");
+    this.load.image('hammsApt', "assets/images/hamms.png");
+    this.load.image('larrySpecialApt', "assets/images/larrySpecial.png");
+    this.load.image("poolCue", "assets/images/poolcue.png");
+    this.load.image("triangleChalk", "assets/images/triangleChalk.png");
     this.load.spritesheet('me',
-      'assets/me_running_BTJM.png', {
+      'assets/images/me_running_BTJM.png', {
         frameWidth: 200,
         frameHeight: 200
       });
-    this.load.image("poolCue", "assets/poolcue.png");
-    this.load.image("triangleChalk", "assets/triangleChalk.png");
-    this.load.tilemapTiledJSON("mapApt", "assets/myApartment.json");
-    this.load.image("interiors", "assets/tilesets/interiors.png");
-    this.load.image("roomBuilder", "assets/tilesets/roombuilder.png");
-    this.load.image("customIndoor", "assets/tilesets/custom_indoors_stuff.png");
     this.load.spritesheet('poolballs',
-      'assets/poolballs.png', {
+      'assets/images/poolballs.png', {
         frameWidth: 25,
         frameHeight: 25
       });
+    //tilesets
+    this.load.image("interiors", "assets/tilesets/interiors.png");
+    this.load.image("roomBuilder", "assets/tilesets/roombuilder.png");
+    this.load.image("customIndoor", "assets/tilesets/custom_indoors_stuff.png");
+
+    this.load.tilemapTiledJSON("mapApt", "assets/json/myApartment.json");
+
+
   },
   create: function() {
 
@@ -362,7 +368,7 @@ var MyApartment = new Phaser.Class({
     }
 
     //this.input.setDefaultCursor('url(assets/cursors/sword.cur), pointer');
-    this.input.setDefaultCursor('url(assets/cross.png), pointer');
+    this.input.setDefaultCursor('url(assets/images/cross.png), pointer');
     zoom = 1
     //making the map
     mapApt = this.make.tilemap({
@@ -590,12 +596,12 @@ var MyApartment = new Phaser.Class({
     joeApt.setDepth(joeApt.y)
 
     trevorApt = this.physics.add.sprite(gameStateApt.trevorSpawnPoint.x, gameStateApt.trevorSpawnPoint.y, 'trevor');
-    trevorApt.setScale(.35*.7);
+    trevorApt.setScale(.35 * .7);
     trevorApt.body.setSize(80, 50);
     trevorApt.body.setOffset(60, 140);
     trevorApt.setDepth(trevorApt.y)
 
-    stripperApt = new NPC(this, "stripper apt spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown",  "stripperidle", "bong", false, 250, 125, 4000);
+    stripperApt = new NPC(this, "stripper apt spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "stripperidle", "bong", false, 250, 125, 4000);
     //stripperApt = this.physics.add.sprite(gameStateApt.stripperAptSpawnPoint.x, gameStateApt.stripperAptSpawnPoint.y, 'stripper');
     stripperApt.setScale(.5)
     if (stripper.following) {
@@ -708,12 +714,12 @@ var MyApartment = new Phaser.Class({
     this.input.on('pointerdown', function(pointer, localX, localY) {
       //this is how you transform coordinates from ingame coordinates to "pointer" coordinates
       if (cueball.body.velocity.x < 5 && cueball.body.velocity.y < 5 && cueball.body.velocity.x > -5 && cueball.body.velocity.y > -5) {
-        this.input.setDefaultCursor('url(assets/empty.png), pointer');
+        this.input.setDefaultCursor('url(assets/images/empty.png), pointer');
       }
     }, this);
 
     this.input.on('pointerup', function(pointer, localX, localY) {
-      this.input.setDefaultCursor('url(assets/cross.png), pointer');
+      this.input.setDefaultCursor('url(assets/images/cross.png), pointer');
       //this is how you transform coordinates from ingame coordinates to "pointer" coordinates
       if (cueball.body.velocity.x < 5 && cueball.body.velocity.y < 5 && cueball.body.velocity.x > -5 && cueball.body.velocity.y > -5 && dragging) {
 
@@ -1008,7 +1014,7 @@ var MyApartment = new Phaser.Class({
         me.x = gameState.PlayerSpawnPoint.x - 48;
         me.y = gameState.PlayerSpawnPoint.y - 64;
         console.log(`switched to lightworld from my apartment door inside`)
-      } else if (distance(meApt, gameStateApt.trevorAptEnter)<30) {
+      } else if (distance(meApt, gameStateApt.trevorAptEnter) < 30) {
         scene_number = 2
         this.scene.switch("LightWorld");
         this.scene.sleep("PoolScore");
@@ -1031,7 +1037,7 @@ var MyApartment = new Phaser.Class({
         me.y = gameState.clubhouse731BR.y - 100;
       }
       //switch to light world from clubhouse burcham woods entrance
-      else if (!joeBets && !jamesBets &&  meApt.x > gameState.clubhouseInsideWoodsEntrance.x - 30 && meApt.x < gameState.clubhouseInsideWoodsEntrance.x + 30 && meApt.y > gameState.clubhouseInsideWoodsEntrance.y - 30 && meApt.y < gameState.clubhouseInsideWoodsEntrance.y + 30) {
+      else if (!joeBets && !jamesBets && meApt.x > gameState.clubhouseInsideWoodsEntrance.x - 30 && meApt.x < gameState.clubhouseInsideWoodsEntrance.x + 30 && meApt.y > gameState.clubhouseInsideWoodsEntrance.y - 30 && meApt.y < gameState.clubhouseInsideWoodsEntrance.y + 30) {
         scene_number = 2
         this.scene.switch("LightWorld");
         this.scene.sleep("PoolScore");
@@ -1040,14 +1046,14 @@ var MyApartment = new Phaser.Class({
       } else if (distance(meApt, gameStateApt.elevatorUpstairs) < 60) {
         meApt.x = gameStateApt.elevatorDownstairs.x
         meApt.y = gameStateApt.elevatorDownstairs.y
-        if (stripperApt.following){
+        if (stripperApt.following) {
           stripperApt.x = meApt.x;
           stripperApt.y = meApt.y;
         }
       } else if (distance(meApt, gameStateApt.elevatorDownstairs) < 60) {
         meApt.x = gameStateApt.elevatorUpstairs.x
         meApt.y = gameStateApt.elevatorUpstairs.y
-        if (stripperApt.following){
+        if (stripperApt.following) {
           stripperApt.x = meApt.x;
           stripperApt.y = meApt.y;
         }
@@ -1071,7 +1077,7 @@ var MyApartment = new Phaser.Class({
             sleepyText.setText('')
             this.physics.resume()
           }, 6000);
-        } else if (stripperApt.following  && !stripperBanged) {
+        } else if (stripperApt.following && !stripperBanged) {
           console.log(`shes following`)
           window.setTimeout(() => {
             gameState.itemget.play();
@@ -1095,10 +1101,10 @@ var MyApartment = new Phaser.Class({
         }
       }
       //get keyboard
-      else if (!keyboardGet && distance(meApt,gameStateApt.keyboard)<40) {
-          keyboardDialogue = true;
-          gameState.itemget.play;
-          keyboardGet = true;
+      else if (!keyboardGet && distance(meApt, gameStateApt.keyboard) < 40) {
+        keyboardDialogue = true;
+        gameState.itemget.play;
+        keyboardGet = true;
       }
     }, this);
 
@@ -1112,7 +1118,7 @@ var MyApartment = new Phaser.Class({
   },
 
   update: function() {
-    if (startMegaman){
+    if (startMegaman) {
       startMegaman = false;
       this.scene.launch("MegamanUI");
       //this.scene.run("MegamanUI");
@@ -1120,26 +1126,26 @@ var MyApartment = new Phaser.Class({
     }
 
     //opens penguin fight if penguin is alive, and opens stag fight if stag is alive
-    if (distance(meApt,trevorApt)<30 && trevorAptFirstDialogue === 0){
+    if (distance(meApt, trevorApt) < 30 && trevorAptFirstDialogue === 0) {
       trevorAptFirstDialogue = 1;
       this.openDialoguePage(29)
-    } else if (distance(meApt,trevorApt)>60 && trevorAptFirstDialogue === 1){
-      if (this.Megaman.penguinAlive){
+    } else if (distance(meApt, trevorApt) > 60 && trevorAptFirstDialogue === 1) {
+      if (this.Megaman.penguinAlive) {
         trevorAptFirstDialogue = 0;
       } else {
         trevorAptFirstDialogue = 2;
       }
-    } else if (distance(meApt,trevorApt)<30 && trevorAptFirstDialogue === 2){
+    } else if (distance(meApt, trevorApt) < 30 && trevorAptFirstDialogue === 2) {
       trevorAptFirstDialogue = 3;
       this.openDialoguePage(299)
-    } else if (distance(meApt,trevorApt)>60 && trevorAptFirstDialogue === 3){
-      if (this.Megaman.stagAlive){
+    } else if (distance(meApt, trevorApt) > 60 && trevorAptFirstDialogue === 3) {
+      if (this.Megaman.stagAlive) {
         trevorAptFirstDialogue = 2;
       } else {
         trevorAptFirstDialogue = 4;
       }
     }
-    if (keyboardGet && distance(meApt,gameStateApt.keyboard)>60){
+    if (keyboardGet && distance(meApt, gameStateApt.keyboard) > 60) {
       keyboardGet = false;
     }
     //setting depth for me
@@ -1163,13 +1169,13 @@ var MyApartment = new Phaser.Class({
       keyboardDialogue = false;
       this.openDialoguePage(4000)
     }
-    if (openKeyboard){
+    if (openKeyboard) {
       openKeyboard = false;
       this.scene.launch('Keyboard');
-        gameStateApt.indoors0.stop()
-        gameStateApt.indoors1.stop()
-        gameStateApt.indoors2.stop()
-        gameStateApt.indoors3.stop()
+      gameStateApt.indoors0.stop()
+      gameStateApt.indoors1.stop()
+      gameStateApt.indoors2.stop()
+      gameStateApt.indoors3.stop()
     }
     //for english indicator
     if (gameStateApt.keyObjS.isDown) {

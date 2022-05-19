@@ -19,22 +19,24 @@ var HomeboyGame = new Phaser.Class({
     //sumn
   },
   preload: function() {
-    this.load.audio('bong', ['assets/bong.wav']);
-    this.load.image('hausdorf', "assets/hausdorf.png");
-    this.load.image('backgroundHB', "assets/homeboyBackground1.png");
-    this.load.audio('theme', ['assets/Fugginwitsumshiit.wav']);
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
-    this.load.image('cliff', 'assets/cliff.png');
-    this.load.image('star', 'assets/weed.png');
-    this.load.image('hausdorf', 'assets/hausdorf.png');
+    //audio
+    this.load.audio('bong', ['assets/audio/bong.wav']);
+    this.load.audio('theme', ['assets/audio/Fugginwitsumshiit.wav']);
+    //images
+    this.load.image('hausdorf', "assets/images/hausdorf.png");
+    this.load.image('backgroundHB', "assets/images/homeboyBackground1.png");
+    this.load.image('sky', 'assets/images/sky.png');
+    this.load.image('ground', 'assets/images/platform.png');
+    this.load.image('cliff', 'assets/images/cliff.png');
+    this.load.image('star', 'assets/images/weed.png');
+    this.load.image('hausdorf', 'assets/images/hausdorf.png');
     this.load.spritesheet('dude',
-      'assets/hb_walk.png', {
+      'assets/images/hb_walk.png', {
         frameWidth: 101,
         frameHeight: 97
       });
     this.load.spritesheet('smoke',
-      'assets/smokesheet.png', {
+      'assets/images/smokesheet.png', {
         frameWidth: 101,
         frameHeight: 97
       }
