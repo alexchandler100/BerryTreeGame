@@ -537,7 +537,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'trevor',
         page: 21,
-        narrative: "Jimmy: Damnnn you WENT PRO at kick-the-ball!!! Yo I'll help you out with fighting those frat dickheads. Damnn there's girls by the pool? The gate's locked but theres always that secret entrance on the west side of the fence.",
+        narrative: "Jimmy: Damnnn you WENT PRO at kick-the-ball!!! Yo I'll help you out with fighting those frat dickheads. Damnn there's girls by the pool? They must have got in through that secret entrance on the west side of the fence.",
         options: [{
           option: 'Dude hell yeah',
           nextPage: undefined,
