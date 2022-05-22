@@ -139,7 +139,6 @@ let launchParameter = false; //this just makes sure the gas station scene isn't 
 let indoorZone = ''
 let shakeTheWorld = false;
 let bennettGet = false;
-
 let alGet = false;
 let swimNoisePlaying = false;
 let walkNoisePlaying = false;
@@ -153,7 +152,6 @@ let speed = 1;
 let keepaway = 0;
 let keepawayHighScore = 0;
 let playerTexture = 0;
-
 let brothersSeal = 0;
 let brothersSealForSkateboarding = 0;
 let highness = 1;
@@ -164,7 +162,6 @@ let devMode2 = 0;
 let devMode3 = 0;
 let athletics = 1;
 let cantGetIn = 0;
-
 let saveFileExists = true;
 let scene_number = 2;
 let equipment = []
@@ -211,6 +208,7 @@ let chasers = [];
 let chasersEnabled = false;
 let chaserInitiateFight = 0;
 let itemReward = '';
+
 let randomEncounterRewards = {
   "Andy Capp's Hot Fries": .5,
   'Labatt Max Ice': .2,
@@ -523,8 +521,8 @@ let items = [];
 let itemEffects = {
   "Andy Capp's Hot Fries": "SP Max, HP +10",
   'Labatt Max Ice': "HP +60, SP +15",
-  "Monster": "SP +10, cure \n status ailments",
   "Gatorade": "HP +60, \n stamina max",
+  "Monster": "SP +10, cure \n status ailments",
   "Hamms": "HP +20 SP +5",
   "Larry Special": "HP max, SP max",
   "Liquor": "SP Max",
@@ -533,8 +531,8 @@ let itemEffects = {
 let all_usable_items = {
   "Andy Capp's Hot Fries": andycapps,
   'Labatt Max Ice': maxice,
-  "Monster": monster,
   "Gatorade": gatorade,
+  "Monster": monster,
   "Hamms": hamms,
   "Larry Special": larrySpecial,
   "Liquor": liquorItem
@@ -542,8 +540,8 @@ let all_usable_items = {
 let all_usable_items_icons = {
   "Andy Capp's Hot Fries": "andycappsIcon",
   'Labatt Max Ice': "maxiceIcon",
-  "Monster": "monsterIcon",
   "Gatorade": "gatoradeIcon",
+  "Monster": "monsterIcon",
   "Hamms": "hammsIcon",
   "Larry Special": "larrySpecialIcon",
   "Liquor": "liquorIcon"
@@ -610,6 +608,187 @@ let equipmentList = {
   "Dio Band": dioBand,
   "Sprinting Shoes": sprintingShoes,
 }
+
+function sprintingShoes(player, bool) {
+  if (bool === true) {
+    firstStrike = true;
+    athletics += .35005
+  } else {
+    firstStrike = false;
+    athletics -= .35005
+  }
+}
+
+function brassKnuckles(player, bool) {
+  if (bool === true) {
+    damageObject[player] += 15
+  } else {
+    damageObject[player] -= 15
+  }
+}
+
+function goldDuckTape(player, bool) {
+  if (bool === true) {
+    bleedProofObject[player]=true
+  } else {
+    bleedProofObject[player]=false
+  }
+}
+
+function dioBand(player, bool) {
+  if (bool === true) {
+    damageObject[player] += 25
+    bleedProofObject[player]=true
+    blindProofObject[player]=true
+    damageObject[player] += 30
+  } else {
+    damageObject[player] -= 25
+    bleedProofObject[player]=false
+    blindProofObject[player]=false
+    damageObject[player] -= 30
+  }
+}
+
+function camoDuckTape(player, bool) {
+  if (bool === true) {
+    blindProofObject[player]=true
+  } else {
+    blindProofObject[player]=false
+  }
+}
+
+function camoTshirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 2
+  } else {
+    defenseObject[player] -= 2
+  }
+}
+
+function jeans(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 1
+  } else {
+    defenseObject[player] -= 1
+  }
+}
+
+function blueShirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 3
+  } else {
+    defenseObject[player] -= 3
+  }
+}
+
+function snowpants(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 1
+  } else {
+    defenseObject[player] -= 1
+  }
+}
+
+function redShirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 3
+  } else {
+    defenseObject[player] -= 3
+  }
+}
+
+function runningShirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 5
+  } else {
+    defenseObject[player] -= 5
+  }
+}
+
+function runningShorts(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 3
+  } else {
+    defenseObject[player] -= 3
+  }
+}
+
+function redSweatpants(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 2
+  } else {
+    defenseObject[player] -= 2
+  }
+}
+
+function spBooster(player, bool) {
+  if (bool === true) {
+    maxSPObject[player] += 4
+  } else {
+    maxSPObject[player] -= 4
+  }
+}
+
+function hpBooster(player, bool) {
+  if (bool === true) {
+    maxHPObject[player] += 20
+  } else {
+    maxHPObject[player] -= 20
+  }
+}
+
+function damageBooster(player, bool) {
+  if (bool === true) {
+    neverMissObject[player]=true
+    damageObject[player] += 4
+  } else {
+    neverMissObject[player]=false
+    damageObject[player] -= 4
+  }
+}
+
+function camoHoody(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 20
+  } else {
+    defenseObject[player] -= 20
+  }
+}
+
+function camoPants(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 10
+  } else {
+    defenseObject[player] -= 10
+  }
+}
+
+function fubuShirt(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 12
+  } else {
+    defenseObject[player] -= 12
+  }
+}
+
+function jorts(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 15
+  } else {
+    defenseObject[player] -= 15
+  }
+}
+
+function wifeBeater(player, bool) {
+  if (bool === true) {
+    defenseObject[player] += 1
+    damageObject[player] += 5
+  } else {
+    defenseObject[player] -= 1
+    damageObject[player] -= 5
+  }
+}
+
 let equipmentDescriptions = {
   "Running Shirt": {
     type: "Bennett Body",
@@ -1113,185 +1292,7 @@ function giveCrackhead1() {
   }
 }
 
-function sprintingShoes(player, bool) {
-  if (bool === true) {
-    firstStrike = true;
-    athletics += .35005
-  } else {
-    firstStrike = false;
-    athletics -= .35005
-  }
-}
 
-function brassKnuckles(player, bool) {
-  if (bool === true) {
-    damageObject[player] += 15
-  } else {
-    damageObject[player] -= 15
-  }
-}
-
-function goldDuckTape(player, bool) {
-  if (bool === true) {
-    bleedProofObject[player]=true
-  } else {
-    bleedProofObject[player]=false
-  }
-}
-
-function dioBand(player, bool) {
-  if (bool === true) {
-    damageObject[player] += 25
-    bleedProofObject[player]=true
-    blindProofObject[player]=true
-    damageObject[player] += 30
-  } else {
-    damageObject[player] -= 25
-    bleedProofObject[player]=false
-    blindProofObject[player]=false
-    damageObject[player] -= 30
-  }
-}
-
-function camoDuckTape(player, bool) {
-  if (bool === true) {
-    blindProofObject[player]=true
-  } else {
-    blindProofObject[player]=false
-  }
-}
-
-function camoTshirt(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 2
-  } else {
-    defenseObject[player] -= 2
-  }
-}
-
-function jeans(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 1
-  } else {
-    defenseObject[player] -= 1
-  }
-}
-
-function blueShirt(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 3
-  } else {
-    defenseObject[player] -= 3
-  }
-}
-
-function snowpants(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 1
-  } else {
-    defenseObject[player] -= 1
-  }
-}
-
-function redShirt(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 3
-  } else {
-    defenseObject[player] -= 3
-  }
-}
-
-function runningShirt(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 5
-  } else {
-    defenseObject[player] -= 5
-  }
-}
-
-function runningShorts(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 3
-  } else {
-    defenseObject[player] -= 3
-  }
-}
-
-function redSweatpants(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 2
-  } else {
-    defenseObject[player] -= 2
-  }
-}
-
-function spBooster(player, bool) {
-  if (bool === true) {
-    maxSPObject[player] += 4
-  } else {
-    maxSPObject[player] -= 4
-  }
-}
-
-function hpBooster(player, bool) {
-  if (bool === true) {
-    maxHPObject[player] += 20
-  } else {
-    maxHPObject[player] -= 20
-  }
-}
-
-function damageBooster(player, bool) {
-  if (bool === true) {
-    neverMissObject[player]=true
-    damageObject[player] += 4
-  } else {
-    neverMissObject[player]=false
-    damageObject[player] -= 4
-  }
-}
-
-function camoHoody(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 20
-  } else {
-    defenseObject[player] -= 20
-  }
-}
-
-function camoPants(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 10
-  } else {
-    defenseObject[player] -= 10
-  }
-}
-
-function fubuShirt(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 12
-  } else {
-    defenseObject[player] -= 12
-  }
-}
-
-function jorts(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 15
-  } else {
-    defenseObject[player] -= 15
-  }
-}
-
-function wifeBeater(player, bool) {
-  if (bool === true) {
-    defenseObject[player] += 1
-    damageObject[player] += 5
-  } else {
-    defenseObject[player] -= 1
-    damageObject[player] -= 5
-  }
-}
 
 
 function sleep() {
