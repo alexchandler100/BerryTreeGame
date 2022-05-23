@@ -1985,7 +1985,6 @@ let jsonInventoryData={}
     });
   });
 
-
 window.setTimeout(()=>{
   console.log(jsonInventoryData)
 },200)
