@@ -1,5 +1,0 @@
-if (bennett.following)
-  jimmyHpText = this.add.text(175 + 600, 140, `Bennett HP: ${hpObject['Bennett']}/${maxHPObject['Bennett']} \nBennett SP: ${spObject['Bennett']}/${maxSPObject['Bennett']} \nBennett EXP: ${expObject['Bennett']}/${100*3**(levelObject['Bennett']-1)} \nBennett LVL: ${levelObject['Bennett']} \nBennett DMG: ${damageObject['Bennett']} \nBennett DEF: ${defenseObject['Bennett']}`, {
-    fontSize: '25px',
-    fill: '#fff'
-  });

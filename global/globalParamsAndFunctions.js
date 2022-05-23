@@ -585,6 +585,7 @@ let equipmentTypes = {
   "Gold Duck Tape": "accessory",
   "Dio Band": "accessory"
 }
+
 let equipmentList = {
   "Camo T-Shirt": camoTshirt,
   "Jeans": jeans,
