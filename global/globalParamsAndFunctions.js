@@ -160,6 +160,7 @@ let pause = false;
 let devMode1 = 0;
 let devMode2 = 0;
 let devMode3 = 0;
+let doitS = 0;
 let athletics = 1;
 let cantGetIn = 0;
 let saveFileExists = true;
@@ -178,15 +179,16 @@ let worldTheme = 'light'
 let darkWorld = 0;
 let hausdorfTexture = 0;
 
-//item parameters
+//special item parameters
 let gas = 6;
+let money = 0;
 let phoneGet = 0;
 let walletGet = 0;
 let liquorGet = 0;
 let flowersGet = 0;
 let keysGet = 0;
-let doitS = 0;
-let money = 0;
+
+//inventory parameters
 let hamms = 2;
 let monster = 0;
 let maxice = 0;
@@ -194,20 +196,6 @@ let andycapps = 0;
 let gatorade = 0;
 let liquorItem = 0;
 let larrySpecial = 0;
-
-//battle parameters
-let numberOfPlayers = 1;
-let battleBackgroundIndex = 0
-let currentXY;
-let actionIndex;
-let enemyIndex;
-let reward = 0;
-let exp = 0;
-let wonBattle = 0;
-let chasers = [];
-let chasersEnabled = false;
-let chaserInitiateFight = 0;
-let itemReward = '';
 
 let randomEncounterRewards = {
   "Andy Capp's Hot Fries": .5,
@@ -223,6 +211,154 @@ let randomEncounterRewards = {
   'Fubu Shirt': .2,
   'Camo Pants': .2,
 }
+let items = [];
+let itemEffects = {
+  "Andy Capp's Hot Fries": "SP Max, HP +10",
+  'Labatt Max Ice': "HP +60, SP +15",
+  "Gatorade": "HP +60, \n stamina max",
+  "Monster": "SP +10, cure \n status ailments",
+  "Hamms": "HP +20 SP +5",
+  "Larry Special": "HP max, SP max",
+  "Liquor": "SP Max",
+  "Gas": "makes your \n car work"
+}
+let all_usable_items = {
+  "Andy Capp's Hot Fries": andycapps,
+  'Labatt Max Ice': maxice,
+  "Gatorade": gatorade,
+  "Monster": monster,
+  "Hamms": hamms,
+  "Larry Special": larrySpecial,
+  "Liquor": liquorItem
+}
+let all_usable_items_icons = {
+  "Andy Capp's Hot Fries": "andycappsIcon",
+  'Labatt Max Ice': "maxiceIcon",
+  "Gatorade": "gatoradeIcon",
+  "Monster": "monsterIcon",
+  "Hamms": "hammsIcon",
+  "Larry Special": "larrySpecialIcon",
+  "Liquor": "liquorIcon"
+}
+let usable_items = {
+  "Monster": monster,
+  "Gatorade": gatorade,
+  "Hamms": hamms
+}
+let numberOfItems = 0;
+for (let i = 0; i < Object.keys(usable_items).length; i++) {
+  numberOfItems += usable_items[Object.keys(usable_items)[i]]
+}
+
+//to use items
+function useItem(object, player) {
+  if (object === "Monster") {
+    if (usable_items["Monster"] >= 1) {
+      monster -= 1
+      usable_items["Monster"] -= 1
+      spObject[player] += 10
+      if (spObject[player] >= maxSPObject[player]) {
+        spObject[player] = maxSPObject[player]
+      }
+      bleedingObject[player]=0;
+      blindObject[player]=0;
+    }
+  } else if (object === "Gatorade") {
+    if (usable_items["Gatorade"] >= 1) {
+      gatorade -= 1
+      usable_items["Gatorade"] -= 1
+      hpObject[player] += 60
+      stamina = 100
+      if (hpObject[player] >= maxHPObject[player]) {
+        hpObject[player] = maxHPObject[player]
+      }
+    }
+  } else if (object === "Hamms") {
+    if (usable_items["Hamms"] >= 1) {
+      hamms -= 1
+      usable_items["Hamms"] -= 1
+      hpObject[player] += 20
+      if (hpObject[player] >= maxHPObject[player]) {
+        hpObject[player] = maxHPObject[player]
+      }
+      spObject[player] += 5
+      if (spObject[player] >= maxSPObject[player]) {
+        spObject[player] = maxSPObject[player]
+      }
+    }
+  } else if (object === "Liquor") {
+    if (usable_items["Liquor"] >= 1) {
+      liquorItem -= 1
+      usable_items["Liquor"] -= 1
+      spObject[player] = maxSPObject[player]
+    }
+  } else if (object === "Andy Capp's Hot Fries") {
+    if (usable_items["Andy Capp's Hot Fries"] >= 1) {
+      andycapps -= 1
+      usable_items["Andy Capp's Hot Fries"] -= 1
+      spObject[player] = maxSPObject[player]
+      hpObject[player] += 10
+      if (hpObject[player] >= maxHPObject[player]) {
+        hpObject[player] = maxHPObject[player]
+      }
+    }
+  } else if (object === "Labatt Max Ice") {
+    if (usable_items["Labatt Max Ice"] >= 1) {
+      maxice -= 1
+      usable_items["Labatt Max Ice"] -= 1
+      hpObject[player] += 50
+      if (hpObject[player] >= maxHPObject[player]) {
+        hpObject[player] = maxHPObject[player]
+      }
+      spObject[player] += 15
+      if (spObject[player] >= maxSPObject[player]) {
+        spObject[player] = maxSPObject[player]
+      }
+    }
+  } else if (object === "Larry Special") {
+    if (usable_items["Larry Special"] >= 1) {
+      //console.log(`I have one larry special`)
+      larrySpecial -= 1
+      usable_items["Larry Special"] -= 1
+      hpObject[player] = maxHPObject[player]
+      spObject[player] = maxSPObject[player]
+    }
+  }
+}
+
+function getBeer() { //bennett gives you beer
+  hamms += 1
+  usable_items["Hamms"] += 1
+  gameState.itemget.play()
+}
+
+function getMonsters() { //james gives you monster
+  monster += 2
+  usable_items["Monster"] += 2
+  gameState.itemget.play()
+}
+
+function get10Monsters() { //james gives you monster
+  monster += 10
+  usable_items["Monster"] += 10
+  gameState.itemget.play()
+}
+
+//battle parameters
+let numberOfPlayers = 1;
+let battleBackgroundIndex = 0
+let currentXY;
+let actionIndex;
+let enemyIndex;
+let reward = 0;
+let exp = 0;
+let wonBattle = 0;
+let chasers = [];
+let chasersEnabled = false;
+let chaserInitiateFight = 0;
+let itemReward = '';
+
+
 
 let animObject = {
   "Dio": ['diofloat', 'dioslash'],
@@ -517,44 +653,6 @@ let skillDialogue = {
   }
 }
 
-let items = [];
-let itemEffects = {
-  "Andy Capp's Hot Fries": "SP Max, HP +10",
-  'Labatt Max Ice': "HP +60, SP +15",
-  "Gatorade": "HP +60, \n stamina max",
-  "Monster": "SP +10, cure \n status ailments",
-  "Hamms": "HP +20 SP +5",
-  "Larry Special": "HP max, SP max",
-  "Liquor": "SP Max",
-  "Gas": "makes your \n car work"
-}
-let all_usable_items = {
-  "Andy Capp's Hot Fries": andycapps,
-  'Labatt Max Ice': maxice,
-  "Gatorade": gatorade,
-  "Monster": monster,
-  "Hamms": hamms,
-  "Larry Special": larrySpecial,
-  "Liquor": liquorItem
-}
-let all_usable_items_icons = {
-  "Andy Capp's Hot Fries": "andycappsIcon",
-  'Labatt Max Ice': "maxiceIcon",
-  "Gatorade": "gatoradeIcon",
-  "Monster": "monsterIcon",
-  "Hamms": "hammsIcon",
-  "Larry Special": "larrySpecialIcon",
-  "Liquor": "liquorIcon"
-}
-let usable_items = {
-  "Monster": monster,
-  "Gatorade": gatorade,
-  "Hamms": hamms
-}
-let numberOfItems = 0;
-for (let i = 0; i < Object.keys(usable_items).length; i++) {
-  numberOfItems += usable_items[Object.keys(usable_items)[i]]
-}
 let players = ["Mac", "Al", "Jimmy"];
 let playerColors = {
   "Mac": 0x0e7d4e,
@@ -1490,81 +1588,7 @@ function buyWeedRipoff() {
   }
 }
 
-//to use items
-function useItem(object, player) {
-  if (object === "Monster") {
-    if (usable_items["Monster"] >= 1) {
-      monster -= 1
-      usable_items["Monster"] -= 1
-      spObject[player] += 10
-      if (spObject[player] >= maxSPObject[player]) {
-        spObject[player] = maxSPObject[player]
-      }
-      bleedingObject[player]=0;
-      blindObject[player]=0;
-    }
-  } else if (object === "Gatorade") {
-    if (usable_items["Gatorade"] >= 1) {
-      gatorade -= 1
-      usable_items["Gatorade"] -= 1
-      hpObject[player] += 60
-      stamina = 100
-      if (hpObject[player] >= maxHPObject[player]) {
-        hpObject[player] = maxHPObject[player]
-      }
-    }
-  } else if (object === "Hamms") {
-    if (usable_items["Hamms"] >= 1) {
-      hamms -= 1
-      usable_items["Hamms"] -= 1
-      hpObject[player] += 20
-      if (hpObject[player] >= maxHPObject[player]) {
-        hpObject[player] = maxHPObject[player]
-      }
-      spObject[player] += 5
-      if (spObject[player] >= maxSPObject[player]) {
-        spObject[player] = maxSPObject[player]
-      }
-    }
-  } else if (object === "Liquor") {
-    if (usable_items["Liquor"] >= 1) {
-      liquorItem -= 1
-      usable_items["Liquor"] -= 1
-      spObject[player] = maxSPObject[player]
-    }
-  } else if (object === "Andy Capp's Hot Fries") {
-    if (usable_items["Andy Capp's Hot Fries"] >= 1) {
-      andycapps -= 1
-      usable_items["Andy Capp's Hot Fries"] -= 1
-      spObject[player] = maxSPObject[player]
-      hpObject[player] += 10
-      if (hpObject[player] >= maxHPObject[player]) {
-        hpObject[player] = maxHPObject[player]
-      }
-    }
-  } else if (object === "Labatt Max Ice") {
-    if (usable_items["Labatt Max Ice"] >= 1) {
-      maxice -= 1
-      usable_items["Labatt Max Ice"] -= 1
-      hpObject[player] += 50
-      if (hpObject[player] >= maxHPObject[player]) {
-        hpObject[player] = maxHPObject[player]
-      }
-      spObject[player] += 15
-      if (spObject[player] >= maxSPObject[player]) {
-        spObject[player] = maxSPObject[player]
-      }
-    }
-  } else if (object === "Larry Special") {
-    if (usable_items["Larry Special"] >= 1) {
-      //console.log(`I have one larry special`)
-      larrySpecial -= 1
-      usable_items["Larry Special"] -= 1
-      hpObject[player] = maxHPObject[player]
-      spObject[player] = maxSPObject[player]
-    }
-  }
-}
+
 
 
 
@@ -1729,24 +1753,6 @@ function dioFight() { //initiate dio fight
   gameStateDark.music.stop()
   gameState.holyDiver.play()
   bossType = 'dio'
-}
-
-function getBeer() { //bennett gives you beer
-  hamms += 1
-  usable_items["Hamms"] += 1
-  gameState.itemget.play()
-}
-
-function getMonsters() { //james gives you monster
-  monster += 2
-  usable_items["Monster"] += 2
-  gameState.itemget.play()
-}
-
-function get10Monsters() { //james gives you monster
-  monster += 10
-  usable_items["Monster"] += 10
-  gameState.itemget.play()
 }
 
 function getCigarettes() { //jon gives you cigarettes
@@ -1965,3 +1971,21 @@ function getDamageBoost() {
 function playItemGet() {
   gameState.itemget.play();
 }
+
+//building inventory from the file inventory_items.json
+let jsonInventoryData={}
+  $(function() {
+    //var people = [];
+    $.getJSON('data/json-files/inventory_items.json', function(data) {
+      //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+      $.each(data, function(i, f) {
+        name=f['name']
+        jsonInventoryData[name] = f
+      });
+    });
+  });
+
+
+window.setTimeout(()=>{
+  console.log(jsonInventoryData)
+},200)

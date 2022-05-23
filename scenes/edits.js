@@ -26,26 +26,6 @@ var Outfit = new Phaser.Class({
   },
 });
 
-class InventoryItem {
-  constuctor(name, hp, sp, stamina, blind, bleed){
-    this.name = name;
-    this.hp = hp;
-    this.sp = sp;
-    this.stamina = stamina;
-    this.blind = blind;
-    this.bleed = bleed;
-  }
-}
-
-var Inventory = new Phaser.Class({
-  Extends: Phaser.GameObjects.Container,
-  //inventoryDict is a dictionary with keys: item names and values: quantity held
-  initialize: function Inventory(x,y, inventoryDict) {
-    Phaser.GameObjects.Container.call(this, x,y, inventoryDict);
-    this.inventoryList = inventoryList
-  },
-});
-
 class SpecialInventoryItem {
   constuctor(name, description){
     this.name = name;
@@ -75,3 +55,26 @@ class PartyMember {
     this.outfit = outfit
   }
 }
+
+class InventoryItem {
+  constuctor(name, randomEncounterRewards, itemEffects, all_usable_items_icons, numberOwned, sp,	hp, stamina, status_ailments){
+    this.name = name;
+    this.randomEncounterRewards = randomEncounterRewards;
+    this.itemEffects = itemEffects;
+    this.all_usable_items_icons = all_usable_items_icons;
+    this.numberOwned = numberOwned;
+    this.hp = hp;
+    this.sp = sp;
+    this.stamina = stamina;
+    this.status_ailments = status_ailments;
+  }
+}
+
+var InventoryDisplay = new Phaser.Class({
+  Extends: Phaser.GameObjects.Container,
+  //inventoryDict is a dictionary with keys: item names and values: quantity held
+  initialize: function InventoryDisplay(x,y, inventoryDict) {
+    Phaser.GameObjects.Container.call(this, x,y, inventoryDict);
+    this.inventoryList = inventoryList
+  },
+});

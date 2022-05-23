@@ -1,0 +1,79 @@
+{
+    "0": {
+        "name": "Andy Capp's Hot Fries",
+        "randomEncounterRewards": "0.5",
+        "itemEffects": "SP Max, HP +10",
+        "all_usable_items_icons": "andycappsIcon",
+        "numberOwned": "0",
+        "sp": "max",
+        "hp": "10",
+        "stamina": "na",
+        "status_ailments": "na"
+    },
+    "1": {
+        "name": "Labatt Max Ice",
+        "randomEncounterRewards": "0.2",
+        "itemEffects": "HP +60, SP +15",
+        "all_usable_items_icons": "maxiceIcon",
+        "numberOwned": "0",
+        "sp": "15",
+        "hp": "60",
+        "stamina": "na",
+        "status_ailments": "na"
+    },
+    "2": {
+        "name": "Gatorade",
+        "randomEncounterRewards": "0.4",
+        "itemEffects": "HP +60, \\n stamina max",
+        "all_usable_items_icons": "gatoradeIcon",
+        "numberOwned": "0",
+        "sp": "na ",
+        "hp": "60",
+        "stamina": "max",
+        "status_ailments": "na"
+    },
+    "3": {
+        "name": "Monster",
+        "randomEncounterRewards": "0.4",
+        "itemEffects": "SP +10, cure \\n status ailments",
+        "all_usable_items_icons": "monsterIcon",
+        "numberOwned": "0",
+        "sp": "10",
+        "hp": "na",
+        "stamina": "na",
+        "status_ailments": "cure all"
+    },
+    "4": {
+        "name": "Hamms",
+        "randomEncounterRewards": "0.4",
+        "itemEffects": "HP +20 SP +5",
+        "all_usable_items_icons": "hammsIcon",
+        "numberOwned": "2",
+        "sp": "5",
+        "hp": "20",
+        "stamina": "na",
+        "status_ailments": "na"
+    },
+    "5": {
+        "name": "Larry Special",
+        "randomEncounterRewards": "0.2",
+        "itemEffects": "HP max, SP max",
+        "all_usable_items_icons": "larrySpecialIcon",
+        "numberOwned": "0",
+        "sp": "max",
+        "hp": "max",
+        "stamina": "na",
+        "status_ailments": "na"
+    },
+    "6": {
+        "name": "Liquor",
+        "randomEncounterRewards": "0",
+        "itemEffects": "SP Max",
+        "all_usable_items_icons": "liquorIcon",
+        "numberOwned": "0",
+        "sp": "max",
+        "hp": "na",
+        "stamina": "na",
+        "status_ailments": "na"
+    }
+}
