@@ -217,10 +217,10 @@ var ItemsMenu = new Phaser.Class({
 
     this.input.on('pointerover', function(pointer, justOver) {
       if (justOver[0].name && justOver[0].name !== "Mac" && justOver[0].name !== "Al" && justOver[0].name !== "Jimmy" && justOver[0].name !== "Bennett") {
-        gameState2.tempBackground.x = pointer.x + 150;
+        gameState2.tempBackground.x = pointer.x + 50;
         gameState2.tempBackground.y = pointer.y - 15;
         gameState2.tempBackground.visible = true;
-        gameState2.tempBackground2.x = pointer.x + 150 - borderWidth;
+        gameState2.tempBackground2.x = pointer.x + 50 - borderWidth;
         gameState2.tempBackground2.y = pointer.y - 15 - borderWidth;
         gameState2.tempBackground2.visible = true;
         gameState2.tempText.visible = true;
