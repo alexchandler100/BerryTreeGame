@@ -8,14 +8,14 @@ var DialogueMenu = new Phaser.Class({
     });
     this.giveMeSkateboard = false;
     this.iconScaleFrame={
-      'me': [1.1,0],
-      'trevor': [.75,0],
-      'al': [1,0],
+      'Mac': [1.1,0],
+      'Jimmy': [.75,0],
+      'Al': [1,0],
       'god': [1,0],
       'james': [1,0],
       'joe': [1.2,0],
       'jon': [1.1,0],
-      'bennett': [1.2,0],
+      'Bennett': [1.2,0],
       'stripper': [1.9,1],
       'crackhead': [1.3,0],
       'yogagirl': [1.3,9],
@@ -158,7 +158,7 @@ var DialogueMenu = new Phaser.Class({
         gameState.headshot = scene.add.image(faceX,faceY,'jimmyFace').setScale(faceScale)
         gameState.headshotBackground.visible = true;
 
-      } else if (page.character==="Al"){
+      } else if (page.character==='Al'){
         gameState.headshot = scene.add.image(faceX,faceY,'alFace').setScale(faceScale)
         gameState.headshotBackground.visible = true;
       }
@@ -406,7 +406,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 10,
         narrative: 'Ill just see whats up with Jimmy.',
         options: [{
@@ -421,7 +421,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 5,
         narrative: "Alright, got my wallet and my phone at least. Got about 3.50 in here. Plus now I can use GPS (click the phone icon to toggle GPS). Now where the fuck are my keys at?",
         options: [{
@@ -432,7 +432,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 5+1000000,
         narrative: "Alright, got my wallet and my phone at least. Got about 3.50 in here. Plus now I can use GPS (click the phone icon to toggle GPS). Now where are my keys at?",
         options: [{
@@ -455,7 +455,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 6,
         narrative: "Parked my car somewhere by the woods I think... maybe behind 711 Burcham.",
         options: [{
@@ -467,7 +467,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 7,
         narrative: "Tight, I better head up to the gas station and get some shit. Better not crash though... (go to the Mobile station at Abbott and E. Saginaw.)",
         options: [{
@@ -497,7 +497,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 20,
         narrative: "Jimmy: Damnnn that was tight dude you almost WENT PRO at Kick-The-Ball.\n (you need 500 points)",
         options: [{
@@ -516,7 +516,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 20+1000000,
         narrative: "Jimmy: That was tight dude you almost WENT PRO at Kick-The-Ball.\n (you need 500 points)",
         options: [{
@@ -535,7 +535,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 21,
         narrative: "Jimmy: Damnnn you WENT PRO at kick-the-ball!!! Yo I'll help you out with fighting those frat dickheads. Damnn there's girls by the pool? The gate's locked but theres always that secret entrance on the west side of the fence.",
         options: [{
@@ -546,7 +546,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 21+1000000,
         narrative: "Jimmy: Niiiice you WENT PRO at kick-the-ball!!! Yo I'll help you out with fighting those frat boys. Woah there's girls by the pool? The gate's locked but theres always that secret entrance on the west side of the fence.",
         options: [{
@@ -557,7 +557,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 22,
         narrative: "Jimmy: Dude HOLY FUCK! That level of kick-the-ball skill has earned you the motha fucking BROTHER'S SEAL. Damnnn theres a pool party?",
         options: [{
@@ -580,7 +580,7 @@ var DialogueMenu = new Phaser.Class({
 
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 24,
         narrative: "Jimmy: Damnnn you went pro again. Right on. Gotta do more badass shit to get that BROTHER'S SEAL though that shit needs to be tight (you need 1000 points)",
         options: [{
@@ -590,7 +590,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 25,
         narrative: "Jimmy: Shiiiiit that wasn't great. You must be hungover, goddamn usually you kick ass at kick-the-ball (you need at least 500 points)",
         options: [{
@@ -608,7 +608,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 25+1000000,
         narrative: "Jimmy: Well... that wasn't great. You must be hungover, usually you're awesome at at kick-the-ball (you need at least 500 points)",
         options: [{
@@ -626,7 +626,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 26,
         narrative: "Jimmy: Do you have amnesia or some shit? Goddamn man this is kick-the-ball. Just try and keep the ball for awhile, do some cool stuff and you'll get points. Get enough points and you'll GO PRO or even get the BROTHER'S SEAL. (Press delete/backspace to respawn the ball)",
         options: [{
@@ -642,7 +642,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 26+1000000,
         narrative: "Jimmy: Do you have amnesia or something? This is kick-the-ball. Just try and keep the ball for awhile, do some cool stuff and you'll get points. Get enough points and you'll GO PRO or even get the BROTHER'S SEAL. (Press delete/backspace to respawn the ball)",
         options: [{
@@ -668,7 +668,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 28,
         narrative: "I can't be just breaking into Jimmy's place...",
         options: [{
@@ -678,7 +678,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 29,
         narrative: "Jimmy: Yo I can't beat this fucking boss. Wanna smoke this joint and give it a try? (Press S to shoot and D to slide. You can even perform an air dash with D.)",
         options: [{
@@ -693,7 +693,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 29+1000000,
         narrative: "Jimmy: Yo I can't beat this boss. Wanna give it a try? (Press S to shoot and D to slide. You can even perform an air dash with D.)",
         options: [{
@@ -708,7 +708,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 299,
         narrative: "Jimmy: Damnnnn you beat penguin? Yo this guy is hard as fuck though. Wanna try? Yo you can switch weapons if you press the BACKSPACE button. Pretty sure ice kills this guy but he's still hard as fuck.",
         options: [{
@@ -723,7 +723,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 290,
         narrative: "Shiiiit I'm too high... I had to go outside. At least I beat that guy. I should go back at some point and see whats next.",
         options: [{
@@ -733,7 +733,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 290+1000000,
         narrative: "For some reason I had to go outside. At least I beat that guy. I should go back at some point and see whats next.",
         options: [{
@@ -743,7 +743,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 291,
         narrative: "Goddamn I'm way too high... I had to go outside. That boss was fucking hard. I should go back at some point and try again.",
         options: [{
@@ -753,7 +753,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 291+1000000,
         narrative: "Whew... for some reason I had to go outside. That boss was hard. I should go back at some point and try again.",
         options: [{
@@ -774,7 +774,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'al',
+        character: 'Al',
         page: 30,
         narrative: "Al: Hey man, I got this airsoft gun, you wanna fuck wit it?",
         options: [{
@@ -789,7 +789,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'al',
+        character: 'Al',
         page: 30+1000000,
         narrative: "Al: Hey man, I got this airsoft gun, you wanna mess wit it?",
         options: [{
@@ -804,7 +804,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'al',
+        character: 'Al',
         page: 31,
         narrative: "Al: Listen man, gimme four beers and two grams of weed and you can fuck wit it fo awhile.",
         options: [{
@@ -815,7 +815,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'al',
+        character: 'Al',
         page: 31+1000000,
         narrative: "Al: Listen man, gimme four beers and two grams of weed and you can mess wit it fo awhile.",
         options: [{
@@ -826,7 +826,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'al',
+        character: 'Al',
         page: 32,
         narrative: "Al: You wanna hit this joint?",
         options: [{
@@ -843,7 +843,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'al',
+        character: 'Al',
         page: 33,
         narrative: "Al: Hit that shit then.",
         options: [{
@@ -854,7 +854,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'al',
+        character: 'Al',
         page: 34,
         narrative: "Al: Man whats your fuckin problem today?",
         options: [{
@@ -864,7 +864,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'al',
+        character: 'Al',
         page: 35,
         narrative: "Al: Yoooo nice. Ima drink these beers. Instead of giving you dis gun, Ima roll wit ya. Heard these fratboys been fuckin wit you dawg I ain't cool wit dat.",
         options: [{
@@ -1084,7 +1084,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'trevor',
+        character: 'Jimmy',
         page: 60,
         narrative: "Jimmy: Dude this is BADASS. We need some liquor and weed though.",
         options: [{
@@ -1286,7 +1286,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'bennett',
+        character: 'Bennett',
         page: 90,
         narrative: "Bennett: Broooo we must race! Beat me in a race to Burcham and Abbott and I'll help you out.",
         options: [{
@@ -1892,7 +1892,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 704,
         narrative: `That was fucked... I better not get in a fight right now... I need to rest or something. What the fuck was that shit?`,
         options: [{
@@ -1902,7 +1902,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 705,
         narrative: `Was that a dream? Was I hallucinating? What the fuck was that shit about? I better sleep it off.`,
         options: [{
@@ -1922,7 +1922,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 707,
         narrative: `Was that real? Guess I had the wrong answer...`,
         options: [{
@@ -1932,7 +1932,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 800,
         narrative: `What the shit? I'm not sure if I'm feelin weird off that tussin or if I have literally warped to another dimension...`,
         options: [{
@@ -2009,7 +2009,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 1300,
         narrative: `Would you like to rest in your bed?`,
         options: [{
@@ -2165,7 +2165,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'bennett',
+        character: 'Bennett',
         page: 1700,
         narrative: `Bennett: Damnn how'd you get so fast? God damn it alright I guess I'll help you out bro. I'm gonna kick these frat fucks in the dick!!!!`,
         options: [{
@@ -2181,7 +2181,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'bennett',
+        character: 'Bennett',
         page: 1701,
         narrative: `Bennett: Good try bro. I heard homeboy Jon got some sprinting shoes maybe you can borrow them HAHAH... saw him dicking around behind St. Thomas Aquinas. Also if you just run a lot, your athletics will get better.`,
         options: [{
@@ -2197,7 +2197,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 1800,
         narrative: `Damnnnn that was fucking dumb... shiiiiit... (you're all fucked up, you should rest and recover... or at least drink some beers). You can get your car again where you originally found it.`,
         options: [{
@@ -2213,7 +2213,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 1800+1000000,
         narrative: `That was dumb... shiiiiit... (you're all messed up, you should rest and recover... or at least drink some beers). You can get your car again where you originally found it.`,
         options: [{
@@ -2603,7 +2603,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 5000,
         narrative: `Man, random people are attacking me... that ain't good. I must have gone to a frat party or something last night. I always end up getting in fights with those dickheads.`,
         options: [{
@@ -2617,7 +2617,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 5000+1000000,
         narrative: `Man, random people are attacking me... that ain't good. I must have gone to a frat party or something last night. I always end up getting in fights with those guys.`,
         options: [{
@@ -2739,7 +2739,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 5001,
         narrative: `Oh shit I do remember trying to pick up that PT Cruiser with Jimmy and Homeboy Jon last night behind that halfway house, and that fat old dickhead started chasing us.`,
         options: [{
@@ -2749,7 +2749,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 5002,
         narrative: `I guess that explains why that junkie is all pissed trying to stab us and stuff...`,
         options: [{
@@ -2763,7 +2763,7 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
-        character: 'me',
+        character: 'Mac',
         page: 5003,
         narrative: `I need to get the drop on these guys\n(If they catch you while they are chasing, they get first strike...)`,
         options: [{

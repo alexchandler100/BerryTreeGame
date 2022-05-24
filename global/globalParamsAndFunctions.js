@@ -80,7 +80,6 @@ let ergh = 0;
 let holdon = 0
 let beatbox = 0;
 let blocked = 0;
-
 let checkLevelDialogue = 0;
 let evanFirstDialogue = 0;
 let anthonyFirstDialogue = 0;
@@ -105,6 +104,27 @@ let bossType;
 let bossBattle = false;
 let bossBattleParameter = 0;
 
+//battle parameters
+let numberOfPlayers = 1;
+let battleBackgroundIndex = 0
+let currentXY;
+let actionIndex;
+let enemyIndex;
+let reward = 0;
+let exp = 0;
+let wonBattle = 0;
+let chasers = [];
+let chasersEnabled = false;
+let chaserInitiateFight = 0;
+let itemReward = '';
+let mohawkBounceTimer = 0;
+let mohawkStartingYValue = 0;
+let throwingMohawkTarget = []
+let throwingMohawk = false
+let fallingMohawk = false
+let throwingAngle = 0
+let firstStrikeDisplay = false
+
 //overworld parameters
 let jamesToggleFollow = false;
 let openKeyboard = false;
@@ -114,13 +134,6 @@ let openingDialogue = false;
 let pageForDialogue = 1;
 let pointerScale = 1;
 let overworldClock = 0;
-let mohawkBounceTimer = 0;
-let mohawkStartingYValue = 0;
-let throwingMohawkTarget = []
-let throwingMohawk = false
-let fallingMohawk = false
-let throwingAngle = 0
-let firstStrikeDisplay = false
 let showKickTheBallScore = false;
 let chaserClock = 0;
 let kickTheBallScoreDisplayed = false
@@ -252,19 +265,7 @@ function get10Monsters() { //james gives you monster
   gameState.itemget.play()
 }
 
-//battle parameters
-let numberOfPlayers = 1;
-let battleBackgroundIndex = 0
-let currentXY;
-let actionIndex;
-let enemyIndex;
-let reward = 0;
-let exp = 0;
-let wonBattle = 0;
-let chasers = [];
-let chasersEnabled = false;
-let chaserInitiateFight = 0;
-let itemReward = '';
+
 
 let animObject = {
   "Dio": ['diofloat', 'dioslash'],
@@ -305,8 +306,7 @@ let set3 = new Set([]);
 let set4 = new Set([]);
 
 
-// it goes [name, right anim, scale, circle size, offsetX, offsetY]
-//fix needed so chasers do not interact poorly with "above" layer of map
+// it goes [name, right anim, scale, circle size, offsetX, offsetY] ... (fix needed so chasers do not interact poorly with "above" layer of map)
 const enemsForChasers = [
   ['crackhead', 'crackheadright', .25, 30, 60, 60],
   ['ex_junkie', 'ex_junkieright', .2, 60, 80, 125],
@@ -316,14 +316,16 @@ const enemsForChasers = [
   ['fratboy3', 'frat3right', .17, 60, 80, 125],
   ['fratboy4', 'frat4right', .14, 60, 80, 125],
 ]
+
+
 const battleScale = {
-  'me': .77,
-  'trevor': .67,
-  'al': .5 * 1.4,
+  'Mac': .77,
+  'Jimmy': .67,
+  'Al': .7,
   'james': .4 * 1.4,
   'jon': .55 * 1.4,
   'joe': .55 * 1.4,
-  'bennett': .4 * 1.4,
+  'Bennett': .4 * 1.4,
   'girl1': 1.2 * 1.4,
   'girl2': 1.2 * 1.4,
   'girl3': 1.2 * 1.4,
@@ -340,12 +342,12 @@ const battleScale = {
 
 const overworldScale = {
   'dio': 1.5,
-  'me': .55 * 1.4,
-  'al': .175,
+  'Mac': .55 * 1.4,
+  'Al': .175,
   'james': .12,
   'jon': .175,
   'joe': .2,
-  'bennett': .14,
+  'Bennett': .14,
   'girl1': 1.2 * 1.4,
   'girl2': 1.2 * 1.4,
   'girl3': 1.2 * 1.4,
@@ -357,7 +359,7 @@ const overworldScale = {
   'fratboy2': .5 * 1.4,
   'fratboy3': .59 * 1.4,
   'fratboy4': .45 * 1.4,
-  'trevor': .13,
+  'Jimmy': .13,
   'smoke': .41,
   'hausdorf': .4,
   'stripper': .3,
@@ -365,14 +367,8 @@ const overworldScale = {
 }
 
 const sizeAndOffset = {
-  'al': {
-    size: [64, 128],
-    offset: [60, 64]
-  },
-  'bennett': {
-    size: [64, 64],
-    offset: [60, 100]
-  },
+  'Al': {size: [64, 128],offset: [60, 64]},
+  'Bennett': {size: [64, 64],offset: [60, 100]},
   'joe': {
     size: [64, 64],
     offset: [60, 100]
@@ -385,7 +381,7 @@ const sizeAndOffset = {
     size: [64, 64],
     offset: [60, 100]
   }, //changed to circle though
-  'trevor': {
+  'Jimmy': {
     size: [64, 64],
     offset: [60, 100]
   }, //changed to circle though
@@ -462,6 +458,20 @@ let bleedingObject = {
   'Bennett': 0,
 }
 
+let critObject = {
+  'Mac': 10,
+  'Al': 12,
+  'Jimmy': 10,
+  'Bennett': 13,
+}
+
+let defenseObject = {
+  'Mac': 3,
+  'Al': 5,
+  'Jimmy': 4,
+  'Bennett': 8,
+}
+
 let maxSPObject = {
   'Mac': 8,
   'Al': 11,
@@ -476,30 +486,16 @@ let spObject = {
   'Bennett': 12,
 }
 
-let critObject = {
-  'Mac': 10,
-  'Al': 12,
-  'Jimmy': 10,
-  'Bennett': 13,
-}
-
-let defenseObject = {
-  'Mac': 3,
-  'Al': 4,
-  'Jimmy': 5,
-  'Bennett': 0,
-}
-
-let hpObject = {
+let maxHPObject = {
   'Mac': 75,
-  'Al': 80,
+  'Al': 100,
   'Jimmy': 60,
   'Bennett': 65,
 };
 
-let maxHPObject = {
+let hpObject = {
   'Mac': 75,
-  'Al': 100,
+  'Al': 80,
   'Jimmy': 60,
   'Bennett': 65,
 };
@@ -525,24 +521,13 @@ let damageObject = {
   'Bennett': 45,
 };
 
-let potentialParty = {
-  "Al": false,
-  "Jimmy": false,
-  "Bennett": false
-};
-let currentParty = {
-  "Al": false,
-  "Jimmy": false,
-  "Bennett": false
-};
-
 let skillDialogue = {
   "Mac": {
     3: false,
     5: false,
     7: false
   },
-  "Al": {
+  'Al': {
     3: false,
     5: false,
     7: false
@@ -552,19 +537,44 @@ let skillDialogue = {
     5: false,
     7: false
   },
-  "Bennett": {
+  'Bennett': {
     3: false,
     5: false,
     7: false
   }
 }
 
-let players = ["Mac", "Al", "Jimmy"];
 let playerColors = {
   "Mac": 0x0e7d4e,
-  "Al": 0xbe2016,
-  "Jimmy": 0x0d2175
+  'Al': 0xbe2016,
+  "Jimmy": 0x0d2175,
+  'Bennett': 0xfa7800
 }
+
+let equipped = {
+  "Mac": {
+    upper: "Camo T-Shirt",
+    lower: "Jeans",
+    accessory: "",
+  },
+  "Jimmy": {
+    upper: "Blue Shirt",
+    lower: "Snowpants",
+    accessory: "",
+  },
+  'Al': {
+    upper: "Red Shirt",
+    lower: "Red Sweatpants",
+    accessory: "",
+  },
+  'Bennett': {
+    upper: "Running Shirt",
+    lower: "Running Shorts",
+    accessory: "",
+  }
+}
+
+
 
 let equipmentTypes = {
   "Camo T-Shirt": "Mac_upper",
@@ -634,31 +644,31 @@ function brassKnuckles(player, bool) {
 
 function goldDuckTape(player, bool) {
   if (bool === true) {
-    bleedProofObject[player]=true
+    party[player]['bleedProof']=true
   } else {
-    bleedProofObject[player]=false
+    party[player]['bleedProof']=false
   }
 }
 
 function dioBand(player, bool) {
   if (bool === true) {
     damageObject[player] += 25
-    bleedProofObject[player]=true
-    blindProofObject[player]=true
+    party[player]['bleedProof']=true
+    party[player]['blindProof']=true
     damageObject[player] += 30
   } else {
     damageObject[player] -= 25
-    bleedProofObject[player]=false
-    blindProofObject[player]=false
+    party[player]['bleedProof']=false
+    party[player]['blindProof']=false
     damageObject[player] -= 30
   }
 }
 
 function camoDuckTape(player, bool) {
   if (bool === true) {
-    blindProofObject[player]=true
+    party[player]['blindProof']=true
   } else {
-    blindProofObject[player]=false
+    party[player]['blindProof']=false
   }
 }
 
@@ -744,10 +754,10 @@ function hpBooster(player, bool) {
 
 function damageBooster(player, bool) {
   if (bool === true) {
-    neverMissObject[player]=true
+    party[player]['neverMiss']=true
     damageObject[player] += 4
   } else {
-    neverMissObject[player]=false
+    party[player]['neverMiss']=false
     damageObject[player] -= 4
   }
 }
@@ -923,29 +933,6 @@ let equipmentDescriptions = {
   },
 }
 
-let equipped = {
-  "Mac": {
-    upper: "Camo T-Shirt",
-    lower: "Jeans",
-    accessory: "",
-  },
-  "Jimmy": {
-    upper: "Blue Shirt",
-    lower: "Snowpants",
-    accessory: "",
-  },
-  "Al": {
-    upper: "Red Shirt",
-    lower: "Red Sweatpants",
-    accessory: "",
-  },
-  "Bennett": {
-    upper: "Running Shirt",
-    lower: "Running Shorts",
-    accessory: "",
-  }
-}
-
 function openControls(){
   scene_number=99
 }
@@ -1092,12 +1079,12 @@ function giveCrackhead1() {
 function sleep() {
   hpObject["Mac"] = maxHPObject["Mac"];
   hpObject["Jimmy"] = maxHPObject["Jimmy"];
-  hpObject["Al"] = maxHPObject["Al"];
-  hpObject["Bennett"] = maxHPObject["Bennett"];
+  hpObject['Al'] = maxHPObject['Al'];
+  hpObject['Bennett'] = maxHPObject['Bennett'];
   spObject["Mac"] = maxSPObject["Mac"];
   spObject["Jimmy"] = maxSPObject["Jimmy"];
-  spObject["Al"] = maxSPObject["Al"];
-  spObject["Bennett"] = maxSPObject["Bennett"];
+  spObject['Al'] = maxSPObject['Al'];
+  spObject['Bennett'] = maxSPObject['Bennett'];
 }
 
 function scoreGoal() {
@@ -1282,10 +1269,6 @@ function buyWeedRipoff() {
     buyFailed = 1
   }
 }
-
-
-
-
 
 //any ball should have this function called on it in update
 function beABall(obj) {
@@ -1526,7 +1509,7 @@ function getOneDamageBennett() { //level up increase damage
 
 function skillCheck(player) {
   if (player === "Mac" && levelObject["Mac"] === 3) {
-    specialObject["Mac"].push("Fuck Everybody Up (8)")
+    party["Mac"]['special'].push("Fuck Everybody Up (8)")
     skillDialogue["Mac"][3] = true
   }
 }
@@ -1680,37 +1663,68 @@ let inventory={}
     });
   });
 
+  //building character-stats from the file character-stats.json
+  let party={}
+    $(function() {
+      //var people = [];
+      $.getJSON('data/json-files/character-stats.json', function(data) {
+        //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+        $.each(data, function(i, f) {
+          name=f['name']
+          party[name] = f
+        });
+      });
+    });
+
 window.setTimeout(()=>{
-  console.log(inventory)
+  //console.log(inventory)
+  for (let i = 0; i < Object.keys(inventory).length; i++) {
+    key1 = Object.keys(inventory)[i]
+    for (let j = 0; j < Object.keys(inventory[key1]).length; j++) {
+      key2 = Object.keys(inventory[key1])[j]
+      if (parseInt(inventory[key1][key2])){
+        inventory[key1][key2]=parseInt(inventory[key1][key2])
+      } else if (parseFloat(inventory[key1][key2])){
+        inventory[key1][key2] = parseFloat(inventory[key1][key2])
+      } else if (inventory[key1][key2]==='0'){
+        inventory[key1][key2] = 0;
+      }
+    }
+  }
   let numberOfItems = 0;
   for (let i = 0; i < Object.keys(inventory).length; i++) {
     key = Object.keys(inventory)[i]
-    inventory[key]['numberOwned'] = parseInt(inventory[key]['numberOwned'])
-    inventory[key]["randomEncounterRewards"] = parseFloat(inventory[key]["randomEncounterRewards"])
-    if (inventory[key]["sp"]!=='na' && inventory[key]["sp"]!=='max'){
-      inventory[key]["sp"] = parseInt(inventory[key]["sp"])
-    }
-    if (inventory[key]["hp"]!=='na' && inventory[key]["hp"]!=='max'){
-      inventory[key]["hp"] = parseInt(inventory[key]["hp"])
-    }
     numberOfItems += inventory[key]['numberOwned']
-    console.log(key, inventory[key]["hp"], inventory[key]["sp"], inventory[key]["randomEncounterRewards"])
+    //console.log(key, inventory[key]["hp"], inventory[key]["sp"], inventory[key]["randomEncounterRewards"])
   }
   console.log(`numberOfItems: ${numberOfItems}`)
 },200)
 
-if (parseInt('that')){
-  console.log('that is an int')
-} else {
-  console.log('that is not an int')
-}
-if (parseFloat('.024')){
-  console.log('.024 is a float')
-} else {
-  console.log('.024 is not a float')
-}
-if (parseInt('50')){
-  console.log('50is an int')
-} else {
-  console.log('50 is not an int')
-}
+window.setTimeout(()=>{
+  for (let i = 0; i < Object.keys(party).length; i++) {
+    key1 = Object.keys(party)[i]
+    for (let j = 0; j < Object.keys(party[key1]).length; j++) {
+      key2 = Object.keys(party[key1])[j]
+      if (parseInt(party[key1][key2])){
+        party[key1][key2]=parseInt(party[key1][key2])
+      } else if (parseFloat(party[key1][key2])){
+        party[key1][key2] = parseFloat(party[key1][key2])
+      } else if (party[key1][key2]==='0'){
+        party[key1][key2] = 0;
+      } else if (String(party[key1][key2]).toLowerCase() == "true") {
+        party[key1][key2] = true
+      } else if (String(party[key1][key2]).toLowerCase() == "false") {
+        party[key1][key2] = false
+      } else if (String(party[key1][key2]).includes("{") || String(party[key1][key2]).includes("[")){
+        let json = party[key1][key2];
+        console.log(json)
+        let obj = JSON.parse(json);
+        party[key1][key2] = obj
+      }
+    }
+  }
+  console.log(party['Mac']['special'][0])
+},200)
+
+
+// expected output: 42

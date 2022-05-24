@@ -6,5 +6,5 @@ Monster,0.4,"SP +10, cure status ailments",monsterIcon,0,10,0,0,cure all,0,0
 Hamms,0.4,HP +20 SP +5,hammsIcon,2,5,20,0,0,0,0
 Larry Special,0.2,"HP max, SP max",larrySpecialIcon,0,max,max,0,0,0,0
 Liquor,0.6,SP Max,liquorIcon,0,max,0,0,0,0,0
-Wine,0.6,Attack +20% (3 turns) -20 stamina,wineIcon,1,-20,-5,0,0,0.2,0
-Protein Monster,0.6,Defense +40% (3 turns) +20 stamina,proteinmonsterIcon,1,0,0,20,0,0,0.4
+Wine,0.6,Attack +20% (3 turns) -20 stamina,wineIcon,1,0,-5,-20,0,0.2,0
+Protein Monster,0.6,Defense +40% (3 turns) +20 stamina,proteinmonsterIcon,1,0,5,20,0,0,0.4

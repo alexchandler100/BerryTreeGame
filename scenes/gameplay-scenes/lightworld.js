@@ -48,7 +48,7 @@ var OnScreenMessage = new Phaser.Class({
 
 var NPC = new Phaser.Class({
   Extends: Phaser.Physics.Arcade.Sprite,
-  //notes: dialogue is a dictionary of audio objects like {"al": alSound} (fix needed...)
+  //notes: dialogue is a dictionary of audio objects like {'Al': alSound} (fix needed...)
   // left, right, up, down are strings like 'alright' or 'jonleft'
   initialize: function NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, idle, dialogue, joinParameter, slowFollowRate, fastFollowRate, idleFollowRate) {
     let point;
@@ -82,15 +82,19 @@ var NPC = new Phaser.Class({
     this.setInteractive().on('pointerup', function() {
       if (this.following === false && this.joinParameter) {
         this.following = true;
-        currentParty[this.type] = true
       } else if (this.following) {
         this.following = false
-        currentParty[this.type] = false
       }
     });
-    this.setScale(overworldScale[this.texture.key]);
-    this.setSize(sizeAndOffset[this.texture.key].size[0], sizeAndOffset[this.texture.key].size[1])
-    this.setOffset(sizeAndOffset[this.texture.key].offset[0], sizeAndOffset[this.texture.key].offset[1])
+    if (party[this.texture.key]){
+      this.setScale(party[this.texture.key]['overworldScale']);
+      this.setSize(party[this.texture.key]['sizeAndOffset'].size[0], party[this.texture.key]['sizeAndOffset'].size[1])
+      this.setOffset(party[this.texture.key]['sizeAndOffset'].offset[0], party[this.texture.key]['sizeAndOffset'].offset[1])
+    } else {
+      this.setScale(overworldScale[this.texture.key]);
+      this.setSize(sizeAndOffset[this.texture.key].size[0], sizeAndOffset[this.texture.key].size[1])
+      this.setOffset(sizeAndOffset[this.texture.key].offset[0], sizeAndOffset[this.texture.key].offset[1])
+    }
     this.sound0 = scene.sound.add(this.dialogue);
   },
   animate: function(thresh = 10) {
@@ -141,7 +145,7 @@ var NPC = new Phaser.Class({
         this.body.setVelocityX((player.x - this.body.x) * strength)
         this.body.setVelocityY((player.y - this.body.y) * strength)
         this.anims.msPerFrame = this.idleFollowRate;
-      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type==="Bennett" || this.type==="Al" || this.type==="Stripper")) {
+      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type==='Bennett' || this.type==='Al' || this.type==="Stripper")) {
         this.body.setVelocity(0,0);
         this.anims.msPerFrame = this.idleFollowRate;
       }
@@ -253,7 +257,7 @@ var NPC = new Phaser.Class({
 
 var Car = new Phaser.Class({
   Extends: Phaser.Physics.Arcade.Sprite,
-  //notes: dialogue is a dictionary of audio objects like {"al": alSound} (fix needed...)
+  //notes: dialogue is a dictionary of audio objects like {'Al': alSound} (fix needed...)
   // left, right, up, down are strings like 'alright' or 'jonleft'
   initialize: function Car(scene, spawnPoint, frame, position = 0) {
     let point = map.findObject("Objects", obj => obj.name === spawnPoint);
@@ -320,7 +324,7 @@ var Car = new Phaser.Class({
 
 var CopCar = new Phaser.Class({
   Extends: Phaser.Physics.Arcade.Sprite,
-  //notes: dialogue is a dictionary of audio objects like {"al": alSound} (fix needed...)
+  //notes: dialogue is a dictionary of audio objects like {'Al': alSound} (fix needed...)
   // left, right, up, down are strings like 'alright' or 'jonleft'
   initialize: function CopCar(scene, spawnPoint, position = 0) {
     let point = map.findObject("Objects", obj => obj.name === spawnPoint);
@@ -763,7 +767,7 @@ var LightWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 1200
       });
-    this.load.spritesheet('me',
+    this.load.spritesheet('Mac',
       'assets/images/me_running_BTJM.png', {
         frameWidth: 200,
         frameHeight: 200
@@ -773,7 +777,7 @@ var LightWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 200
       });
-    this.load.spritesheet('bennett',
+    this.load.spritesheet('Bennett',
       'assets/images/bennett.png', {
         frameWidth: 200,
         frameHeight: 250
@@ -793,7 +797,7 @@ var LightWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 280
       });
-    this.load.spritesheet('al',
+    this.load.spritesheet('Al',
       'assets/images/al.png', {
         frameWidth: 200,
         frameHeight: 250
@@ -803,7 +807,7 @@ var LightWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 200
       });
-    this.load.spritesheet('trevor',
+    this.load.spritesheet("Jimmy",
       'assets/images/trevor_walking.png', {
         frameWidth: 200,
         frameHeight: 300
@@ -1838,7 +1842,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'bennettidle',
-      frames: this.anims.generateFrameNumbers('bennett', {
+      frames: this.anims.generateFrameNumbers('Bennett', {
         frames: [12, 13, 14]
       }),
       frameRate: 1,
@@ -1870,7 +1874,7 @@ var LightWorld = new Phaser.Class({
     });
     this.anims.create({
       key: 'bennettleft',
-      frames: this.anims.generateFrameNumbers('bennett', {
+      frames: this.anims.generateFrameNumbers('Bennett', {
         start: 0,
         end: 3
       }),
@@ -1880,7 +1884,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'bennettright',
-      frames: this.anims.generateFrameNumbers('bennett', {
+      frames: this.anims.generateFrameNumbers('Bennett', {
         start: 4,
         end: 7
       }),
@@ -1890,7 +1894,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'bennettup',
-      frames: this.anims.generateFrameNumbers('bennett', {
+      frames: this.anims.generateFrameNumbers('Bennett', {
         start: 8,
         end: 9
       }),
@@ -1900,7 +1904,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'bennettdown',
-      frames: this.anims.generateFrameNumbers('bennett', {
+      frames: this.anims.generateFrameNumbers('Bennett', {
         start: 10,
         end: 11
       }),
@@ -2000,7 +2004,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevorright',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         start: 0,
         end: 3
       }),
@@ -2010,7 +2014,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevorrightfast',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         start: 0,
         end: 3
       }),
@@ -2020,7 +2024,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevoridle',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [10,10,14,15,16,17,16,15,14,11,11,14,15,16,17,16,15,14,12,12,14,15,16,17,16,15,14]
       }),
       frameRate: 7,
@@ -2029,7 +2033,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevorslap',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [4, 5, 13, 5, 4, 5, 13, 5]
       }),
       frameRate: 3,
@@ -2038,7 +2042,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevor_drink_gatorade',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [8]
       }),
       frameRate: 3,
@@ -2047,7 +2051,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevor_drink_hamms',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [7]
       }),
       frameRate: 3,
@@ -2056,7 +2060,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevor_drink_monster',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [6]
       }),
       frameRate: 3,
@@ -2065,7 +2069,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevor_larry_special',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [21]
       }),
       frameRate: 1,
@@ -2074,7 +2078,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevor_eat_andycapps',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [18]
       }),
       frameRate: 3,
@@ -2083,7 +2087,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevor_drink_maxice',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [19]
       }),
       frameRate: 3,
@@ -2092,7 +2096,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevor_drink_liquor',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [20]
       }),
       frameRate: 3,
@@ -2172,7 +2176,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'dive',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [9, 10, 11, 12, 13]
       }),
       frameRate: 8,
@@ -2181,7 +2185,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'kick',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [14, 15, 15]
       }),
       frameRate: 8,
@@ -2190,7 +2194,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'kickup',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [16, 17, 17]
       }),
       frameRate: 8,
@@ -2199,7 +2203,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'drink_monster',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [0, 18, 18, 0, 18, 18, 0, 18, 18, 0]
       }),
       frameRate: 3,
@@ -2208,7 +2212,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'larry_special',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [0, 49,49]
       }),
       frameRate: 3,
@@ -2217,7 +2221,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'drink_hamms',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [0, 19, 19, 0, 19, 19, 0, 19, 19, 0]
       }),
       frameRate: 3,
@@ -2226,7 +2230,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'drink_gatorade',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [0, 20, 20, 0, 20, 20, 0, 20, 20, 0]
       }),
       frameRate: 3,
@@ -2235,7 +2239,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'eat_andycapps',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [0, 45,46]
       }),
       frameRate: 3,
@@ -2244,7 +2248,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'drink_maxice',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [0, 47, 47]
       }),
       frameRate: 3,
@@ -2253,7 +2257,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'drink_liquor',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [0, 48, 48]
       }),
       frameRate: 3,
@@ -2263,7 +2267,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'turn',
       frames: [{
-        key: 'me',
+        key: 'Mac',
         frame: 0
       }],
       frameRate: 19
@@ -2271,7 +2275,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'rightwalk',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [27, 28, 29, 30, 31, 30, 29, 28]
       }),
       frameRate: 6,
@@ -2280,7 +2284,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'newrightsprint',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [36, 37, 38, 39, 40, 41, 42, 43, 44]
       }),
       frameRate: 16,
@@ -2289,7 +2293,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'newrightrun',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [36, 37, 38, 39, 40, 41, 42, 43, 44]
       }),
       frameRate: 9,
@@ -2298,7 +2302,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'meDead',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [25]
       }),
       frameRate: 1,
@@ -2307,7 +2311,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'meDeadSkateboard',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [35]
       }),
       frameRate: 1,
@@ -2316,7 +2320,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'rightswim',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [32,33,33]
       }),
       frameRate: 3,
@@ -2325,7 +2329,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alDead',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [8]
       }),
       frameRate: 1,
@@ -2334,7 +2338,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'trevorDead',
-      frames: this.anims.generateFrameNumbers('trevor', {
+      frames: this.anims.generateFrameNumbers("Jimmy", {
         frames: [9]
       }),
       frameRate: 1,
@@ -2343,7 +2347,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'board_right',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [22, 23, 24, 23, 22, 21, 21, 21, 21, 21, 21, 21]
       }),
       frameRate: 10,
@@ -2352,7 +2356,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'ollie_right',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [2, 4, 5, 5,5,5,5]
       }),
       frameRate: 6,
@@ -2361,7 +2365,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'kickflip_right',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [5, 6, 7, 8]
       }),
       frameRate: 8,
@@ -2380,7 +2384,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alleft',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         start: 1,
         end: 2
       }),
@@ -2390,7 +2394,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'al_drink_hamms',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [16,18]
       }),
       frameRate: 2,
@@ -2399,7 +2403,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'al_drink_monster',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [16,17]
       }),
       frameRate: 2,
@@ -2408,7 +2412,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'al_drink_gatorade',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [16,19]
       }),
       frameRate: 2,
@@ -2417,7 +2421,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'al_eat_andycapps',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [16,20]
       }),
       frameRate: 2,
@@ -2426,7 +2430,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'al_drink_maxice',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [16,21]
       }),
       frameRate: 2,
@@ -2435,7 +2439,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'al_drink_liquor',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [16,22]
       }),
       frameRate: 2,
@@ -2444,7 +2448,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'al_larry_special',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [9,9,10,11,12,13,14,15,]
       }),
       frameRate: 4,
@@ -2453,7 +2457,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alright',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         start: 3,
         end: 4
       }),
@@ -2463,7 +2467,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alturn',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         start: 0,
         end: 0
       }),
@@ -2473,7 +2477,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alidle',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         frames: [9,9,9,0,0,0,9,9,9,0,0,0,9,9,9,0,0,0,10,11,12,13,14,15,5,5,5,5,5,5]
       }),
       frameRate: 2,
@@ -2482,7 +2486,7 @@ var LightWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alattack',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         start: 5,
         end: 7
       }),
@@ -2562,8 +2566,8 @@ var LightWorld = new Phaser.Class({
     const cars = map.createStaticLayer("Cars", tileset3, 0, 0);
 
     //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, idle, dialogue)
-    bennett = new NPC(this, "bennett spawn point", "bennett", 0, "Bennett", "bennettleft", "bennettright", "bennettup", "bennettdown", "bennettidle", "bennett_run", potentialParty["Bennett"], 250, 125, 5000);
-    al = new NPC(this, "alPath0", "al", 0, "Al", "alleft", "alright", "alleft", "alright", "alidle", "holdon", potentialParty["Al"], 250, 125, 250);
+    bennett = new NPC(this, "bennett spawn point", 'Bennett', 0, 'Bennett', "bennettleft", "bennettright", "bennettup", "bennettdown", "bennettidle", "bennett_run", false, 250, 125, 5000);
+    al = new NPC(this, "alPath0", 'Al', 0, 'Al', "alleft", "alright", "alleft", "alright", "alidle", "holdon", false, 250, 125, 250);
     joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "joeright" , "punch", false, 250, 125, 1000);
     joe.body.setCircle(30);
     joe.body.setOffset(45, 55);
@@ -2576,7 +2580,7 @@ var LightWorld = new Phaser.Class({
     oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke","smoke", "bong", false, 250, 125, 1000);
     oghomeboy.body.immovable = true;
     oghomeboy.body.moves = false;
-    trevor = new NPC(this, "trevor spawn point", "trevor", 0, "Jimmy", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevoridle", "bong", potentialParty["Jimmy"], 250, 125, 100);
+    trevor = new NPC(this, "trevor spawn point", "Jimmy", 0, "Jimmy", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevoridle", "bong", false, 250, 125, 100);
     trevor.body.setCircle(60);
     trevor.body.setOffset(60, 180);
     hausdorf = new NPC(this, "hausdorf spawn point", "hausdorf", 0, "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "hausdorf", "bong", false, 250, 125, 1000);
@@ -2721,7 +2725,7 @@ var LightWorld = new Phaser.Class({
     //gameState.PlayerSpawnPoint.x=Fratboy2PrimeSpawnPoint.x
     //gameState.PlayerSpawnPoint.y=Fratboy2PrimeSpawnPoint.y-50
 
-    me = this.physics.add.sprite(gameState.PlayerSpawnPoint.x, gameState.PlayerSpawnPoint.y, 'me');
+    me = this.physics.add.sprite(gameState.PlayerSpawnPoint.x, gameState.PlayerSpawnPoint.y, 'Mac');
     me.setScale(.17);
     //size and offset for me set in update function
 
@@ -3102,7 +3106,7 @@ var LightWorld = new Phaser.Class({
       } else if (playerTexture === 1 && me.body.velocity.x**2+me.body.velocity.y**2<10**2) {
         playerTexture = 0
         car.enableBody(true, me.x, me.y, true, true);
-        me.setTexture('me', 0)
+        me.setTexture('Mac', 0)
         car.angle = me.angle
         gameState.carSound.stop();
         me.angle = 0;
@@ -3636,7 +3640,7 @@ var LightWorld = new Phaser.Class({
       speed = 1
       playerTexture = 0
       car.enableBody(true, me.x, me.y, true, true);
-      me.setTexture('me', 0)
+      me.setTexture('Mac', 0)
       car.angle = 0
       gameState.carSound.stop();
       me.angle = 0;
@@ -3646,7 +3650,7 @@ var LightWorld = new Phaser.Class({
       hpObject["Mac"] = 1
       if (bennett.following) {
         bennett.enableBody(true, me.x + 30, me.y, true, true);
-        hpObject["Bennett"] = 1
+        hpObject['Bennett'] = 1
       }
       if (trevor.following) {
         trevor.enableBody(true, me.x, me.y + 60, true, true);
@@ -3654,7 +3658,7 @@ var LightWorld = new Phaser.Class({
       }
       if (al.following) {
         al.enableBody(true, me.x - 20, me.y - 20, true, true);
-        hpObject["Al"] = 1
+        hpObject['Al'] = 1
       }
       car.anims.play('carexplosion', false);
       this.cameras.main.shake(2200);
@@ -4008,18 +4012,7 @@ var LightWorld = new Phaser.Class({
       bennett.following = true;
       jeanClaude.following = true;
       stripper.following = true;
-      /*
-      trevor.x = me.x + 30;
-      trevor.y = me.y + 30;
-      al.x = me.x + 30;
-      al.y = me.y + 30;
-      bennett.x = me.x + 30;
-      bennett.y = me.y + 30;
-      */
-      potentialParty["Jimmy"] = true;
-      potentialParty["Al"] = true;
-      potentialParty["Bennett"] = true;
-      specialObject["Mac"].push("Fuck Everybody Up (8)");
+      party["Mac"]['special'].push("Fuck Everybody Up (8)");
       brothersSeal = 1;
       brothersSealForSkateboarding = 1;
       money += 10;
@@ -4538,7 +4531,6 @@ var LightWorld = new Phaser.Class({
     if (bennettGet === 1) {
       bennettGet = 2
       bennett.joinParameter = true;
-      potentialParty["Bennett"] = true
     }
 
 
@@ -4576,7 +4568,6 @@ var LightWorld = new Phaser.Class({
     if (alGet === 1) {
       alGet = 2;
       al.joinParameter = true;
-      potentialParty["Al"] = true;
     }
 
 
@@ -4665,7 +4656,6 @@ var LightWorld = new Phaser.Class({
       }
       if (keepaway === 500) {
         trevor.joinParameter = true;
-        potentialParty["Jimmy"] = true;
         completeQuest('Go Pro at Kick-The-Ball');
       } else if (keepaway === 1000) {
         items.push("Brothers Seal")

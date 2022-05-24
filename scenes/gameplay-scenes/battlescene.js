@@ -262,8 +262,11 @@ var ActionsMenu = new Phaser.Class({
   },
   specialRemap: function() {
     this.clear();
-    for (let i = 0; i < specialObject[currentHero].length; i++) {
-      this.addMenuItem(specialObject[currentHero][i]);
+    console.log('currentHero in remap')
+    console.log(currentHero)
+    console.log(party[currentHero])
+    for (let i = 0; i < party[currentHero]['special'].length; i++) {
+      this.addMenuItem(party[currentHero]['special'][i]);
     }
     this.menuItemIndex = 0;
   },
@@ -319,8 +322,8 @@ var Unit = new Phaser.Class({
   // attack the target unit
   attack: function(target, strength = 1) {
     gameStateBattle.rnd = Math.floor(Math.random() * 10);
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (Object.keys(party).includes(this.type) && party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     let extra_damage;
     let dd;
@@ -344,9 +347,15 @@ var Unit = new Phaser.Class({
       extra_damage = Math.ceil(Math.random() * this.damage / 4) - Math.floor(this.damage / 8)
     }
     //this makes it so that if you have the never miss property, you do not miss even if you roll 0
-    if (gameStateBattle.rnd <= 0 && !neverMissObject[this.type]) {
+    if (Object.keys(party).includes(this.type)){
+        console.log(`party[${this.type}]['neverMiss']: ${party[this.type]['neverMiss']}`)
+    }
+    if (gameStateBattle.rnd <= 0 && !Object.keys(party).includes(this.type)) {
       dd = 0;
-    } else if (defenseObject[target.type]) {
+    } else if (gameStateBattle.rnd <= 0 && Object.keys(party).includes(this.type) && !party[this.type]['neverMiss']){
+      dd = 0;
+    }
+    else if (defenseObject[target.type]) {
       dd = this.damage - defenseObject[target.type] + extra_damage;
     } else {
       dd = this.damage + extra_damage;
@@ -366,18 +375,25 @@ var Unit = new Phaser.Class({
       window.setTimeout(() => { //this is what actually applies damage
       //if the attacker is fratboy2, and the attack hits, the target is blinded
       if (this.type === "Dylan" && d > 0) {
-        if (!blindProofObject[target.type]) {
+        if (!party[target.type]['blindProof']) {
           blindObject[target.type] = 2
+        } else {
+          console.log(`${target.type} has blindProof status`)
         }
       }
+      //if the attacker is derek or bill, and the attack hits, the target starts bleeding
       if ((this.type === "Bill" || this.type === "Derek") && d > 0) {
-        if (!bleedProofObject[target.type]) {
+        if (!party[target.type]['bleedProof']) {
           bleedingObject[target.type] = 3
+        } else{
+          console.log(`${target.type} has bleedProof status`)
         }
       }
       if (gameStateBattle.rnd >= 9) {
         this.scene.events.emit("Message", "Critical hit! ");
-      } else if (gameStateBattle.rnd <= 0 && !neverMissObject[this.type]) {
+      } else if (gameStateBattle.rnd <= 0 && Object.keys(party).includes(this.type) && !party[this.type]['neverMiss']) {
+        this.scene.events.emit("Message", this.type + " tries to attack " + target.type + " but fucks it up and misses");
+      } else if (gameStateBattle.rnd <= 0) {
         this.scene.events.emit("Message", this.type + " tries to attack " + target.type + " but fucks it up and misses");
       } else {
         this.scene.events.emit("Message", this.type + " attacks " + target.type);
@@ -397,11 +413,11 @@ var Unit = new Phaser.Class({
   },
   defend: function() {
     this.scene.events.emit("Message", this.type + " defends ");
-    defendOn[this.type] = true;
+    party[this.type]['defendOn'] = true;
   },
   special: function(target) {
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     let extra_damage = 0
     gameStateBattle.rnd = 0
@@ -484,8 +500,8 @@ var Unit = new Phaser.Class({
   },
 
   gatorade: function() {
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     if (inventory["Gatorade"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
@@ -509,7 +525,7 @@ var Unit = new Phaser.Class({
           gameStateBattle.al.anims.play('alleft', true);
           gameStateBattle.al.flipX = false;
         }, 2999);
-      } else if (this.type === "Bennett") {
+      } else if (this.type === 'Bennett') {
         gameStateBattle.bennett.anims.play('bennett_drink_gatorade', true);
         gameStateBattle.bennett.flipX = false;
         window.setTimeout(() => {
@@ -525,8 +541,8 @@ var Unit = new Phaser.Class({
   },
 
   monster: function() {
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     if (inventory["Monster"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
@@ -550,7 +566,7 @@ var Unit = new Phaser.Class({
           gameStateBattle.al.anims.play('alleft', true);
           gameStateBattle.al.flipX = false;
         }, 2999);
-      } else if (this.type === "Bennett") {
+      } else if (this.type === 'Bennett') {
         gameStateBattle.bennett.anims.play('bennett_drink_monster', true);
         gameStateBattle.bennett.flipX = false;
         window.setTimeout(() => {
@@ -567,8 +583,8 @@ var Unit = new Phaser.Class({
   },
 
   maxice: function() {
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     if (inventory["Labatt Max Ice"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
@@ -592,7 +608,7 @@ var Unit = new Phaser.Class({
           gameStateBattle.al.anims.play('alleft', true);
           gameStateBattle.al.flipX = false;
         }, 2999);
-      } else if (this.type === "Bennett") {
+      } else if (this.type === 'Bennett') {
         gameStateBattle.bennett.anims.play('bennett_drink_maxice', true);
         gameStateBattle.bennett.flipX = false;
         window.setTimeout(() => {
@@ -608,8 +624,8 @@ var Unit = new Phaser.Class({
   },
 
   larrySpecial: function() {
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     if (inventory["Larry Special"]['numberOwned'] >= 1) {
 
@@ -634,7 +650,7 @@ var Unit = new Phaser.Class({
           gameStateBattle.al.anims.play('alleft', true);
           gameStateBattle.al.flipX = false;
         }, 2999);
-      } else if (this.type === "Bennett") {
+      } else if (this.type === 'Bennett') {
         gameStateBattle.bennett.anims.play('bennett_larry_special', true);
         gameStateBattle.bennett.flipX = false;
         window.setTimeout(() => {
@@ -649,8 +665,8 @@ var Unit = new Phaser.Class({
   },
 
   andyCapps: function() {
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     if (inventory["Andy Capp's Hot Fries"]['numberOwned']>= 1) {
       if (this.type === "Mac") {
@@ -674,7 +690,7 @@ var Unit = new Phaser.Class({
           gameStateBattle.al.anims.play('alleft', true);
           gameStateBattle.al.flipX = false;
         }, 2999);
-      } else if (this.type === "Bennett") {
+      } else if (this.type === 'Bennett') {
         gameStateBattle.bennett.anims.play('bennett_eat_andycapps', true);
         gameStateBattle.bennett.flipX = false;
         window.setTimeout(() => {
@@ -689,8 +705,8 @@ var Unit = new Phaser.Class({
   },
 
   liquor: function() {
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     if (inventory["Liquor"]['numberOwned'] >= 1) {
 
@@ -715,7 +731,7 @@ var Unit = new Phaser.Class({
           gameStateBattle.al.anims.play('alleft', true);
           gameStateBattle.al.flipX = false;
         }, 2999);
-      } else if (this.type === "Bennett") {
+      } else if (this.type === 'Bennett') {
         gameStateBattle.bennett.anims.play('bennett_drink_liquor', true);
         gameStateBattle.bennett.flipX = false;
         window.setTimeout(() => {
@@ -730,8 +746,8 @@ var Unit = new Phaser.Class({
   },
 
   hamms: function() {
-    if (defendOn[this.type]) {
-      defendOn[this.type] = false
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
     }
     if (inventory["Hamms"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
@@ -755,7 +771,7 @@ var Unit = new Phaser.Class({
           gameStateBattle.al.anims.play('alleft', true);
           gameStateBattle.al.flipX = false;
         }, 2999);
-      } else if (this.type === "Bennett") {
+      } else if (this.type === 'Bennett') {
         gameStateBattle.bennett.anims.play('bennett_drink_hamms', true);
         gameStateBattle.bennett.flipX = false;
         window.setTimeout(() => {
@@ -771,7 +787,7 @@ var Unit = new Phaser.Class({
   },
 
   takeDamage: function(damage) {
-    if (defendOn[this.type]) {
+    if (Object.keys(party).includes(this.type) && party[this.type]['defendOn']) {
       damage /= 2;
       damage = Math.round(damage);
     }
@@ -801,7 +817,7 @@ var Unit = new Phaser.Class({
       } else if (this.type==="Jimmy"){
         gameStateBattle.trevor.anims.play('trevorDead',true)
         gameStateBattle.trevor.flipX = false;
-      } else if (this.type==="Bennett"){
+      } else if (this.type==='Bennett'){
         gameStateBattle.bennett.anims.play('bennettDead',true)
         gameStateBattle.bennett.flipX = false;
       } else if (this.type==="Cam" || this.type==="Dylan" || this.type==="Chad" ||this.type==="Jackson" ||this.type==="Derek" ||this.type==="Bill" || this.type==="Melvin" ){
@@ -812,7 +828,7 @@ var Unit = new Phaser.Class({
   },
 
   displayDamage: function(damage) {
-    if (defendOn[this.type]) {
+    if (Object.keys(party).includes(this.type) && party[this.type]['defendOn']) {
       damage /= 2;
       damage = Math.round(damage);
     }
@@ -837,7 +853,7 @@ var PlayerCharacter = new Phaser.Class({
   Extends: Unit,
   initialize: function PlayerCharacter(scene, x, y, texture, frame, type, hp, damage) {
     Unit.call(this, scene, x, y, texture, frame, type, hp, damage);
-    this.setScale(battleScale[texture]);
+    this.setScale(party[texture]['battleScale']);
   }
 });
 
@@ -1234,10 +1250,10 @@ var BattleScene = new Phaser.Class({
     if (bennett.following) {
       bennettX.x = gameStateBattle.bennett.x
       bennettX.y = gameStateBattle.bennett.y - 50
-      bennettX.setScale(blindObject["Bennett"] / 2)
+      bennettX.setScale(blindObject['Bennett'] / 2)
       bennettBleed.x = gameStateBattle.bennett.x - 3
       bennettBleed.y = gameStateBattle.bennett.y
-      bennettBleed.setScale(bleedingObject["Bennett"] / 2)
+      bennettBleed.setScale(bleedingObject['Bennett'] / 2)
       if (gameStateBattle.bennett.living === false) {
         bennettX.visible = false
         bennettBleed.visible = false
@@ -1344,7 +1360,7 @@ var BattleScene = new Phaser.Class({
 
     //recall inputs look like (scene, x, y, texture, frame, type, hp, damage)
     // player characters - warrior
-    gameStateBattle.me = new PlayerCharacter(this, 850 + 450, 250, "me", 1, "Mac", hpObject['Mac'], damageObject['Mac']);
+    gameStateBattle.me = new PlayerCharacter(this, 850 + 450, 250, "Mac", 1, "Mac", hpObject['Mac'], damageObject['Mac']);
     if (hpObject['Mac'] > 0) {
       this.add.existing(gameStateBattle.me);
       gameStateBattle.me.active = true
@@ -1355,7 +1371,7 @@ var BattleScene = new Phaser.Class({
     }
 
     if (al.following) {
-      gameStateBattle.al = new PlayerCharacter(this, 800 + 450, 300, "al", 4, "Al", hpObject['Al'], damageObject['Al']);
+      gameStateBattle.al = new PlayerCharacter(this, 800 + 450, 300, "Al", 4, "Al", hpObject['Al'], damageObject['Al']);
       if (hpObject['Al'] > 0) {
         this.add.existing(gameStateBattle.al);
         gameStateBattle.al.active = true
@@ -1367,7 +1383,7 @@ var BattleScene = new Phaser.Class({
     }
 
     if (trevor.following) {
-      gameStateBattle.trevor = new PlayerCharacter(this, 750 + 450, 350, "trevor", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
+      gameStateBattle.trevor = new PlayerCharacter(this, 750 + 450, 350, "Jimmy", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
       if (hpObject['Jimmy'] > 0) {
         this.add.existing(gameStateBattle.trevor);
         gameStateBattle.trevor.active = true
@@ -1379,7 +1395,7 @@ var BattleScene = new Phaser.Class({
     }
 
     if (bennett.following) {
-      gameStateBattle.bennett = new PlayerCharacter(this, 1001 + 450, 325, "bennett", 4, "Bennett", hpObject['Bennett'], damageObject['Bennett']);
+      gameStateBattle.bennett = new PlayerCharacter(this, 1001 + 450, 325, 'Bennett', 4, 'Bennett', hpObject['Bennett'], damageObject['Bennett']);
       if (hpObject['Bennett'] > 0) {
         this.add.existing(gameStateBattle.bennett);
         gameStateBattle.bennett.active = true
@@ -1479,7 +1495,6 @@ var BattleScene = new Phaser.Class({
     // array with actions (not sure if this is ever used)
     this.actions = ["Attack", "Special", "Defend", "Items"]
     this.items = ["Gatorade", "Monster", "Hamms"]
-    this.specials = specialObject[this.heroes[this.index]]
 
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
@@ -1696,7 +1711,7 @@ var BattleScene = new Phaser.Class({
       //set hp for party
     gameStateBattle.me.hp = hpObject["Mac"]
     if (bennett.joinParameter && bennett.following) {
-      gameStateBattle.bennett.hp = hpObject["Bennett"]
+      gameStateBattle.bennett.hp = hpObject['Bennett']
     }
     if (trevor.joinParameter && trevor.following) {
       gameStateBattle.trevor.hp = hpObject["Jimmy"]
@@ -1892,7 +1907,7 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
         }, 2999);
-      } else if (this.units[this.index].type === "Bennett") {
+      } else if (this.units[this.index].type === 'Bennett') {
         gameStateBattle.bennett.x = this.aliveEnemies[target].x + 60
         gameStateBattle.bennett.y = this.aliveEnemies[target].y - 30
         gameStateBattle.bennett.anims.play('bennett_attack', false);

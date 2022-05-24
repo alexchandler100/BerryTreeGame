@@ -73,17 +73,17 @@ var DarkWorld = new Phaser.Class({
         frameWidth: 200,
         frameHeight: 250
       });
-    this.load.spritesheet('me',
+    this.load.spritesheet('Mac',
       'assets/images/me_running_BTJM.png', {
         frameWidth: 200,
         frameHeight: 200
       });
-    this.load.spritesheet('al',
+    this.load.spritesheet('Al',
       'assets/images/homeboy_al.png', {
         frameWidth: 200,
         frameHeight: 250
       });
-    this.load.spritesheet('trevor',
+    this.load.spritesheet('Jimmy',
       'assets/images/trevor_walking.png', {
         frameWidth: 200,
         frameHeight: 300
@@ -175,7 +175,7 @@ var DarkWorld = new Phaser.Class({
 
     //spawning player and setting properties
     gameStateDark.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "hausdorf spawn point");
-    meDark = this.physics.add.sprite(gameStateDark.PlayerSpawnPoint.x, gameStateDark.PlayerSpawnPoint.y, 'me');
+    meDark = this.physics.add.sprite(gameStateDark.PlayerSpawnPoint.x, gameStateDark.PlayerSpawnPoint.y, 'Mac');
     meDark.setScale(.17);
     meDark.body.setSize(70, 90);
     meDark.body.setOffset(60, 100);
@@ -278,7 +278,7 @@ var DarkWorld = new Phaser.Class({
     this.anims.create({
       key: 'turn',
       frames: [{
-        key: 'me',
+        key: 'Mac',
         frame: 0
       }],
       frameRate: 19
@@ -286,7 +286,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'leftwalk',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         start: 1,
         end: 2
       }),
@@ -296,7 +296,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'leftrun',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         start: 3,
         end: 4
       }),
@@ -306,7 +306,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'leftsprint',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         start: 3,
         end: 4
       }),
@@ -316,7 +316,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'rightwalk',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         start: 5,
         end: 6
       }),
@@ -326,7 +326,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'rightrun',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         start: 7,
         end: 8
       }),
@@ -336,7 +336,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'rightsprint',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         start: 7,
         end: 8
       }),
@@ -346,7 +346,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'attack',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         start: 9,
         end: 15
       }),
@@ -356,7 +356,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'special',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         start: 9,
         end: 17
       }),
@@ -366,7 +366,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'specialty',
-      frames: this.anims.generateFrameNumbers('me', {
+      frames: this.anims.generateFrameNumbers('Mac', {
         frames: [9, 10, 11, 12, 13, 14, 15, 11, 16, 11, 17]
       }),
       frameRate: 9,
@@ -375,7 +375,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alleft',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         start: 1,
         end: 2
       }),
@@ -385,7 +385,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alright',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         start: 3,
         end: 4
       }),
@@ -395,7 +395,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alturn',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         start: 0,
         end: 0
       }),
@@ -405,7 +405,7 @@ var DarkWorld = new Phaser.Class({
 
     this.anims.create({
       key: 'alattack',
-      frames: this.anims.generateFrameNumbers('al', {
+      frames: this.anims.generateFrameNumbers('Al', {
         start: 5,
         end: 7
       }),
@@ -561,7 +561,7 @@ var DarkWorld = new Phaser.Class({
           levelObject['Mac'] += 1;
           initializePage(this)
           let page = {
-            character: 'me',
+            character: 'Mac',
             page: 500,
             narrative: `Damnnnn, Mac has progressed to level ${levelObject['Mac']}. Mac's HP has increased by 15 and damage has increased by 5.`,
             options: [{
@@ -579,7 +579,7 @@ var DarkWorld = new Phaser.Class({
           levelObject['Al'] += 1;
           initializePage(this)
           let page = {
-            character: 'me',
+            character: 'Mac',
             page: 501,
             narrative: `Good shit man, Al has progressed to level ${levelObject['Al']}. Al's HP has increased by 15 and damage has increased by 5.`,
             options: [{
@@ -597,7 +597,7 @@ var DarkWorld = new Phaser.Class({
           levelObject['Jimmy'] += 1;
           initializePage(this)
           let page = {
-            character: 'me',
+            character: 'Mac',
             page: 502,
             narrative: `Good shit man, Jimmy has progressed to level ${levelObject['Jimmy']}. Jimmy's HP has increased by 15 and damage has increased by 5. You may choose between getting about tree fiddy, increasing HP by another 3, or increasing damage by another 1.`,
             options: [{
