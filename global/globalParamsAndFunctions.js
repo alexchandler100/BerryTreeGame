@@ -180,6 +180,7 @@ let darkWorld = 0;
 let hausdorfTexture = 0;
 
 //special item parameters
+let items = [];
 let gas = 6;
 let money = 0;
 let phoneGet = 0;
@@ -187,15 +188,6 @@ let walletGet = 0;
 let liquorGet = 0;
 let flowersGet = 0;
 let keysGet = 0;
-
-//inventory parameters
-let hamms = 2;
-let monster = 0;
-let maxice = 0;
-let andycapps = 0;
-let gatorade = 0;
-let liquorItem = 0;
-let larrySpecial = 0;
 
 let randomEncounterRewards = {
   "Andy Capp's Hot Fries": .5,
@@ -211,51 +203,12 @@ let randomEncounterRewards = {
   'Fubu Shirt': .2,
   'Camo Pants': .2,
 }
-let items = [];
-let itemEffects = {
-  "Andy Capp's Hot Fries": "SP Max, HP +10",
-  'Labatt Max Ice': "HP +60, SP +15",
-  "Gatorade": "HP +60, \n stamina max",
-  "Monster": "SP +10, cure \n status ailments",
-  "Hamms": "HP +20 SP +5",
-  "Larry Special": "HP max, SP max",
-  "Liquor": "SP Max",
-  "Gas": "makes your \n car work"
-}
-let all_usable_items = {
-  "Andy Capp's Hot Fries": andycapps,
-  'Labatt Max Ice': maxice,
-  "Gatorade": gatorade,
-  "Monster": monster,
-  "Hamms": hamms,
-  "Larry Special": larrySpecial,
-  "Liquor": liquorItem
-}
-let all_usable_items_icons = {
-  "Andy Capp's Hot Fries": "andycappsIcon",
-  'Labatt Max Ice': "maxiceIcon",
-  "Gatorade": "gatoradeIcon",
-  "Monster": "monsterIcon",
-  "Hamms": "hammsIcon",
-  "Larry Special": "larrySpecialIcon",
-  "Liquor": "liquorIcon"
-}
-let usable_items = {
-  "Monster": monster,
-  "Gatorade": gatorade,
-  "Hamms": hamms
-}
-let numberOfItems = 0;
-for (let i = 0; i < Object.keys(usable_items).length; i++) {
-  numberOfItems += usable_items[Object.keys(usable_items)[i]]
-}
 
 //to use items
 function useItem(object, player) {
   if (object === "Monster") {
-    if (usable_items["Monster"] >= 1) {
-      monster -= 1
-      usable_items["Monster"] -= 1
+    if (inventory["Monster"]['numberOwned'] >= 1) {
+      inventory["Monster"]['numberOwned'] -= 1
       spObject[player] += 10
       if (spObject[player] >= maxSPObject[player]) {
         spObject[player] = maxSPObject[player]
@@ -264,9 +217,8 @@ function useItem(object, player) {
       blindObject[player]=0;
     }
   } else if (object === "Gatorade") {
-    if (usable_items["Gatorade"] >= 1) {
-      gatorade -= 1
-      usable_items["Gatorade"] -= 1
+    if (inventory["Gatorade"]['numberOwned'] >= 1) {
+      inventory["Gatorade"]['numberOwned'] -= 1
       hpObject[player] += 60
       stamina = 100
       if (hpObject[player] >= maxHPObject[player]) {
@@ -274,9 +226,8 @@ function useItem(object, player) {
       }
     }
   } else if (object === "Hamms") {
-    if (usable_items["Hamms"] >= 1) {
-      hamms -= 1
-      usable_items["Hamms"] -= 1
+    if (inventory["Hamms"]['numberOwned'] >= 1) {
+      inventory["Hamms"]['numberOwned'] -= 1
       hpObject[player] += 20
       if (hpObject[player] >= maxHPObject[player]) {
         hpObject[player] = maxHPObject[player]
@@ -287,15 +238,13 @@ function useItem(object, player) {
       }
     }
   } else if (object === "Liquor") {
-    if (usable_items["Liquor"] >= 1) {
-      liquorItem -= 1
-      usable_items["Liquor"] -= 1
+    if (inventory["Liquor"]['numberOwned'] >= 1) {
+      inventory["Liquor"]['numberOwned'] -= 1
       spObject[player] = maxSPObject[player]
     }
   } else if (object === "Andy Capp's Hot Fries") {
-    if (usable_items["Andy Capp's Hot Fries"] >= 1) {
-      andycapps -= 1
-      usable_items["Andy Capp's Hot Fries"] -= 1
+    if (inventory["Andy Capp's Hot Fries"] >= 1) {
+      inventory["Andy Capp's Hot Fries"]['numberOwned'] -= 1
       spObject[player] = maxSPObject[player]
       hpObject[player] += 10
       if (hpObject[player] >= maxHPObject[player]) {
@@ -303,9 +252,8 @@ function useItem(object, player) {
       }
     }
   } else if (object === "Labatt Max Ice") {
-    if (usable_items["Labatt Max Ice"] >= 1) {
-      maxice -= 1
-      usable_items["Labatt Max Ice"] -= 1
+    if (inventory["Labatt Max Ice"]['numberOwned'] >= 1) {
+      inventory["Labatt Max Ice"]['numberOwned'] -= 1
       hpObject[player] += 50
       if (hpObject[player] >= maxHPObject[player]) {
         hpObject[player] = maxHPObject[player]
@@ -316,10 +264,8 @@ function useItem(object, player) {
       }
     }
   } else if (object === "Larry Special") {
-    if (usable_items["Larry Special"] >= 1) {
-      //console.log(`I have one larry special`)
-      larrySpecial -= 1
-      usable_items["Larry Special"] -= 1
+    if (inventory["Larry Special"]['numberOwned'] >= 1) {
+      inventory["Larry Special"]['numberOwned'] -= 1
       hpObject[player] = maxHPObject[player]
       spObject[player] = maxSPObject[player]
     }
@@ -327,20 +273,17 @@ function useItem(object, player) {
 }
 
 function getBeer() { //bennett gives you beer
-  hamms += 1
-  usable_items["Hamms"] += 1
+  inventory["Hamms"]['numberOwned'] += 1
   gameState.itemget.play()
 }
 
 function getMonsters() { //james gives you monster
-  monster += 2
-  usable_items["Monster"] += 2
+  inventory["Monster"]['numberOwned'] += 2
   gameState.itemget.play()
 }
 
 function get10Monsters() { //james gives you monster
-  monster += 10
-  usable_items["Monster"] += 10
+  inventory["Monster"]['numberOwned'] += 10
   gameState.itemget.play()
 }
 
@@ -1037,209 +980,6 @@ let equipped = {
     upper: "Running Shirt",
     lower: "Running Shorts",
     accessory: "",
-  }
-}
-
-function saveGame() {
-  saveFileExists = true;
-  var file = {
-    activeQuests:activeQuests,
-    completedQuests:completedQuests,
-    currentQuest:currentQuest,
-    beatStag:beatStag,
-    skateboardGet:skateboardGet,
-    stripperBanged:stripperBanged,
-    fratboy2primedialogue:fratboy2primedialogue,
-    newDarkDialogue:newDarkDialogue,
-    darkboydialogue:darkboydialogue,
-    diodialogue:diodialogue,
-    trevorAptFirstDialogue:trevorAptFirstDialogue,
-    firstTimeCarGet:firstTimeCarGet,
-    jeanClaudeFirstTalk:jeanClaudeFirstTalk,
-    jamesFirstTalk:jamesFirstTalk,
-    jonFirstTalk:jonFirstTalk,
-    yogagirlFirstTalk:yogagirlFirstTalk,
-    stripperFirstTalk:stripperFirstTalk,
-    adelineFirstTalk:adelineFirstTalk,
-    volleyballScore:volleyballScore,
-    firstPoolParty:firstPoolParty,
-    ogFirstTalk:ogFirstTalk,
-    gunTalk:gunTalk,
-    joeGet:joeGet,
-    jamesGet:jamesGet,
-    jimmyJoinParam:jimmyJoinParam,
-    neverBeenPro:neverBeenPro,
-    checkLevelDialogue:checkLevelDialogue,
-    evanFirstDialogue:evanFirstDialogue,
-    anthonyFirstDialogue:anthonyFirstDialogue,
-    girl1FirstDialogue:girl1FirstDialogue,
-    girl2FirstDialogue:girl2FirstDialogue,
-    girl3FirstDialogue:girl3FirstDialogue,
-    girl4FirstDialogue:girl4FirstDialogue,
-    crackheadFirstTalk:crackheadFirstTalk,
-    moneyToCrackhead:moneyToCrackhead,
-    crackheadJoin:crackheadJoin,
-    crackheadFirstJoin:crackheadFirstJoin,
-    highnessDialogue:highnessDialogue,
-    alFirstTalk:alFirstTalk,
-    darkworldDialogue:darkworldDialogue,
-    jonChaseX:jonChaseX,
-    gotYogaBlocks:gotYogaBlocks,
-    firstStrike:firstStrike,
-    pointerScale:pointerScale,
-    numberOfFights:numberOfFights,
-    bennettGet:bennettGet,
-    alGet:alGet,
-    keepawayHighScore:keepawayHighScore,
-    playerTexture:playerTexture,
-    brothersSeal:brothersSeal,
-    brothersSealForSkateboarding:brothersSealForSkateboarding,
-    athletics:athletics,
-    scene_number:scene_number,
-    equipment:equipment,
-    worldTheme:worldTheme,
-    gas:gas,
-    phoneGet:phoneGet,
-    walletGet:walletGet,
-    liquorGet:liquorGet,
-    flowersGet:flowersGet,
-    keysGet:keysGet,
-    doitS:doitS,
-    money:money,
-    hamms:hamms,
-    monster:monster,
-    maxice:maxice,
-    andycapps:andycapps,
-    gatorade:gatorade,
-    liquorItem:liquorItem,
-    larrySpecial:larrySpecial,
-    numberOfPlayers:numberOfPlayers,
-    specialObject:specialObject,
-    bleedProofObject:bleedProofObject,
-    neverMissObject:neverMissObject,
-    blindProofObject:blindProofObject,
-    blindObject:blindObject,
-    bleedingObject:bleedingObject,
-    maxSPObject:maxSPObject,
-    spObject:spObject,
-    critObject:critObject,
-    defenseObject:defenseObject,
-    hpObject:hpObject,
-    maxHPObject:maxHPObject,
-    expObject:expObject,
-    levelObject:levelObject,
-    damageObject:damageObject,
-    potentialParty:potentialParty,
-    currentParty:currentParty,
-    skillDialogue:skillDialogue,
-    items:items,
-    all_usable_items:all_usable_items,
-    usable_items:usable_items,
-    numberOfItems:numberOfItems,
-    players:players,
-    equipped:equipped,
-  };
-  localStorage.setItem('saveFile', JSON.stringify(file));
-}
-
-function loadGame2() {
-  if (saveFileExists) {
-    var file = JSON.parse(localStorage.getItem('saveFile'));
-    activeQuests = file.activeQuests
-    completedQuests = file.completedQuests
-    currentQuest = file.currentQuest
-    beatStag = file.beatStag
-    skateboardGet = file.skateboardGet
-    stripperBanged = file.stripperBanged
-    fratboy2primedialogue = file.fratboy2primedialogue
-    newDarkDialogue = file.newDarkDialogue
-    darkboydialogue = file.darkboydialogue
-    diodialogue = file.diodialogue
-    trevorAptFirstDialogue = file.trevorAptFirstDialogue
-    firstTimeCarGet = file.firstTimeCarGet
-    jeanClaudeFirstTalk = file.jeanClaudeFirstTalk
-    jamesFirstTalk = file.jamesFirstTalk
-    jonFirstTalk = file.jonFirstTalk
-    yogagirlFirstTalk = file.yogagirlFirstTalk
-    stripperFirstTalk = file.stripperFirstTalk
-    adelineFirstTalk = file.adelineFirstTalk
-    volleyballScore = file.volleyballScore
-    firstPoolParty = file.firstPoolParty
-    ogFirstTalk = file.ogFirstTalk
-    gunTalk = file.gunTalk
-    joeGet = file.joeGet
-    jamesGet = file.jamesGet
-    jimmyJoinParam = file.jimmyJoinParam
-    neverBeenPro = file.neverBeenPro
-    checkLevelDialogue = file.checkLevelDialogue
-    evanFirstDialogue = file.evanFirstDialogue
-    anthonyFirstDialogue = file.anthonyFirstDialogue
-    girl1FirstDialogue = file.girl1FirstDialogue
-    girl2FirstDialogue = file.girl2FirstDialogue
-    girl3FirstDialogue = file.girl3FirstDialogue
-    girl4FirstDialogue = file.girl4FirstDialogue
-    crackheadFirstTalk = file.crackheadFirstTalk
-    moneyToCrackhead = file.moneyToCrackhead
-    crackheadJoin = file.crackheadJoin
-    crackheadFirstJoin = file.crackheadFirstJoin
-    highnessDialogue = file.highnessDialogue
-    alFirstTalk = file.alFirstTalk
-    darkworldDialogue = file.darkworldDialogue
-    jonChaseX = file.jonChaseX
-    gotYogaBlocks = file.gotYogaBlocks
-    firstStrike = file.firstStrike
-    pointerScale = file.pointerScale
-    numberOfFights = file.numberOfFights
-    bennettGet = file.bennettGet
-    alGet = file.alGet
-    keepawayHighScore = file.keepawayHighScore
-    playerTexture = file.playerTexture
-    brothersSeal = file.brothersSeal
-    brothersSealForSkateboarding = file.brothersSealForSkateboarding
-    athletics = file.athletics
-    scene_number = file.scene_number
-    equipment = file.equipment
-    worldTheme = file.worldTheme
-    gas = file.gas
-    phoneGet = file.phoneGet
-    walletGet = file.walletGet
-    liquorGet = file.liquorGet
-    flowersGet = file.flowersGet
-    keysGet = file.keysGet
-    doitS = file.doitS
-    money = file.money
-    hamms = file.hamms
-    monster = file.monster
-    maxice = file.maxice
-    andycapps = file.andycapps
-    gatorade = file.gatorade
-    liquorItem = file.liquorItem
-    larrySpecial = file.larrySpecial
-    numberOfPlayers = file.numberOfPlayers
-    specialObject = file.specialObject
-    bleedProofObject = file.bleedProofObject
-    neverMissObject = file.neverMissObject
-    blindProofObject = file.blindProofObject
-    blindObject = file.blindObject
-    bleedingObject = file.bleedingObject
-    maxSPObject = file.maxSPObject
-    spObject = file.spObject
-    critObject = file.critObject
-    defenseObject = file.defenseObject
-    hpObject = file.hpObject
-    maxHPObject = file.maxHPObject
-    expObject = file.expObject
-    levelObject = file.levelObject
-    damageObject = file.damageObject
-    potentialParty = file.potentialParty
-    currentParty = file.currentParty
-    skillDialogue = file.skillDialogue
-    items = file.items
-    all_usable_items = file.all_usable_items
-    usable_items = file.usable_items
-    numberOfItems = file.numberOfItems
-    players = file.players
-    equipped = file.equipped
   }
 }
 
@@ -1973,18 +1713,25 @@ function playItemGet() {
 }
 
 //building inventory from the file inventory_items.json
-let jsonInventoryData={}
+let inventory={}
   $(function() {
     //var people = [];
     $.getJSON('data/json-files/inventory_items.json', function(data) {
       //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
       $.each(data, function(i, f) {
         name=f['name']
-        jsonInventoryData[name] = f
+        inventory[name] = f
       });
     });
   });
 
 window.setTimeout(()=>{
-  console.log(jsonInventoryData)
+  console.log(inventory)
+  let numberOfItems = 0;
+  for (let i = 0; i < Object.keys(inventory).length; i++) {
+    key = Object.keys(inventory)[i]
+    inventory[key]['numberOwned'] = parseInt(inventory[key]['numberOwned'])
+    numberOfItems += inventory[key]['numberOwned']
+  }
+  console.log(`numberOfItems: ${numberOfItems}`)
 },200)

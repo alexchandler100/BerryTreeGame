@@ -236,9 +236,10 @@ var ActionsMenu = new Phaser.Class({
     this.addMenuItem('Attack');
     this.addMenuItem('Defend');
     this.addMenuItem('Special');
-    numberOfItems = 0
-    for (let i = 0; i < Object.keys(usable_items).length; i++) {
-      numberOfItems += usable_items[Object.keys(usable_items)[i]]
+    numberOfItems = 0;
+    for (let i = 0; i < Object.keys(inventory).length; i++) {
+      key = Object.keys(inventory)[i]
+      numberOfItems += inventory[key]['numberOwned']
     }
     if (numberOfItems > 0) {
       this.addMenuItem('Items');
@@ -250,9 +251,9 @@ var ActionsMenu = new Phaser.Class({
   },
   itemRemap: function() {
     this.clear();
-    for (let i = 0; i < Object.keys(usable_items).length; i++) {
-      if (usable_items[Object.keys(usable_items)[i]] > 0) {
-        this.addMenuItem(Object.keys(usable_items)[i]);
+    for (let i = 0; i < Object.keys(inventory).length; i++) {
+      if (inventory[Object.keys(inventory)[i]]['numberOwned'] > 0) {
+        this.addMenuItem(Object.keys(inventory)[i]);
       }
     }
     //this.addMenuItem("Monster");
@@ -271,9 +272,10 @@ var ActionsMenu = new Phaser.Class({
     this.addMenuItem('Attack');
     this.addMenuItem('Defend');
     this.addMenuItem('Special');
-    numberOfItems = 0
-    for (let i = 0; i < Object.keys(usable_items).length; i++) {
-      numberOfItems += usable_items[Object.keys(usable_items)[i]]
+    let numberOfItems = 0;
+    for (let i = 0; i < Object.keys(inventory).length; i++) {
+      key = Object.keys(inventory)[i]
+      numberOfItems += inventory[key]['numberOwned']
     }
     if (numberOfItems > 0) {
       this.addMenuItem('Items');
@@ -485,7 +487,7 @@ var Unit = new Phaser.Class({
     if (defendOn[this.type]) {
       defendOn[this.type] = false
     }
-    if (gatorade >= 1) {
+    if (inventory["Gatorade"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('drink_gatorade', true);
@@ -516,14 +518,7 @@ var Unit = new Phaser.Class({
       }
       gameState.drinkGatorade.play()
       this.scene.events.emit("Message", this.type + " drinks a gatorade to recover 60 HP");
-      gatorade -= 1
-      usable_items["Gatorade"] -= 1;
-      this.hp += 60
-      hpObject[this.type] += 60
-      if (this.hp >= maxHPObject[this.type]) {
-        this.hp = maxHPObject[this.type]
-        hpObject[this.type] = maxHPObject[this.type]
-      }
+      useItem("Gatorade", this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -533,7 +528,7 @@ var Unit = new Phaser.Class({
     if (defendOn[this.type]) {
       defendOn[this.type] = false
     }
-    if (monster >= 1) {
+    if (inventory["Monster"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('drink_monster', true);
@@ -565,14 +560,7 @@ var Unit = new Phaser.Class({
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a monster to recover 10 SP");
       //why not use the useitem function here? (fix needed)
-      monster -= 1
-      usable_items["Monster"] -= 1;
-      spObject[this.type] += 10
-      bleedingObject[this.type]=0;
-      blindObject[this.type]=0;
-      if (spObject[this.type] >= maxSPObject[this.type]) {
-        spObject[this.type] = maxSPObject[this.type]
-      }
+      useItem("Monster", this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -582,7 +570,7 @@ var Unit = new Phaser.Class({
     if (defendOn[this.type]) {
       defendOn[this.type] = false
     }
-    if (maxice >= 1) {
+    if (inventory["Labatt Max Ice"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('drink_maxice', true);
@@ -613,18 +601,7 @@ var Unit = new Phaser.Class({
       }
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a Max Ice to recover 50 HP and 15 SP");
-      maxice -= 1
-      usable_items["Labatt Max Ice"] -= 1;
-      spObject[this.type] += 15
-      hpObject[this.type] += 50
-      this.hp += 50
-      if (spObject[this.type] >= maxSPObject[this.type]) {
-        spObject[this.type] = maxSPObject[this.type]
-      }
-      if (hpObject[this.type] >= maxHPObject[this.type]) {
-        hpObject[this.type] = maxHPObject[this.type]
-        this.hp = maxHPObject[this.type]
-      }
+      useItem("Labatt Max Ice",this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -634,7 +611,7 @@ var Unit = new Phaser.Class({
     if (defendOn[this.type]) {
       defendOn[this.type] = false
     }
-    if (larrySpecial >= 1) {
+    if (inventory["Larry Special"]['numberOwned'] >= 1) {
 
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
@@ -665,11 +642,7 @@ var Unit = new Phaser.Class({
         }, 2999);
       }
       gameState.larrySpecialSound.play();
-      larrySpecial -= 1
-      usable_items["Larry Special"] -= 1
-      this.hp = maxHPObject[this.type]
-      hpObject[this.type] = maxHPObject[this.type]
-      spObject[this.type] = maxSPObject[this.type]
+      useItem('Larry Special', this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -679,8 +652,7 @@ var Unit = new Phaser.Class({
     if (defendOn[this.type]) {
       defendOn[this.type] = false
     }
-    if (andycapps >= 1) {
-
+    if (inventory["Andy Capp's Hot Fries"]['numberOwned']>= 1) {
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('eat_andycapps', true);
@@ -710,17 +682,7 @@ var Unit = new Phaser.Class({
         }, 2999);
       }
       gameState.eating_andycapps.play();
-      andycapps -= 1
-      usable_items["Andy Capp's Hot Fries"] -= 1
-      spObject[this.type] = maxSPObject[this.type]
-      this.hp +=10
-      if (this.hp >= maxHPObject[this.type]) {
-        hpObject[this.type] = maxHPObject[this.type]
-      }
-      hpObject[this.type] += 10
-      if (hpObject[this.type] >= maxHPObject[this.type]) {
-        hpObject[this.type] = maxHPObject[this.type]
-      }
+      useItem("Andy Capp's Hot Fries",this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -730,7 +692,7 @@ var Unit = new Phaser.Class({
     if (defendOn[this.type]) {
       defendOn[this.type] = false
     }
-    if (liquorItem >= 1) {
+    if (inventory["Liquor"]['numberOwned'] >= 1) {
 
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
@@ -761,9 +723,7 @@ var Unit = new Phaser.Class({
         }, 2999);
       }
       gameState.drinking_liquor.play();
-      liquorItem -= 1
-      usable_items["Liquor"] -= 1
-      spObject[this.type] = maxSPObject[this.type]
+      useItem('Liquor',this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -773,7 +733,7 @@ var Unit = new Phaser.Class({
     if (defendOn[this.type]) {
       defendOn[this.type] = false
     }
-    if (hamms >= 1) {
+    if (inventory["Hamms"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('drink_hamms', true);
@@ -804,18 +764,7 @@ var Unit = new Phaser.Class({
       }
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a hamms to recover 20 HP and 5 SP");
-      hamms -= 1
-      usable_items["Hamms"] -= 1;
-      spObject[this.type] += 5
-      hpObject[this.type] += 20
-      this.hp += 20
-      if (spObject[this.type] >= maxSPObject[this.type]) {
-        spObject[this.type] = maxSPObject[this.type]
-      }
-      if (hpObject[this.type] >= maxHPObject[this.type]) {
-        hpObject[this.type] = maxHPObject[this.type]
-        this.hp = maxHPObject[this.type]
-      }
+      useItem("Hamms", this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -1119,6 +1068,21 @@ var BattleScene = new Phaser.Class({
     trevorBleed.anims.play('bleedingfast', true)
   },
   update: function() {
+    //makes sure that battlescene hp and sp coincide with overworld hp and sp
+    gameStateBattle.me.hp = hpObject['Mac']
+    gameStateBattle.me.sp = spObject['Mac']
+    if (trevor.following){
+      gameStateBattle.trevor.hp = hpObject['Jimmy']
+      gameStateBattle.trevor.sp = spObject['Jimmy']
+    } if (al.following){
+      gameStateBattle.al.hp = hpObject['Al']
+      gameStateBattle.al.sp = spObject['Al']
+    } if (bennett.following){
+      gameStateBattle.bennett.hp = hpObject['Bennett']
+      gameStateBattle.bennett.sp = spObject['Bennett']
+    }
+
+
     if (this.walkingCounter<= 150){
       this.walkingCounter+=1;
       for (let i=0; i<this.enemies.length; i++){
@@ -1593,25 +1557,7 @@ var BattleScene = new Phaser.Class({
       if (rn2 < rewardProbability) {
         itemReward = rewardKeys[rn];
         if (itemReward === "Andy Capp's Hot Fries" || itemReward === 'Labatt Max Ice' || itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special') {
-          all_usable_items[itemReward] += 1;
-          if (usable_items[itemReward]) {
-            usable_items[itemReward] += 1
-          } else {
-            usable_items[itemReward] = 1;
-          }
-          if (itemReward === "Andy Capp's Hot Fries"){
-            andycapps += 1;
-          } else if (itemReward === "Labatt Max Ice"){
-              maxice += 1;
-            } else if (itemReward === "Monster"){
-                monster += 1;
-              } else if (itemReward === "Gatorade"){
-                  gatorade += 1;
-                } else if (itemReward === "Hamms"){
-                    hamms += 1;
-                  } else if (itemReward === "Larry Special"){
-                      larrySpecial += 1;
-                    }
+          inventory[itemReward]['numberOwned']+=1
         } else if (itemReward === 'Wife Beater' || itemReward === 'SP Booster' || itemReward === 'Damage Booster' || itemReward === 'HP Booster' || itemReward === 'Fubu Shirt' || itemReward === 'Camo Pants') {
           equipment.push(itemReward)
         }
@@ -1773,37 +1719,37 @@ var BattleScene = new Phaser.Class({
   },
   receivePlayerSelection: function(action, target) {
     if (this.UIScene.actionsMenu.menuItems[action]._text == 'Gatorade') {
-      if (gatorade === 0) {
+      if (inventory['Gatorade']['numberOwned'] === 0) {
         this.index--
       }
       this.units[this.index].gatorade()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == "Andy Capp's Hot Fries") {
-      if (andycapps === 0) {
+      if (inventory["Andy Capp's Hot Fries"]['numberOwned'] === 0) {
         this.index--
       }
       this.units[this.index].andyCapps()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Monster') {
-      if (monster === 0) {
+      if (inventory['Monster']['numberOwned'] === 0) {
         this.index--
       }
       this.units[this.index].monster()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Labatt Max Ice') {
-      if (maxice === 0) {
+      if (inventory['Labatt Max Ice']['numberOwned'] === 0) {
         this.index--
       }
       this.units[this.index].maxice()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Hamms') {
-      if (hamms === 0) {
+      if (inventory['Hamms']['numberOwned'] === 0) {
         this.index--
       }
       this.units[this.index].hamms()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Larry Special') {
-      if (larrySpecial === 0) {
+      if (inventory['Larry Special']['numberOwned'] === 0) {
         this.index--
       }
       this.units[this.index].larrySpecial()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Liquor') {
-      if (liquorItem === 0) {
+      if (inventory['Liquor']['numberOwned'] === 0) {
         this.index--
       }
       this.units[this.index].liquor()

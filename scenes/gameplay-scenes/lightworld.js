@@ -3069,9 +3069,10 @@ var LightWorld = new Phaser.Class({
     //collecting items
     var keyObjS = this.input.keyboard.addKey('S'); // Get key object
     keyObjS.on('down', function(event) {
-      numberOfItems = 0
-      for (let i = 0; i < Object.keys(usable_items).length; i++) {
-        numberOfItems += usable_items[Object.keys(usable_items)[i]]
+      let numberOfItems = 0;
+      for (let i = 0; i < Object.keys(inventory).length; i++) {
+        key = Object.keys(inventory)[i]
+        numberOfItems += inventory[key]['numberOwned']
       }
       if (playerTexture === 0 && me.body.velocity.x === 0 && me.body.velocity.y === 0 && keysGet > 0 && distance(car, me) < 30) {
         playerTexture = 1;
@@ -3123,8 +3124,7 @@ var LightWorld = new Phaser.Class({
         zoom = 1
       } else if (distance(liquor, me) < 40 && liquorGet === 0 && trevor.joinParameter) {
         liquor.disableBody(true, true);
-        liquorItem = 5;
-        usable_items["Liquor"] = liquorItem;
+        inventory["Liquor"]['numberOwned'] += 5;
         liquorGet = 1;
         gameState.itemget.play()
         this.message.x = me.x;
@@ -3474,7 +3474,7 @@ var LightWorld = new Phaser.Class({
         y: bennett.y
       }
     } else if (currentQuest === "Al wants some shit") {
-      if (hamms < 4) {
+      if (inventory["Hamms"]['numberOwned'] < 4) {
         gameState.questLocations["Al wants some shit"] = map.findObject("Objects", obj => obj.name === "gas station enter");
       } else {
         gameState.questLocations["Al wants some shit"] = map.findObject("Objects", obj => obj.name === "homeboy spawn point");
@@ -4021,22 +4021,15 @@ var LightWorld = new Phaser.Class({
       brothersSeal = 1;
       brothersSealForSkateboarding = 1;
       money += 10;
-      hamms += 5;
-      monster += 5;
-      maxice += 5;
-      andycapps += 5;
-      gatorade += 5;
-      larrySpecial += 5;
-      liquorItem +=5
       equipped["Mac"].accessory = "Sprinting Shoes"
       sprintingShoes("Mac", true)
-      usable_items["Hamms"] += 5;
-      usable_items["Monster"] += 5;
-      usable_items["Gatorade"] += 5;
-      usable_items["Larry Special"] = 5;
-      usable_items["Andy Capp's Hot Fries"] = 5;
-      usable_items["Labatt Max Ice"] = 5;
-      usable_items["Liquor"] = 5;
+      inventory["Hamms"]['numberOwned'] += 5;
+      inventory["Monster"]['numberOwned'] += 5;
+      inventory["Gatorade"]['numberOwned'] += 5;
+      inventory["Larry Special"]['numberOwned'] = 5;
+      inventory["Andy Capp's Hot Fries"]['numberOwned'] += 5;
+      inventory["Labatt Max Ice"]['numberOwned'] += 5;
+      inventory["Liquor"]['numberOwned'] += 5;
       gameState.secret.play()
       for (itemz of ["Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes"]) {
         equipment.push(itemz)
@@ -4328,7 +4321,6 @@ var LightWorld = new Phaser.Class({
       girl2FirstDialogue = 1
       activeQuests["Becca Wants Some Smokes"] = "Becca seems drunk and asked me to get some smokes. She gave me about 3.50$. I can usually get some for free from Homeboy Jon. I wonder where he is..."
     } else if (distance(me, girl2) < 10 && girl2FirstDialogue === 1 && items.includes('Marlboro lights') && trevor.joinParameter) {
-      //hamms -= 2
       this.openDialoguePage(110)
       girl2FirstDialogue = 2
       completeQuest("Becca Wants Some Smokes")
@@ -4567,7 +4559,7 @@ var LightWorld = new Phaser.Class({
       if (index > -1) {
         items.splice(index, 1);
       }
-      hamms -= 4
+      inventory["Hamms"]['numberOwned'] -= 4
       gunTalk = 0
       completeQuest("Al wants some shit")
     } else if (distance(me, al) < 30 && alFirstTalk === 0 && al.joinParameter === false) {

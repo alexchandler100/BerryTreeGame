@@ -166,15 +166,15 @@ if (bennett.following){
       fill: '#fff'
     });
 
-    //generates graphics for all items in usable_items
+    //generates graphics for all items in inventory
     gameState2.newItem={}
     let xcoord2 = 175;
     let ycoord2 = 140;
     let itemCount=0;
-    for (a_item of Object.keys(usable_items)) {
-      if (usable_items[a_item]>0){
+    for (a_item of Object.keys(inventory)) {
+      if (inventory[a_item]['numberOwned']>0){
         itemCount+=1;
-        gameState2.newItem[a_item]=this.add.image(xcoord2,ycoord2,all_usable_items_icons[a_item]).setOrigin(0,0).setInteractive()
+        gameState2.newItem[a_item]=this.add.image(xcoord2,ycoord2,inventory[a_item]['all_usable_items_icons']).setOrigin(0,0).setInteractive()
         gameState2.newItem[a_item].name=`${a_item}`
         this.input.setDraggable(gameState2.newItem[a_item]);
         if (itemCount%3===0){
@@ -206,7 +206,7 @@ if (bennett.following){
       gameState2.tempBackground.y=pointer.y-15;
       gameState2.tempBackground.visible=true;
       gameState2.tempText.visible=true;
-      gameState2.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${usable_items[justOver[0].name]} \nEffect: ${itemEffects[justOver[0].name]}`);
+      gameState2.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']}`);
       gameState2.tempText.x=gameState2.tempBackground.x;
       gameState2.tempText.y=gameState2.tempBackground.y;
       gameState2.tempBackground.width=gameState2.tempText.width;
@@ -243,7 +243,6 @@ gameState2.keyObjZ.on('down', function() {
   update: function() {
     //redisplay items
     if (redisplayItems){
-      console.log(`redisplaying items. There are ${hamms} hamms and ${usable_items["Hamms"]} usable hamms`)
       gameState2.macText.setText(`HP: ${hpObject["Mac"]}/${maxHPObject["Mac"]} \nSP: ${spObject["Mac"]}/${maxSPObject["Mac"]}`)
       if (al.following){
         gameState2.alText.setText(`HP: ${hpObject["Al"]}/${maxHPObject["Al"]} \nSP: ${spObject["Al"]}/${maxSPObject["Al"]}`)
@@ -254,7 +253,7 @@ gameState2.keyObjZ.on('down', function() {
       if (bennett.following){
         gameState2.bennettText.setText(`HP: ${hpObject["Bennett"]}/${maxHPObject["Bennett"]} \nSP: ${spObject["Bennett"]}/${maxSPObject["Bennett"]}`)
       }
-      for (a_item of Object.keys(usable_items)) {
+      for (a_item of Object.keys(inventory)) {
         if (gameState2.newItem[a_item])
         {gameState2.newItem[a_item].destroy()}
       }
@@ -262,10 +261,10 @@ gameState2.keyObjZ.on('down', function() {
       let xcoord2 = 175;
       let ycoord2 = 140;
       let itemCount=0;
-      for (a_item of Object.keys(usable_items)) {
-        if (usable_items[a_item]>0){
+      for (a_item of Object.keys(inventory)) {
+        if (inventory[a_item]['numberOwned']>0){
           itemCount+=1;
-          gameState2.newItem[a_item]=this.add.image(xcoord2,ycoord2,all_usable_items_icons[a_item]).setOrigin(0,0).setInteractive()
+          gameState2.newItem[a_item]=this.add.image(xcoord2,ycoord2,inventory[a_item]['all_usable_items_icons']).setOrigin(0,0).setInteractive()
           gameState2.newItem[a_item].name=`${a_item}`
           this.input.setDraggable(gameState2.newItem[a_item]);
           if (itemCount%3===0){

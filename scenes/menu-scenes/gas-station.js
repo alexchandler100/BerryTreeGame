@@ -61,8 +61,7 @@ var GasStation = new Phaser.Class({
       if (money >= 3.5) {
         gameState3.chaching.play()
         money -= 3.5;
-        hamms += 2
-        usable_items["Hamms"]+=2
+        inventory["Hamms"]['numberOwned']+=2
         redisplayItems=true
       }
     }, this);
@@ -76,8 +75,7 @@ var GasStation = new Phaser.Class({
       if (money >= 3) {
         gameState3.chaching.play()
         money -= 3;
-        monster += 2
-        usable_items["Monster"]=monster
+        inventory["Monster"]['numberOwned']+=2
         redisplayItems=true
       }
     }, this);
@@ -91,8 +89,7 @@ var GasStation = new Phaser.Class({
       if (money >= 3.5) {
         gameState3.chaching.play()
         money -= 3.5;
-        gatorade += 2
-        usable_items["Gatorade"]=gatorade
+        inventory["Gatorade"]['numberOwned']+=2
         redisplayItems=true
       }
     }, this);
@@ -106,12 +103,7 @@ var GasStation = new Phaser.Class({
       if (money >= 1.5) {
         gameState3.chaching.play()
         money -= 1.5;
-        andycapps += 1;
-        if (usable_items["Andy Capp's Hot Fries"]) {
-          usable_items["Andy Capp's Hot Fries"] += 1;
-        } else {
-          usable_items["Andy Capp's Hot Fries"] = 1;
-        }
+        inventory["Andy Capp's Hot Fries"]['numberOwned'] += 1
         redisplayItems=true;
       }
     }, this);
@@ -148,15 +140,14 @@ var GasStation = new Phaser.Class({
     }, this);
     jerkyText.inventoryName="Jerky"
 
-    //console.log(Object.keys(usable_items))
     gameState3.newItem={}
     let xcoord2 = 175;
     let ycoord2 = 230;
     let itemCount=0;
-    for (a_item of Object.keys(usable_items)) {
-      if (usable_items[a_item]>0){
+    for (a_item of Object.keys(inventory)) {
+      if (inventory[a_item]['numberOwned']>0){
         itemCount+=1;
-        gameState3.newItem[a_item]=this.add.image(xcoord2,ycoord2,all_usable_items_icons[a_item]).setOrigin(0,0).setInteractive()
+        gameState3.newItem[a_item]=this.add.image(xcoord2,ycoord2,inventory[a_item]['all_usable_items_icons']).setOrigin(0,0).setInteractive()
         gameState3.newItem[a_item].name=`${a_item}`
         this.input.setDraggable(gameState3.newItem[a_item]);
         if (itemCount%3===0){
@@ -180,12 +171,12 @@ var GasStation = new Phaser.Class({
 
     this.input.on('pointerover', function (pointer, justOver) {
       if (justOver[0].name && justOver[0].name!=="Mac" && justOver[0].name!=="Al" && justOver[0].name!=="Jimmy"){
-        console.log(`Name: ${justOver[0].name} \nQuantity: ${usable_items[justOver[0].name]} \nEffect: ${itemEffects[justOver[0].name]}`)
+        console.log(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']}`)
         gameState3.tempBackground.x=pointer.x+50;
         gameState3.tempBackground.y=pointer.y-15;
         gameState3.tempBackground.visible=true;
         gameState3.tempText.visible=true;
-        gameState3.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${usable_items[justOver[0].name]} \nEffect: ${itemEffects[justOver[0].name]}`);
+        gameState3.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']}`);
         gameState3.tempText.x=gameState3.tempBackground.x;
         gameState3.tempText.y=gameState3.tempBackground.y;
         gameState3.tempBackground.width=gameState3.tempText.width;
@@ -195,7 +186,7 @@ var GasStation = new Phaser.Class({
         gameState3.tempBackground.y=pointer.y-15;
         gameState3.tempBackground.visible=true;
         gameState3.tempText.visible=true;
-        gameState3.tempText.setText(`Effect: ${itemEffects[justOver[0].inventoryName]}`);
+        gameState3.tempText.setText(`Effect: ${inventory[justOver[0].inventoryName]['itemEffects']}`);
         gameState3.tempText.x=gameState3.tempBackground.x;
         gameState3.tempText.y=gameState3.tempBackground.y;
         gameState3.tempBackground.width=gameState3.tempText.width;
@@ -227,7 +218,7 @@ var GasStation = new Phaser.Class({
   update: function() {
     if (redisplayItems){
       creditText.setText(`Your Cash: ${Math.round(money*100)/100}     Gallons of Gas: ${Math.round(gas*100)/100} `)
-      for (a_item of Object.keys(usable_items)) {
+      for (a_item of Object.keys(inventory)) {
         if (gameState3.newItem[a_item])
         {gameState3.newItem[a_item].destroy()}
       }
@@ -235,10 +226,10 @@ var GasStation = new Phaser.Class({
       let xcoord2 = 175;
       let ycoord2 = 230;
       let itemCount=0;
-      for (a_item of Object.keys(usable_items)) {
-        if (usable_items[a_item]>0){
+      for (a_item of Object.keys(inventory)) {
+        if (inventory[a_item]['numberOwned']>0){
           itemCount+=1;
-          gameState3.newItem[a_item]=this.add.image(xcoord2,ycoord2,all_usable_items_icons[a_item]).setOrigin(0,0).setInteractive()
+          gameState3.newItem[a_item]=this.add.image(xcoord2,ycoord2,inventory[a_item]['all_usable_items_icons']).setOrigin(0,0).setInteractive()
           gameState3.newItem[a_item].name=`${a_item}`
           this.input.setDraggable(gameState3.newItem[a_item]);
           if (itemCount%3===0){
