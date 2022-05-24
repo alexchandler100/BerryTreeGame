@@ -1,8 +1,10 @@
-name,randomEncounterRewards,itemEffects,all_usable_items_icons,numberOwned,sp,hp,stamina,status_ailments
-Andy Capp's Hot Fries,0.5,"SP Max, HP +10",andycappsIcon,0,max,10,na,na
-Labatt Max Ice,0.2,"HP +60, SP +15",maxiceIcon,0,15,60,na,na
-Gatorade,0.4,"HP +60, \n stamina max",gatoradeIcon,0,na ,60,max,na
-Monster,0.4,"SP +10, cure \n status ailments",monsterIcon,0,10,na,na,cure all
-Hamms,0.4,HP +20 SP +5,hammsIcon,2,5,20,na,na
-Larry Special,0.2,"HP max, SP max",larrySpecialIcon,0,max,max,na,na
-Liquor,0,SP Max,liquorIcon,0,max,na,na,na
+name,randomEncounterRewards,itemEffects,all_usable_items_icons,numberOwned,sp,hp,stamina,status_ailments,attack_up,defense_up
+Andy Capp's Hot Fries,0.5,"SP Max, HP +10",andycappsIcon,0,max,10,0,0,0,0
+Labatt Max Ice,0.2,"HP +60, SP +15",maxiceIcon,0,15,60,0,0,0,0
+Gatorade,0.4,"HP +60, stamina max",gatoradeIcon,0,0,60,max,0,0,0
+Monster,0.4,"SP +10, cure status ailments",monsterIcon,0,10,0,0,cure all,0,0
+Hamms,0.4,HP +20 SP +5,hammsIcon,2,5,20,0,0,0,0
+Larry Special,0.2,"HP max, SP max",larrySpecialIcon,0,max,max,0,0,0,0
+Liquor,0.6,SP Max,liquorIcon,0,max,0,0,0,0,0
+Wine,0.6,Attack +20% (3 turns) -20 stamina,wineIcon,1,-20,-5,0,0,0.2,0
+Protein Monster,0.6,Defense +40% (3 turns) +20 stamina,proteinmonsterIcon,1,0,0,20,0,0,0.4

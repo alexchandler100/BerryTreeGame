@@ -7,8 +7,10 @@
         "numberOwned": "0",
         "sp": "max",
         "hp": "10",
-        "stamina": "na",
-        "status_ailments": "na"
+        "stamina": "0",
+        "status_ailments": "0",
+        "attack_up": "0",
+        "defense_up": "0"
     },
     "1": {
         "name": "Labatt Max Ice",
@@ -18,30 +20,36 @@
         "numberOwned": "0",
         "sp": "15",
         "hp": "60",
-        "stamina": "na",
-        "status_ailments": "na"
+        "stamina": "0",
+        "status_ailments": "0",
+        "attack_up": "0",
+        "defense_up": "0"
     },
     "2": {
         "name": "Gatorade",
         "randomEncounterRewards": "0.4",
-        "itemEffects": "HP +60, \\n stamina max",
+        "itemEffects": "HP +60, stamina max",
         "all_usable_items_icons": "gatoradeIcon",
         "numberOwned": "0",
-        "sp": "na ",
+        "sp": "0",
         "hp": "60",
         "stamina": "max",
-        "status_ailments": "na"
+        "status_ailments": "0",
+        "attack_up": "0",
+        "defense_up": "0"
     },
     "3": {
         "name": "Monster",
         "randomEncounterRewards": "0.4",
-        "itemEffects": "SP +10, cure \\n status ailments",
+        "itemEffects": "SP +10, cure status ailments",
         "all_usable_items_icons": "monsterIcon",
         "numberOwned": "0",
         "sp": "10",
-        "hp": "na",
-        "stamina": "na",
-        "status_ailments": "cure all"
+        "hp": "0",
+        "stamina": "0",
+        "status_ailments": "cure all",
+        "attack_up": "0",
+        "defense_up": "0"
     },
     "4": {
         "name": "Hamms",
@@ -51,8 +59,10 @@
         "numberOwned": "2",
         "sp": "5",
         "hp": "20",
-        "stamina": "na",
-        "status_ailments": "na"
+        "stamina": "0",
+        "status_ailments": "0",
+        "attack_up": "0",
+        "defense_up": "0"
     },
     "5": {
         "name": "Larry Special",
@@ -62,18 +72,48 @@
         "numberOwned": "0",
         "sp": "max",
         "hp": "max",
-        "stamina": "na",
-        "status_ailments": "na"
+        "stamina": "0",
+        "status_ailments": "0",
+        "attack_up": "0",
+        "defense_up": "0"
     },
     "6": {
         "name": "Liquor",
-        "randomEncounterRewards": "0",
+        "randomEncounterRewards": "0.6",
         "itemEffects": "SP Max",
         "all_usable_items_icons": "liquorIcon",
         "numberOwned": "0",
         "sp": "max",
-        "hp": "na",
-        "stamina": "na",
-        "status_ailments": "na"
+        "hp": "0",
+        "stamina": "0",
+        "status_ailments": "0",
+        "attack_up": "0",
+        "defense_up": "0"
+    },
+    "7": {
+        "name": "Wine",
+        "randomEncounterRewards": "0.6",
+        "itemEffects": "Attack +20% (3 turns) -20 stamina",
+        "all_usable_items_icons": "wineIcon",
+        "numberOwned": "1",
+        "sp": "-20",
+        "hp": "-5",
+        "stamina": "0",
+        "status_ailments": "0",
+        "attack_up": "0.2",
+        "defense_up": "0"
+    },
+    "8": {
+        "name": "Protein Monster",
+        "randomEncounterRewards": "0.6",
+        "itemEffects": "Defense +40% (3 turns) +20 stamina",
+        "all_usable_items_icons": "proteinmonsterIcon",
+        "numberOwned": "1",
+        "sp": "0",
+        "hp": "0",
+        "stamina": "20",
+        "status_ailments": "0",
+        "attack_up": "0",
+        "defense_up": "0.4"
     }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
   <link rel="shortcut icon" type="image/jpg" href="assets/images/favicon.ico"/>
@@ -32,30 +33,54 @@
   <script>
     let phaserConfig = {
       type: Phaser.AUTO, // Which renderer to use
-  width: 1200, // Canvas width in pixels
-  height: 600, // Canvas height in pixels
-  antialias: false,
-  pixelArt: true,
-  scale: {
+      width: 1200, // Canvas width in pixels
+      height: 600, // Canvas height in pixels
+      antialias: false,
+      pixelArt: true,
+      scale: {
         mode: Phaser.Scale.FIT,
         parent: 'phaser-example',
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 1200,
         height: 600
-    },
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: {
-        y: 0
       },
-      debug: false
-    }
-  },
-      scene: [TitleScreen, LightWorld, DialogueMenu, Navigator, MyApartment, PoolScore, Keyboard, QuestLog, QuestLogCompleted, PauseMenu, ControlsScene, ItemsMenu, EquipmentMenu, SealMenu, OverworldMenu, GasStation, BattleScene, UIScene, DarkWorld, HomeboyGame, Megaman, MegamanUI]
+      physics: {
+        default: 'arcade',
+        arcade: {
+          gravity: {
+            y: 0
+          },
+          debug: false  // switch to true to unhide hitboxes
+        }
+      },
+      scene: [
+        TitleScreen,
+        LightWorld,
+        DialogueMenu,
+        Navigator,
+        MyApartment,
+        PoolScore,
+        Keyboard,
+        QuestLog,
+        QuestLogCompleted,
+        PauseMenu,
+        ControlsScene,
+        ItemsMenu,
+        EquipmentMenu,
+        SealMenu,
+        OverworldMenu,
+        GasStation,
+        BattleScene,
+        UIScene,
+        DarkWorld,
+        HomeboyGame,
+        Megaman,
+        MegamanUI
+      ]
     };
 
     const game = new Phaser.Game(phaserConfig);
   </script>
 </body>
+
 </html>

@@ -18,7 +18,6 @@ let completedQuests = {
 }
 let currentQuest = 'Find Your Stuff'
 
-// it goes ['name', 'tiled object name for location']
 //megaman parameters
 let switchToNextWeapon = false;
 let beatChill = 0;
@@ -206,71 +205,37 @@ let randomEncounterRewards = {
 
 //to use items
 function useItem(object, player) {
-  if (object === "Monster") {
-    if (inventory["Monster"]['numberOwned'] >= 1) {
-      inventory["Monster"]['numberOwned'] -= 1
-      spObject[player] += 10
-      if (spObject[player] >= maxSPObject[player]) {
-        spObject[player] = maxSPObject[player]
-      }
+  if (inventory[object]['numberOwned'] >= 1) {
+    inventory[object]['numberOwned'] -= 1
+    //
+    if (inventory[object]['sp']==='max'){
+      spObject[player] = maxSPObject[player]
+    } else {
+      spObject[player] = Math.min(spObject[player]+inventory[object]['sp'],maxSPObject[player])
+    }
+    if (inventory[object]['hp']==='max'){
+      hpObject[player] = maxHPObject[player]
+    } else {
+      hpObject[player] = Math.min(hpObject[player]+inventory[object]['hp'],maxHPObject[player])
+    }
+    if (inventory[object]['stamina']==='max'){
+      stamina = 100
+    } else {
+      stamina += inventory[object]['stamina'] //there is no cap for stamina
+    }
+    if ((inventory[object]['status_ailments']==='cure all')){
       bleedingObject[player]=0;
       blindObject[player]=0;
     }
-  } else if (object === "Gatorade") {
-    if (inventory["Gatorade"]['numberOwned'] >= 1) {
-      inventory["Gatorade"]['numberOwned'] -= 1
-      hpObject[player] += 60
-      stamina = 100
-      if (hpObject[player] >= maxHPObject[player]) {
-        hpObject[player] = maxHPObject[player]
-      }
+    if ((inventory[object]['attack_up']>0)){
+      console.log('attack_up not yet implemented') // do this after reorganizing player status effects
     }
-  } else if (object === "Hamms") {
-    if (inventory["Hamms"]['numberOwned'] >= 1) {
-      inventory["Hamms"]['numberOwned'] -= 1
-      hpObject[player] += 20
-      if (hpObject[player] >= maxHPObject[player]) {
-        hpObject[player] = maxHPObject[player]
-      }
-      spObject[player] += 5
-      if (spObject[player] >= maxSPObject[player]) {
-        spObject[player] = maxSPObject[player]
-      }
-    }
-  } else if (object === "Liquor") {
-    if (inventory["Liquor"]['numberOwned'] >= 1) {
-      inventory["Liquor"]['numberOwned'] -= 1
-      spObject[player] = maxSPObject[player]
-    }
-  } else if (object === "Andy Capp's Hot Fries") {
-    if (inventory["Andy Capp's Hot Fries"] >= 1) {
-      inventory["Andy Capp's Hot Fries"]['numberOwned'] -= 1
-      spObject[player] = maxSPObject[player]
-      hpObject[player] += 10
-      if (hpObject[player] >= maxHPObject[player]) {
-        hpObject[player] = maxHPObject[player]
-      }
-    }
-  } else if (object === "Labatt Max Ice") {
-    if (inventory["Labatt Max Ice"]['numberOwned'] >= 1) {
-      inventory["Labatt Max Ice"]['numberOwned'] -= 1
-      hpObject[player] += 50
-      if (hpObject[player] >= maxHPObject[player]) {
-        hpObject[player] = maxHPObject[player]
-      }
-      spObject[player] += 15
-      if (spObject[player] >= maxSPObject[player]) {
-        spObject[player] = maxSPObject[player]
-      }
-    }
-  } else if (object === "Larry Special") {
-    if (inventory["Larry Special"]['numberOwned'] >= 1) {
-      inventory["Larry Special"]['numberOwned'] -= 1
-      hpObject[player] = maxHPObject[player]
-      spObject[player] = maxSPObject[player]
+    if ((inventory[object]['defense_up']>0)){
+      console.log('defense_up not yet implemented') // do this after reorganizing player status effects
     }
   }
 }
+
 
 function getBeer() { //bennett gives you beer
   inventory["Hamms"]['numberOwned'] += 1
@@ -300,8 +265,6 @@ let chasers = [];
 let chasersEnabled = false;
 let chaserInitiateFight = 0;
 let itemReward = '';
-
-
 
 let animObject = {
   "Dio": ['diofloat', 'dioslash'],
@@ -1009,7 +972,6 @@ function playbackCustomSong(){
       }
     }
   }
-
   //playing the bass
   for (const keyy of Object.keys(gameState6.sequences.bass)) {
     let i = Object.keys(gameState6.sequences.bass).findIndex((keyIndex) => {
@@ -1024,7 +986,6 @@ function playbackCustomSong(){
       }
     }
   }
-
   //playing the clav
   for (const keyy of Object.keys(gameState6.sequences.clav)) {
     let i = Object.keys(gameState6.sequences.clav).findIndex((keyIndex) => {
@@ -1054,7 +1015,6 @@ function playbackCustomSong(){
       }
     }
   }
-
   //playing the wurlitzer
   for (const keyy of Object.keys(gameState6.sequences.wurlitzer)) {
     let i = Object.keys(gameState6.sequences.wurlitzer).findIndex((keyIndex) => {
@@ -1069,7 +1029,6 @@ function playbackCustomSong(){
       }
     }
   }
-
   //playing the choir
   for (const keyy of Object.keys(gameState6.sequences.choir)) {
     let i = Object.keys(gameState6.sequences.choir).findIndex((keyIndex) => {
@@ -1084,7 +1043,6 @@ function playbackCustomSong(){
       }
     }
   }
-
   //playing the guitar
   for (const keyy of Object.keys(gameState6.sequences.guitar)) {
     let i = Object.keys(gameState6.sequences.guitar).findIndex((keyIndex) => {
@@ -1099,15 +1057,12 @@ function playbackCustomSong(){
       }
     }
   }
-
-
   //playing the drums
   for (const keyy of Object.keys(gameState6.sequences.drums)) {
     if ((gameState6.sequences.drums[keyy][playingTime] && playingTime === 0) || (gameState6.sequences.drums[keyy][playingTime] && !gameState6.sequences.drums[keyy][playingTime - 1])) {
       gameState6.drums[keyy].play();
     }
   }
-
   //incrementing time and looping at 480
   playingTime += 1;
   if (playingTime === 480) {
@@ -1731,7 +1686,31 @@ window.setTimeout(()=>{
   for (let i = 0; i < Object.keys(inventory).length; i++) {
     key = Object.keys(inventory)[i]
     inventory[key]['numberOwned'] = parseInt(inventory[key]['numberOwned'])
+    inventory[key]["randomEncounterRewards"] = parseFloat(inventory[key]["randomEncounterRewards"])
+    if (inventory[key]["sp"]!=='na' && inventory[key]["sp"]!=='max'){
+      inventory[key]["sp"] = parseInt(inventory[key]["sp"])
+    }
+    if (inventory[key]["hp"]!=='na' && inventory[key]["hp"]!=='max'){
+      inventory[key]["hp"] = parseInt(inventory[key]["hp"])
+    }
     numberOfItems += inventory[key]['numberOwned']
+    console.log(key, inventory[key]["hp"], inventory[key]["sp"], inventory[key]["randomEncounterRewards"])
   }
   console.log(`numberOfItems: ${numberOfItems}`)
 },200)
+
+if (parseInt('that')){
+  console.log('that is an int')
+} else {
+  console.log('that is not an int')
+}
+if (parseFloat('.024')){
+  console.log('.024 is a float')
+} else {
+  console.log('.024 is not a float')
+}
+if (parseInt('50')){
+  console.log('50is an int')
+} else {
+  console.log('50 is not an int')
+}

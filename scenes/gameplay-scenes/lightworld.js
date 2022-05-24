@@ -639,6 +639,8 @@ var LightWorld = new Phaser.Class({
     this.load.image('hammsIcon', "assets/images/hamms.png");
     this.load.image('larrySpecialIcon', "assets/images/larrySpecial.png");
     this.load.image('gatoradeIcon', "assets/images/gatorade.png");
+    this.load.image('wineIcon', "assets/images/wine.png");
+    this.load.image('proteinmonsterIcon', "assets/images/proteinMonster.png");
     //loading sprite images
     this.load.image('towel1', "assets/images/towel1.png");
     this.load.image('towel2', "assets/images/towel2.png");
