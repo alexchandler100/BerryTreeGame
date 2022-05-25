@@ -218,34 +218,52 @@ let randomEncounterRewards = {
 
 //to use items
 function useItem(object, player) {
-  if (inventory[object]['numberOwned'] >= 1) {
-    inventory[object]['numberOwned'] -= 1
+  let obj = inventory[object];
+  let guy = party[player];
+  if (obj['numberOwned'] >= 1) {
+    obj['numberOwned'] -= 1
     //
-    if (inventory[object]['sp']==='max'){
-      party[player]['sp'] = party[player]['maxSP']
+    if (obj['sp']==='max'){
+      guy['sp'] = guy['maxSP']
     } else {
-      party[player]['sp'] = Math.min(party[player]['sp']+inventory[object]['sp'],party[player]['maxSP'])
+      guy['sp'] = Math.min(guy['sp']+obj['sp'],guy['maxSP'])
     }
-    if (inventory[object]['hp']==='max'){
-      party[player]['hp'] = party[player]['maxHP']
+    if (obj['hp']==='max'){
+      guy['hp'] = guy['maxHP']
     } else {
-      party[player]['hp'] = Math.min(party[player]['hp']+inventory[object]['hp'],party[player]['maxHP'])
+      guy['hp'] = Math.min(guy['hp']+obj['hp'],guy['maxHP'])
     }
-    if (inventory[object]['stamina']==='max'){
+    if (obj['stamina']==='max'){
       stamina = 100
     } else {
-      stamina += inventory[object]['stamina'] //there is no cap for stamina
+      stamina += obj['stamina'] //there is no cap for stamina
     }
-    if ((inventory[object]['status_ailments']==='cure all')){
-      party[player]['bleeding']=0;
-      party[player]['blind']=0;
+    if ((obj['status_ailments']==='cure all')){
+      guy['bleeding']=0;
+      guy['blind']=0;
     }
-    if ((inventory[object]['attack_up']>0)){
-      console.log('attack_up not yet implemented') // do this after reorganizing player status effects
+    if ((obj['attack_up']>0)){
+      guy['attackUp']*=(1+obj['attack_up'])
+      console.log(`before calling function, ${guy} has ${guy['attackUpTurns']} attack up turns`)
+      if (guy['attackUpTurns']===0 || !guy['attackUpTurns']){
+        guy['attackUpTurns']=3
+      } else {
+        guy['attackUpTurns']=1
+      }
+      console.log(`${guy} has ${guy['attackUpTurns']} turns left of attackUp`)
+      console.log(`${guy} currently ${guy['attackUp']}-times attack power`)
     }
-    if ((inventory[object]['defense_up']>0)){
-      console.log('defense_up not yet implemented') // do this after reorganizing player status effects
-    }
+    if ((obj['defense_up']>0)){
+      guy['defenseUp']*=(1-obj['defense_up'])
+      console.log(`before calling function, ${guy} has ${guy['defenseUpTurns']} defense up turns`)
+      if (guy['defenseUpTurns']===0 || !guy['defenseUpTurns']){
+        guy['defenseUpTurns']=3
+      } else {
+        guy['defenseUpTurns']=1
+      }
+      console.log(`${guy} has ${guy['defenseUpTurns']} turns left of defenseUp`)
+      console.log(`${guy} currently takes ${guy['defenseUp']}-times damage`)
+        }
   }
 }
 

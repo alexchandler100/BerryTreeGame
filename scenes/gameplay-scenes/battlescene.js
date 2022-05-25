@@ -256,8 +256,6 @@ var ActionsMenu = new Phaser.Class({
         this.addMenuItem(Object.keys(inventory)[i]);
       }
     }
-    //this.addMenuItem("Monster");
-    //this.addMenuItem("Hamms");
     this.menuItemIndex = 0;
   },
   specialRemap: function() {
@@ -373,6 +371,24 @@ var Unit = new Phaser.Class({
       if (Object.keys(party).includes(target.type)) {
         d = Math.floor(d * (1.35) ** (numberOfPlayers))
       }
+      if (Object.keys(party).includes(target.type) && party[target.type]['defenseUp']!==1){
+        d*=party[target.type]['defenseUp'] //for protein monster this scales by .6
+        party[target.type]['defenseUpTurns']-=1
+        console.log('attacked with less strength')
+        if (party[target.type]['defenseUpTurns']===0){
+          party[target.type]['defenseUp']=1
+          console.log('attack up is over')
+        }
+      }
+      if (Object.keys(party).includes(this.type) && party[this.type]['attackUp']!==1){
+        d*=party[this.type]['attackUp'] //for wine this scales by 1.2
+        party[this.type]['attackUpTurns']-=1
+        console.log('attacked with extra strength')
+        if (party[this.type]['attackUpTurns']===0){
+          party[this.type]['attackUp']=1
+          console.log('attack up is over')
+        }
+      }
       target.takeDamage(d);
       window.setTimeout(() => { //this is what actually applies damage
       //if the attacker is fratboy2, and the attack hits, the target is blinded
@@ -446,6 +462,15 @@ var Unit = new Phaser.Class({
     if (Object.keys(party).includes(this.type) && party[this.type]['blind']>0) {
       d = Math.floor(d / 2)
       console.log('this hero is blind')
+    }
+    if (Object.keys(party).includes(this.type) && party[this.type]['attackUp']>0){
+      d*=party[this.type]['attackUp'] //for wine this scales by 1.2
+      party[this.type]['attackUpTurns']-=1
+      console.log('attacked with extra strength')
+      if (party[this.type]['attackUpTurns']===0){
+        party[this.type]['attackUp']=0
+        console.log('attack up is over')
+      }
     }
     let dam;
     if (target.living) {
@@ -579,6 +604,48 @@ var Unit = new Phaser.Class({
       this.scene.events.emit("Message", this.type + " drinks a monster to recover 10 SP");
       //why not use the useitem function here? (fix needed)
       useItem("Monster", this.type)
+    } else {
+      this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
+    }
+  },
+
+  proteinMonster: function() {
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
+    }
+    if (inventory["Protein Monster"]['numberOwned'] >= 1) {
+      if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
+        gameStateBattle.me.anims.play('drink_monster', true);
+        window.setTimeout(() => {
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
+        }, 2999);
+      } else if (this.type === "Jimmy") {
+        gameStateBattle.trevor.anims.play('trevor_drink_monster', true);
+        gameStateBattle.trevor.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.trevor.anims.play('trevorright', true);
+          gameStateBattle.trevor.flipX = true;
+        }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_drink_monster', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === 'Bennett') {
+        gameStateBattle.bennett.anims.play('bennett_drink_monster', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
+        }, 2999);
+      }
+      gameState.drinkCan.play()
+      this.scene.events.emit("Message", this.type + " drinks a protein monster to recover 20 stamina and gain defense up 40% for 3 turns");
+      //why not use the useitem function here? (fix needed)
+      useItem("Protein Monster", this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -742,6 +809,46 @@ var Unit = new Phaser.Class({
       }
       gameState.drinking_liquor.play();
       useItem('Liquor',this.type)
+    } else {
+      this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
+    }
+  },
+
+  wine: function() {
+    if (party[this.type]['defendOn']) {
+      party[this.type]['defendOn'] = false
+    }
+    if (inventory["Wine"]['numberOwned'] >= 1) {
+      if (this.type === "Mac") {
+        gameStateBattle.me.flipX = false;
+        gameStateBattle.me.anims.play('drink_liquor', true);
+        window.setTimeout(() => {
+          //gameStateBattle.me.flipX = true;
+          gameStateBattle.me.anims.play('bouncing', true);
+        }, 2999);
+      } else if (this.type === "Jimmy") {
+        gameStateBattle.trevor.anims.play('trevor_drink_liquor', true);
+        gameStateBattle.trevor.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.trevor.anims.play('trevorright', true);
+          gameStateBattle.trevor.flipX = true;
+        }, 2999);
+      } else if (this.type === "Al") {
+        gameStateBattle.al.anims.play('al_drink_liquor', true);
+        gameStateBattle.al.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.al.anims.play('alleft', true);
+          gameStateBattle.al.flipX = false;
+        }, 2999);
+      } else if (this.type === 'Bennett') {
+        gameStateBattle.bennett.anims.play('bennett_drink_liquor', true);
+        gameStateBattle.bennett.flipX = false;
+        window.setTimeout(() => {
+          gameStateBattle.bennett.anims.play('bennett_walk', true);
+        }, 2999);
+      }
+      gameState.drinking_liquor.play();
+      useItem('Wine',this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -1575,7 +1682,7 @@ var BattleScene = new Phaser.Class({
       let rn2 = Math.random();
       if (rn2 < rewardProbability) {
         itemReward = rewardKeys[rn];
-        if (itemReward === "Andy Capp's Hot Fries" || itemReward === 'Labatt Max Ice' || itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special') {
+        if (itemReward === "Andy Capp's Hot Fries" || itemReward === 'Labatt Max Ice' || itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special' || itemReward === 'Protein Monster' || itemReward === 'Wine') {
           inventory[itemReward]['numberOwned']+=1
         } else if (itemReward === 'Wife Beater' || itemReward === 'SP Booster' || itemReward === 'Damage Booster' || itemReward === 'HP Booster' || itemReward === 'Fubu Shirt' || itemReward === 'Camo Pants') {
           equipment.push(itemReward)
@@ -1752,6 +1859,16 @@ var BattleScene = new Phaser.Class({
         this.index--
       }
       this.units[this.index].monster()
+    } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Protein Monster') {
+      if (inventory['Protein Monster']['numberOwned'] === 0) {
+        this.index--
+      }
+      this.units[this.index].proteinMonster()
+    } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Wine') {
+      if (inventory['Wine']['numberOwned'] === 0) {
+        this.index--
+      }
+      this.units[this.index].wine()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Labatt Max Ice') {
       if (inventory['Labatt Max Ice']['numberOwned'] === 0) {
         this.index--
@@ -1773,8 +1890,9 @@ var BattleScene = new Phaser.Class({
       }
       this.units[this.index].liquor()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Attack') {
-      //attack animations
+      console.log('attacking is happening now')
       this.units[this.index].attack(this.aliveEnemies[target]);
+      //attack animations
       settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
       window.setTimeout(() => {
         settingDepth = false;
@@ -2413,6 +2531,14 @@ var UIScene = new Phaser.Class({
       this.actionsMenu.actionsRemap()
       this.actionsMenu.deselect()
     } else if (this.actionsMenu.menuItems[actionIndex]._text == 'Monster') {
+      this.battleScene.receivePlayerSelection(actionIndex, 0);
+      this.actionsMenu.actionsRemap()
+      this.actionsMenu.deselect()
+    } else if (this.actionsMenu.menuItems[actionIndex]._text == 'Protein Monster') {
+      this.battleScene.receivePlayerSelection(actionIndex, 0);
+      this.actionsMenu.actionsRemap()
+      this.actionsMenu.deselect()
+    } else if (this.actionsMenu.menuItems[actionIndex]._text == 'Wine') {
       this.battleScene.receivePlayerSelection(actionIndex, 0);
       this.actionsMenu.actionsRemap()
       this.actionsMenu.deselect()

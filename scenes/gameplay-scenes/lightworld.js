@@ -4021,12 +4021,14 @@ var LightWorld = new Phaser.Class({
       inventory["Hamms"]['numberOwned'] += 5;
       inventory["Monster"]['numberOwned'] += 5;
       inventory["Gatorade"]['numberOwned'] += 5;
-      inventory["Larry Special"]['numberOwned'] = 5;
+      inventory["Larry Special"]['numberOwned'] += 5;
+      inventory["Protein Monster"]['numberOwned'] += 5;
+      inventory["Wine"]['numberOwned'] += 5;
       inventory["Andy Capp's Hot Fries"]['numberOwned'] += 5;
       inventory["Labatt Max Ice"]['numberOwned'] += 5;
       inventory["Liquor"]['numberOwned'] += 5;
       gameState.secret.play()
-      for (itemz of ["Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes"]) {
+      for (itemz of ["Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes", "Gold Duck Tape", "Camo Duck Tape"]) {
         equipment.push(itemz)
       }
       //good stuff
