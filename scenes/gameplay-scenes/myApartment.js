@@ -1085,9 +1085,9 @@ var MyApartment = new Phaser.Class({
             stripperApt.y = gameStateApt.stripperAptSpawnPoint.y;
             stripperApt.following = false;
             stripperBanged = true;
-            damageObject["Mac"] += 5;
-            hpObject["Mac"] += 20;
-            maxHPObject["Mac"] += 20;
+            party["Mac"]['damage'] += 5;
+            party["Mac"]['hp'] += 20;
+            party["Mac"]['maxHP'] += 20;
             sleepyText = this.add.text(meApt.x - 100, meApt.y - 200, 'You feel well rested.\nMac gets the "Bang Bonus"\n+5 damage +20 HP (permanent)', {
               fontSize: '30px',
               fill: '#fff'

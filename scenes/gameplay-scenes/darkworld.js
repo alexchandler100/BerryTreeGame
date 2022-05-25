@@ -557,60 +557,60 @@ var DarkWorld = new Phaser.Class({
     //for level dialogue (problem with jimmy and al receiving level up at the same time... fix needed)
     if (checkLevelDialogue === 1) {
       for (let i = 1; i < 1000; i++) {
-        if (expObject['Mac'] >= 100 * 3 ** (i - 1) && levelObject['Mac'] === i) {
-          levelObject['Mac'] += 1;
+        if (party['Mac']['exp'] >= 100 * 3 ** (i - 1) && party['Mac']['level'] === i) {
+          party['Mac']['level'] += 1;
           initializePage(this)
           let page = {
             character: 'Mac',
             page: 500,
-            narrative: `Damnnnn, Mac has progressed to level ${levelObject['Mac']}. Mac's HP has increased by 15 and damage has increased by 5.`,
+            narrative: `Damnnnn, Mac has progressed to level ${party['Mac']['level']}. Mac's HP has increased by 15 and damage has increased by 5.`,
             options: [{
               option: 'tight',
               nextPage: 600,
             }, ]
           }
           displayPage(this, page)
-          maxHPObject['Mac'] += 15
-          damageObject['Mac'] += 5
-          maxSPObject['Mac'] += 3
-          hpObject['Mac'] = maxHPObject['Mac']
-          spObject['Mac'] = maxSPObject['Mac']
-        } else if (expObject['Al'] >= 100 * 3 ** (i - 1) && levelObject['Al'] === i) {
-          levelObject['Al'] += 1;
+          party['Mac']['maxHP'] += 15
+          party['Mac']['damage'] += 5
+          party['Mac']['maxSP'] += 3
+          party['Mac']['hp'] = party['Mac']['maxHP']
+          party['Mac']['sp'] = party['Mac']['maxSP']
+        } else if (party['Al']['exp'] >= 100 * 3 ** (i - 1) && party['Al']['level'] === i) {
+          party['Al']['level'] += 1;
           initializePage(this)
           let page = {
             character: 'Mac',
             page: 501,
-            narrative: `Good shit man, Al has progressed to level ${levelObject['Al']}. Al's HP has increased by 15 and damage has increased by 5.`,
+            narrative: `Good shit man, Al has progressed to level ${party['Al']['level']}. Al's HP has increased by 15 and damage has increased by 5.`,
             options: [{
               option: 'tight',
               nextPage: 601,
             }, ]
           }
           displayPage(this, page)
-          maxHPObject['Al'] += 15
-          damageObject['Al'] += 5
-          maxSPObject['Mac'] += 4
-          hpObject['Al'] = maxHPObject['Al']
-          spObject['Al'] = maxSPObject['Al']
-        } else if (expObject['Jimmy'] >= 100 * 3 ** (i - 1) && levelObject['Jimmy'] === i) {
-          levelObject['Jimmy'] += 1;
+          party['Al']['maxHP'] += 15
+          party['Al']['damage'] += 5
+          party['Mac']['maxSP'] += 4
+          party['Al']['hp'] = party['Al']['maxHP']
+          party['Al']['sp'] = party['Al']['maxSP']
+        } else if (party['Jimmy']['exp'] >= 100 * 3 ** (i - 1) && party['Jimmy']['level'] === i) {
+          party['Jimmy']['level'] += 1;
           initializePage(this)
           let page = {
             character: 'Mac',
             page: 502,
-            narrative: `Good shit man, Jimmy has progressed to level ${levelObject['Jimmy']}. Jimmy's HP has increased by 15 and damage has increased by 5. You may choose between getting about tree fiddy, increasing HP by another 3, or increasing damage by another 1.`,
+            narrative: `Good shit man, Jimmy has progressed to level ${party['Jimmy']['level']}. Jimmy's HP has increased by 15 and damage has increased by 5. You may choose between getting about tree fiddy, increasing HP by another 3, or increasing damage by another 1.`,
             options: [{
               option: 'sweet',
               nextPage: 602,
             }, ]
           }
           displayPage(this, page)
-          maxHPObject['Jimmy'] += 15
-          maxSPObject['Jimmy'] += 4
-          damageObject['Jimmy'] += 5
-          hpObject['Jimmy'] = maxHPObject['Jimmy']
-          spObject['Jimmy'] = maxSPObject['Jimmy']
+          party['Jimmy']['maxHP'] += 15
+          party['Jimmy']['maxSP'] += 4
+          party['Jimmy']['damage'] += 5
+          party['Jimmy']['hp'] = party['Jimmy']['maxHP']
+          party['Jimmy']['sp'] = party['Jimmy']['maxSP']
         }
 
       }

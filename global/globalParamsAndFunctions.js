@@ -222,14 +222,14 @@ function useItem(object, player) {
     inventory[object]['numberOwned'] -= 1
     //
     if (inventory[object]['sp']==='max'){
-      spObject[player] = maxSPObject[player]
+      party[player]['sp'] = party[player]['maxSP']
     } else {
-      spObject[player] = Math.min(spObject[player]+inventory[object]['sp'],maxSPObject[player])
+      party[player]['sp'] = Math.min(party[player]['sp']+inventory[object]['sp'],party[player]['maxSP'])
     }
     if (inventory[object]['hp']==='max'){
-      hpObject[player] = maxHPObject[player]
+      party[player]['hp'] = party[player]['maxHP']
     } else {
-      hpObject[player] = Math.min(hpObject[player]+inventory[object]['hp'],maxHPObject[player])
+      party[player]['hp'] = Math.min(party[player]['hp']+inventory[object]['hp'],party[player]['maxHP'])
     }
     if (inventory[object]['stamina']==='max'){
       stamina = 100
@@ -237,8 +237,8 @@ function useItem(object, player) {
       stamina += inventory[object]['stamina'] //there is no cap for stamina
     }
     if ((inventory[object]['status_ailments']==='cure all')){
-      bleedingObject[player]=0;
-      blindObject[player]=0;
+      party[player]['bleeding']=0;
+      party[player]['blind']=0;
     }
     if ((inventory[object]['attack_up']>0)){
       console.log('attack_up not yet implemented') // do this after reorganizing player status effects
@@ -249,23 +249,20 @@ function useItem(object, player) {
   }
 }
 
-
 function getBeer() { //bennett gives you beer
   inventory["Hamms"]['numberOwned'] += 1
   gameState.itemget.play()
 }
-
 function getMonsters() { //james gives you monster
   inventory["Monster"]['numberOwned'] += 2
   gameState.itemget.play()
 }
-
 function get10Monsters() { //james gives you monster
   inventory["Monster"]['numberOwned'] += 10
   gameState.itemget.play()
 }
 
-
+//character parameters (should all be incorporated in larger objects built from csv files.... fix needed)
 
 let animObject = {
   "Dio": ['diofloat', 'dioslash'],
@@ -280,7 +277,6 @@ let animObject = {
   'DB': ['darkboy2walk', 'darkboy2attack'],
   'Frank': ['frat5huhuh', 'frat5huhuh'],
 }
-
 let sfxObject = {
   "Dio": "slash",
   "Chad": "bodyhit",
@@ -294,7 +290,6 @@ let sfxObject = {
   'Frank': "bodyhit",
   "DB": "bitenoise",
 }
-
 let rr = 0;
 let ss = 0;
 let tt = 0;
@@ -304,8 +299,6 @@ let set1 = new Set([]);
 let set2 = new Set([]);
 let set3 = new Set([]);
 let set4 = new Set([]);
-
-
 // it goes [name, right anim, scale, circle size, offsetX, offsetY] ... (fix needed so chasers do not interact poorly with "above" layer of map)
 const enemsForChasers = [
   ['crackhead', 'crackheadright', .25, 30, 60, 60],
@@ -316,8 +309,6 @@ const enemsForChasers = [
   ['fratboy3', 'frat3right', .17, 60, 80, 125],
   ['fratboy4', 'frat4right', .14, 60, 80, 125],
 ]
-
-
 const battleScale = {
   'Mac': .77,
   'Jimmy': .67,
@@ -339,7 +330,6 @@ const battleScale = {
   'fratboy4': .45 * 1.4,
   'dio': 1.5,
 }
-
 const overworldScale = {
   'dio': 1.5,
   'Mac': .55 * 1.4,
@@ -365,7 +355,6 @@ const overworldScale = {
   'stripper': .3,
   'jeanClaude': .25
 }
-
 const sizeAndOffset = {
   'Al': {size: [64, 128],offset: [60, 64]},
   'Bennett': {size: [64, 64],offset: [60, 100]},
@@ -406,158 +395,19 @@ const sizeAndOffset = {
     offset: [60, 100]
   },
 }
-
-//character stats
-let specialObject = {
-  'Mac': ["Muay Thai Combo (3)"],
-  'Al': ["Blast Errbody (5)"],
-  'Jimmy': ["Double Smack (4)"],
-  'Bennett': ["Dirty Combo (7)"]
-}
-
-let bleedProofObject = {
-  'Mac': false,
-  'Al': false,
-  'Jimmy': false,
-  'Bennett': false,
-}
-
-let neverMissObject = {
-  'Mac': false,
-  'Al': false,
-  'Jimmy': false,
-  'Bennett': false,
-}
-
-let blindProofObject = {
-  'Mac': false,
-  'Al': false,
-  'Jimmy': false,
-  'Bennett': false,
-}
-
-let defendOn = {
-  'Mac': false,
-  'Al': false,
-  'Jimmy': false,
-  'Bennett': false,
-}
-
-// the number is the number of turns left being blind
-let blindObject = {
-  'Mac': 0,
-  'Al': 0,
-  'Jimmy': 0,
-  'Bennett': 0,
-}
-
-let bleedingObject = {
-  'Mac': 0,
-  'Al': 0,
-  'Jimmy': 0,
-  'Bennett': 0,
-}
-
-let critObject = {
-  'Mac': 10,
-  'Al': 12,
-  'Jimmy': 10,
-  'Bennett': 13,
-}
-
-let defenseObject = {
-  'Mac': 3,
-  'Al': 5,
-  'Jimmy': 4,
-  'Bennett': 8,
-}
-
-let maxSPObject = {
-  'Mac': 8,
-  'Al': 11,
-  'Jimmy': 9,
-  'Bennett': 12,
-}
-
-let spObject = {
-  'Mac': 8,
-  'Al': 11,
-  'Jimmy': 9,
-  'Bennett': 12,
-}
-
-let maxHPObject = {
-  'Mac': 75,
-  'Al': 100,
-  'Jimmy': 60,
-  'Bennett': 65,
-};
-
-let hpObject = {
-  'Mac': 75,
-  'Al': 80,
-  'Jimmy': 60,
-  'Bennett': 65,
-};
-
-let expObject = {
-  'Mac': 0,
-  'Al': 0,
-  'Jimmy': 0,
-  'Bennett': 0,
-};
-
-let levelObject = {
-  'Mac': 1,
-  'Al': 1,
-  'Jimmy': 1,
-  'Bennett': 1,
-};
-
-let damageObject = {
-  'Mac': 35,
-  'Al': 40,
-  'Jimmy': 25,
-  'Bennett': 45,
-};
-
-let skillDialogue = {
-  "Mac": {
-    3: false,
-    5: false,
-    7: false
-  },
-  'Al': {
-    3: false,
-    5: false,
-    7: false
-  },
-  "Jimmy": {
-    3: false,
-    5: false,
-    7: false
-  },
-  'Bennett': {
-    3: false,
-    5: false,
-    7: false
-  }
-}
-
 let playerColors = {
-  "Mac": 0x0e7d4e,
+  'Mac': 0x0e7d4e,
   'Al': 0xbe2016,
-  "Jimmy": 0x0d2175,
+  'Jimmy': 0x0d2175,
   'Bennett': 0xfa7800
 }
-
 let equipped = {
-  "Mac": {
+  'Mac': {
     upper: "Camo T-Shirt",
     lower: "Jeans",
     accessory: "",
   },
-  "Jimmy": {
+  'Jimmy': {
     upper: "Blue Shirt",
     lower: "Snowpants",
     accessory: "",
@@ -574,7 +424,7 @@ let equipped = {
   }
 }
 
-
+//equipment parameters (should all be incorporated in a larger object built from csv files)
 
 let equipmentTypes = {
   "Camo T-Shirt": "Mac_upper",
@@ -636,9 +486,9 @@ function sprintingShoes(player, bool) {
 
 function brassKnuckles(player, bool) {
   if (bool === true) {
-    damageObject[player] += 15
+    party[player][damage] += 15
   } else {
-    damageObject[player] -= 15
+    party[player][damage] -= 15
   }
 }
 
@@ -652,15 +502,15 @@ function goldDuckTape(player, bool) {
 
 function dioBand(player, bool) {
   if (bool === true) {
-    damageObject[player] += 25
+    party[player][damage] += 25
     party[player]['bleedProof']=true
     party[player]['blindProof']=true
-    damageObject[player] += 30
+    party[player][damage] += 30
   } else {
-    damageObject[player] -= 25
+    party[player][damage] -= 25
     party[player]['bleedProof']=false
     party[player]['blindProof']=false
-    damageObject[player] -= 30
+    party[player][damage] -= 30
   }
 }
 
@@ -674,133 +524,133 @@ function camoDuckTape(player, bool) {
 
 function camoTshirt(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 2
+    party[player]['defense'] += 2
   } else {
-    defenseObject[player] -= 2
+    party[player]['defense'] -= 2
   }
 }
 
 function jeans(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 1
+    party[player]['defense'] += 1
   } else {
-    defenseObject[player] -= 1
+    party[player]['defense'] -= 1
   }
 }
 
 function blueShirt(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 3
+    party[player]['defense'] += 3
   } else {
-    defenseObject[player] -= 3
+    party[player]['defense'] -= 3
   }
 }
 
 function snowpants(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 1
+    party[player]['defense'] += 1
   } else {
-    defenseObject[player] -= 1
+    party[player]['defense'] -= 1
   }
 }
 
 function redShirt(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 3
+    party[player]['defense'] += 3
   } else {
-    defenseObject[player] -= 3
+    party[player]['defense'] -= 3
   }
 }
 
 function runningShirt(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 5
+    party[player]['defense'] += 5
   } else {
-    defenseObject[player] -= 5
+    party[player]['defense'] -= 5
   }
 }
 
 function runningShorts(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 3
+    party[player]['defense'] += 3
   } else {
-    defenseObject[player] -= 3
+    party[player]['defense'] -= 3
   }
 }
 
 function redSweatpants(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 2
+    party[player]['defense'] += 2
   } else {
-    defenseObject[player] -= 2
+    party[player]['defense'] -= 2
   }
 }
 
 function spBooster(player, bool) {
   if (bool === true) {
-    maxSPObject[player] += 4
+    party[player]['maxSP'] += 4
   } else {
-    maxSPObject[player] -= 4
+    party[player]['maxSP'] -= 4
   }
 }
 
 function hpBooster(player, bool) {
   if (bool === true) {
-    maxHPObject[player] += 20
+    party[player]['maxHP'] += 20
   } else {
-    maxHPObject[player] -= 20
+    party[player]['maxHP'] -= 20
   }
 }
 
 function damageBooster(player, bool) {
   if (bool === true) {
     party[player]['neverMiss']=true
-    damageObject[player] += 4
+    party[player][damage] += 4
   } else {
     party[player]['neverMiss']=false
-    damageObject[player] -= 4
+    party[player][damage] -= 4
   }
 }
 
 function camoHoody(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 20
+    party[player]['defense'] += 20
   } else {
-    defenseObject[player] -= 20
+    party[player]['defense'] -= 20
   }
 }
 
 function camoPants(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 10
+    party[player]['defense'] += 10
   } else {
-    defenseObject[player] -= 10
+    party[player]['defense'] -= 10
   }
 }
 
 function fubuShirt(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 12
+    party[player]['defense'] += 12
   } else {
-    defenseObject[player] -= 12
+    party[player]['defense'] -= 12
   }
 }
 
 function jorts(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 15
+    party[player]['defense'] += 15
   } else {
-    defenseObject[player] -= 15
+    party[player]['defense'] -= 15
   }
 }
 
 function wifeBeater(player, bool) {
   if (bool === true) {
-    defenseObject[player] += 1
-    damageObject[player] += 5
+    party[player]['defense'] += 1
+    party[player][damage] += 5
   } else {
-    defenseObject[player] -= 1
-    damageObject[player] -= 5
+    party[player]['defense'] -= 1
+    party[player][damage] -= 5
   }
 }
 
@@ -938,9 +788,9 @@ function openControls(){
 }
 
 function jimmyEnhanced(){
-  damageObject["Jimmy"] += 5;
-  hpObject["Jimmy"] += 20;
-  maxHPObject["Jimmy"] += 20;
+  party['Jimmy']['damage'] += 5;
+  party['Jimmy']['hp'] += 20;
+  party['Jimmy']['maxHP'] += 20;
   gameState.itemget.play()
 }
 
@@ -1077,14 +927,14 @@ function giveCrackhead1() {
 
 
 function sleep() {
-  hpObject["Mac"] = maxHPObject["Mac"];
-  hpObject["Jimmy"] = maxHPObject["Jimmy"];
-  hpObject['Al'] = maxHPObject['Al'];
-  hpObject['Bennett'] = maxHPObject['Bennett'];
-  spObject["Mac"] = maxSPObject["Mac"];
-  spObject["Jimmy"] = maxSPObject["Jimmy"];
-  spObject['Al'] = maxSPObject['Al'];
-  spObject['Bennett'] = maxSPObject['Bennett'];
+  party['Mac']['hp'] = party['Mac']['maxHP'];
+  party['Jimmy']['hp'] = party['Jimmy']['maxHP'];
+  party['Al']['hp'] = party['Al']['maxHP'];
+  party['Bennett']['hp'] = party['Bennett']['maxHP'];
+  party['Mac']['sp'] = party['Mac']['maxSP'];
+  party['Jimmy']['sp'] = party['Jimmy']['maxSP'];
+  party['Al']['sp'] = party['Al']['maxSP'];
+  party['Bennett']['sp'] = party['Bennett']['maxSP'];
 }
 
 function scoreGoal() {
@@ -1391,7 +1241,7 @@ function endRaceLoss() {
 
 function getDead() { //to initiate gameover
   //set health to 1 so you keep living in lightworld
-  hpObject["Mac"] = 1;
+  party['Mac']['hp'] = 1;
   gameStateDark.music.stop();
   gameState.spooky.stop();
   gameState.holyDiver.stop();
@@ -1444,73 +1294,73 @@ function getTreeFitty() { //girl gives you 3.50 for beer
 }
 
 function getOneSPMac() { //level up increase SP
-  maxSPObject['Mac'] += 1;
+  party['Mac']['maxSP'] += 1;
   gameState.itemget.play()
-  skillCheck("Mac")
+  skillCheck('Mac')
 }
 
 function getOneSPAl() { //level up increase SP
-  maxSPObject['Al'] += 1;
+  party['Al']['maxSP'] += 1;
   gameState.itemget.play()
 }
 
 function getOneSPJimmy() { //level up increase SP
-  maxSPObject['Jimmy'] += 1;
+  party['Jimmy']['maxSP'] += 1;
   gameState.itemget.play()
 }
 
 function getOneSPBennett() { //level up increase SP
-  maxSPObject['Bennett'] += 1;
+  party['Bennett']['maxSP'] += 1;
   gameState.itemget.play()
 }
 
 function getThreeHPMac() { //level up increase HP
-  maxHPObject['Mac'] += 3;
+  party['Mac']['maxHP'] += 3;
   gameState.itemget.play()
-  skillCheck("Mac")
+  skillCheck('Mac')
 }
 
 function getThreeHPAl() { //level up increase HP
-  maxHPObject['Al'] += 3;
+  party['Al']['maxHP'] += 3;
   gameState.itemget.play()
 }
 
 function getThreeHPJimmy() { //level up increase HP
-  maxHPObject['Jimmy'] += 3;
+  party['Jimmy']['maxHP'] += 3;
   gameState.itemget.play()
 }
 
 function getThreeHPBennett() { //level up increase HP
-  maxHPObject['Bennett'] += 3;
+  party['Bennett']['maxHP'] += 3;
   gameState.itemget.play()
 }
 
 function getOneDamageMac() { //level up increase damage
-  damageObject['Mac'] += 2;
+  party['Mac']['damage'] += 2;
   gameState.itemget.play()
-  skillCheck("Mac")
+  skillCheck('Mac')
 }
 
 
 function getOneDamageAl() { //level up increase damage
-  damageObject['Al'] += 2;
+  party['Al']['damage'] += 2;
   gameState.itemget.play()
 }
 
 function getOneDamageJimmy() { //level up increase damage
-  damageObject['Jimmy'] += 2;
+  party['Jimmy']['damage'] += 2;
   gameState.itemget.play()
 }
 
 function getOneDamageBennett() { //level up increase damage
-  damageObject['Bennett'] += 2;
+  party['Bennett']['damage'] += 2;
   gameState.itemget.play()
 }
 
 function skillCheck(player) {
-  if (player === "Mac" && levelObject["Mac"] === 3) {
-    party["Mac"]['special'].push("Fuck Everybody Up (8)")
-    skillDialogue["Mac"][3] = true
+  if (player === 'Mac' && party['Mac']['level'] === 3) {
+    party['Mac']['special'].push("Fuck Everybody Up (8)")
+    party['Mac']['skillDialogue'][3] = true
   }
 }
 
@@ -1715,7 +1565,9 @@ window.setTimeout(()=>{
         party[key1][key2] = true
       } else if (String(party[key1][key2]).toLowerCase() == "false") {
         party[key1][key2] = false
-      } else if (String(party[key1][key2]).includes("{") || String(party[key1][key2]).includes("[")){
+      }
+      // to handle column entries which are dictionaries or lists
+      else if (String(party[key1][key2]).includes("{") || String(party[key1][key2]).includes("[")){
         let json = party[key1][key2];
         console.log(json)
         let obj = JSON.parse(json);

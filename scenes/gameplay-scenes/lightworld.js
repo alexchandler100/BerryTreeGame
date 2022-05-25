@@ -2686,7 +2686,7 @@ var LightWorld = new Phaser.Class({
 
     //spawning player and setting properties
     //to start at level i and get skill at level i
-    //levelObject["Mac"]=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
+    //party["Mac"]['level']=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
     //to spawn near mariott
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "near mariott")
     //to spawn near james
@@ -3625,8 +3625,8 @@ var LightWorld = new Phaser.Class({
     }
 
     //new skill dialogue
-    if (skillDialogue["Mac"][3]) {
-      skillDialogue["Mac"][3] = false;
+    if (party["Mac"]['skillDialogue'][3]) {
+      party["Mac"]['skillDialogue'][3] = false;
       this.openDialoguePage(1900)
     }
     //camera shaking from dialogue
@@ -3647,18 +3647,18 @@ var LightWorld = new Phaser.Class({
       me.setScale(.16);
       me.body.setSize(70, 90);
       me.body.setOffset(60, 105);
-      hpObject["Mac"] = 1
+      party["Mac"]['hp'] = 1
       if (bennett.following) {
         bennett.enableBody(true, me.x + 30, me.y, true, true);
-        hpObject['Bennett'] = 1
+        party['Bennett']['hp'] = 1
       }
       if (trevor.following) {
         trevor.enableBody(true, me.x, me.y + 60, true, true);
-        hpObject["Jimmy"] = 1
+        party["Jimmy"]['hp'] = 1
       }
       if (al.following) {
         al.enableBody(true, me.x - 20, me.y - 20, true, true);
-        hpObject['Al'] = 1
+        party['Al']['hp'] = 1
       }
       car.anims.play('carexplosion', false);
       this.cameras.main.shake(2200);

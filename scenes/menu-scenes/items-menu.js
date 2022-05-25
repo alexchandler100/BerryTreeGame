@@ -140,15 +140,15 @@ var ItemsMenu = new Phaser.Class({
       fontSize: '15px',
       fill: '#fff'
     });
-    gameState2.macText.setText(`HP: ${hpObject["Mac"]}/${maxHPObject["Mac"]} \nSP: ${spObject["Mac"]}/${maxSPObject["Mac"]}`)
+    gameState2.macText.setText(`HP: ${party["Mac"]['hp']}/${party["Mac"]['maxHP']} \nSP: ${party["Mac"]['sp']}/${party["Mac"]['maxSP']}`)
     if (al.following) {
-      gameState2.alText.setText(`HP: ${hpObject["Al"]}/${maxHPObject["Al"]} \nSP: ${spObject["Al"]}/${maxSPObject["Al"]}`)
+      gameState2.alText.setText(`HP: ${party["Al"]['hp']}/${party["Al"]['maxHP']} \nSP: ${party["Al"]['sp']}/${party["Al"]['maxSP']}`)
     }
     if (trevor.following) {
-      gameState2.jimmyText.setText(`HP: ${hpObject["Jimmy"]}/${maxHPObject["Jimmy"]} \nSP: ${spObject["Jimmy"]}/${maxSPObject["Jimmy"]}`)
+      gameState2.jimmyText.setText(`HP: ${party["Jimmy"]['hp']}/${party["Jimmy"]['maxHP']} \nSP: ${party["Jimmy"]['sp']}/${party["Jimmy"]['maxSP']}`)
     }
     if (bennett.following) {
-      gameState2.bennettText.setText(`HP: ${hpObject["Bennett"]}/${maxHPObject["Bennett"]} \nSP: ${spObject["Bennett"]}/${maxSPObject["Bennett"]}`)
+      gameState2.bennettText.setText(`HP: ${party["Bennett"]['hp']}/${party["Bennett"]['maxHP']} \nSP: ${party["Bennett"]['sp']}/${party["Bennett"]['maxSP']}`)
     }
 
     //  A drop zone for mac face
@@ -264,15 +264,15 @@ var ItemsMenu = new Phaser.Class({
   update: function() {
     //redisplay items
     if (redisplayItems) {
-      gameState2.macText.setText(`HP: ${hpObject["Mac"]}/${maxHPObject["Mac"]} \nSP: ${spObject["Mac"]}/${maxSPObject["Mac"]}`)
+      gameState2.macText.setText(`HP: ${party["Mac"]['hp']}/${party["Mac"]['maxHP']} \nSP: ${party["Mac"]['sp']}/${party["Mac"]['maxSP']}`)
       if (al.following) {
-        gameState2.alText.setText(`HP: ${hpObject["Al"]}/${maxHPObject["Al"]} \nSP: ${spObject["Al"]}/${maxSPObject["Al"]}`)
+        gameState2.alText.setText(`HP: ${party["Al"]['hp']}/${party["Al"]['maxHP']} \nSP: ${party["Al"]['sp']}/${party["Al"]['maxSP']}`)
       }
       if (trevor.following) {
-        gameState2.jimmyText.setText(`HP: ${hpObject["Jimmy"]}/${maxHPObject["Jimmy"]} \nSP: ${spObject["Jimmy"]}/${maxSPObject["Jimmy"]}`)
+        gameState2.jimmyText.setText(`HP: ${party["Jimmy"]['hp']}/${party["Jimmy"]['maxHP']} \nSP: ${party["Jimmy"]['sp']}/${party["Jimmy"]['maxSP']}`)
       }
       if (bennett.following) {
-        gameState2.bennettText.setText(`HP: ${hpObject["Bennett"]}/${maxHPObject["Bennett"]} \nSP: ${spObject["Bennett"]}/${maxSPObject["Bennett"]}`)
+        gameState2.bennettText.setText(`HP: ${party["Bennett"]['hp']}/${party["Bennett"]['maxHP']} \nSP: ${party["Bennett"]['sp']}/${party["Bennett"]['maxSP']}`)
       }
       for (a_item of Object.keys(inventory)) {
         if (gameState2.newItem[a_item]) {

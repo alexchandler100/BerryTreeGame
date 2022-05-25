@@ -138,26 +138,26 @@ var PauseMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    meHpText = this.add.text(175, 140, `Mac HP: ${hpObject['Mac']}/${maxHPObject['Mac']} \nMac SP: ${spObject['Mac']}/${maxSPObject['Mac']} \nMac EXP: ${expObject['Mac']}/${100*3**(levelObject['Mac']-1)} \nMac LVL: ${levelObject['Mac']} \nMac DMG: ${damageObject['Mac']} \nMac DEF: ${defenseObject['Mac']}`, {
+    meHpText = this.add.text(175, 140, `Mac HP: ${party['Mac']['hp']}/${party['Mac']['maxHP']} \nMac SP: ${party['Mac']['sp']}/${party['Mac']['maxSP']} \nMac EXP: ${party['Mac']['exp']}/${100*3**(party['Mac']['level']-1)} \nMac LVL: ${party['Mac']['level']} \nMac DMG: ${party['Mac']['damage']} \nMac DEF: ${party['Mac']['defense']}`, {
       fontSize: '25px',
       fill: '#fff'
     });
 
     if (al.following) {
-      alHpText = this.add.text(175 + 300, 140, `Al HP: ${hpObject['Al']}/${maxHPObject['Al']} \nAl SP: ${spObject['Al']}/${maxSPObject['Al']} \nAl EXP: ${expObject['Al']}/${100*3**(levelObject['Al']-1)} \nAl LVL: ${levelObject['Al']} \nAl DMG: ${damageObject['Al']} \nAl DEF: ${defenseObject['Al']}`, {
+      alHpText = this.add.text(175 + 300, 140, `Al HP: ${party['Al']['hp']}/${party['Al']['maxHP']} \nAl SP: ${party['Al']['sp']}/${party['Al']['maxSP']} \nAl EXP: ${party['Al']['exp']}/${100*3**(party['Al']['level']-1)} \nAl LVL: ${party['Al']['level']} \nAl DMG: ${party['Al']['damage']} \nAl DEF: ${party['Al']['defense']}`, {
         fontSize: '25px',
         fill: '#fff'
       });
     }
 
     if (trevor.following)
-      jimmyHpText = this.add.text(175 + 600, 140, `Jimmy HP: ${hpObject['Jimmy']}/${maxHPObject['Jimmy']} \nJimmy SP: ${spObject['Jimmy']}/${maxSPObject['Jimmy']} \nJimmy EXP: ${expObject['Jimmy']}/${100*3**(levelObject['Jimmy']-1)} \nJimmy LVL: ${levelObject['Jimmy']} \nJimmy DMG: ${damageObject['Jimmy']} \nJimmy DEF: ${defenseObject['Jimmy']}`, {
+      jimmyHpText = this.add.text(175 + 600, 140, `Jimmy HP: ${party['Jimmy']['hp']}/${party['Jimmy']['maxHP']} \nJimmy SP: ${party['Jimmy']['sp']}/${party['Jimmy']['maxSP']} \nJimmy EXP: ${party['Jimmy']['exp']}/${100*3**(party['Jimmy']['level']-1)} \nJimmy LVL: ${party['Jimmy']['level']} \nJimmy DMG: ${party['Jimmy']['damage']} \nJimmy DEF: ${party['Jimmy']['defense']}`, {
         fontSize: '25px',
         fill: '#fff'
       });
 
       if (bennett.following)
-        jimmyHpText = this.add.text(175, 340, `Bennett HP: ${hpObject['Bennett']}/${maxHPObject['Bennett']} \nBennett SP: ${spObject['Bennett']}/${maxSPObject['Bennett']} \nBennett EXP: ${expObject['Bennett']}/${100*3**(levelObject['Bennett']-1)} \nBennett LVL: ${levelObject['Bennett']} \nBennett DMG: ${damageObject['Bennett']} \nBennett DEF: ${defenseObject['Bennett']}`, {
+        jimmyHpText = this.add.text(175, 340, `Bennett HP: ${party['Bennett']['hp']}/${party['Bennett']['maxHP']} \nBennett SP: ${party['Bennett']['sp']}/${party['Bennett']['maxSP']} \nBennett EXP: ${party['Bennett']['exp']}/${100*3**(party['Bennett']['level']-1)} \nBennett LVL: ${party['Bennett']['level']} \nBennett DMG: ${party['Bennett']['damage']} \nBennett DEF: ${party['Bennett']['defense']}`, {
           fontSize: '25px',
           fill: '#fff'
         });

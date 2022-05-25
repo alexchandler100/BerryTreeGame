@@ -2936,78 +2936,78 @@ var DialogueMenu = new Phaser.Class({
     if (checkLevelDialogue === 1) {
       zoom = 2
       for (let i = 1; i < 30; i++) {
-        if (expObject['Mac'] >= 100 * 3 ** (i - 1) && levelObject['Mac'] === i) {
-          levelObject['Mac'] += 1;
+        if (party['Mac']['exp'] >= 100 * 3 ** (i - 1) && party['Mac']['level'] === i) {
+          party['Mac']['level'] += 1;
           this.initializePage(this)
           let page = {
             character: 'god',
             page: 500,
-            narrative: `Damnnnn, Mac has progressed to level ${levelObject['Mac']}. Mac's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            narrative: `Damnnnn, Mac has progressed to level ${party['Mac']['level']}. Mac's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
             options: [{
               option: 'tight',
               nextPage: 600,
             }, ]
           }
           this.displayPage(this, page)
-          maxHPObject['Mac'] += 15;
-          damageObject['Mac'] += 5;
-          maxSPObject['Mac'] += 5;
-          hpObject['Mac'] = maxHPObject['Mac'];
-          spObject['Mac'] = maxSPObject['Mac']
-        } else if (expObject['Al'] >= 100 * 3 ** (i - 1) && levelObject['Al'] === i) {
-          levelObject['Al'] += 1;
+          party['Mac']['maxHP'] += 15;
+          party['Mac']['damage'] += 5;
+          party['Mac']['maxSP'] += 5;
+          party['Mac']['hp'] = party['Mac']['maxHP'];
+          party['Mac']['sp'] = party['Mac']['maxSP']
+        } else if (party['Al']['exp'] >= 100 * 3 ** (i - 1) && party['Al']['level'] === i) {
+          party['Al']['level'] += 1;
           this.initializePage(this)
           let page = {
             character: 'god',
             page: 501,
-            narrative: `Good shit man, Al has progressed to level ${levelObject['Al']}. Al's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            narrative: `Good shit man, Al has progressed to level ${party['Al']['level']}. Al's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
             options: [{
               option: 'tight',
               nextPage: 601,
             }, ]
           }
           this.displayPage(this, page)
-          maxHPObject['Al'] += 15;
-          damageObject['Al'] += 5;
-          maxSPObject['Mac'] += 5
-          hpObject['Al'] = maxHPObject['Al'];
-          spObject['Al'] = maxSPObject['Al']
-        } else if (expObject['Jimmy'] >= 100 * 3 ** (i - 1) && levelObject['Jimmy'] === i) {
-          levelObject['Jimmy'] += 1;
+          party['Al']['maxHP'] += 15;
+          party['Al']['damage'] += 5;
+          party['Mac']['maxSP'] += 5;
+          party['Al']['hp'] = party['Al']['maxHP'];
+          party['Al']['sp'] = party['Al']['maxSP'];
+        } else if (party['Jimmy']['exp'] >= 100 * 3 ** (i - 1) && party['Jimmy']['level'] === i) {
+          party['Jimmy']['level'] += 1;
           this.initializePage(this)
           let page = {
             character: 'god',
             page: 502,
-            narrative: `Good shit man, Jimmy has progressed to level ${levelObject['Jimmy']}. Jimmy's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            narrative: `Good shit man, Jimmy has progressed to level ${party['Jimmy']['level']}. Jimmy's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
             options: [{
               option: 'sweet',
               nextPage: 602,
             }, ]
           }
           this.displayPage(this, page)
-          maxHPObject['Jimmy'] += 15;
-          maxSPObject['Jimmy'] += 5;
-          damageObject['Jimmy'] += 5
-          hpObject['Jimmy'] = maxHPObject['Jimmy'];
-          spObject['Jimmy'] = maxSPObject['Jimmy']
-        } else if (expObject['Bennett'] >= 100 * 3 ** (i - 1) && levelObject['Bennett'] === i) {
-          levelObject['Bennett'] += 1;
+          party['Jimmy']['maxHP'] += 15;
+          party['Jimmy']['maxSP'] += 5;
+          party['Jimmy']['damage'] += 5
+          party['Jimmy']['hp'] = party['Jimmy']['maxHP'];
+          party['Jimmy']['sp'] = party['Jimmy']['maxSP']
+        } else if (party['Bennett']['exp'] >= 100 * 3 ** (i - 1) && party['Bennett']['level'] === i) {
+          party['Bennett']['level'] += 1;
           this.initializePage(this)
           let page = {
             character: 'god',
             page: 502,
-            narrative: `Good shit man, Bennett has progressed to level ${levelObject['Bennett']}. Bennett's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            narrative: `Good shit man, Bennett has progressed to level ${party['Bennett']['level']}. Bennett's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
             options: [{
               option: 'sweet',
               nextPage: 602,
             }, ]
           }
           this.displayPage(this, page)
-          maxHPObject['Bennett'] += 15;
-          maxSPObject['Bennett'] += 5;
-          damageObject['Bennett'] += 5
-          hpObject['Bennett'] = maxHPObject['Bennett'];
-          spObject['Bennett'] = maxSPObject['Bennett']
+          party['Bennett']['maxHP'] += 15;
+          party['Bennett']['maxSP'] += 5;
+          party['Bennett']['damage'] += 5
+          party['Bennett']['hp'] = party['Bennett']['maxHP'];
+          party['Bennett']['sp'] = party['Bennett']['maxSP']
         } else {
           openFightDialogue = true;
         }

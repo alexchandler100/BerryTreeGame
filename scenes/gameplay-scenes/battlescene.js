@@ -213,8 +213,8 @@ var Menu = new Phaser.Class({
         menuText += unit.type
       }
       menuText += ` HP(${unit.hp})`
-      if (spObject[unit.type]) {
-        menuText += ` SP(${spObject[unit.type]})`
+      if (Object.keys(party).includes(unit.type)) {
+        menuText += ` SP(${party[unit.type]['sp']})`
       }
       unit.setMenuItem(this.addMenuItem(menuText));
     }
@@ -329,7 +329,7 @@ var Unit = new Phaser.Class({
     let dd;
     console.log(`gameStateBattle.rnd: ${gameStateBattle.rnd}`)
     // decrease chance of landing if stamina is low
-    if (stamina <= 30 && Object.keys(hpObject).includes(this.type)) {
+    if (stamina <= 30 && Object.keys(party).includes(this.type)) {
       gameStateBattle.rnd -= 2
     }
     //since blinding is OP, we are decreasing gameStateBattle.rnd so fratboy2 is less likely to land (may have to adjust the value)
@@ -337,9 +337,11 @@ var Unit = new Phaser.Class({
       gameStateBattle.rnd -= 3
     }
     //to decrease likeliness to land hit if blinded
-    if (blindObject[this.type]) {
-      gameStateBattle.rnd = Math.floor(gameStateBattle.rnd / 3)
-      console.log('this hero is blind')
+    if (Object.keys(party).includes(this.type)) {
+      if (party[this.type]['blind']){
+        gameStateBattle.rnd = Math.floor(gameStateBattle.rnd / 3)
+        console.log('this hero is blind')
+      }
     }
     if (gameStateBattle.rnd >= 9) {
       extra_damage = Math.ceil(this.damage / 2)
@@ -355,20 +357,20 @@ var Unit = new Phaser.Class({
     } else if (gameStateBattle.rnd <= 0 && Object.keys(party).includes(this.type) && !party[this.type]['neverMiss']){
       dd = 0;
     }
-    else if (defenseObject[target.type]) {
-      dd = this.damage - defenseObject[target.type] + extra_damage;
+    else if (Object.keys(party).includes(target.type)) {
+      dd = this.damage - party[target.type]['defense'] + extra_damage;
     } else {
       dd = this.damage + extra_damage;
     }
     if (target.living) {
       let d = Math.max(0, dd)*strength;
-      if (blindObject[this.type]) {
+      if (Object.keys(party).includes(this.type) && party[this.type]['blind']) {
         d = Math.floor(d / 2)
       }
-      if (stamina <= 30 && Object.keys(hpObject).includes(this.type)) {
+      if (stamina <= 30 && Object.keys(party).includes(this.type)) {
         d = Math.floor(d * .75)
       }
-      if (Object.keys(hpObject).includes(target.type)) {
+      if (Object.keys(party).includes(target.type)) {
         d = Math.floor(d * (1.35) ** (numberOfPlayers))
       }
       target.takeDamage(d);
@@ -376,7 +378,7 @@ var Unit = new Phaser.Class({
       //if the attacker is fratboy2, and the attack hits, the target is blinded
       if (this.type === "Dylan" && d > 0) {
         if (!party[target.type]['blindProof']) {
-          blindObject[target.type] = 2
+          party[target.type]['blind'] = 2
         } else {
           console.log(`${target.type} has blindProof status`)
         }
@@ -384,7 +386,7 @@ var Unit = new Phaser.Class({
       //if the attacker is derek or bill, and the attack hits, the target starts bleeding
       if ((this.type === "Bill" || this.type === "Derek") && d > 0) {
         if (!party[target.type]['bleedProof']) {
-          bleedingObject[target.type] = 3
+          party[target.type]['bleeding'] = 3
         } else{
           console.log(`${target.type} has bleedProof status`)
         }
@@ -422,12 +424,12 @@ var Unit = new Phaser.Class({
     let extra_damage = 0
     gameStateBattle.rnd = 0
     let dd = 0
-    if (critObject[this.type]) {
-      gameStateBattle.rnd = Math.floor(Math.random() * critObject[this.type])
+    if (party[this.type]['crit']) {
+      gameStateBattle.rnd = Math.floor(Math.random() * party[this.type]['crit'])
     } else {
       gameStateBattle.rnd = Math.floor(Math.random() * 10)
     }
-    if (blindObject[this.type]) {
+    if (Object.keys(party).includes(this.type) && party[this.type]['blind']>0) {
       gameStateBattle.rnd = Math.floor(gameStateBattle.rnd / 3)
     }
     if (gameStateBattle.rnd >= 9) {
@@ -435,13 +437,13 @@ var Unit = new Phaser.Class({
     } else {
       extra_damage = Math.ceil(Math.random() * this.damage / 4) - Math.floor(this.damage / 8)
     }
-    if (target.living && defenseObject[target.type]) {
-      dd = this.damage - defenseObject[target.type] + extra_damage
+    if (target.living && Object.keys(party).includes(target.type)) {
+      dd = this.damage - party[target.type]['defense'] + extra_damage
     } else {
       dd = this.damage + extra_damage
     }
     let d = Math.max(0, dd) * 1.5
-    if (blindObject[this.type]) {
+    if (Object.keys(party).includes(this.type) && party[this.type]['blind']>0) {
       d = Math.floor(d / 2)
       console.log('this hero is blind')
     }
@@ -787,20 +789,22 @@ var Unit = new Phaser.Class({
   },
 
   takeDamage: function(damage) {
-    if (Object.keys(party).includes(this.type) && party[this.type]['defendOn']) {
-      damage /= 2;
-      damage = Math.round(damage);
+    if (Object.keys(party).includes(this.type)) {
+      if (party[this.type]['defendOn']){
+        damage /= 2;
+        damage = Math.round(damage);
+      }
     }
-    if (defenseObject[this.type]) {
-      damage -= defenseObject[this.type];
+    if (Object.keys(party).includes(this.type)) {
+      damage -= party[this.type]['defense'];
       damage = Math.round(damage);
       damage = Math.max(0, damage);
     }
     this.hp -= damage;
-    if (hpObject[this.type]) {
-      hpObject[this.type] -= damage;
-      if (hpObject[this.type] < 0) {
-        hpObject[this.type] = 0
+    if (Object.keys(party).includes(this.type)) {
+      party[this.type]['hp'] -= damage;
+      if (party[this.type]['hp'] < 0) {
+        party[this.type]['hp'] = 0
       }
     }
     if (this.hp <= 0) {
@@ -832,8 +836,8 @@ var Unit = new Phaser.Class({
       damage /= 2;
       damage = Math.round(damage);
     }
-    if (defenseObject[this.type]) {
-      damage -= defenseObject[this.type];
+    if (Object.keys(party).includes(this.type)) {
+      damage -= party[this.type]['defense'];
       damage = Math.round(damage);
       damage = Math.max(0, damage)
     }
@@ -1085,17 +1089,17 @@ var BattleScene = new Phaser.Class({
   },
   update: function() {
     //makes sure that battlescene hp and sp coincide with overworld hp and sp
-    gameStateBattle.me.hp = hpObject['Mac']
-    gameStateBattle.me.sp = spObject['Mac']
+    gameStateBattle.me.hp = party['Mac']['hp']
+    gameStateBattle.me.sp = party['Mac']['sp']
     if (trevor.following){
-      gameStateBattle.trevor.hp = hpObject['Jimmy']
-      gameStateBattle.trevor.sp = spObject['Jimmy']
+      gameStateBattle.trevor.hp = party['Jimmy']['hp']
+      gameStateBattle.trevor.sp = party['Jimmy']['sp']
     } if (al.following){
-      gameStateBattle.al.hp = hpObject['Al']
-      gameStateBattle.al.sp = spObject['Al']
+      gameStateBattle.al.hp = party['Al']['hp']
+      gameStateBattle.al.sp = party['Al']['sp']
     } if (bennett.following){
-      gameStateBattle.bennett.hp = hpObject['Bennett']
-      gameStateBattle.bennett.sp = spObject['Bennett']
+      gameStateBattle.bennett.hp = party['Bennett']['hp']
+      gameStateBattle.bennett.sp = party['Bennett']['sp']
     }
 
 
@@ -1218,10 +1222,10 @@ var BattleScene = new Phaser.Class({
     }
 
     // for blindness and bleeding animations
-    macX.setScale(blindObject["Mac"] / 2)
+    macX.setScale(party["Mac"]['blind'] / 2)
     macX.x = gameStateBattle.me.x - 3
     macX.y = gameStateBattle.me.y - 60
-    macBleed.setScale(bleedingObject["Mac"] / 2)
+    macBleed.setScale(party["Mac"]['bleeding'] / 2)
     macBleed.x = gameStateBattle.me.x - 3
     macBleed.y = gameStateBattle.me.y
     if (gameStateBattle.me.living === false) {
@@ -1237,8 +1241,8 @@ var BattleScene = new Phaser.Class({
       trevorX.y = gameStateBattle.trevor.y - 70
       trevorBleed.x = gameStateBattle.trevor.x - 3
       trevorBleed.y = gameStateBattle.trevor.y
-      trevorX.setScale(blindObject["Jimmy"] / 2)
-      trevorBleed.setScale(bleedingObject["Jimmy"] / 2)
+      trevorX.setScale(party["Jimmy"]['blind'] / 2)
+      trevorBleed.setScale(party["Jimmy"]['bleeding'] / 2)
       if (gameStateBattle.trevor.living === false) {
         trevorX.visible = false
         trevorBleed.visible = false
@@ -1250,10 +1254,10 @@ var BattleScene = new Phaser.Class({
     if (bennett.following) {
       bennettX.x = gameStateBattle.bennett.x
       bennettX.y = gameStateBattle.bennett.y - 50
-      bennettX.setScale(blindObject['Bennett'] / 2)
+      bennettX.setScale(party['Bennett']['blind'] / 2)
       bennettBleed.x = gameStateBattle.bennett.x - 3
       bennettBleed.y = gameStateBattle.bennett.y
-      bennettBleed.setScale(bleedingObject['Bennett'] / 2)
+      bennettBleed.setScale(party['Bennett']['bleeding'] / 2)
       if (gameStateBattle.bennett.living === false) {
         bennettX.visible = false
         bennettBleed.visible = false
@@ -1265,8 +1269,8 @@ var BattleScene = new Phaser.Class({
     if (al.following) {
       alX.x = gameStateBattle.al.x
       alX.y = gameStateBattle.al.y - 60
-      alX.setScale(blindObject["Al"] / 2)
-      alBleed.setScale(bleedingObject["Al"] / 2)
+      alX.setScale(party["Al"]['blind'] / 2)
+      alBleed.setScale(party["Al"]['bleeding'] / 2)
       alBleed.x = gameStateBattle.al.x - 3
       alBleed.y = gameStateBattle.al.y
       if (gameStateBattle.al.living === false) {
@@ -1324,35 +1328,35 @@ var BattleScene = new Phaser.Class({
     } else if (bossBattle && bossType === 'fratboy2prime') {
       gameStateBattle.enem1 = new Enemy(this, 120 - 450, 200, 'fratboy2prime', null, 'StabBoy 2', 600, 30);
       this.add.existing(gameStateBattle.enem1);
-      gameStateBattle.enem2 = new Enemy(this, 385 - 450, 350, enems[3][0], null, enems[3][1], enems[3][2] + 3 * (levelObject['Mac'] - 1), enems[3][3] + enems[3][3] / 3 * (levelObject['Mac'] - 1));
+      gameStateBattle.enem2 = new Enemy(this, 385 - 450, 350, enems[3][0], null, enems[3][1], enems[3][2] + 3 * (party['Mac']['level'] - 1), enems[3][3] + enems[3][3] / 3 * (party['Mac']['level'] - 1));
       this.add.existing(gameStateBattle.enem2);
-      gameStateBattle.enem3 = new Enemy(this, 450 - 450, 250, enems[4][0], null, enems[4][1], enems[4][2] + 3 * (levelObject['Mac'] - 1), enems[4][3] + enems[4][3] / 3 * (levelObject['Mac'] - 1));
+      gameStateBattle.enem3 = new Enemy(this, 450 - 450, 250, enems[4][0], null, enems[4][1], enems[4][2] + 3 * (party['Mac']['level'] - 1), enems[4][3] + enems[4][3] / 3 * (party['Mac']['level'] - 1));
       this.add.existing(gameStateBattle.enem3);
-      gameStateBattle.enem4 = new Enemy(this, 250 - 450, 275, enems[5][0], null, enems[5][1], enems[5][2] + 3 * (levelObject['Mac'] - 1), enems[5][3] + enems[5][3] / 3 * (levelObject['Mac'] - 1));
+      gameStateBattle.enem4 = new Enemy(this, 250 - 450, 275, enems[5][0], null, enems[5][1], enems[5][2] + 3 * (party['Mac']['level'] - 1), enems[5][3] + enems[5][3] / 3 * (party['Mac']['level'] - 1));
       this.add.existing(gameStateBattle.enem4);
-      gameStateBattle.enem5 = new Enemy(this, 200 - 450, 325, enems[2][0], null, enems[2][1], enems[2][2] + 3 * (levelObject['Mac'] - 1), enems[2][3] + enems[2][3] / 3 * (levelObject['Mac'] - 1));
+      gameStateBattle.enem5 = new Enemy(this, 200 - 450, 325, enems[2][0], null, enems[2][1], enems[2][2] + 3 * (party['Mac']['level'] - 1), enems[2][3] + enems[2][3] / 3 * (party['Mac']['level'] - 1));
       this.add.existing(gameStateBattle.enem5);
     } else if (bossBattle && bossType === 'frank') {
       gameStateBattle.enem1 = new Enemy(this, 450 - 450, 300, 'fratboy5', null, 'Frank', 1000, 35);
       this.add.existing(gameStateBattle.enem1);
     } else {
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)
-      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 250, enems[rr][0], null, enems[rr][1], enems[rr][2] + 15 * (levelObject['Mac'] - 1), enems[rr][3] + Math.floor(enems[rr][3] / 4) * (levelObject['Mac'] - 1));
+      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 250, enems[rr][0], null, enems[rr][1], enems[rr][2] + 15 * (party['Mac']['level'] - 1), enems[rr][3] + Math.floor(enems[rr][3] / 4) * (party['Mac']['level'] - 1));
       this.add.existing(gameStateBattle.enem1);
       if (set1.size === 2) {
-        gameStateBattle.enem2 = new Enemy(this, 400 - 450, 300, enems[ss][0], null, enems[ss][1], enems[ss][2] + 15 * (levelObject['Mac'] - 1), enems[ss][3] + Math.floor(enems[ss][3] / 4) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem2 = new Enemy(this, 400 - 450, 300, enems[ss][0], null, enems[ss][1], enems[ss][2] + 15 * (party['Mac']['level'] - 1), enems[ss][3] + Math.floor(enems[ss][3] / 4) * (party['Mac']['level'] - 1));
         this.add.existing(gameStateBattle.enem2);
       }
       if (set2.size === 3 && numberOfPlayers >= 2) {
-        gameStateBattle.enem3 = new Enemy(this, 350 - 450, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (levelObject['Mac'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 4) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem3 = new Enemy(this, 350 - 450, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (party['Mac']['level'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 4) * (party['Mac']['level'] - 1));
         this.add.existing(gameStateBattle.enem3);
       }
       if (set3.size === 4 && numberOfPlayers >= 3) {
-        gameStateBattle.enem4 = new Enemy(this, 300 - 450, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (levelObject['Mac'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 4) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem4 = new Enemy(this, 300 - 450, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (party['Mac']['level'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 4) * (party['Mac']['level'] - 1));
         this.add.existing(gameStateBattle.enem4);
       }
       if (set4.size === 5 && numberOfPlayers >= 3) {
-        gameStateBattle.enem5 = new Enemy(this, 250 - 450, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (levelObject['Mac'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 4) * (levelObject['Mac'] - 1));
+        gameStateBattle.enem5 = new Enemy(this, 250 - 450, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (party['Mac']['level'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 4) * (party['Mac']['level'] - 1));
         this.add.existing(gameStateBattle.enem5);
       }
 
@@ -1360,8 +1364,8 @@ var BattleScene = new Phaser.Class({
 
     //recall inputs look like (scene, x, y, texture, frame, type, hp, damage)
     // player characters - warrior
-    gameStateBattle.me = new PlayerCharacter(this, 850 + 450, 250, "Mac", 1, "Mac", hpObject['Mac'], damageObject['Mac']);
-    if (hpObject['Mac'] > 0) {
+    gameStateBattle.me = new PlayerCharacter(this, 850 + 450, 250, "Mac", 1, "Mac", party['Mac']['hp'], party['Mac']['damage']);
+    if (party['Mac']['hp'] > 0) {
       this.add.existing(gameStateBattle.me);
       gameStateBattle.me.active = true
       gameStateBattle.me.living = true
@@ -1371,8 +1375,8 @@ var BattleScene = new Phaser.Class({
     }
 
     if (al.following) {
-      gameStateBattle.al = new PlayerCharacter(this, 800 + 450, 300, "Al", 4, "Al", hpObject['Al'], damageObject['Al']);
-      if (hpObject['Al'] > 0) {
+      gameStateBattle.al = new PlayerCharacter(this, 800 + 450, 300, "Al", 4, "Al", party['Al']['hp'], party['Al']['damage']);
+      if (party['Al']['hp'] > 0) {
         this.add.existing(gameStateBattle.al);
         gameStateBattle.al.active = true
         gameStateBattle.al.living = true
@@ -1383,8 +1387,8 @@ var BattleScene = new Phaser.Class({
     }
 
     if (trevor.following) {
-      gameStateBattle.trevor = new PlayerCharacter(this, 750 + 450, 350, "Jimmy", 4, "Jimmy", hpObject['Jimmy'], damageObject['Jimmy']);
-      if (hpObject['Jimmy'] > 0) {
+      gameStateBattle.trevor = new PlayerCharacter(this, 750 + 450, 350, "Jimmy", 4, "Jimmy", party['Jimmy']['hp'], party['Jimmy']['damage']);
+      if (party['Jimmy']['hp'] > 0) {
         this.add.existing(gameStateBattle.trevor);
         gameStateBattle.trevor.active = true
         gameStateBattle.trevor.living = true
@@ -1395,8 +1399,8 @@ var BattleScene = new Phaser.Class({
     }
 
     if (bennett.following) {
-      gameStateBattle.bennett = new PlayerCharacter(this, 1001 + 450, 325, 'Bennett', 4, 'Bennett', hpObject['Bennett'], damageObject['Bennett']);
-      if (hpObject['Bennett'] > 0) {
+      gameStateBattle.bennett = new PlayerCharacter(this, 1001 + 450, 325, 'Bennett', 4, 'Bennett', party['Bennett']['hp'], party['Bennett']['damage']);
+      if (party['Bennett']['hp'] > 0) {
         this.add.existing(gameStateBattle.bennett);
         gameStateBattle.bennett.active = true
         gameStateBattle.bennett.living = true
@@ -1534,13 +1538,13 @@ var BattleScene = new Phaser.Class({
     numberOfFights += 1;
     battleBackground = ''
     if (bossBattle && bossType === 'darkboy') {
-      exp += 100 * 3 ** (levelObject['Mac'] - 1)
+      exp += 100 * 3 ** (party['Mac']['level'] - 1)
       reward = 10
       money += reward
       items.push('Empty NyQuil')
       gameState.spooky.stop()
     } else if (bossBattle && bossType === 'dio') {
-      exp += 200 * 3 ** (levelObject['Mac'] - 1);
+      exp += 200 * 3 ** (party['Mac']['level'] - 1);
       reward = 100;
       money += reward;
       equipment.push('Dio Band');
@@ -1551,19 +1555,19 @@ var BattleScene = new Phaser.Class({
       dioEnabled = false;
       diodialogue = 3;
     } else if (bossBattle && bossType === 'fratboy2prime') {
-      exp += 100 * 3 ** (levelObject['Mac'] - 1)
+      exp += 100 * 3 ** (party['Mac']['level'] - 1)
       reward = 20
       money += reward
       items.push('knife')
       gameState.spooky.stop()
     } else if (bossBattle && bossType === 'frank') {
-      exp += 100 * 3 ** (levelObject['Mac'] - 1)
+      exp += 100 * 3 ** (party['Mac']['level'] - 1)
       reward = 25
       money += reward
       gameState.spooky.stop()
     } else {
-      exp += this.enemies.length * levelObject['Mac'] * 10;
-      reward += Math.round(this.enemies.length * Math.ceil(levelObject['Mac'] / 5) * Math.floor(Math.random() * 3) * 30) / 100;
+      exp += this.enemies.length * party['Mac']['level'] * 10;
+      reward += Math.round(this.enemies.length * Math.ceil(party['Mac']['level'] / 5) * Math.floor(Math.random() * 3) * 30) / 100;
       money += reward;
       let rewardKeys = Object.keys(randomEncounterRewards);
       let rn = Math.floor(Math.random() * rewardKeys.length);
@@ -1581,7 +1585,7 @@ var BattleScene = new Phaser.Class({
     exp *= 2 / 3
     exp = Math.floor(exp)
     for (let i = 0; i < this.heroes.length; i++) {
-      expObject[this.heroes[i].type] += exp;
+      party[this.heroes[i].type]['exp'] += exp;
     }
     window.setTimeout(() => {
       wonBattle = 1
@@ -1642,7 +1646,7 @@ var BattleScene = new Phaser.Class({
     }  else if (bossBattle && (bossType==='darkboy' || bossType==='dio')) {
       //set health to 1 so you keep living in lightworld
       gameStateBattle.me.hp = 1;
-      hpObject["Mac"] = 1;
+      party["Mac"]['hp'] = 1;
       // clear state, remove sprites
       this.heroes.length = 0;
       this.enemies.length = 0;
@@ -1709,15 +1713,15 @@ var BattleScene = new Phaser.Class({
   },
   wake: function() {      //this never seems to get called sommehow
       //set hp for party
-    gameStateBattle.me.hp = hpObject["Mac"]
+    gameStateBattle.me.hp = party["Mac"]['hp']
     if (bennett.joinParameter && bennett.following) {
-      gameStateBattle.bennett.hp = hpObject['Bennett']
+      gameStateBattle.bennett.hp = party['Bennett']['hp']
     }
     if (trevor.joinParameter && trevor.following) {
-      gameStateBattle.trevor.hp = hpObject["Jimmy"]
+      gameStateBattle.trevor.hp = party["Jimmy"]['hp']
     }
     if (al.joinParameter && al.following) {
-      gameStateBattle.al.hp = hpObject["Al"]
+      gameStateBattle.al.hp = party["Al"]['hp']
     }
     gameState.swimNoise.stop()
     this.scene.run('UIScene');
@@ -1936,8 +1940,8 @@ var BattleScene = new Phaser.Class({
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Items') {
       this.UIScene.actionsMenu.itemRemap()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Muay Thai Combo (3)') {
-      if (spObject['Mac'] >= 3) {
-        spObject['Mac'] -= 3
+      if (party['Mac']['sp'] >= 3) {
+        party['Mac']['sp'] -= 3
         this.units[this.index].special(this.aliveEnemies[target])
         gameStateBattle.me.x = this.aliveEnemies[target].x + 80;
         gameStateBattle.me.y = this.aliveEnemies[target].y;
@@ -1982,8 +1986,8 @@ var BattleScene = new Phaser.Class({
       }
       this.UIScene.actionsMenu.actionsRemap()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Fuck Everybody Up (8)') {
-      if (spObject['Mac'] >= 8) {
-        spObject['Mac'] -= 8
+      if (party['Mac']['sp'] >= 8) {
+        party['Mac']['sp'] -= 8
         gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('fuck_everybody_up', false);
         settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
@@ -2012,8 +2016,8 @@ var BattleScene = new Phaser.Class({
     }
     //special attack for Jimmy
     else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Double Smack (4)') {
-      if (spObject['Jimmy'] >= 4) {
-        spObject['Jimmy'] -= 4
+      if (party['Jimmy']['sp'] >= 4) {
+        party['Jimmy']['sp'] -= 4
         this.units[this.index].special(this.aliveEnemies[target])
         gameStateBattle.trevor.x = this.aliveEnemies[target].x + 61;
         gameStateBattle.trevor.y = this.aliveEnemies[target].y - 10;
@@ -2053,8 +2057,8 @@ var BattleScene = new Phaser.Class({
     }
     //special attack for Al
     else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Blast Errbody (5)') {
-      if (spObject['Al'] >= 5) {
-        spObject['Al'] -= 5
+      if (party['Al']['sp'] >= 5) {
+        party['Al']['sp'] -= 5
         this.units[this.index].special(this.aliveEnemies[target])
         gameStateBattle.al.x = this.aliveEnemies[target].x + 200;
         gameStateBattle.al.y = this.aliveEnemies[target].y;
@@ -2085,8 +2089,8 @@ var BattleScene = new Phaser.Class({
       }
       this.UIScene.actionsMenu.actionsRemap()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Dirty Combo (7)') {
-      if (spObject['Bennett'] >= 7) {
-        spObject['Bennett'] -= 7
+      if (party['Bennett']['sp'] >= 7) {
+        party['Bennett']['sp'] -= 7
         this.units[this.index].special(this.aliveEnemies[target])
         gameStateBattle.bennett.x = this.aliveEnemies[target].x + 55;
         gameStateBattle.bennett.y = this.aliveEnemies[target].y + 10;
@@ -2126,11 +2130,11 @@ var BattleScene = new Phaser.Class({
     this.UIScene.remapEnemies();
     //to decrease blindness for hero
     if (this.units[this.index]) {
-      if (this.index < this.heroes.length && blindObject[this.units[this.index].type] > 0) {
-        blindObject[this.units[this.index].type] -= 1
+      if (this.index < this.heroes.length && party[this.units[this.index].type]['blind'] > 0) {
+        party[this.units[this.index].type]['blind'] -= 1
       }
-      if (this.index < this.heroes.length && bleedingObject[this.units[this.index].type] > 0) {
-        bleedingObject[this.units[this.index].type] -= 1
+      if (this.index < this.heroes.length && party[this.units[this.index].type]['bleeding'] > 0) {
+        party[this.units[this.index].type]['bleeding'] -= 1
         gameStateBattle.t = 0;
         gameStateBattle.u = 0;
         gameStateBattle.damageText.scaleX = 2;
@@ -2138,7 +2142,7 @@ var BattleScene = new Phaser.Class({
         let dmm = Math.floor(this.units[this.index].hp * .1) + 5
         this.scene.scene.events.emit("damageIndicator", [dmm, this.units[this.index].x, this.units[this.index].y]);
         this.units[this.index].hp -= dmm
-        hpObject[this.units[this.index].type] -= dmm;
+        party[this.units[this.index].type]['hp'] -= dmm;
       }
     }
     // if we have victory or game over
