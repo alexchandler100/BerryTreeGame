@@ -382,7 +382,6 @@ var Unit = new Phaser.Class({
       }
       if (Object.keys(party).includes(this.type) && party[this.type]['attackUp']!==1){
         d*=party[this.type]['attackUp'] //for wine this scales by 1.2
-        party[this.type]['attackUpTurns']-=1
         console.log('attacked with extra strength')
         if (party[this.type]['attackUpTurns']===0){
           party[this.type]['attackUp']=1
@@ -465,10 +464,10 @@ var Unit = new Phaser.Class({
     }
     if (Object.keys(party).includes(this.type) && party[this.type]['attackUp']>0){
       d*=party[this.type]['attackUp'] //for wine this scales by 1.2
-      party[this.type]['attackUpTurns']-=1
+      //party[this.type]['attackUpTurns']-=1
       console.log('attacked with extra strength')
       if (party[this.type]['attackUpTurns']===0){
-        party[this.type]['attackUp']=0
+        party[this.type]['attackUp']=1
         console.log('attack up is over')
       }
     }
@@ -1986,6 +1985,9 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.me.y = 250
           //gameStateBattle.me.flipX = true;
           gameStateBattle.me.anims.play('bouncing', true);
+          if (party['Mac']['attackUpTurns']>0 ){
+            party['Mac']['attackUpTurns']-=1
+          }
         }, 2999);
       } else if (this.units[this.index].type === "Al") {
         airsoft.x = this.aliveEnemies[target].x + 100
@@ -2001,6 +2003,9 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.al.x = 800
           gameStateBattle.al.y = 300
           gameStateBattle.al.anims.play('alleft', true);
+          if (party['Al']['attackUpTurns']>0 ){
+            party['Al']['attackUpTurns']-=1
+          }
         }, 2999);
       } else if (this.units[this.index].type === "Jimmy") {
         gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y - 1)
@@ -2028,6 +2033,9 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.trevor.y = 350
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
+          if (party['Jimmy']['attackUpTurns']>0 ){
+            party['Jimmy']['attackUpTurns']-=1
+          }
         }, 2999);
       } else if (this.units[this.index].type === 'Bennett') {
         gameStateBattle.bennett.x = this.aliveEnemies[target].x + 60
@@ -2049,6 +2057,9 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.bennett.x = 1001
           gameStateBattle.bennett.y = 325
           gameStateBattle.bennett.anims.play('bennett_walk', true);
+          if (party['Bennett']['attackUpTurns']>0 ){
+            party['Bennett']['attackUpTurns']-=1
+          }
         }, 2999);
       }
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Defend') {
@@ -2097,7 +2108,11 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.me.y = 250;
           //gameStateBattle.me.flipX = true;
           gameStateBattle.me.anims.play('bouncing', true);
+          if (party['Mac']['attackUpTurns']>0 ){
+            party['Mac']['attackUpTurns']-=1
+          }
         }, 3500);
+
       } else { // if you dont have enough SP, go again
         this.scene.scene.events.emit("Message", "Shiiiit you ain't got the SP for that shiit");
         this.index--;
@@ -2125,7 +2140,11 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.me.x = 850;
           gameStateBattle.me.y = 250;
           gameStateBattle.me.anims.play('bouncing', true);
+          if (party['Mac']['attackUpTurns']>0 ){
+            party['Mac']['attackUpTurns']-=1
+          }
         }, 3500);
+
       } else { // if you dont have enough SP, go again
         this.scene.scene.events.emit("Message", "Shiiiit you ain't got the SP for that shiit");
         this.index--;
@@ -2166,7 +2185,11 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.trevor.y = 350;
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
+          if (party['Jimmy']['attackUpTurns']>0 ){
+            party['Jimmy']['attackUpTurns']-=1
+          }
         }, 2999);
+
       } else { // if you dont have enough SP, go again
         this.scene.scene.events.emit("Message", "Shiiiit you ain't got the SP for that shiit");
         this.index--;
@@ -2200,6 +2223,9 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.al.x = 800;
           gameStateBattle.al.y = 300;
           gameStateBattle.al.anims.play('alleft', true);
+          if (party['Al']['attackUpTurns']>0 ){
+            party['Al']['attackUpTurns']-=1
+          }
         }, 2999);
       } else { // if you dont have enough SP, go again
         this.scene.scene.events.emit("Message", "Shiiiit you ain't got the SP for that shiit");
@@ -2226,6 +2252,9 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.bennett.x = 1001
           gameStateBattle.bennett.y = 325
           gameStateBattle.bennett.anims.play('bennett_walk', true);
+          if (party['Bennett']['attackUpTurns']>0 ){
+            party['Bennett']['attackUpTurns']-=1
+          }
         }, 2999);
       } else { // if you dont have enough SP, go again
         this.scene.scene.events.emit("Message", "Shiiiit you ain't got the SP for that shiit");

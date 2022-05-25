@@ -248,7 +248,7 @@ function useItem(object, player) {
       if (guy['attackUpTurns']===0 || !guy['attackUpTurns']){
         guy['attackUpTurns']=3
       } else {
-        guy['attackUpTurns']=1
+        guy['attackUpTurns']=2 //not sure exactly how to handle this case (stacking) (fix needed)
       }
       console.log(`${guy} has ${guy['attackUpTurns']} turns left of attackUp`)
       console.log(`${guy} currently ${guy['attackUp']}-times attack power`)
@@ -259,7 +259,7 @@ function useItem(object, player) {
       if (guy['defenseUpTurns']===0 || !guy['defenseUpTurns']){
         guy['defenseUpTurns']=3
       } else {
-        guy['defenseUpTurns']=1
+        guy['defenseUpTurns']=2//not sure exactly how to handle this case (stacking) (fix needed)
       }
       console.log(`${guy} has ${guy['defenseUpTurns']} turns left of defenseUp`)
       console.log(`${guy} currently takes ${guy['defenseUp']}-times damage`)
