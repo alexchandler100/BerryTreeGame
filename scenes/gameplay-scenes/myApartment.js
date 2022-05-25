@@ -583,7 +583,7 @@ var MyApartment = new Phaser.Class({
     meApt.body.setSize(80, 50);
     meApt.body.setOffset(60, 140);
 
-    bennettApt = this.physics.add.sprite(mapApt.findObject("objects", obj => obj.name === "enter").x + 200, mapApt.findObject("objects", obj => obj.name === "enter").y + 320, 'bennett');
+    bennettApt = this.physics.add.sprite(mapApt.findObject("objects", obj => obj.name === "enter").x + 200, mapApt.findObject("objects", obj => obj.name === "enter").y + 320, 'Bennett');
     bennettApt.anims.play('bennettdown', true);
     bennettApt.setScale(.25);
     bennettApt.body.setSize(80, 50);
@@ -595,7 +595,7 @@ var MyApartment = new Phaser.Class({
     joeApt.body.setOffset(60, 140);
     joeApt.setDepth(joeApt.y)
 
-    trevorApt = this.physics.add.sprite(gameStateApt.trevorSpawnPoint.x, gameStateApt.trevorSpawnPoint.y, 'trevor');
+    trevorApt = this.physics.add.sprite(gameStateApt.trevorSpawnPoint.x, gameStateApt.trevorSpawnPoint.y, 'Jimmy');
     trevorApt.setScale(.35 * .7);
     trevorApt.body.setSize(80, 50);
     trevorApt.body.setOffset(60, 140);
