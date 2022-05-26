@@ -55,6 +55,9 @@ let moneyText;
 let startMegaman = false;
 let trevorAptFirstDialogue = 0;
 let firstTimeCarGet = 0;
+let larryFirstTalk = 0;
+let drewFirstTalk = 0;
+
 let jeanClaudeFirstTalk = 0;
 let fratboy1FirstTalk = 0;
 let fratboy2FirstTalk = 0;
@@ -92,7 +95,8 @@ let moneyToCrackhead = 0;
 let crackheadJoin = false;
 let crackheadFirstJoin = true;
 let highnessDialogue = 0;
-let gasStation = 0;
+let larryStoreOpen = false;
+let drewStoreOpen = false;
 let alFirstTalk = 0;
 let darkworldDialogue = 0;
 let jonChaseX = 20;
@@ -177,7 +181,6 @@ let athletics = 1;
 let cantGetIn = 0;
 let saveFileExists = true;
 let scene_number = 2;
-let equipment = []
 let overworldSong = 'theme'
 let changeThemeSong = false
 let raceBegin = false;
@@ -371,7 +374,9 @@ const overworldScale = {
   'smoke': .41,
   'hausdorf': .4,
   'stripper': .3,
-  'jeanClaude': .25
+  'jeanClaude': .25,
+  'larry': .17,
+  'drew': .19,
 }
 const sizeAndOffset = {
   'Al': {size: [64, 128],offset: [60, 64]},
@@ -412,394 +417,115 @@ const sizeAndOffset = {
     size: [64, 64],
     offset: [60, 100]
   },
+  'larry': {size: [64, 128],offset: [60, 64]},
+  'drew': {size: [64, 128],offset: [60, 64]},
 }
 let playerColors = {
   'Mac': 0x0e7d4e,
   'Al': 0xbe2016,
   'Jimmy': 0x0d2175,
-  'Bennett': 0xfa7800
+  'Bennett': 0xfa7800,
+  'all': 0xffffff
+}
+let playerColorsEquip = {
+  'Mac': '#068c1b',
+  'Al': '#cb0000',
+  'Jimmy': '#0f15a1',
+  'Bennett': '#fa7800',
+  'all': '#ffffff'
 }
 let equipped = {
   'Mac': {
     upper: "Camo T-Shirt",
     lower: "Jeans",
     accessory: "",
+    accessory2: "",
   },
   'Jimmy': {
     upper: "Blue Shirt",
     lower: "Snowpants",
     accessory: "",
+    accessory2: "",
   },
   'Al': {
     upper: "Red Shirt",
     lower: "Red Sweatpants",
     accessory: "",
+    accessory2: "",
   },
   'Bennett': {
     upper: "Running Shirt",
     lower: "Running Shorts",
     accessory: "",
+    accessory2: "",
   }
 }
 
 //equipment parameters (should all be incorporated in a larger object built from csv files)
 
-let equipmentTypes = {
-  "Camo T-Shirt": "Mac_upper",
-  "Jeans": "Mac_lower",
-  "Blue Shirt": "Jimmy_upper",
-  "Snowpants": "Jimmy_lower",
-  "Red Shirt": "Al_upper",
-  "Red Sweatpants": "Al_lower",
-  "Running Shirt": "Bennett_upper",
-  "Running Shorts": "Bennett_lower",
-  "SP Booster": "accessory",
-  "HP Booster": "accessory",
-  "Damage Booster": "accessory",
-  "Camo Hoody": "Mac_upper",
-  "Camo Pants": "Mac_lower",
-  "Fubu Shirt": "Al_upper",
-  "Jorts": "Jimmy_lower",
-  "Wife Beater": "Mac_upper",
-  "Brass Knuckles": "accessory",
-  "Sprinting Shoes": "accessory",
-  "Camo Duck Tape": "accessory",
-  "Gold Duck Tape": "accessory",
-  "Dio Band": "accessory"
-}
-
-let equipmentList = {
-  "Camo T-Shirt": camoTshirt,
-  "Jeans": jeans,
-  "Blue Shirt": blueShirt,
-  "Snowpants": snowpants,
-  "Red Shirt": redShirt,
-  "Red Sweatpants": redSweatpants,
-  "Running Shirt": runningShirt,
-  "Running Shorts": runningShorts,
-  "SP Booster": spBooster,
-  "HP Booster": hpBooster,
-  "Damage Booster": damageBooster,
-  "Camo Hoody": camoHoody,
-  "Camo Pants": camoPants,
-  "Fubu Shirt": fubuShirt,
-  "Jorts": jorts,
-  "Wife Beater": wifeBeater,
-  "Brass Knuckles": brassKnuckles,
-  "Gold Duck Tape": goldDuckTape,
-  "Camo Duck Tape": camoDuckTape,
-  "Dio Band": dioBand,
-  "Sprinting Shoes": sprintingShoes,
-}
-
-function sprintingShoes(player, bool) {
-  if (bool === true) {
-    firstStrike = true;
-    athletics += .35005
-  } else {
-    firstStrike = false;
-    athletics -= .35005
+function equip(piece,player){
+  equipment[piece]['equipped']+=1
+  if (equipment[piece]['def']>0){
+    party[player]['def']+=equipment[piece]['def']
   }
-}
-
-function brassKnuckles(player, bool) {
-  if (bool === true) {
-    party[player][damage] += 15
-  } else {
-    party[player][damage] -= 15
+  if (equipment[piece]['damagePlus']>0){
+    party[player]['damage']+=equipment[piece]['damagePlus']
   }
-}
-
-function goldDuckTape(player, bool) {
-  if (bool === true) {
-    party[player]['bleedProof']=true
-  } else {
-    party[player]['bleedProof']=false
+  if (equipment[piece]['maxSPPlus']>0){
+    party[player]['maxSP']+=equipment[piece]['maxSPPlus']
   }
-}
-
-function dioBand(player, bool) {
-  if (bool === true) {
-    party[player][damage] += 25
-    party[player]['bleedProof']=true
-    party[player]['blindProof']=true
-    party[player][damage] += 30
-  } else {
-    party[player][damage] -= 25
-    party[player]['bleedProof']=false
-    party[player]['blindProof']=false
-    party[player][damage] -= 30
+  if (equipment[piece]['maxHPPlus']>0){
+    party[player]['maxHP']+=equipment[piece]['maxHPPlus']
   }
-}
-
-function camoDuckTape(player, bool) {
-  if (bool === true) {
-    party[player]['blindProof']=true
-  } else {
-    party[player]['blindProof']=false
-  }
-}
-
-function camoTshirt(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 2
-  } else {
-    party[player]['defense'] -= 2
-  }
-}
-
-function jeans(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 1
-  } else {
-    party[player]['defense'] -= 1
-  }
-}
-
-function blueShirt(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 3
-  } else {
-    party[player]['defense'] -= 3
-  }
-}
-
-function snowpants(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 1
-  } else {
-    party[player]['defense'] -= 1
-  }
-}
-
-function redShirt(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 3
-  } else {
-    party[player]['defense'] -= 3
-  }
-}
-
-function runningShirt(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 5
-  } else {
-    party[player]['defense'] -= 5
-  }
-}
-
-function runningShorts(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 3
-  } else {
-    party[player]['defense'] -= 3
-  }
-}
-
-function redSweatpants(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 2
-  } else {
-    party[player]['defense'] -= 2
-  }
-}
-
-function spBooster(player, bool) {
-  if (bool === true) {
-    party[player]['maxSP'] += 4
-  } else {
-    party[player]['maxSP'] -= 4
-  }
-}
-
-function hpBooster(player, bool) {
-  if (bool === true) {
-    party[player]['maxHP'] += 20
-  } else {
-    party[player]['maxHP'] -= 20
-  }
-}
-
-function damageBooster(player, bool) {
-  if (bool === true) {
+  if (equipment[piece]['neverMiss']==='true'){
     party[player]['neverMiss']=true
-    party[player][damage] += 4
-  } else {
+  }
+  if (equipment[piece]['preventBleeding']==='true'){
+    party[player]['bleedProof']=true
+  }
+  if (equipment[piece]['preventBlindness']==='true'){
+    party[player]['blindProof']=true
+  }
+  if (equipment[piece]['athletics']>0){
+    athletics += equipment[piece]['athletics']
+  }
+  if (equipment[piece]['firstStrike']==='true'){
+    firstStrike = true;
+  }
+}
+
+function unequip(piece,player){ //problem: if I equip two pieces with nevermiss and then unequip one, it gives nevermiss false (test this) (fix... make nevermiss a number and anything >0 gives nevermiss)
+  equipment[piece]['equipped']-=1
+  if (equipment[piece]['def']>0){
+    party[player]['def']-=equipment[piece]['def']
+  }
+  if (equipment[piece]['damagePlus']>0){
+    party[player]['damage']-=equipment[piece]['damagePlus']
+  }
+  if (equipment[piece]['maxSPPlus']>0){
+    party[player]['maxSP']-=equipment[piece]['maxSPPlus']
+  }
+  if (equipment[piece]['maxHPPlus']>0){
+    party[player]['maxHP']-=equipment[piece]['maxHPPlus']
+  }
+  if (equipment[piece]['neverMiss']==='true'){
     party[player]['neverMiss']=false
-    party[player][damage] -= 4
+  }
+  if (equipment[piece]['preventBleeding']==='true'){
+    party[player]['bleedProof']=false
+  }
+  if (equipment[piece]['preventBlindness']==='true'){
+    party[player]['blindProof']=false
+  }
+  if (equipment[piece]['athletics']>0){
+    athletics -= equipment[piece]['athletics']
+  }
+  if (equipment[piece]['firstStrike']==='true'){
+    firstStrike = false;
   }
 }
 
-function camoHoody(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 20
-  } else {
-    party[player]['defense'] -= 20
-  }
-}
 
-function camoPants(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 10
-  } else {
-    party[player]['defense'] -= 10
-  }
-}
-
-function fubuShirt(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 12
-  } else {
-    party[player]['defense'] -= 12
-  }
-}
-
-function jorts(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 15
-  } else {
-    party[player]['defense'] -= 15
-  }
-}
-
-function wifeBeater(player, bool) {
-  if (bool === true) {
-    party[player]['defense'] += 1
-    party[player][damage] += 5
-  } else {
-    party[player]['defense'] -= 1
-    party[player][damage] -= 5
-  }
-}
-
-let equipmentDescriptions = {
-  "Running Shirt": {
-    type: "Bennett Body",
-    def: 5,
-    effect: "None",
-    color: '#fa7800'
-  },
-  "Running Shorts": {
-    type: "Bennett Legs",
-    def: 3,
-    effect: "None",
-    color: '#fa7800'
-  },
-  "Camo T-Shirt": {
-    type: "Mac Body",
-    def: 2,
-    effect: "None",
-    color: '#068c1b'
-  },
-  "Jeans": {
-    type: "Mac Legs",
-    def: 1,
-    effect: "None",
-    color: '#068c1b'
-  },
-  "Blue Shirt": {
-    type: "Jimmy Body",
-    def: 3,
-    effect: "None",
-    color: '#0f15a1'
-  },
-  "Snowpants": {
-    type: "Jimmy Legs",
-    def: 1,
-    effect: "None",
-    color: '#0f15a1'
-  },
-  "Red Shirt": {
-    type: "Al Body",
-    def: 3,
-    effect: "None",
-    color: '#cb0000'
-  },
-  "Red Sweatpants": {
-    type: "Al Legs",
-    def: 2,
-    effect: "None",
-    color: '#cb0000'
-  },
-  "SP Booster": {
-    type: "Accessory",
-    def: 0,
-    effect: "Max SP +4",
-    color: '#fff'
-  },
-  "HP Booster": {
-    type: "Accessory",
-    def: 0,
-    effect: "Max HP +20",
-    color: '#fff'
-  },
-  "Damage Booster": {
-    type: "Accessory",
-    def: 0,
-    effect: "Damage +4, NEVER MISS",
-    color: '#fff'
-  },
-  "Camo Hoody": {
-    type: "Mac Body",
-    def: 20,
-    effect: "None",
-    color: '#068c1b'
-  },
-  "Camo Pants": {
-    type: "Mac Legs",
-    def: 10,
-    effect: "None",
-    color: '#068c1b'
-  },
-  "Fubu Shirt": {
-    type: "Al Body",
-    def: 12,
-    effect: "None",
-    color: '#cb0000'
-  },
-  "Jorts": {
-    type: "Jimmy Legs",
-    def: 15,
-    effect: "None",
-    color: '#0f15a1'
-  },
-  "Wife Beater": {
-    type: "Mac Body",
-    def: 1,
-    effect: "Damage +5",
-    color: '#068c1b'
-  },
-  "Brass Knuckles": {
-    type: "Accessory",
-    def: 0,
-    effect: "Damage +15",
-    color: '#fff'
-  },
-  "Gold Duck Tape": {
-    type: "Accessory",
-    def: 0,
-    effect: "Prevents Bleeding",
-    color: '#fff'
-  },
-  "Dio Band": {
-    type: "Accessory",
-    def: 30,
-    effect: "An Unholy Relic. \nPrevents Bleeding, \nPrevents Blindness \nDamage + 25",
-    color: '#fff'
-  },
-  "Camo Duck Tape": {
-    type: "Accessory",
-    def: 0,
-    effect: "Prevents Blindness",
-    color: '#fff'
-  },
-  "Sprinting Shoes": {
-    type: "Accessory",
-    def: 0,
-    effect: "Athletics +.35 \nFirst Strike",
-    color: '#fff'
-  },
-}
 
 function openControls(){
   scene_number=99
@@ -1123,10 +849,6 @@ function buyWeed() {
   }
 }
 
-function shaken() {
-  shakeTheWorld = true
-}
-
 //to buy from homeboy (bad deal)
 function buyWeedRipoff() {
   if (money >= 20) {
@@ -1137,6 +859,12 @@ function buyWeedRipoff() {
     buyFailed = 1
   }
 }
+
+function shaken() {
+  shakeTheWorld = true
+}
+
+
 
 //any ball should have this function called on it in update
 function beABall(obj) {
@@ -1450,7 +1178,7 @@ function chase(thing1, thing2, strength = 1.2, offset = 0) { //makes thing1 chas
 
 function getJonItem() { //jon gives you sprinting shoes
   gameState.itemget.play();
-  equipment.push("Sprinting Shoes");
+  equipment["Sprinting Shoes"]['numberOwned']+=1
 }
 
 function alCheckhamms() { //al checks if you have hamms and weed, if so, he joins your party
@@ -1505,17 +1233,25 @@ function removeFirst(arr, obj) {
 }
 
 function getHPBoost() {
-  equipment.push("HP Booster");
+  equipment["HP Booster"]['numberOwned']+=1
   gameState.itemget.play();
 }
 
 function getDamageBoost() {
-  equipment.push("Damage Booster");
+  equipment["Damage Booster"]['numberOwned']+=1
   gameState.itemget.play();
 }
 
 function playItemGet() {
   gameState.itemget.play();
+}
+
+function openLarryStore() {
+  scene_number = 98;
+}
+
+function openDrewStore() {
+  scene_number = 97;
 }
 
 //building inventory from the file inventory_items.json
@@ -1544,6 +1280,19 @@ let inventory={}
       });
     });
 
+    //building character-stats from the file equipment.json
+    let equipment={}
+      $(function() {
+        //var people = [];
+        $.getJSON('data/json-files/equipment.json', function(data) {
+          //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+          $.each(data, function(i, f) {
+            name=f['name']
+            equipment[name] = f
+          });
+        });
+      });
+
 window.setTimeout(()=>{
   //console.log(inventory)
   for (let i = 0; i < Object.keys(inventory).length; i++) {
@@ -1565,7 +1314,6 @@ window.setTimeout(()=>{
     numberOfItems += inventory[key]['numberOwned']
     //console.log(key, inventory[key]["hp"], inventory[key]["sp"], inventory[key]["randomEncounterRewards"])
   }
-  console.log(`numberOfItems: ${numberOfItems}`)
 },200)
 
 window.setTimeout(()=>{
@@ -1587,14 +1335,34 @@ window.setTimeout(()=>{
       // to handle column entries which are dictionaries or lists
       else if (String(party[key1][key2]).includes("{") || String(party[key1][key2]).includes("[")){
         let json = party[key1][key2];
-        console.log(json)
+        //console.log(json)
         let obj = JSON.parse(json);
         party[key1][key2] = obj
       }
     }
   }
-  console.log(party['Mac']['special'][0])
+  //console.log(party['Mac']['special'][0])
 },200)
 
+
+window.setTimeout(()=>{
+  for (let i = 0; i < Object.keys(equipment).length; i++) {
+    key1 = Object.keys(equipment)[i]
+    for (let j = 0; j < Object.keys(equipment[key1]).length; j++) {
+      key2 = Object.keys(equipment[key1])[j]
+      if (parseInt(equipment[key1][key2])){
+        equipment[key1][key2]=parseInt(equipment[key1][key2])
+      } else if (parseFloat(equipment[key1][key2])){
+        equipment[key1][key2] = parseFloat(equipment[key1][key2])
+      } else if (equipment[key1][key2]==='0'){
+        equipment[key1][key2] = 0;
+      } else if (String(equipment[key1][key2]).toLowerCase() == "true") {
+        equipment[key1][key2] = true
+      } else if (String(equipment[key1][key2]).toLowerCase() == "false") {
+        equipment[key1][key2] = false
+      }
+    }
+  }
+},250)
 
 // expected output: 42

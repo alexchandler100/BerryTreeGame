@@ -21,6 +21,8 @@
   <script src="scenes/menu-scenes/seal-menu.js"></script>
   <script src="scenes/menu-scenes/overworld-menu.js"></script>
   <script src="scenes/menu-scenes/gas-station.js"></script>
+  <script src="scenes/menu-scenes/larry-store.js"></script>
+  <script src="scenes/menu-scenes/drew-store.js"></script>
   <script src="scenes/gameplay-scenes/battlescene.js"></script>
   <script src="scenes/gameplay-scenes/darkworld.js"></script>
   <script src="scenes/gameplay-scenes/homeboyGame.js"></script>
@@ -50,7 +52,7 @@
           gravity: {
             y: 0
           },
-          debug: false  // switch to true to unhide hitboxes
+          debug: true  // switch to true to unhide hitboxes
         }
       },
       scene: [
@@ -70,6 +72,8 @@
         SealMenu,
         OverworldMenu,
         GasStation,
+        LarryStore,
+        DrewStore,
         BattleScene,
         UIScene,
         DarkWorld,

@@ -135,7 +135,7 @@ var Menu = new Phaser.Class({
         this.menuItemIndex = this.menuItems.length - 1;
     } while (!this.menuItems[this.menuItemIndex].active);
     this.menuItems[this.menuItemIndex].select();
-    console.log(this.menuItems[this.menuItemIndex])
+    //console.log(this.menuItems[this.menuItemIndex])
   },
   moveSelectionDown: function() {
     this.menuItems[this.menuItemIndex].deselect();
@@ -145,7 +145,7 @@ var Menu = new Phaser.Class({
         this.menuItemIndex = 0;
     } while (!this.menuItems[this.menuItemIndex].active);
     this.menuItems[this.menuItemIndex].select();
-    console.log(this.menuItems[this.menuItemIndex])
+    //console.log(this.menuItems[this.menuItemIndex])
   },
   // select the menu as a whole and highlight the choosen element
   select: function(index) {
@@ -260,9 +260,9 @@ var ActionsMenu = new Phaser.Class({
   },
   specialRemap: function() {
     this.clear();
-    console.log('currentHero in remap')
-    console.log(currentHero)
-    console.log(party[currentHero])
+    //console.log('currentHero in remap')
+    //console.log(currentHero)
+    //console.log(party[currentHero])
     for (let i = 0; i < party[currentHero]['special'].length; i++) {
       this.addMenuItem(party[currentHero]['special'][i]);
     }
@@ -1409,7 +1409,7 @@ var BattleScene = new Phaser.Class({
     }
     //determining the number of party members present
     numberOfPlayers = 1 + trevor.following + al.following + bennett.following
-    console.log(`number of players: ${numberOfPlayers}`)
+    //console.log(`number of players: ${numberOfPlayers}`)
     //add in enemies
     let enems = [
       ['crackhead', 'Melvin', 1, 13, crackhead, 'crackheadright'],
@@ -1624,7 +1624,7 @@ var BattleScene = new Phaser.Class({
     for (var i = 0; i < this.enemies.length; i++) {
       if (this.enemies[i].living)
         victory = false;
-        console.log(`${this.enemies[i]} living: ${this.enemies[i].living}`)
+        //console.log(`${this.enemies[i]} living: ${this.enemies[i].living}`)
     }
     return victory;
   },
@@ -1653,7 +1653,7 @@ var BattleScene = new Phaser.Class({
       exp += 200 * 3 ** (party['Mac']['level'] - 1);
       reward = 100;
       money += reward;
-      equipment.push('Dio Band');
+      equipment['Dio Band']['numberOwned']+=1
       gameState.holyDiver.stop();
       gameState.music.stop();
       gameState.spooky.stop();
@@ -1684,7 +1684,7 @@ var BattleScene = new Phaser.Class({
         if (itemReward === "Andy Capp's Hot Fries" || itemReward === 'Labatt Max Ice' || itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special' || itemReward === 'Protein Monster' || itemReward === 'Wine') {
           inventory[itemReward]['numberOwned']+=1
         } else if (itemReward === 'Wife Beater' || itemReward === 'SP Booster' || itemReward === 'Damage Booster' || itemReward === 'HP Booster' || itemReward === 'Fubu Shirt' || itemReward === 'Camo Pants') {
-          equipment.push(itemReward)
+          equipment[itemReward]['numberOwned']+=1
         }
       };
     }
@@ -1889,7 +1889,7 @@ var BattleScene = new Phaser.Class({
       }
       this.units[this.index].liquor()
     } else if (this.UIScene.actionsMenu.menuItems[action]._text == 'Attack') {
-      console.log('attacking is happening now')
+      //console.log('attacking is happening now')
       this.units[this.index].attack(this.aliveEnemies[target]);
       //attack animations
       settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)

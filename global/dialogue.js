@@ -36,6 +36,8 @@ var DialogueMenu = new Phaser.Class({
       'darkboy2': [.85,0],
       'dio': [1.3,0],
       'fratboy2prime': [1,0],
+      'larry': [1.1,0],
+      'drew': [1.1,0],
     }
   },
   init: function(data) {
@@ -213,10 +215,10 @@ var DialogueMenu = new Phaser.Class({
         optionBox.setInteractive()
         optionBox.on('pointerup', function() {
           let newPage = this.option.nextPage;
-          console.log(`switching to page ${newPage}`)
+          //console.log(`switching to page ${newPage}`)
           if (censoredPageExists[newPage]){
             newPage = newPage + 1000000
-            console.log(`censored page exists so now switching to page ${newPage}`)
+            //console.log(`censored page exists so now switching to page ${newPage}`)
           }
           if (newPage !== undefined) {
             //console.log(scene)
@@ -2845,6 +2847,36 @@ var DialogueMenu = new Phaser.Class({
           option: 'Right on man',
           nextPage: undefined,
           aftermath: openQuestLog
+        },]
+      },
+
+      {
+        character: 'larry',
+        page: 8000,
+        narrative: `Larry: Hey man you wanna by a Larry Special? You got some stuff to sell?`,
+        options: [{
+          option: 'Yeah',
+          nextPage: undefined,
+          aftermath: openLarryStore
+        },
+        {
+          option: `Nah I'm good`,
+          nextPage: undefined,
+        },]
+      },
+
+      {
+        character: 'drew',
+        page: 8001,
+        narrative: `Drew: Hey what's up Mac. You buying or selling today?`,
+        options: [{
+          option: 'Yeah',
+          nextPage: undefined,
+          aftermath: openDrewStore
+        },
+        {
+          option: `Nah I'm good`,
+          nextPage: undefined,
         },]
       },
     ]

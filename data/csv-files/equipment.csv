@@ -1,0 +1,26 @@
+name,type,randomEncounterRewards,def,effect,damagePlus,maxSPPlus,maxHPPlus,neverMiss,preventBleeding,preventBlindness,athletics,firstStrike,numberOwned,equipped,character,value
+Camo T-Shirt,Mac_upper,0,2,none,0,0,0,false,false,false,0,false,1,1,Mac,5
+Jeans,Mac_lower,0,1,none,0,0,0,false,false,false,0,false,1,1,Mac,5
+Blue Shirt,Jimmy_upper,0,3,none,0,0,0,false,false,false,0,false,1,1,Jimmy,5
+Snowpants,Jimmy_lower,0,1,none,0,0,0,false,false,false,0,false,1,1,Jimmy,5
+Red Shirt,Al_upper,0,3,none,0,0,0,false,false,false,0,false,1,1,Al,5
+Red Sweatpants,Al_lower,0,2,none,0,0,0,false,false,false,0,false,1,1,Al,5
+Running Shirt,Bennett_upper,0,5,none,0,0,0,false,false,false,0,false,1,1,Bennett,5
+Running Shorts,Bennett_lower,0,3,none,0,0,0,false,false,false,0,false,1,1,Bennett,5
+Camo Hoody,Mac_upper,0.2,20,none,0,0,0,false,false,false,0,false,0,0,Mac,20
+Camo Pants,Mac_lower,0.2,10,none,0,0,0,false,false,false,0,false,0,0,Mac,15
+Fubu Shirt,Al_upper,0.2,12,none,0,0,0,false,false,false,0,false,0,0,Al,30
+Jorts,Jimmy_lower,0.2,15,none,0,0,0,false,false,false,0,false,0,0,Jimmy,10
+Wife Beater,Mac_upper,0.2,1,Damage +5,5,0,0,false,false,false,0,false,0,0,Mac,5
+SP Booster,accessory,0.2,0,Max SP +4,0,4,0,false,false,false,0,false,0,0,all,20
+HP Booster,accessory,0.2,0,Max HP +20,0,0,20,false,false,false,0,false,0,0,all,20
+Damage Booster,accessory,0.2,0,"Damage +4, NEVER MISS",4,0,0,true,false,false,0,false,0,0,all,20
+Brass Knuckles,accessory,0,0,Damage +15,15,0,0,false,false,false,0,false,0,0,all,30
+Gold Duck Tape,accessory,0,0,Prevents Bleeding,0,0,0,false,true,false,0,false,0,0,all,5
+Camo Duck Tape,accessory,0,0,Prevents Blindness,0,0,0,false,false,true,0,false,0,0,all,5
+Sprinting Shoes,accessory,0,0,"Athletics +.35
+First Strike",0,0,0,false,false,false,0.35,true,0,0,all,50
+Dio Band,accessory,0,30,"An Unholy Relic
+Prevents Bleeding
+Prevents Blindness
+Damage + 25",25,0,0,false,true,true,0,false,0,0,all,1000

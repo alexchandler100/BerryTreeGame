@@ -651,6 +651,8 @@ var LightWorld = new Phaser.Class({
     this.load.image('poolchair1', "assets/images/poolchair1.png");
     this.load.image('poolchair2', "assets/images/poolchair2.png");
     this.load.image('hausdorf', "assets/images/hausdorf.png");
+    this.load.image('larry', "assets/images/larry.png");
+    this.load.image('drew', "assets/images/drew.png");
     this.load.image('quil', "assets/images/quil.png");
     this.load.image('dioshrine', "assets/images/dio_statue.png");
     this.load.image('car_keys', "assets/images/car_keys.png");
@@ -2591,6 +2593,9 @@ var LightWorld = new Phaser.Class({
     jeanClaude = new NPC(this, "jeanPath0", "jeanClaude", 0, "Jean Claude", "jeanleft", "jeanleft", "jeanleft", "jeanleft", "jeanidle", "bong", false, 250, 125, 1000/6);
     jeanClaude.body.setCircle(30);
     jeanClaude.body.setOffset(25, 25);
+    larry = new NPC(this, "larry spawn point", "larry", 0, "larry", "larry", "larry", "larry", "larry", "larry", "bong", false, 250, 125, 1000);
+    drew = new NPC(this, "drew spawn point", "drew", 0, "drew", "drew", "drew", "drew", "drew", "drew", "bong", false, 250, 125, 1000);
+
 
     //recall it goes (scene, spawn point, texture, position) and position should coincide with spawn point on path
     roadCar1 = new Car(this, "cwCarPath0", 4, 0);
@@ -2686,6 +2691,8 @@ var LightWorld = new Phaser.Class({
 
     //spawning player and setting properties
     //to start at level i and get skill at level i
+    //to spawn near larry
+    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "larry spawn point")
     //party["Mac"]['level']=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
     //to spawn near mariott
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "near mariott")
@@ -3100,6 +3107,12 @@ var LightWorld = new Phaser.Class({
         if (trevor.following) {
           trevor.disableBody(true, true);
         }
+        if (stripper.following) {
+          stripper.disableBody(true, true);
+        }
+        if (jeanClaude.following) {
+          jeanClaude.disableBody(true, true);
+        }
       } else if (playerTexture === 'board' && !this.ollie && (me.body.velocity.x**2+ me.body.velocity.y**2>150**2)) {
         this.ollie = true;
         this.DialogueMenu.kickflipRotationDisplay.angle = 0;
@@ -3121,6 +3134,12 @@ var LightWorld = new Phaser.Class({
         }
         if (al.following) {
           al.enableBody(true, me.x - 20, me.y - 20, true, true);
+        }
+        if (stripper.following) {
+          stripper.enableBody(true, me.x - 40, me.y - 30, true, true);
+        }
+        if (jeanClaude.following) {
+          jeanClaude.enableBody(true, me.x - 30, me.y - 50, true, true);
         }
       } else if (darkWorld === 0 && distance(hausdorf, me) < 30 && worldTheme === 'light') {
         completeQuest('Robo-Trip');
@@ -3170,9 +3189,8 @@ var LightWorld = new Phaser.Class({
         items.push("Keys");
         keysGet = 1;
         gameState.itemget.play()
-      } else if (distance(me, gameState.gasStationEnter) < 30 && gasStation === 0) {
+      } else if (distance(me, gameState.gasStationEnter) < 30 && scene_number!==3) {
         scene_number = 3;
-        gasStation = 1
       } else if (distance(me, volleyball) < 30 && kicking === false) {
         stamina -= 5;
         kicking = true;
@@ -4015,9 +4033,9 @@ var LightWorld = new Phaser.Class({
       party["Mac"]['special'].push("Fuck Everybody Up (8)");
       brothersSeal = 1;
       brothersSealForSkateboarding = 1;
-      money += 10;
+      money += 20;
       equipped["Mac"].accessory = "Sprinting Shoes"
-      sprintingShoes("Mac", true)
+      equip("Sprinting Shoes", "Mac")
       inventory["Hamms"]['numberOwned'] += 5;
       inventory["Monster"]['numberOwned'] += 5;
       inventory["Gatorade"]['numberOwned'] += 5;
@@ -4029,7 +4047,7 @@ var LightWorld = new Phaser.Class({
       inventory["Liquor"]['numberOwned'] += 5;
       gameState.secret.play()
       for (itemz of ["Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes", "Gold Duck Tape", "Camo Duck Tape"]) {
-        equipment.push(itemz)
+        equipment[itemz]['numberOwned']+=1
       }
       //good stuff
       for (itemz of ["Brothers Seal"]) {
@@ -4228,7 +4246,7 @@ var LightWorld = new Phaser.Class({
         stripperFirstTalk = 3
         this.openDialoguePage(1602)
         completeQuest("Diamond Wants Some Coke")
-        equipment.push("Brass Knuckles")
+        equipment["Brass Knuckles"]['numberOwned']+=1
         removeAll(items, "Gram of Coke")
       } else if (distance(me, stripper) > 200 && stripperFirstTalk === 1) {
         stripperFirstTalk = 2
@@ -4260,7 +4278,7 @@ var LightWorld = new Phaser.Class({
       this.openDialoguePage(1502)
       completeQuest("Yoga girl needs blocks")
       gameState.itemget.play()
-      equipment.push("Gold Duck Tape")
+      equipment["Gold Duck Tape"]['numberOwned']+=1
       removeAll(items, "Yoga Blocks")
     } else if (distance(me, yogagirl) > 200 && yogagirlFirstTalk === 1) {
       yogagirlFirstTalk = 2
@@ -4279,7 +4297,7 @@ var LightWorld = new Phaser.Class({
       this.openDialoguePage(3502)
       completeQuest("Adeline is pissed")
       gameState.itemget.play()
-      equipment.push("Camo Duck Tape")
+      equipment["Camo Duck Tape"]['numberOwned']+=1;
       removeAll(items, "Flowers")
     } else if (distance(me, adeline) > 200 && adelineFirstTalk === 1) {
       adelineFirstTalk = 2
@@ -4414,6 +4432,14 @@ var LightWorld = new Phaser.Class({
       }
       pause = true;
       this.scene.launch('GasStation');
+      launchParameter = true
+    } else if (scene_number === 98 && launchParameter === false) {
+      pause = true;
+      this.scene.launch('LarryStore');
+      launchParameter = true
+    } else if (scene_number === 97 && launchParameter === false) {
+      pause = true;
+      this.scene.launch('DrewStore');
       launchParameter = true
     } else if (scene_number === 10 && launchParameter === false) {
       pause = true;
@@ -4586,6 +4612,22 @@ var LightWorld = new Phaser.Class({
         ogFirstTalk = 0
       }
     }
+
+    //ai for larry
+      if (distance(me, larry) < 30 && larryFirstTalk === 0) {
+        larryFirstTalk = 1
+        this.openDialoguePage(8000)
+      } else if (distance(me, larry) > 200) {
+        larryFirstTalk = 0
+      }
+
+      //ai for drew
+        if (distance(me, drew) < 30 && drewFirstTalk === 0) {
+          drewFirstTalk = 1
+          this.openDialoguePage(8001)
+        } else if (distance(me, drew) > 200) {
+          drewFirstTalk = 0
+        }
 
     //ai for trevor
       if (distance(trevor, ball) > 400 && trevor.following === false) {

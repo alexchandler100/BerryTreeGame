@@ -224,7 +224,7 @@ var ItemsMenu = new Phaser.Class({
         gameState2.tempBackground2.y = pointer.y - 15 - borderWidth;
         gameState2.tempBackground2.visible = true;
         gameState2.tempText.visible = true;
-        gameState2.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']}`);
+        gameState2.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`);
         gameState2.tempText.x = gameState2.tempBackground.x;
         gameState2.tempText.y = gameState2.tempBackground.y;
         gameState2.tempBackground.width = gameState2.tempText.width;
