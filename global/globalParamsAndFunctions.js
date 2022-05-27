@@ -198,6 +198,7 @@ let hausdorfTexture = 0;
 let items = [];
 let gas = 6;
 let money = 0;
+let charStyle= 5;
 let phoneGet = 0;
 let walletGet = 0;
 let liquorGet = 0;
@@ -489,6 +490,9 @@ function equip(piece,player){
   if (equipment[piece]['athletics']>0){
     athletics += equipment[piece]['athletics']
   }
+  if (equipment[piece]['style']>0){
+    charStyle+= equipment[piece]['style']
+  }
   if (equipment[piece]['firstStrike']==='true'){
     firstStrike = true;
   }
@@ -519,6 +523,9 @@ function unequip(piece,player){ //problem: if I equip two pieces with nevermiss 
   }
   if (equipment[piece]['athletics']>0){
     athletics -= equipment[piece]['athletics']
+  }
+  if (equipment[piece]['style']>0){
+    charStyle-= equipment[piece]['style']
   }
   if (equipment[piece]['firstStrike']==='true'){
     firstStrike = false;

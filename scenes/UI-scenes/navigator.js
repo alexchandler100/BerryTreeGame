@@ -48,9 +48,6 @@ var Navigator = new Phaser.Class({
       repeat: -1
     });
 
-    gameStateNav.phoneBackground = this.add.image(940, 69, 'phoneBackground').setOrigin(0,0);
-    gameStateNav.phoneBackground.visible = false;
-
 
     gameStateNav.staminaDisplay = this.add.rectangle(50-2, 50-2, 104, 24, 0xffffff).setOrigin(0);
     gameStateNav.staminaDisplayFront = this.add.rectangle(50, 50, 100, 20, 0x70ff00).setOrigin(0);
@@ -87,9 +84,6 @@ var Navigator = new Phaser.Class({
       wordWrap: { width: 190 }
     });
 
-    gameStateNav.gpsPointer = this.physics.add.sprite(1050,175,'gpsPointer').setOrigin(0,0);
-    gameStateNav.gpsPointer.visible = false;
-
     gameStateNav.phone = this.add.image(950,30,'phone').setInteractive().setScale(.7);
     gameStateNav.phone.on('pointerup', function() {
       if (gameState.camera1.visible){
@@ -102,6 +96,12 @@ var Navigator = new Phaser.Class({
         gameStateNav.gpsPointer.visible = true;
       }
     }, this);
+
+    gameStateNav.phoneBackground = this.add.image(940, 30 + 40, 'phoneBackground').setOrigin(0,0);
+    gameStateNav.phoneBackground.visible = false;
+
+    gameStateNav.gpsPointer = this.physics.add.sprite(1050,175 + 40,'gpsPointer').setOrigin(0,0);
+    gameStateNav.gpsPointer.visible = false;
   },
   update: function() {
     pointerScale = Math.sqrt((me.x-gameState.questLocation.x)**2+(me.y-gameState.questLocation.y)**2)/10000

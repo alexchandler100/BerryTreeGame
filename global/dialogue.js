@@ -1323,6 +1323,39 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
+        character: 'girl3',
+        page: 980,
+        narrative: 'Alyssa: What are you wearing... its not even like designer. Like... talk to me when you get some style.',
+        options: [{
+            option: "Shiiiit",
+            nextPage: undefined
+          },
+        ]
+      },
+
+      {
+        character: 'girl3',
+        page: 981,
+        narrative: 'Alyssa: Now thats style! Do you live around here?',
+        options: [{
+            option: "I do, I do.",
+            nextPage: 982
+          },
+        ]
+      },
+
+      {
+        character: 'god',
+        page: 982,
+        narrative: 'Click on Alyssa if you want her to follow you. (feature not yet implemented)',
+        options: [{
+            option: "Hell yeah",
+            nextPage: undefined
+          },
+        ]
+      },
+
+      {
         character: 'girl2',
         page: 99,
         narrative: 'Becca: So like could you like get us some cigarettes?',
@@ -2853,9 +2886,9 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'larry',
         page: 8000,
-        narrative: `Larry: Hey man you wanna by a Larry Special? You got some stuff to sell?`,
+        narrative: `Larry: Hey man I got a deal for you. Give me 20 bucks and I'll hook you up with a gram and an addy. I'll even buy any extra stuff you got but I can't pay that much.`,
         options: [{
-          option: 'Yeah',
+          option: 'Right on, man',
           nextPage: undefined,
           aftermath: openLarryStore
         },
@@ -2868,9 +2901,9 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'drew',
         page: 8001,
-        narrative: `Drew: Hey what's up Mac. You buying or selling today?`,
+        narrative: `Drew: Hey what's up Mac. I got some fuckin swag dawg you dig? Check out this hat. Check out these shoes man. Shiiiiit. Check it out man, I'll even throw you a few bucks for any dope shit you got on ya.`,
         options: [{
-          option: 'Yeah',
+          option: 'Okayyyy',
           nextPage: undefined,
           aftermath: openDrewStore
         },

@@ -873,7 +873,7 @@ var LightWorld = new Phaser.Class({
     camera.zoom = 2;
     camera.roundPixels = true;
 
-    gameState.camera1 = this.cameras.add(950, 75, 200, 200);
+    gameState.camera1 = this.cameras.add(950, 75 + 40, 200, 200);
     gameState.camera1.zoom = .051
     //console.log(gameState.camera1)
     //sound effects and music
@@ -2691,6 +2691,8 @@ var LightWorld = new Phaser.Class({
 
     //spawning player and setting properties
     //to start at level i and get skill at level i
+    //to spawn near drew
+    //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "drew spawn point")
     //to spawn near larry
     //gameState.PlayerSpawnPoint = map.findObject("Objects", obj => obj.name === "larry spawn point")
     //party["Mac"]['level']=3; window.setTimeout(() => {skillCheck("Mac")}, 5000);
@@ -4339,6 +4341,15 @@ var LightWorld = new Phaser.Class({
       this.openDialoguePage(110)
       girl2FirstDialogue = 2
       completeQuest("Becca Wants Some Smokes")
+    }
+
+    //dialogue ai for girl3
+    else if (distance(me, girl3) < 10 && girl3FirstDialogue === 0 && trevor.joinParameter && charStyle<50) {
+      this.openDialoguePage(980)
+      girl3FirstDialogue = 1
+    } else if (distance(me, girl3) < 10 && girl3FirstDialogue <= 1 && trevor.joinParameter && charStyle>=50) {
+      this.openDialoguePage(981)
+      girl3FirstDialogue = 2
     }
 
     //ai for canjam

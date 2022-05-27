@@ -114,7 +114,12 @@ var OverworldMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    itemsText = this.add.text(175, 400, '', {
+    styleText = this.add.text(175, 380, `Style: ${charStyle}`, {
+      fontSize: '25px',
+      fill: '#fff'
+    });
+
+    itemsText = this.add.text(175, 430, '', {
       fontSize: '25px',
       fill: '#fff',
       wordWrap: {

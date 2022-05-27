@@ -37,6 +37,18 @@ from a terminal in the directory which contains the BerryTreeGame_Butler folder.
 
 To add a new item named "new item" to the possible item inventory, open inventory_items.csv in a csv file editor and create a new row with "new item" in the name column and "newitemIcon" in the "all_usable_items_icons" column. Go to globalParamsAndFunctions.js and add a new case to the function useItem for this new item if needed (only in the case that it uses new parameters unused by any existing items). Add a new 100x100 png image item.png to assets/images and load it in lightworld.js by adding this.load.image('newitemIcon', "assets/images/item.png") under the comment //menu items icons. Add any battle animations needed and add new functions to battlescene.js to handle the item use.
 
-To add a new piece of equipment... (description coming after updating equipment data management system).
+To add a new piece of equipment, just enter a new row into equipment.csv, and run the python script convert_csvs_to_jsons.py as described below to convert to json. The item will now show up as a possible battle reward according to the reward probability you assign.
 
 To add a new playable character... (description coming after updating player data management system).
+
+To update json files from csvs run the following from a terminal from the BerryTreeGame directory:
+
+```console
+cd python_scripts
+```
+
+followed by
+
+```console
+python3 convert_csvs_to_jsons.py
+```

@@ -462,7 +462,7 @@ var Unit = new Phaser.Class({
       d = Math.floor(d / 2)
       console.log('this hero is blind')
     }
-    if (Object.keys(party).includes(this.type) && party[this.type]['attackUp']>0){
+    if (Object.keys(party).includes(this.type) && party[this.type]['attackUp']>1){
       d*=party[this.type]['attackUp'] //for wine this scales by 1.2
       //party[this.type]['attackUpTurns']-=1
       console.log('attacked with extra strength')
@@ -1675,18 +1675,42 @@ var BattleScene = new Phaser.Class({
       exp += this.enemies.length * party['Mac']['level'] * 10;
       reward += Math.round(this.enemies.length * Math.ceil(party['Mac']['level'] / 5) * Math.floor(Math.random() * 3) * 30) / 100;
       money += reward;
-      let rewardKeys = Object.keys(randomEncounterRewards);
-      let rn = Math.floor(Math.random() * rewardKeys.length);
-      let rewardProbability = randomEncounterRewards[rewardKeys[rn]];
-      let rn2 = Math.random();
-      if (rn2 < rewardProbability) {
-        itemReward = rewardKeys[rn];
-        if (itemReward === "Andy Capp's Hot Fries" || itemReward === 'Labatt Max Ice' || itemReward === 'Monster' || itemReward === 'Gatorade' || itemReward === 'Hamms' || itemReward === 'Larry Special' || itemReward === 'Protein Monster' || itemReward === 'Wine') {
-          inventory[itemReward]['numberOwned']+=1
-        } else if (itemReward === 'Wife Beater' || itemReward === 'SP Booster' || itemReward === 'Damage Booster' || itemReward === 'HP Booster' || itemReward === 'Fubu Shirt' || itemReward === 'Camo Pants') {
+      let pickAType = Math.floor(Math.random() * 2);
+      if (pickAType===0){
+        let rewardKeys = Object.keys(equipment)
+        rewardKeys = rewardKeys.filter(function (currentElement) {
+          return equipment[currentElement]['randomEncounterRewards']>0
+        });
+        console.log(rewardKeys)
+        let rn = Math.floor(Math.random() * rewardKeys.length);
+        let rewardProbability = equipment[rewardKeys[rn]]['randomEncounterRewards'];
+        let rn2 = Math.random();
+        console.log(`potential reward: ${rewardKeys[rn]}`)
+        console.log(`random draw: ${rn2}`)
+        console.log(`granted if under: ${rewardProbability}`)
+        if (rn2 < rewardProbability) {
+          console.log('got it!')
+          itemReward = rewardKeys[rn];
           equipment[itemReward]['numberOwned']+=1
         }
-      };
+      } else if (pickAType===1){
+        let rewardKeys = Object.keys(inventory)
+        rewardKeys = rewardKeys.filter(function (currentElement) {
+          return inventory[currentElement]['randomEncounterRewards']>0
+        });
+        console.log(rewardKeys)
+        let rn = Math.floor(Math.random() * rewardKeys.length);
+        let rewardProbability = inventory[rewardKeys[rn]]['randomEncounterRewards'];
+        let rn2 = Math.random();
+        console.log(`potential reward: ${rewardKeys[rn]}`)
+        console.log(`random draw: ${rn2}`)
+        console.log(`granted if under: ${rewardProbability}`)
+        if (rn2 < rewardProbability) {
+          console.log('got it!')
+          itemReward = rewardKeys[rn];
+          inventory[itemReward]['numberOwned']+=1
+        }
+      }
     }
     exp *= 2 / 3
     exp = Math.floor(exp)

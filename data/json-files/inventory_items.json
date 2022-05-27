@@ -1,8 +1,8 @@
 {
     "0": {
         "name": "Andy Capp's Hot Fries",
-        "randomEncounterRewards": "0.5",
-        "itemEffects": "SP Max, HP +10",
+        "randomEncounterRewards": "0.7",
+        "itemEffects": "SP Max\nHP +10",
         "all_usable_items_icons": "andycappsIcon",
         "numberOwned": "0",
         "sp": "max",
@@ -15,8 +15,8 @@
     },
     "1": {
         "name": "Labatt Max Ice",
-        "randomEncounterRewards": "0.2",
-        "itemEffects": "HP +60, SP +15",
+        "randomEncounterRewards": "0.5",
+        "itemEffects": "HP +60\nSP +15",
         "all_usable_items_icons": "maxiceIcon",
         "numberOwned": "0",
         "sp": "15",
@@ -29,8 +29,8 @@
     },
     "2": {
         "name": "Gatorade",
-        "randomEncounterRewards": "0.4",
-        "itemEffects": "HP +60, stamina max",
+        "randomEncounterRewards": "0.7",
+        "itemEffects": "HP +60\nStamina max",
         "all_usable_items_icons": "gatoradeIcon",
         "numberOwned": "0",
         "sp": "0",
@@ -43,8 +43,8 @@
     },
     "3": {
         "name": "Monster",
-        "randomEncounterRewards": "0.4",
-        "itemEffects": "SP +10, cure status ailments",
+        "randomEncounterRewards": "0.7",
+        "itemEffects": "SP +10\nCure status ailments",
         "all_usable_items_icons": "monsterIcon",
         "numberOwned": "0",
         "sp": "10",
@@ -57,8 +57,8 @@
     },
     "4": {
         "name": "Hamms",
-        "randomEncounterRewards": "0.4",
-        "itemEffects": "HP +20 SP +5",
+        "randomEncounterRewards": "0.8",
+        "itemEffects": "HP +20\nSP +5",
         "all_usable_items_icons": "hammsIcon",
         "numberOwned": "2",
         "sp": "5",
@@ -71,8 +71,8 @@
     },
     "5": {
         "name": "Larry Special",
-        "randomEncounterRewards": "0.2",
-        "itemEffects": "HP max, SP max",
+        "randomEncounterRewards": "0.3",
+        "itemEffects": "HP max\nSP max",
         "all_usable_items_icons": "larrySpecialIcon",
         "numberOwned": "0",
         "sp": "max",
@@ -100,7 +100,7 @@
     "7": {
         "name": "Wine",
         "randomEncounterRewards": "0.6",
-        "itemEffects": "Attack +20% (3 turns) -20 stamina",
+        "itemEffects": "Attack +20% (3 turns)\nStamina -20 ",
         "all_usable_items_icons": "wineIcon",
         "numberOwned": "1",
         "sp": "0",
@@ -114,7 +114,7 @@
     "8": {
         "name": "Protein Monster",
         "randomEncounterRewards": "0.6",
-        "itemEffects": "Defense +40% (3 turns) +20 stamina",
+        "itemEffects": "Defense +40% (3 turns) \nStamina +20 ",
         "all_usable_items_icons": "proteinmonsterIcon",
         "numberOwned": "1",
         "sp": "0",
