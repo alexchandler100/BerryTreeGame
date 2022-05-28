@@ -13,6 +13,7 @@ let _timerStart = false
 let inPoolTableZone = false;
 let poolDialogue = true;
 let twoballscore = 0;
+let totaltwoballscore = 0;
 let pocketedEight = false;
 let pocketedNine = false;
 let cueHitEight = false;
@@ -1495,6 +1496,7 @@ var MyApartment = new Phaser.Class({
         pocketedEight = false;
         pocketedNine = false;
         twoballscore += 1
+        totaltwoballscore +=1
         //gameState.itemget.play()
         gameStateApt.ohShit.play()
         opportunityForExtra2 = true
@@ -1506,6 +1508,7 @@ var MyApartment = new Phaser.Class({
         pocketedEight = false;
         pocketedNine = false;
         twoballscore += 2
+        totaltwoballscore += 2
         gameState.itemget.play()
         gameStateApt.ohShit.play()
       }

@@ -109,7 +109,7 @@ var OverworldMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    poolScoreText = this.add.text(175, 350, `2-Ball Score: ${twoballscore}`, {
+    poolScoreText = this.add.text(175, 350, `Total 2-Ball Points Scored: ${totaltwoballscore}`, {
       fontSize: '25px',
       fill: '#fff'
     });

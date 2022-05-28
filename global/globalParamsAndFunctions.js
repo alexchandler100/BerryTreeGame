@@ -57,7 +57,6 @@ let trevorAptFirstDialogue = 0;
 let firstTimeCarGet = 0;
 let larryFirstTalk = 0;
 let drewFirstTalk = 0;
-
 let jeanClaudeFirstTalk = 0;
 let fratboy1FirstTalk = 0;
 let fratboy2FirstTalk = 0;
@@ -204,21 +203,6 @@ let walletGet = 0;
 let liquorGet = 0;
 let flowersGet = 0;
 let keysGet = 0;
-
-let randomEncounterRewards = {
-  "Andy Capp's Hot Fries": .5,
-  'Labatt Max Ice': .2,
-  'Gatorade': .4,
-  'Monster': .4,
-  'Hamms': .4,
-  'Larry Special': .2,
-  'Wife Beater': .2,
-  'SP Booster': .2,
-  'HP Booster': .2,
-  'Damage Booster': .2,
-  'Fubu Shirt': .2,
-  'Camo Pants': .2,
-}
 
 //to use items
 function useItem(object, player) {
@@ -478,15 +462,6 @@ function equip(piece,player){
   if (equipment[piece]['maxHPPlus']>0){
     party[player]['maxHP']+=equipment[piece]['maxHPPlus']
   }
-  if (equipment[piece]['neverMiss']==='true'){
-    party[player]['neverMiss']=true
-  }
-  if (equipment[piece]['preventBleeding']==='true'){
-    party[player]['bleedProof']=true
-  }
-  if (equipment[piece]['preventBlindness']==='true'){
-    party[player]['blindProof']=true
-  }
   if (equipment[piece]['athletics']>0){
     athletics += equipment[piece]['athletics']
   }
@@ -495,6 +470,15 @@ function equip(piece,player){
   }
   if (equipment[piece]['firstStrike']==='true'){
     firstStrike = true;
+  }
+  if (equipment[piece]['neverMiss']==='true'){
+    party[player]['neverMiss']=true
+  }
+  if (equipment[piece]['preventBleeding']==='true'){
+    party[player]['bleedProof']=true
+  }
+  if (equipment[piece]['preventBlindness']==='true'){
+    party[player]['blindProof']=true
   }
 }
 
@@ -512,15 +496,6 @@ function unequip(piece,player){ //problem: if I equip two pieces with nevermiss 
   if (equipment[piece]['maxHPPlus']>0){
     party[player]['maxHP']-=equipment[piece]['maxHPPlus']
   }
-  if (equipment[piece]['neverMiss']==='true'){
-    party[player]['neverMiss']=false
-  }
-  if (equipment[piece]['preventBleeding']==='true'){
-    party[player]['bleedProof']=false
-  }
-  if (equipment[piece]['preventBlindness']==='true'){
-    party[player]['blindProof']=false
-  }
   if (equipment[piece]['athletics']>0){
     athletics -= equipment[piece]['athletics']
   }
@@ -529,6 +504,15 @@ function unequip(piece,player){ //problem: if I equip two pieces with nevermiss 
   }
   if (equipment[piece]['firstStrike']==='true'){
     firstStrike = false;
+  }
+  if (equipment[piece]['neverMiss']==='true'){
+    party[player]['neverMiss']=false
+  }
+  if (equipment[piece]['preventBleeding']==='true'){
+    party[player]['bleedProof']=false
+  }
+  if (equipment[piece]['preventBlindness']==='true'){
+    party[player]['blindProof']=false
   }
 }
 
@@ -1189,7 +1173,7 @@ function getJonItem() { //jon gives you sprinting shoes
 }
 
 function alCheckhamms() { //al checks if you have hamms and weed, if so, he joins your party
-  if (hamms >= 4 && items.includes("Weed (2g)")) {
+  if (inventory['Hamms']['numberOwned'] >= 4 && items.includes("Weed (2g)")) {
     gunTalk = 1
   }
   beatbox = 1
@@ -1371,5 +1355,3 @@ window.setTimeout(()=>{
     }
   }
 },250)
-
-// expected output: 42
