@@ -84,9 +84,8 @@ var EquipmentMenu = new Phaser.Class({
       let unequipped = equipment[a_item]['numberOwned'] - equipment[a_item]['equipped']
       if (unequipped>0){
         for (let i=0;i<unequipped;i++){
-          //console.log(a_item)
           gameState4.newText[a_item]=this.add.text(xcoord4, ycoord4, `${a_item}`, {
-            fontSize: '25px',
+            fontSize: '20px',
             fill: playerColorsEquip[equipment[a_item]['character']]
           }).setDepth(1);
           gameState4.newText[a_item].setInteractive();
@@ -96,7 +95,7 @@ var EquipmentMenu = new Phaser.Class({
             ycoord4=140
           }
           else{
-            ycoord4+=40
+            ycoord4+=30
           }
         }
       }
@@ -158,107 +157,119 @@ this.input.on('pointerout', function (pointer, justOut) {
   }
 });
 
-let nameFontSize = '25px';
-let typeFontSize = '20px';
-let vgap1 = 30;
-let vgap2 = 20;
-let vgap3 = 40;
+let nameFontSize = '20px';
+let typeFontSize = '15px';
+let vgap1 = 25;
+let vgap2 = 15;
+let vgap3 = 50;
 let hgap1 = 70;
 let hgap2 = 140;
+
+function pickStyle(font, char, align){
+  return {
+    fontSize: font,
+    fill: playerColorsEquip[char],
+    align: align
+  }
+}
 
     macText = this.add.text(225, 100, `Mac`, {
       fontSize: nameFontSize,
       fill: playerColorsEquip['Mac']
     });
 
+    // Mac Body
     macBodyText = this.add.text(125, 100 + vgap1, `Body: `, {
       fontSize: typeFontSize,
       fill: '#fff'
     });
-
     macBodyEquippedText = this.add.text(125+hgap1, 100 + vgap1, `${equipped["Mac"].upper}`, {
       fontSize: typeFontSize,
       fill: playerColorsEquip['Mac']
     }).setDepth(1);
     macBodyEquippedText.setInteractive().on('pointerdown', function(){
       if (macBodyEquippedText._text!==''){
-        //apply function to take status effects off from equipment
         unequip(equipped["Mac"].upper,"Mac")
-        //put the equipped item back in inventory
         equipped["Mac"].upper=''
         macBodyEquippedText.setText('')
         redisplay=true
       }
     })
-    //this.input.setDraggable(macBodyEquippedText);
-
     //  A drop zone for mac body text
     var zoneMacBody = this.add.zone(125+hgap1+75, 100 + vgap1 +15, 170, 30).setRectangleDropZone(170, 30);
-
-    //  Just a visual display of the drop zone
     var graphicsMacBody = this.add.graphics();
     graphicsMacBody.lineStyle(2, 0xffff00);
     graphicsMacBody.strokeRect(zoneMacBody.x - zoneMacBody.input.hitArea.width/2, zoneMacBody.y-zoneMacBody.input.hitArea.height/2, zoneMacBody.input.hitArea.width, zoneMacBody.input.hitArea.height);
     graphicsMacBody.visible=false;
 
+    //Mac Legs
     macLegsText = this.add.text(125, 100 +vgap1 + vgap2, `Legs: `, {
       fontSize: typeFontSize,
       fill: '#fff'
     });
-
     macLegsEquippedText = this.add.text(125+hgap1, 100 +vgap1 + vgap2, `${equipped["Mac"].lower}`, {
       fontSize: typeFontSize,
       fill: playerColorsEquip['Mac']
     }).setDepth(1);
     macLegsEquippedText.setInteractive().on('pointerdown', function(){
       if (macLegsEquippedText._text!==''){
-        //apply function to take status effects off from equipment
         unequip(equipped["Mac"].lower,"Mac")
-        //put the equipped item back in inventory
         equipped["Mac"].lower=''
         macLegsEquippedText.setText('')
         redisplay=true
       }
     })
-    //this.input.setDraggable(macLegsEquippedText);
-
-    //  A drop zone for mac legs text
     var zoneMacLegs = this.add.zone(125+hgap1+75, 100+vgap1+vgap2+15, 170, 30).setRectangleDropZone(170, 30);
-
-    //  Just a visual display of the drop zone
     var graphicsMacLegs = this.add.graphics();
     graphicsMacLegs.lineStyle(2, 0xffff00);
     graphicsMacLegs.strokeRect(zoneMacLegs.x - zoneMacLegs.input.hitArea.width/2, zoneMacLegs.y-zoneMacLegs.input.hitArea.height/2, zoneMacLegs.input.hitArea.width, zoneMacLegs.input.hitArea.height);
     graphicsMacLegs.visible=false;
 
+    //mac accessory
     macAccessoryText = this.add.text(125, 100 + vgap1+2*vgap2, `Accessory: `, {
       fontSize: typeFontSize,
       fill: '#fff'
     });
-
     macAccessoryEquippedText = this.add.text(125 + hgap2, 100 + vgap1+2*vgap2, `${equipped["Mac"].accessory}`, {
       fontSize: typeFontSize,
       fill: playerColorsEquip['all']
     }).setDepth(1);
     macAccessoryEquippedText.setInteractive().on('pointerdown', function(){
       if (macAccessoryEquippedText._text!==''){
-        //apply function to take status effects off from equipment
         unequip(equipped["Mac"].accessory,"Mac")
         equipped["Mac"].accessory=''
         macAccessoryEquippedText.setText('')
         redisplay=true
       }
     })
-    //this.input.setDraggable(macAccessoryEquippedText);
-
-    //  A drop zone for mac accessory
     var zoneMacAccessory = this.add.zone(125+hgap2+75, 100+vgap1+2*vgap2 + 15, 170, 30).setRectangleDropZone(170, 30);
-
-    //  Just a visual display of the drop zone
     var graphicsMacAccessory = this.add.graphics();
     graphicsMacAccessory.lineStyle(2, 0xffff00);
     graphicsMacAccessory.strokeRect(zoneMacAccessory.x - zoneMacAccessory.input.hitArea.width/2, zoneMacAccessory.y-zoneMacAccessory.input.hitArea.height/2, zoneMacAccessory.input.hitArea.width, zoneMacAccessory.input.hitArea.height);
     graphicsMacAccessory.visible=false;
+
+    //mac accessory2
+    macAccessory2Text = this.add.text(125, 100 + vgap1+3*vgap2, `Accessory 2: `, {
+      fontSize: typeFontSize,
+      fill: '#fff'
+    });
+    macAccessory2EquippedText = this.add.text(125 + hgap2, 100 + vgap1+3*vgap2, `${equipped["Mac"].accessory2}`, {
+      fontSize: typeFontSize,
+      fill: playerColorsEquip['all']
+    }).setDepth(1);
+    macAccessory2EquippedText.setInteractive().on('pointerdown', function(){
+      if (macAccessory2EquippedText._text!==''){
+        unequip(equipped["Mac"].accessory2,"Mac")
+        equipped["Mac"].accessory2=''
+        macAccessory2EquippedText.setText('')
+        redisplay=true
+      }
+    })
+    var zoneMacAccessory2 = this.add.zone(125+hgap2+75, 100+vgap1+3*vgap2 + 15, 170, 30).setRectangleDropZone(170, 30);
+    var graphicsMacAccessory2 = this.add.graphics();
+    graphicsMacAccessory2.lineStyle(2, 0xffff00);
+    graphicsMacAccessory2.strokeRect(zoneMacAccessory2.x - zoneMacAccessory2.input.hitArea.width/2, zoneMacAccessory2.y-zoneMacAccessory2.input.hitArea.height/2, zoneMacAccessory2.input.hitArea.width, zoneMacAccessory2.input.hitArea.height);
+    graphicsMacAccessory2.visible=false;
 
 
     if (al.following){
@@ -332,6 +343,27 @@ let hgap2 = 140;
         }
       })
       var zoneAlAccessory = this.add.zone(125+hgap2+75, 100 + 2*vgap1 + 4*vgap2 + vgap3 +15, 170, 30).setRectangleDropZone(170, 30);
+
+    //al accessory2
+    alAccessory2Text = this.add.text(125, 100 + 2*vgap1 + 5*vgap2 + vgap3, `Accessory2: `, {
+      fontSize: typeFontSize,
+      fill: '#fff'
+    });
+
+    alAccessory2EquippedText = this.add.text(125+hgap2, 100 + 2*vgap1 + 5*vgap2 + vgap3, `${equipped["Al"].accessory2}`, {
+      fontSize: typeFontSize,
+      fill: playerColorsEquip['all']
+    }).setDepth(1);
+    alAccessory2EquippedText.setInteractive().on('pointerdown', function(){
+      if (alAccessory2EquippedText._text!==''){
+        //apply function to take status effects off from equipment
+        unequip(equipped["Al"].accessory2,"Al")
+        equipped["Al"].accessory2=''
+        alAccessory2EquippedText.setText('')
+        redisplay=true
+      }
+    })
+    var zoneAlAccessory2 = this.add.zone(125+hgap2+75, 100 + 2*vgap1 + 5*vgap2 + vgap3 +15, 170, 30).setRectangleDropZone(170, 30);
     }
 
     if (trevor.following){
@@ -404,10 +436,28 @@ let hgap2 = 140;
           redisplay=true
         }
       })
-      //this.input.setDraggable(jimmyAccessoryEquippedText);
-
-      //  A drop zone for mac body text
       var zoneJimmyAccessory = this.add.zone(125+hgap2+75, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+
+      ///jimmy accessory 2
+      jimmyAccessory2Text = this.add.text(125, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3, `Accessory2: `, {
+        fontSize: typeFontSize,
+        fill: '#fff'
+      });
+
+      jimmyAccessory2EquippedText = this.add.text(125+hgap2, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3, `${equipped["Jimmy"].accessory2}`, {
+        fontSize: typeFontSize,
+        fill: playerColorsEquip['all']
+      }).setDepth(1);
+      jimmyAccessory2EquippedText.setInteractive().on('pointerdown', function(){
+        if (jimmyAccessory2EquippedText._text!==''){
+          //apply function to take status effects off from equipment
+          unequip(equipped["Jimmy"].accessory2,"Jimmy")
+          equipped["Jimmy"].accessory2=''
+          jimmyAccessory2EquippedText.setText('')
+          redisplay=true
+        }
+      })
+      var zoneJimmyAccessory2 = this.add.zone(125+hgap2+75, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
     }
 
     if (bennett.following){
@@ -466,7 +516,6 @@ let hgap2 = 140;
         fontSize: typeFontSize,
         fill: '#fff'
       });
-
       bennettAccessoryEquippedText = this.add.text(125+hgap2, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3, `${equipped["Bennett"].accessory}`, {
         fontSize: typeFontSize,
         fill: playerColorsEquip['all']
@@ -480,10 +529,28 @@ let hgap2 = 140;
           redisplay=true
         }
       })
-      //this.input.setDraggable(bennettAccessoryEquippedText);
-
-      //  A drop zone for mac body text
       var zoneBennettAccessory = this.add.zone(125+hgap2+75, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+
+      //bennett accessory2
+      bennettAccessory2Text = this.add.text(125, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `Accessory2: `, {
+        fontSize: typeFontSize,
+        fill: '#fff'
+      });
+      bennettAccessory2EquippedText = this.add.text(125+hgap2, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `${equipped["Bennett"].accessory2}`, {
+        fontSize: typeFontSize,
+        fill: playerColorsEquip['all']
+      }).setDepth(1);
+      bennettAccessory2EquippedText.setInteractive().on('pointerdown', function(){
+        if (bennettAccessory2EquippedText._text!==''){
+          //apply function to take status effects off from equipment
+          unequip(equipped["Bennett"].accessory2,"Bennett")
+          equipped["Bennett"].accessory2=''
+          bennettAccessory2EquippedText.setText('')
+          redisplay=true
+        }
+      })
+      var zoneBennettAccessory2 = this.add.zone(125+hgap2+75, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+
     }
 
 
@@ -527,6 +594,19 @@ let hgap2 = 140;
         //apply the status effects of new equipment item
         equip(equipped["Mac"].accessory,"Mac")
       }
+      else if (dropZone===zoneMacAccessory2 && equipment[gameObject._text]['type']==="accessory"){
+        //apply function to take status effects off from equipment
+        if (equipped["Mac"].accessory2){
+          unequip(equipped["Mac"].accessory2,"Mac")
+        }
+        //equip the new item
+        equipped['Mac'].accessory2 = gameObject._text;
+        macAccessory2EquippedText.setText(gameObject._text);
+        //get rid of the unneeded text object and remove the newly equipped item from inventory
+        gameObject.destroy();
+        //apply the status effects of new equipment item
+        equip(equipped["Mac"].accessory2,"Mac")
+      }
       else if (dropZone===zoneAlBody && equipment[gameObject._text]['type']==="Al_upper"){
         if (equipped["Al"].upper){
           unequip(equipped["Al"].upper,"Al")
@@ -554,6 +634,15 @@ let hgap2 = 140;
         gameObject.destroy();
         equip(equipped["Al"].accessory,"Al")
       }
+      else if (dropZone===zoneAlAccessory2 && equipment[gameObject._text]['type']==="accessory"){
+        if (equipped["Al"].accessory2){
+          unequip(equipped["Al"].accessory2,"Al")
+        }
+        equipped['Al'].accessory2 = gameObject._text;
+        alAccessory2EquippedText.setText(gameObject._text);
+        gameObject.destroy();
+        equip(equipped["Al"].accessory2,"Al")
+      }
       else if (dropZone===zoneJimmyBody && equipment[gameObject._text]['type']==="Jimmy_upper"){
         if (equipped["Jimmy"].upper){
           unequip(equipped["Jimmy"].upper,"Jimmy")
@@ -580,6 +669,14 @@ let hgap2 = 140;
         jimmyAccessoryEquippedText.setText(gameObject._text);
         gameObject.destroy();
         equip(equipped["Jimmy"].accessory,"Jimmy")
+      } else if (dropZone===zoneJimmyAccessory2 && equipment[gameObject._text]['type']==="accessory"){
+        if (equipped["Jimmy"].accessory2){
+          unequip(equipped["Jimmy"].accessory2,"Jimmy")
+        }
+        equipped['Jimmy'].accessory2 = gameObject._text;
+        jimmyAccessory2EquippedText.setText(gameObject._text);
+        gameObject.destroy();
+        equip(equipped["Jimmy"].accessory2,"Jimmy")
       } else if (dropZone===zoneBennettBody && equipment[gameObject._text]['type']==="Bennett_upper"){
         if (equipped["Bennett"].upper){
           unequip(equipped["Bennett"].upper,"Bennett")
@@ -606,6 +703,14 @@ let hgap2 = 140;
         bennettAccessoryEquippedText.setText(gameObject._text);
         gameObject.destroy();
         equip(equipped["Bennett"].accessory,"Bennett")
+      } else if (dropZone===zoneBennettAccessory2 && equipment[gameObject._text]['type']==="accessory"){
+        if (equipped["Bennett"].accessory2){
+          unequip(equipped["Bennett"].accessory2,"Bennett")
+        }
+        equipped['Bennett'].accessory2 = gameObject._text;
+        bennettAccessory2EquippedText.setText(gameObject._text);
+        gameObject.destroy();
+        equip(equipped["Bennett"].accessory2,"Bennett")
       }
       else {
         gameObject.destroy()
@@ -652,7 +757,7 @@ let hgap2 = 140;
           for (let i=0;i<unequipped;i++){
             //console.log(a_item)
             gameState4.newText[a_item]=this.add.text(xcoord4, ycoord4, `${a_item}`, {
-              fontSize: '25px',
+              fontSize: '20px',
               fill: playerColorsEquip[equipment[a_item]['character']]
             }).setDepth(1);
             gameState4.newText[a_item].setInteractive();
@@ -662,7 +767,7 @@ let hgap2 = 140;
               ycoord4=140
             }
             else{
-              ycoord4+=40
+              ycoord4+=30
             }
           }
         }
