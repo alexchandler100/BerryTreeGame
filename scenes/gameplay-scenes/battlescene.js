@@ -1676,22 +1676,38 @@ var BattleScene = new Phaser.Class({
       reward += Math.round(this.enemies.length * Math.ceil(party['Mac']['level'] / 5) * Math.floor(Math.random() * 3) * 30) / 100;
       money += reward;
       let pickAType = Math.floor(Math.random() * 2);
+      //pickAType = 0; //to force equipment reward
       if (pickAType===0){
-        let rewardKeys = Object.keys(equipment)
-        rewardKeys = rewardKeys.filter(function (currentElement) {
-          return equipment[currentElement]['randomEncounterRewards']>0
-        });
-        console.log(rewardKeys)
-        let rn = Math.floor(Math.random() * rewardKeys.length);
-        let rewardProbability = equipment[rewardKeys[rn]]['randomEncounterRewards'];
-        let rn2 = Math.random();
-        console.log(`potential reward: ${rewardKeys[rn]}`)
-        console.log(`random draw: ${rn2}`)
-        console.log(`granted if under: ${rewardProbability}`)
-        if (rn2 < rewardProbability) {
-          console.log('got it!')
-          itemReward = rewardKeys[rn];
-          equipment[itemReward]['numberOwned']+=1
+        let magicOrLegendary = Math.floor(Math.random()*10);
+        if (magicOrLegendary===0){ //grant a legendary item
+          let rewardKeys = Object.keys(equipment)
+          rewardKeys = rewardKeys.filter(function (currentElement) {
+            return equipment[currentElement]['randomEncounterRewards']>0
+          });
+          console.log(rewardKeys)
+          let rn = Math.floor(Math.random() * rewardKeys.length);
+          let rewardProbability = equipment[rewardKeys[rn]]['randomEncounterRewards'];
+          let rn2 = Math.random();
+          console.log(`potential reward: ${rewardKeys[rn]}`);
+          console.log(`random draw: ${rn2}`);
+          console.log(`granted if under: ${rewardProbability}`);
+          if (rn2 < rewardProbability) {
+            console.log('got it!');
+            itemReward = rewardKeys[rn];
+            equipment[itemReward]['numberOwned']+=1;
+          }
+        } else { //generate a random magic item half the time
+          console.log(`generating a random magic item`)
+          rn3 = Math.random();
+          itemRewardPiece = generateRandomEquipment()
+          console.log(itemRewardPiece)
+          let threshold = .4 //change to 1 for testing but .4 for gameplay
+          console.log(`magic item draw: ${rn3} needs to be under ${threshold} to award`)
+          if (rn3<threshold){
+            itemReward = itemRewardPiece['name']
+            equipment[itemReward]=itemRewardPiece
+            console.log('got it!')
+          }
         }
       } else if (pickAType===1){
         let rewardKeys = Object.keys(inventory)

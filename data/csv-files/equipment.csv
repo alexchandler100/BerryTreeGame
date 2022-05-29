@@ -1,44 +1,66 @@
-name,type,numberOwned,equipped,character,randomEncounterRewards,value,def,effect,style,damagePlus,maxSPPlus,maxHPPlus,neverMiss,firstStrike,preventBleeding,preventBlindness,athletics
-Camo T-Shirt,Mac_upper,1,1,Mac,0,5,2,none,0,0,0,0,false,false,false,false,0
-Jeans,Mac_lower,1,1,Mac,0,5,1,none,0,0,0,0,false,false,false,false,0
-Blue Shirt,Jimmy_upper,1,1,Jimmy,0,5,3,none,0,0,0,0,false,false,false,false,0
-Snowpants,Jimmy_lower,1,1,Jimmy,0,5,1,none,0,0,0,0,false,false,false,false,0
-Red Shirt,Al_upper,1,1,Al,0,5,3,none,0,0,0,0,false,false,false,false,0
-Red Sweatpants,Al_lower,1,1,Al,0,5,2,none,0,0,0,0,false,false,false,false,0
-Running Shirt,Bennett_upper,1,1,Bennett,0,5,5,none,0,0,0,0,false,false,false,false,0
-Running Shorts,Bennett_lower,1,1,Bennett,0,5,3,none,0,0,0,0,false,false,false,false,0
-Wife Beater,Mac_upper,0,0,Mac,0.5,5,1,Damage +5,0,5,0,0,false,false,false,false,0
-Camo Hoody,Mac_upper,0,0,Mac,0.4,20,20,first strike,0,0,0,0,false,true,false,false,0
-Camo Pants,Mac_lower,0,0,Mac,0.4,15,10,never miss,0,0,0,0,true,false,false,false,0
-Fubu Shirt,Al_upper,0,0,Al,0.4,30,12,"style +5
-Max HP +10",5,0,0,10,false,false,false,false,0
-JNCO Jeans,Al_lower,0,0,Al,0.4,30,10,"style +5
-Max SP +5",5,0,5,0,false,false,false,false,0
-Bear Shirt,Jimmy_upper,0,0,Jimmy,0.4,10,12,"Damage +2
-Has a picture
-of a bear on it",0,2,0,0,false,false,false,false,0
-Jorts,Jimmy_lower,0,0,Jimmy,0.4,10,15,athletics +0.1,0,0,0,0,false,false,false,false,0.1
-SP Booster,accessory,0,0,all,0.3,20,4,Max SP +6,0,0,6,0,false,false,false,false,0
-HP Booster,accessory,0,0,all,0.3,20,4,Max HP +20,0,0,0,20,false,false,false,false,0
-Damage Booster,accessory,0,0,all,0.4,20,5,"Damage +4
-Never miss",0,4,0,0,true,false,false,false,0
-Brass Knuckles,accessory,0,0,all,0.2,30,0,Damage +15,0,15,0,0,false,false,false,false,0
-Gold Duck Tape,accessory,0,0,all,0.2,5,10,Prevents Bleeding,0,0,0,0,false,false,true,false,0
-Camo Duck Tape,accessory,0,0,all,0.2,5,10,Prevents Blindness,0,0,0,0,false,false,false,true,0
-Sprinting Shoes,accessory,0,0,all,0,50,0,"Athletics +.35
-First Strike",0,0,0,0,false,true,false,false,0.35
-Dio Band,accessory,0,0,all,0,1000,30,"An Unholy Relic
-Prevents Bleeding
-Prevents Blindness
-Damage + 25",0,25,0,0,false,false,true,true,0
+name,type,numberOwned,equipped,character,randomEncounterRewards,value,def,effect,style,damagePlus,maxSPPlus,maxHPPlus,neverMiss,firstStrike,preventBleeding,preventBlindness,athletics,neverMissValue1,neverMissValue2,firstStrikeValue1,firstStrikeValue2,preventBleedingValue1,preventBleedingValue2,preventBlindnessValue1,preventBlindnessValue2
+Camo T-Shirt,Mac_upper,1,1,Mac,0,2,2,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Jeans,Mac_lower,1,1,Mac,0,1,1,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Blue Shirt,Jimmy_upper,1,1,Jimmy,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Brown Pants,Jimmy_lower,1,1,Jimmy,0,1,1,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Red Shirt,Al_upper,1,1,Al,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Red Sweatpants,Al_lower,1,1,Al,0,2,2,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Running Shirt,Bennett_upper,1,1,Bennett,0,5,5,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Running Shorts,Bennett_lower,1,1,Bennett,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Snowpants,Jimmy_lower,0,0,Jimmy,0.2,55,25,"Style +10
+        Damage +10
+        Never miss",10,10,0,0,true,false,false,false,0,10,10,false,0,false,0,false,0
+Poncho,Mac_upper,0,0,Mac,0.2,61,20,"Damage +15
+        Prevents Bleeding
+        Max SP +16
+        Style +10 (if worn with Sombrero)",10,5,16,0,false,false,true,false,0,false,0,false,0,10,10,false,0
+Camo Hoody,Mac_upper,0,0,Mac,0.2,60,20,"First strike
+        Damage +10
+        Never miss
+        Style +10 (if worn with Camo Pants)",10,10,0,0,true,true,false,false,0,10,10,10,10,false,0,false,0
+Camo Pants,Mac_lower,0,0,Mac,0.2,60,10,"First strike
+        Damage +10
+        Max HP +20
+        Style +10 (if worn with Camo Hoody)",10,10,0,20,true,false,false,false,0,10,10,false,0,false,0,false,0
+Fubu Shirt,Al_upper,0,0,Al,0.2,57,12,"style +20
+        Max HP +10
+        Damage +15",20,15,0,10,false,false,false,false,0,false,0,false,0,false,0,false,0
+JNCO Jeans,Al_lower,0,0,Al,0.2,36,10,"style +10
+        Damage +7
+        Athletics -0.1
+        Max SP +10",10,7,10,0,false,false,false,false,-0.1,false,0,false,0,false,0,false,0
+Bear Shirt,Jimmy_upper,0,0,Jimmy,0.2,28,12,"Damage +8
+        Style + 8
+        Has a picture
+        of a bear on it",8,8,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Deer Shirt,Jimmy_upper,0,0,Jimmy,0.2,40,15,"Never miss
+        Prevent Bleeding
+        Style + 5
+        Has a picture
+        of a deer on it",5,0,0,0,true,false,true,false,0,10,10,false,0,10,10,false,0
+SP Booster,accessory,0,0,all,0.3,10,4,Max SP +6,0,0,6,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+HP Booster,accessory,0,0,all,0.3,24,4,Max HP +20,0,0,0,20,false,false,false,false,0,false,0,false,0,false,0,false,0
+Damage Booster,accessory,0,0,all,0.4,19,5,"Damage +4
+        Never miss",0,4,0,0,true,false,false,false,0,10,10,false,0,false,0,false,0
+Brass Knuckles,accessory,0,0,all,0.2,15,0,Damage +15,0,15,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Gold Duck Tape,accessory,0,0,all,0.2,20,10,Prevents Bleeding,0,0,0,0,false,false,true,false,0,false,0,false,0,10,10,false,0
+Camo Duck Tape,accessory,0,0,all,0.2,20,10,Prevents Blindness,0,0,0,0,false,false,false,true,0,false,0,false,0,false,0,10,10
+Sprinting Shoes,accessory,0,0,all,0,13.5,0,"Athletics +.35
+        First Strike",0,0,0,0,false,true,false,false,0.35,false,0,10,10,false,0,false,0
+Dio Band,accessory,0,0,all,0,150,30,"An Unholy Relic
+        Prevents Bleeding
+        Prevents Blindness
+        Damage + 25
+        HP +50
+        SP +25",0,25,25,50,false,false,true,true,0,false,0,false,0,10,10,10,10
 Flat Bill Hat,accessory,0,0,all,0.3,20,3,"Style +10
-Damage +7",10,7,0,0,false,false,false,false,0
-Alligator Boots,accessory,0,0,all,0.2,40,5,"Style +20
-Max SP +10",20,0,10,0,false,false,false,false,0
-Kanye Sunglasses,accessory,0,0,all,0.2,50,4,"Style +15
-Never miss
-Damage +5",15,5,0,0,true,false,false,false,0
-Gold Chain,accessory,0,0,all,0.2,50,6,"Style +15
-Max HP +10
-Max SP +4
-First Strike",15,0,4,10,true,true,false,false,0
+        Damage +7",10,7,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Alligator Boots,accessory,0,0,all,0.2,35,5,"Style +20
+        Max SP +10",20,0,10,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Kanye Sunglasses,accessory,0,0,all,0.2,34,4,"Style +15
+        Never miss
+        Damage +5",15,5,0,0,true,false,false,false,0,10,10,false,0,false,0,false,0
+Gold Chain,accessory,0,0,all,0.2,55,6,"Style +15
+        Max HP +10
+        Max SP +4
+        First Strike",15,0,4,10,true,true,false,false,0,10,10,10,10,false,0,false,0

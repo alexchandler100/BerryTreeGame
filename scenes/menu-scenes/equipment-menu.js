@@ -72,26 +72,27 @@ var EquipmentMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    inventoryText = this.add.text(750, 100, `Inventory: `, {
+    inventoryText = this.add.text(690, 100, `Inventory: `, {
       fontSize: '25px',
       fill: '#fff'
     });
 
     gameState4.newText={}
-    let xcoord4 = 630;
+    let xcoord4 = 570;
     let ycoord4 = 140;
     for (a_item of Object.keys(equipment)) {
       let unequipped = equipment[a_item]['numberOwned'] - equipment[a_item]['equipped']
       if (unequipped>0){
         for (let i=0;i<unequipped;i++){
+          //console.log(a_item)
           gameState4.newText[a_item]=this.add.text(xcoord4, ycoord4, `${a_item}`, {
-            fontSize: '20px',
+            fontSize: '15px',
             fill: playerColorsEquip[equipment[a_item]['character']]
           }).setDepth(1);
           gameState4.newText[a_item].setInteractive();
           this.input.setDraggable(gameState4.newText[a_item]);
           if (ycoord4>=500){
-            xcoord4=870
+            xcoord4=810
             ycoord4=140
           }
           else{
@@ -165,7 +166,7 @@ let vgap3 = 50;
 let hgap1 = 70;
 let hgap2 = 140;
 
-function pickStyle(font, char, align){
+function pickStyle(font, char, align='left'){
   return {
     fontSize: font,
     fill: playerColorsEquip[char],
@@ -173,20 +174,10 @@ function pickStyle(font, char, align){
   }
 }
 
-    macText = this.add.text(225, 100, `Mac`, {
-      fontSize: nameFontSize,
-      fill: playerColorsEquip['Mac']
-    });
-
+    macText = this.add.text(250, 100, `Mac`, pickStyle(nameFontSize, 'Mac','left')).setOrigin(.5,0);
     // Mac Body
-    macBodyText = this.add.text(125, 100 + vgap1, `Body: `, {
-      fontSize: typeFontSize,
-      fill: '#fff'
-    });
-    macBodyEquippedText = this.add.text(125+hgap1, 100 + vgap1, `${equipped["Mac"].upper}`, {
-      fontSize: typeFontSize,
-      fill: playerColorsEquip['Mac']
-    }).setDepth(1);
+    macBodyText = this.add.text(245, 100 + vgap1, `Body: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+    macBodyEquippedText = this.add.text(255, 100 + vgap1, `${equipped["Mac"].upper}`, pickStyle(typeFontSize, 'Mac','left')).setOrigin(0,0).setDepth(1);
     macBodyEquippedText.setInteractive().on('pointerdown', function(){
       if (macBodyEquippedText._text!==''){
         unequip(equipped["Mac"].upper,"Mac")
@@ -196,21 +187,17 @@ function pickStyle(font, char, align){
       }
     })
     //  A drop zone for mac body text
-    var zoneMacBody = this.add.zone(125+hgap1+75, 100 + vgap1 +15, 170, 30).setRectangleDropZone(170, 30);
+    var zoneMacBody = this.add.zone(340, 100 + vgap1 +15, 170, 30).setRectangleDropZone(170, 30);
+    /*
     var graphicsMacBody = this.add.graphics();
     graphicsMacBody.lineStyle(2, 0xffff00);
     graphicsMacBody.strokeRect(zoneMacBody.x - zoneMacBody.input.hitArea.width/2, zoneMacBody.y-zoneMacBody.input.hitArea.height/2, zoneMacBody.input.hitArea.width, zoneMacBody.input.hitArea.height);
     graphicsMacBody.visible=false;
+    */
 
     //Mac Legs
-    macLegsText = this.add.text(125, 100 +vgap1 + vgap2, `Legs: `, {
-      fontSize: typeFontSize,
-      fill: '#fff'
-    });
-    macLegsEquippedText = this.add.text(125+hgap1, 100 +vgap1 + vgap2, `${equipped["Mac"].lower}`, {
-      fontSize: typeFontSize,
-      fill: playerColorsEquip['Mac']
-    }).setDepth(1);
+    macLegsText = this.add.text(245, 100 +vgap1 + vgap2, `Legs: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+    macLegsEquippedText = this.add.text(255, 100 +vgap1 + vgap2, `${equipped["Mac"].lower}`, pickStyle(typeFontSize, 'Mac','left')).setOrigin(0,0).setDepth(1);
     macLegsEquippedText.setInteractive().on('pointerdown', function(){
       if (macLegsEquippedText._text!==''){
         unequip(equipped["Mac"].lower,"Mac")
@@ -219,21 +206,11 @@ function pickStyle(font, char, align){
         redisplay=true
       }
     })
-    var zoneMacLegs = this.add.zone(125+hgap1+75, 100+vgap1+vgap2+15, 170, 30).setRectangleDropZone(170, 30);
-    var graphicsMacLegs = this.add.graphics();
-    graphicsMacLegs.lineStyle(2, 0xffff00);
-    graphicsMacLegs.strokeRect(zoneMacLegs.x - zoneMacLegs.input.hitArea.width/2, zoneMacLegs.y-zoneMacLegs.input.hitArea.height/2, zoneMacLegs.input.hitArea.width, zoneMacLegs.input.hitArea.height);
-    graphicsMacLegs.visible=false;
+    var zoneMacLegs = this.add.zone(340, 100+vgap1+vgap2+15, 170, 30).setRectangleDropZone(170, 30);
 
     //mac accessory
-    macAccessoryText = this.add.text(125, 100 + vgap1+2*vgap2, `Accessory: `, {
-      fontSize: typeFontSize,
-      fill: '#fff'
-    });
-    macAccessoryEquippedText = this.add.text(125 + hgap2, 100 + vgap1+2*vgap2, `${equipped["Mac"].accessory}`, {
-      fontSize: typeFontSize,
-      fill: playerColorsEquip['all']
-    }).setDepth(1);
+    macAccessoryText = this.add.text(245, 100 + vgap1+2*vgap2, `Accessory: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+    macAccessoryEquippedText = this.add.text(255, 100 + vgap1+2*vgap2, `${equipped["Mac"].accessory}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
     macAccessoryEquippedText.setInteractive().on('pointerdown', function(){
       if (macAccessoryEquippedText._text!==''){
         unequip(equipped["Mac"].accessory,"Mac")
@@ -242,21 +219,11 @@ function pickStyle(font, char, align){
         redisplay=true
       }
     })
-    var zoneMacAccessory = this.add.zone(125+hgap2+75, 100+vgap1+2*vgap2 + 15, 170, 30).setRectangleDropZone(170, 30);
-    var graphicsMacAccessory = this.add.graphics();
-    graphicsMacAccessory.lineStyle(2, 0xffff00);
-    graphicsMacAccessory.strokeRect(zoneMacAccessory.x - zoneMacAccessory.input.hitArea.width/2, zoneMacAccessory.y-zoneMacAccessory.input.hitArea.height/2, zoneMacAccessory.input.hitArea.width, zoneMacAccessory.input.hitArea.height);
-    graphicsMacAccessory.visible=false;
+    var zoneMacAccessory = this.add.zone(340, 100+vgap1+2*vgap2 + 15, 170, 30).setRectangleDropZone(170, 30);
 
     //mac accessory2
-    macAccessory2Text = this.add.text(125, 100 + vgap1+3*vgap2, `Accessory 2: `, {
-      fontSize: typeFontSize,
-      fill: '#fff'
-    });
-    macAccessory2EquippedText = this.add.text(125 + hgap2, 100 + vgap1+3*vgap2, `${equipped["Mac"].accessory2}`, {
-      fontSize: typeFontSize,
-      fill: playerColorsEquip['all']
-    }).setDepth(1);
+    macAccessory2Text = this.add.text(245, 100 + vgap1+3*vgap2, `Accessory 2: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+    macAccessory2EquippedText = this.add.text(255, 100 + vgap1+3*vgap2, `${equipped["Mac"].accessory2}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
     macAccessory2EquippedText.setInteractive().on('pointerdown', function(){
       if (macAccessory2EquippedText._text!==''){
         unequip(equipped["Mac"].accessory2,"Mac")
@@ -265,346 +232,196 @@ function pickStyle(font, char, align){
         redisplay=true
       }
     })
-    var zoneMacAccessory2 = this.add.zone(125+hgap2+75, 100+vgap1+3*vgap2 + 15, 170, 30).setRectangleDropZone(170, 30);
-    var graphicsMacAccessory2 = this.add.graphics();
-    graphicsMacAccessory2.lineStyle(2, 0xffff00);
-    graphicsMacAccessory2.strokeRect(zoneMacAccessory2.x - zoneMacAccessory2.input.hitArea.width/2, zoneMacAccessory2.y-zoneMacAccessory2.input.hitArea.height/2, zoneMacAccessory2.input.hitArea.width, zoneMacAccessory2.input.hitArea.height);
-    graphicsMacAccessory2.visible=false;
-
+    var zoneMacAccessory2 = this.add.zone(340, 100+vgap1+3*vgap2 + 15, 170, 30).setRectangleDropZone(170, 30);
 
     if (al.following){
-      alText = this.add.text(225, 100+vgap1 + 2*vgap2 + vgap3, `Al`, {
-        fontSize: nameFontSize,
-        fill: playerColorsEquip['Al']
-      });
-
-      alBodyText = this.add.text(125, 100 + 2*vgap1 + 2*vgap2 + vgap3, `Body: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      alBodyEquippedText = this.add.text(125+hgap1, 100 + 2*vgap1 + 2*vgap2 + vgap3, `${equipped["Al"].upper}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['Al']
-      }).setDepth(1);
+      alText = this.add.text(250, 100+vgap1 + 2*vgap2 + vgap3, `Al`, pickStyle(nameFontSize, 'Al','left')).setOrigin(.5,0);
+      //al body
+      alBodyText = this.add.text(245, 100 + 2*vgap1 + 2*vgap2 + vgap3, `Body: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      alBodyEquippedText = this.add.text(255, 100 + 2*vgap1 + 2*vgap2 + vgap3, `${equipped["Al"].upper}`, pickStyle(typeFontSize, 'Al','left')).setOrigin(0,0).setDepth(1);
       alBodyEquippedText.setInteractive().on('pointerdown', function(){
         if (alBodyEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Al"].upper,"Al")
           equipped["Al"].upper=''
           alBodyEquippedText.setText('')
           redisplay=true
         }
       })
-      //this.input.setDraggable(alBodyEquippedText);
-
-      //  A drop zone for mac body text
-      var zoneAlBody = this.add.zone(125+hgap1+75, 100 + 2*vgap1 + 2*vgap2 + vgap3+15, 170, 30).setRectangleDropZone(170, 30);
-
-      alLegsText = this.add.text(125, 100 + 2*vgap1 + 3*vgap2 + vgap3, `Legs: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      alLegsEquippedText = this.add.text(125+hgap1, 100 + 2*vgap1 + 3*vgap2 + vgap3, `${equipped["Al"].lower}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['Al']
-      }).setDepth(1);
+      var zoneAlBody = this.add.zone(340, 100 + 2*vgap1 + 2*vgap2 + vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+      //al legs
+      alLegsText = this.add.text(245, 100 + 2*vgap1 + 3*vgap2 + vgap3, `Legs: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      alLegsEquippedText = this.add.text(255, 100 + 2*vgap1 + 3*vgap2 + vgap3, `${equipped["Al"].lower}`, pickStyle(typeFontSize, 'Al','left')).setOrigin(0,0).setDepth(1);
       alLegsEquippedText.setInteractive().on('pointerdown', function(){
         if (alLegsEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Al"].lower,"Al")
           equipped["Al"].lower=''
           alLegsEquippedText.setText('')
           redisplay=true
         }
       })
-      //this.input.setDraggable(alLegsEquippedText);
-
-      //  A drop zone for mac body text
-      var zoneAlLegs = this.add.zone(125+hgap1+75, 100 + 2*vgap1 + 3*vgap2 + vgap3+15, 170, 30).setRectangleDropZone(170, 30);
-
-      alAccessoryText = this.add.text(125, 100 + 2*vgap1 + 4*vgap2 + vgap3, `Accessory: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      alAccessoryEquippedText = this.add.text(125+hgap2, 100 + 2*vgap1 + 4*vgap2 + vgap3, `${equipped["Al"].accessory}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['all']
-      }).setDepth(1);
+      var zoneAlLegs = this.add.zone(340, 100 + 2*vgap1 + 3*vgap2 + vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+      //al accessory
+      alAccessoryText = this.add.text(245, 100 + 2*vgap1 + 4*vgap2 + vgap3, `Accessory: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      alAccessoryEquippedText = this.add.text(255, 100 + 2*vgap1 + 4*vgap2 + vgap3, `${equipped["Al"].accessory}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
       alAccessoryEquippedText.setInteractive().on('pointerdown', function(){
         if (alAccessoryEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Al"].accessory,"Al")
           equipped["Al"].accessory=''
           alAccessoryEquippedText.setText('')
           redisplay=true
         }
       })
-      var zoneAlAccessory = this.add.zone(125+hgap2+75, 100 + 2*vgap1 + 4*vgap2 + vgap3 +15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneAlAccessory = this.add.zone(340, 100 + 2*vgap1 + 4*vgap2 + vgap3 +15, 170, 30).setRectangleDropZone(170, 30);
 
     //al accessory2
-    alAccessory2Text = this.add.text(125, 100 + 2*vgap1 + 5*vgap2 + vgap3, `Accessory2: `, {
-      fontSize: typeFontSize,
-      fill: '#fff'
-    });
-
-    alAccessory2EquippedText = this.add.text(125+hgap2, 100 + 2*vgap1 + 5*vgap2 + vgap3, `${equipped["Al"].accessory2}`, {
-      fontSize: typeFontSize,
-      fill: playerColorsEquip['all']
-    }).setDepth(1);
+    alAccessory2Text = this.add.text(245, 100 + 2*vgap1 + 5*vgap2 + vgap3, `Accessory2: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+    alAccessory2EquippedText = this.add.text(255, 100 + 2*vgap1 + 5*vgap2 + vgap3, `${equipped["Al"].accessory2}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
     alAccessory2EquippedText.setInteractive().on('pointerdown', function(){
       if (alAccessory2EquippedText._text!==''){
-        //apply function to take status effects off from equipment
         unequip(equipped["Al"].accessory2,"Al")
         equipped["Al"].accessory2=''
         alAccessory2EquippedText.setText('')
         redisplay=true
       }
     })
-    var zoneAlAccessory2 = this.add.zone(125+hgap2+75, 100 + 2*vgap1 + 5*vgap2 + vgap3 +15, 170, 30).setRectangleDropZone(170, 30);
+    var zoneAlAccessory2 = this.add.zone(340, 100 + 2*vgap1 + 5*vgap2 + vgap3 +15, 170, 30).setRectangleDropZone(170, 30);
     }
 
     if (trevor.following){
-      jimmyText = this.add.text(225, 100 + 2*vgap1 + 4*vgap2 + 2*vgap3, `Jimmy`, {
-        fontSize: nameFontSize,
-        fill: playerColorsEquip['Jimmy']
-      });
-
-      jimmyBodyText = this.add.text(125, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3, `Body: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      jimmyBodyEquippedText = this.add.text(125+hgap1, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3, `${equipped["Jimmy"].upper}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['Jimmy']
-      }).setDepth(1);
+      jimmyText = this.add.text(250, 100 + 2*vgap1 + 4*vgap2 + 2*vgap3, `Jimmy`, pickStyle(nameFontSize, 'Jimmy','left')).setOrigin(.5,0);
+      jimmyBodyText = this.add.text(245, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3, `Body: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      jimmyBodyEquippedText = this.add.text(255, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3, `${equipped["Jimmy"].upper}`, pickStyle(typeFontSize, 'Jimmy','left')).setOrigin(0,0).setDepth(1);
       jimmyBodyEquippedText.setInteractive().on('pointerdown', function(){
         if (jimmyBodyEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Jimmy"].upper,"Jimmy")
           equipped["Jimmy"].upper=''
           jimmyBodyEquippedText.setText('')
           redisplay=true
         }
       })
-      //this.input.setDraggable(jimmyBodyEquippedText);
-
-      //  A drop zone for mac body text
-      var zoneJimmyBody = this.add.zone(125+hgap1+75, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
-
-      jimmyLegsText = this.add.text(125, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3, `Legs: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      jimmyLegsEquippedText = this.add.text(125+hgap1, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3, `${equipped["Jimmy"].lower}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['Jimmy']
-      }).setDepth(1);
+      var zoneJimmyBody = this.add.zone(340, 100 + 3*vgap1 + 4*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+      jimmyLegsText = this.add.text(245, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3, `Legs: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      jimmyLegsEquippedText = this.add.text(255, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3, `${equipped["Jimmy"].lower}`, pickStyle(typeFontSize, 'Jimmy','left')).setOrigin(0,0).setDepth(1);
       jimmyLegsEquippedText.setInteractive().on('pointerdown', function(){
         if (jimmyLegsEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Jimmy"].lower,"Jimmy")
           equipped["Jimmy"].lower=''
           jimmyLegsEquippedText.setText('')
           redisplay=true
         }
       })
-      //this.input.setDraggable(jimmyLegsEquippedText);
-
-      //  A drop zone for mac body text
-      var zoneJimmyLegs = this.add.zone(125+hgap1+75, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
-
-      jimmyAccessoryText = this.add.text(125, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3, `Accessory: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      jimmyAccessoryEquippedText = this.add.text(125+hgap2, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3, `${equipped["Jimmy"].accessory}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['all']
-      }).setDepth(1);
+      var zoneJimmyLegs = this.add.zone(340, 100 + 3*vgap1 + 5*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+      jimmyAccessoryText = this.add.text(245, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3, `Accessory: `, pickStyle(typeFontSize, 'all','left')).setOrigin(1,0);
+      jimmyAccessoryEquippedText = this.add.text(255, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3, `${equipped["Jimmy"].accessory}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
       jimmyAccessoryEquippedText.setInteractive().on('pointerdown', function(){
         if (jimmyAccessoryEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Jimmy"].accessory,"Jimmy")
           equipped["Jimmy"].accessory=''
           jimmyAccessoryEquippedText.setText('')
           redisplay=true
         }
       })
-      var zoneJimmyAccessory = this.add.zone(125+hgap2+75, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneJimmyAccessory = this.add.zone(340, 100 + 3*vgap1 + 6*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
 
       ///jimmy accessory 2
-      jimmyAccessory2Text = this.add.text(125, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3, `Accessory2: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      jimmyAccessory2EquippedText = this.add.text(125+hgap2, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3, `${equipped["Jimmy"].accessory2}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['all']
-      }).setDepth(1);
+      jimmyAccessory2Text = this.add.text(245, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3, `Accessory 2: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      jimmyAccessory2EquippedText = this.add.text(255, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3, `${equipped["Jimmy"].accessory2}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
       jimmyAccessory2EquippedText.setInteractive().on('pointerdown', function(){
         if (jimmyAccessory2EquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Jimmy"].accessory2,"Jimmy")
           equipped["Jimmy"].accessory2=''
           jimmyAccessory2EquippedText.setText('')
           redisplay=true
         }
       })
-      var zoneJimmyAccessory2 = this.add.zone(125+hgap2+75, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+      var zoneJimmyAccessory2 = this.add.zone(340, 100 + 3*vgap1 + 7*vgap2 + 2*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
     }
 
     if (bennett.following){
-      bennettText = this.add.text(225, 100 + 3*vgap1 + 6*vgap2 + 3*vgap3, `Bennett`, {
-        fontSize: nameFontSize,
-        fill: playerColorsEquip['Bennett']
-      });
-
-      bennettBodyText = this.add.text(125, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3, `Body: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      bennettBodyEquippedText = this.add.text(125+hgap1, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3, `${equipped["Bennett"].upper}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['Bennett']
-      }).setDepth(1);
+      bennettText = this.add.text(250, 100 + 3*vgap1 + 6*vgap2 + 3*vgap3, `Bennett`, pickStyle(nameFontSize, 'Bennett','left')).setOrigin(.5,0);
+      bennettBodyText = this.add.text(245, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3, `Body: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      bennettBodyEquippedText = this.add.text(255, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3, `${equipped["Bennett"].upper}`, pickStyle(typeFontSize, 'Bennett','left')).setOrigin(0,0).setDepth(1);
       bennettBodyEquippedText.setInteractive().on('pointerdown', function(){
         if (bennettBodyEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Bennett"].upper,"Bennett")
           equipped["Bennett"].upper=''
           bennettBodyEquippedText.setText('')
           redisplay=true
         }
       })
-      //this.input.setDraggable(bennettBodyEquippedText);
-
       //  A drop zone for mac body text
-      var zoneBennettBody = this.add.zone(125+hgap1+75, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
-
-      bennettLegsText = this.add.text(125, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3, `Legs: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-
-      bennettLegsEquippedText = this.add.text(125+hgap1, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3, `${equipped["Bennett"].lower}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['Bennett']
-      }).setDepth(1);
+      var zoneBennettBody = this.add.zone(340, 100 + 4*vgap1 + 6*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+      bennettLegsText = this.add.text(245, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3, `Legs: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      bennettLegsEquippedText = this.add.text(255, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3, `${equipped["Bennett"].lower}`, pickStyle(typeFontSize, 'Bennett','left')).setOrigin(0,0).setDepth(1);
       bennettLegsEquippedText.setInteractive().on('pointerdown', function(){
         if (bennettLegsEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Bennett"].lower,"Bennett")
           equipped["Bennett"].lower=''
           bennettLegsEquippedText.setText('')
           redisplay=true
         }
       })
-      //this.input.setDraggable(bennettLegsEquippedText);
-
-      //  A drop zone for mac body text
-      var zoneBennettLegs = this.add.zone(125+hgap1+75, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
-
-      bennettAccessoryText = this.add.text(125, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3, `Accessory: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-      bennettAccessoryEquippedText = this.add.text(125+hgap2, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3, `${equipped["Bennett"].accessory}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['all']
-      }).setDepth(1);
+      var zoneBennettLegs = this.add.zone(340, 100 + 4*vgap1 + 7*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
+      bennettAccessoryText = this.add.text(245, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3, `Accessory: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      bennettAccessoryEquippedText = this.add.text(255, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3, `${equipped["Bennett"].accessory}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
       bennettAccessoryEquippedText.setInteractive().on('pointerdown', function(){
         if (bennettAccessoryEquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Bennett"].accessory,"Bennett")
           equipped["Bennett"].accessory=''
           bennettAccessoryEquippedText.setText('')
           redisplay=true
         }
       })
-      var zoneBennettAccessory = this.add.zone(125+hgap2+75, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
-
+      var zoneBennettAccessory = this.add.zone(340, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
       //bennett accessory2
-      bennettAccessory2Text = this.add.text(125, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `Accessory2: `, {
-        fontSize: typeFontSize,
-        fill: '#fff'
-      });
-      bennettAccessory2EquippedText = this.add.text(125+hgap2, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `${equipped["Bennett"].accessory2}`, {
-        fontSize: typeFontSize,
-        fill: playerColorsEquip['all']
-      }).setDepth(1);
+      bennettAccessory2Text = this.add.text(245, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `Accessory2: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      bennettAccessory2EquippedText = this.add.text(255, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `${equipped["Bennett"].accessory2}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
       bennettAccessory2EquippedText.setInteractive().on('pointerdown', function(){
         if (bennettAccessory2EquippedText._text!==''){
-          //apply function to take status effects off from equipment
           unequip(equipped["Bennett"].accessory2,"Bennett")
           equipped["Bennett"].accessory2=''
           bennettAccessory2EquippedText.setText('')
           redisplay=true
         }
       })
-      var zoneBennettAccessory2 = this.add.zone(125+hgap2+75, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
-
+      var zoneBennettAccessory2 = this.add.zone(340, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
     }
-
 
     this.input.on('drop', function (pointer, gameObject, dropZone) {
       if (dropZone===zoneMacBody && equipment[gameObject._text]['type']==="Mac_upper"){
-        //apply function to take status effects off from equipment
         if (equipped["Mac"].upper){
-          unequip(equipped["Mac"].upper,"Mac")
+          unequip(equipped["Mac"].upper,"Mac") //apply function to take status effects off from equipment
         }
-        //equip the new item
-        equipped['Mac'].upper = gameObject._text;
-        macBodyEquippedText.setText(gameObject._text);
-        //get rid of the unneeded text object and remove the newly equipped item from inventory
-        gameObject.destroy();
-        //apply the status effects of new equipment item
-        equip(equipped["Mac"].upper,"Mac")
+        equipped['Mac'].upper = gameObject._text; // set new equipment piece as equipped
+        macBodyEquippedText.setText(gameObject._text); // show new equipment piece in text
+        gameObject.destroy(); //get rid of the unneeded text object and remove the newly equipped item from inventory
+        equip(equipped["Mac"].upper,"Mac") //apply the status effects of new equipment item
       }
       else if (dropZone===zoneMacLegs && equipment[gameObject._text]['type']==="Mac_lower"){
         if (equipped["Mac"].lower){
-          //apply function to take status effects off from equipment
           unequip(equipped["Mac"].lower,"Mac")
         }
-        //equip the new item
         equipped['Mac'].lower = gameObject._text;
         macLegsEquippedText.setText(gameObject._text);
-        //get rid of the unneeded text object and remove the newly equipped item from inventory
         gameObject.destroy();
-        //apply the status effects of new equipment item
         equip(equipped["Mac"].lower,"Mac")
       }
       else if (dropZone===zoneMacAccessory && equipment[gameObject._text]['type']==="accessory"){
-        //apply function to take status effects off from equipment
         if (equipped["Mac"].accessory){
           unequip(equipped["Mac"].accessory,"Mac")
         }
-        //equip the new item
         equipped['Mac'].accessory = gameObject._text;
         macAccessoryEquippedText.setText(gameObject._text);
-        //get rid of the unneeded text object and remove the newly equipped item from inventory
         gameObject.destroy();
-        //apply the status effects of new equipment item
         equip(equipped["Mac"].accessory,"Mac")
       }
       else if (dropZone===zoneMacAccessory2 && equipment[gameObject._text]['type']==="accessory"){
-        //apply function to take status effects off from equipment
         if (equipped["Mac"].accessory2){
           unequip(equipped["Mac"].accessory2,"Mac")
         }
-        //equip the new item
         equipped['Mac'].accessory2 = gameObject._text;
         macAccessory2EquippedText.setText(gameObject._text);
-        //get rid of the unneeded text object and remove the newly equipped item from inventory
         gameObject.destroy();
-        //apply the status effects of new equipment item
         equip(equipped["Mac"].accessory2,"Mac")
       }
       else if (dropZone===zoneAlBody && equipment[gameObject._text]['type']==="Al_upper"){
@@ -749,7 +566,7 @@ function pickStyle(font, char, align){
         {gameState4.newText[a_item].destroy()}
       }
       gameState4.newText={}
-      let xcoord4 = 630;
+      let xcoord4 = 570;
       let ycoord4 = 140;
       for (a_item of Object.keys(equipment)) {
         let unequipped = equipment[a_item]['numberOwned'] - equipment[a_item]['equipped']
@@ -757,13 +574,13 @@ function pickStyle(font, char, align){
           for (let i=0;i<unequipped;i++){
             //console.log(a_item)
             gameState4.newText[a_item]=this.add.text(xcoord4, ycoord4, `${a_item}`, {
-              fontSize: '20px',
+              fontSize: '15px',
               fill: playerColorsEquip[equipment[a_item]['character']]
             }).setDepth(1);
             gameState4.newText[a_item].setInteractive();
             this.input.setDraggable(gameState4.newText[a_item]);
             if (ycoord4>=500){
-              xcoord4=870
+              xcoord4=810
               ycoord4=140
             }
             else{

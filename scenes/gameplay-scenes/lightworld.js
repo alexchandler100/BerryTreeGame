@@ -86,7 +86,7 @@ var NPC = new Phaser.Class({
         this.following = false
       }
     });
-    if (party[this.texture.key]){
+    if (party[this.texture.key]) {
       this.setScale(party[this.texture.key]['overworldScale']);
       this.setSize(party[this.texture.key]['sizeAndOffset'].size[0], party[this.texture.key]['sizeAndOffset'].size[1])
       this.setOffset(party[this.texture.key]['sizeAndOffset'].offset[0], party[this.texture.key]['sizeAndOffset'].offset[1])
@@ -99,7 +99,7 @@ var NPC = new Phaser.Class({
   },
   animate: function(thresh = 10) {
     this.setDepth(this.y)
-    if (distance(this.body,me) > this.idleRadius || !this.following){
+    if (distance(this.body, me) > this.idleRadius || !this.following) {
       if (this.body.velocity.x > thresh) {
         this.anims.play(this.right, true);
       } else if (this.body.velocity.x < -1 * thresh) {
@@ -110,7 +110,7 @@ var NPC = new Phaser.Class({
       } else if (this.body.velocity.x > -1 * thresh / 2 * thresh && this.body.velocity.x < thresh / 2 && this.body.velocity.y < -1 * thresh) {
         this.anims.play(this.up, true)
       }
-    } else if (distance(this.body,me) < this.idleRadius - 20 && this.following){
+    } else if (distance(this.body, me) < this.idleRadius - 20 && this.following) {
       this.anims.play(this.idle, true);
     }
   },
@@ -118,35 +118,35 @@ var NPC = new Phaser.Class({
   follow: function(player, strength = 1) {
     if (this.following && !this.stuck && inPool === false) {
       if (distance(this.body, player) > 600 && playerTexture === 0) { //appears near you if following and too far away
-        let xx = (Math.random()-.5)*60;
-        let yy = (Math.random()-.5)*60;
+        let xx = (Math.random() - .5) * 60;
+        let yy = (Math.random() - .5) * 60;
         this.disableBody(true, true);
-        this.enableBody(true, player.x+xx, player.y+yy, true, true);
+        this.enableBody(true, player.x + xx, player.y + yy, true, true);
       } else if (distance(this.body, player) > this.idleRadius) { // if you are running away they follow you and change frame rate depending on their speed
-        if (spriteSpeed(this)<200){
+        if (spriteSpeed(this) < 200) {
           this.anims.msPerFrame = this.slowFollowRate;
-        } else if (spriteSpeed(this)>200){
+        } else if (spriteSpeed(this) > 200) {
           this.anims.msPerFrame = this.fastFollowRate;
         }
-        this.body.velocity.x = Math.sign(player.x - this.body.x)*(player.x - this.body.x)**2/500 * strength
-        this.body.velocity.y = Math.sign(player.y - this.body.y)*(player.y - this.body.y)**2/500 * strength
-      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type==="Jimmy"|| this.type==="James")) {
-        if (overworldClock%60 === 0){
-            this.body.setVelocity(0,0);
+        this.body.velocity.x = Math.sign(player.x - this.body.x) * (player.x - this.body.x) ** 2 / 500 * strength
+        this.body.velocity.y = Math.sign(player.y - this.body.y) * (player.y - this.body.y) ** 2 / 500 * strength
+      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type === "Jimmy" || this.type === "James")) {
+        if (overworldClock % 60 === 0) {
+          this.body.setVelocity(0, 0);
         }
         this.randomWalk(2);
         this.anims.msPerFrame = this.idleFollowRate;
-      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type==="Jean Claude")) {
-        if (spriteSpeed(player) <50 && this.body.x>player.x && this.body.x<player.x+15){
-          this.x = player.x+15
-        } else if (spriteSpeed(player) <50 && this.body.x<player.x && this.body.x>player.x-15){
-          this.x = player.x-15
+      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type === "Jean Claude")) {
+        if (spriteSpeed(player) < 50 && this.body.x > player.x && this.body.x < player.x + 15) {
+          this.x = player.x + 15
+        } else if (spriteSpeed(player) < 50 && this.body.x < player.x && this.body.x > player.x - 15) {
+          this.x = player.x - 15
         }
         this.body.setVelocityX((player.x - this.body.x) * strength)
         this.body.setVelocityY((player.y - this.body.y) * strength)
         this.anims.msPerFrame = this.idleFollowRate;
-      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type==='Bennett' || this.type==='Al' || this.type==="Stripper")) {
-        this.body.setVelocity(0,0);
+      } else if (distance(this.body, player) < this.idleRadius - 20 && (this.type === 'Bennett' || this.type === 'Al' || this.type === "Stripper")) {
+        this.body.setVelocity(0, 0);
         this.anims.msPerFrame = this.idleFollowRate;
       }
     } else if (this.following && !this.stuck && inPool) {
@@ -406,7 +406,7 @@ var LightWorld = new Phaser.Class({
   wake: function() {
     this.input.setDefaultCursor('url(assets/images/handPointer.png), pointer');
     this.scene.sleep("PoolScore");
-    if (playing){
+    if (playing) {
       gameState.music.stop()
     }
     if (loadedIndoorsThemes) {
@@ -443,7 +443,7 @@ var LightWorld = new Phaser.Class({
     }
   },
   getHitByCar: function() {
-    if (!this.gettingHitByCar && !this.ollie && playerTexture!==1) {
+    if (!this.gettingHitByCar && !this.ollie && playerTexture !== 1) {
       gameState.carhit.play()
       this.gettingHitByCar = true
       if (stamina > 10 && playerTexture === 0) {
@@ -451,11 +451,11 @@ var LightWorld = new Phaser.Class({
       } else if (playerTexture === 'board') {
         stamina -= 15
       }
-        me.setFrame(12)
-      } else if (!this.gettingHitByCar && !this.ollie && playerTexture===1) {
-        gameState.carhit.play()
-        this.gettingHitByCar = true
-        }
+      me.setFrame(12)
+    } else if (!this.gettingHitByCar && !this.ollie && playerTexture === 1) {
+      gameState.carhit.play()
+      this.gettingHitByCar = true
+    }
   },
   onMeetEnemy1: function(player, zone) {
     if (worldTheme === 'light' && playerTexture === 0 && inPool === false && !chasersEnabled) {
@@ -738,7 +738,6 @@ var LightWorld = new Phaser.Class({
         frameWidth: 140,
         frameHeight: 250
       });
-
     this.load.spritesheet('fratboy3',
       'assets/images/fratboy3.png', {
         frameWidth: 150,
@@ -855,6 +854,16 @@ var LightWorld = new Phaser.Class({
         frameHeight: 97
       }
     );
+    this.load.spritesheet('umboy',
+      'assets/images/umboy.png', {
+        frameWidth: 140,
+        frameHeight: 250
+      });
+    this.load.spritesheet('umgirl',
+      'assets/images/umgirl.png', {
+        frameWidth: 140,
+        frameHeight: 250
+      });
     //loading tilesets and tilemaps
     this.load.image("buildingsCustom", "assets/tilesets/EL_buildings.png");
     this.load.image("tuxmon-tiles", "assets/tilesets/tuxmon-sample-32px.png");
@@ -1167,6 +1176,11 @@ var LightWorld = new Phaser.Class({
       let stri = "bennettPath" + i.toString()
       bennettPath.push(map.findObject("Objects", obj => obj.name === stri));
     }
+    umPath = []
+    for (let i = 0; i < 18; i++) {
+      let stri = "umPath" + i.toString()
+      umPath.push(map.findObject("Objects", obj => obj.name === stri));
+    }
 
     cwCarPath = []
     for (let i = 0; i < 13; i++) {
@@ -1219,6 +1233,10 @@ var LightWorld = new Phaser.Class({
     this.CarSpawnPoint = map.findObject("Objects", obj => obj.name === "car spawn point");
     const DioShrineSpawnPoint = map.findObject("Objects", obj => obj.name === "dioshrine spawn point");
     const BurchamPoolSpawnPoint = map.findObject("Objects", obj => obj.name === "burchampool spawn point");
+
+    //wandering NPCs
+    gameState.umboySpawnPoint = map.findObject("Objects", obj => obj.name === "umboy spawn point");
+    gameState.umgirlSpawnPoint = map.findObject("Objects", obj => obj.name === "umgirl spawn point");
 
     //location zone points
     gameState.clubhouse731TL = map.findObject("Objects", obj => obj.name === "731 clubhouse entrance top left")
@@ -1403,7 +1421,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'jeanidle',
       frames: this.anims.generateFrameNumbers('jeanClaude', {
-        frames: [0,4,5,6,7,6,7,6,7,6,7,6,7,6,7,6,5,4]
+        frames: [0, 4, 5, 6, 7, 6, 7, 6, 7, 6, 7, 6, 7, 6, 7, 6, 5, 4]
       }),
       frameRate: 10,
       repeat: -1
@@ -1442,7 +1460,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'stripperidle',
       frames: this.anims.generateFrameNumbers('stripper', {
-        frames: [0,5,10]
+        frames: [0, 5, 10]
       }),
       frameRate: 5,
       repeat: -1
@@ -1782,7 +1800,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'bennett_larry_special',
       frames: this.anims.generateFrameNumbers('bennettattack', {
-        frames: [5,7,7]
+        frames: [5, 7, 7]
       }),
       frameRate: 1,
       repeat: -1
@@ -1791,7 +1809,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'bennett_drink_monster',
       frames: this.anims.generateFrameNumbers('bennettattack', {
-        frames: [7,8]
+        frames: [7, 8]
       }),
       frameRate: 2,
       repeat: -1
@@ -1800,7 +1818,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'bennett_drink_hamms',
       frames: this.anims.generateFrameNumbers('bennettattack', {
-        frames: [7,9]
+        frames: [7, 9]
       }),
       frameRate: 2,
       repeat: -1
@@ -1809,7 +1827,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'bennett_drink_gatorade',
       frames: this.anims.generateFrameNumbers('bennettattack', {
-        frames: [7,10]
+        frames: [7, 10]
       }),
       frameRate: 2,
       repeat: -1
@@ -1818,7 +1836,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'bennett_eat_andycapps',
       frames: this.anims.generateFrameNumbers('bennettattack', {
-        frames: [7,11]
+        frames: [7, 11]
       }),
       frameRate: 2,
       repeat: -1
@@ -1827,7 +1845,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'bennett_drink_maxice',
       frames: this.anims.generateFrameNumbers('bennettattack', {
-        frames: [7,12]
+        frames: [7, 12]
       }),
       frameRate: 2,
       repeat: -1
@@ -1836,7 +1854,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'bennett_drink_liquor',
       frames: this.anims.generateFrameNumbers('bennettattack', {
-        frames: [7,13]
+        frames: [7, 13]
       }),
       frameRate: 2,
       repeat: -1
@@ -2027,7 +2045,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'trevoridle',
       frames: this.anims.generateFrameNumbers("Jimmy", {
-        frames: [10,10,14,15,16,17,16,15,14,11,11,14,15,16,17,16,15,14,12,12,14,15,16,17,16,15,14]
+        frames: [10, 10, 14, 15, 16, 17, 16, 15, 14, 11, 11, 14, 15, 16, 17, 16, 15, 14, 12, 12, 14, 15, 16, 17, 16, 15, 14]
       }),
       frameRate: 7,
       repeat: -1
@@ -2215,7 +2233,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'larry_special',
       frames: this.anims.generateFrameNumbers('Mac', {
-        frames: [0, 49,49]
+        frames: [0, 49, 49]
       }),
       frameRate: 3,
       repeat: 0
@@ -2242,7 +2260,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'eat_andycapps',
       frames: this.anims.generateFrameNumbers('Mac', {
-        frames: [0, 45,46]
+        frames: [0, 45, 46]
       }),
       frameRate: 3,
       repeat: 0
@@ -2323,7 +2341,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'rightswim',
       frames: this.anims.generateFrameNumbers('Mac', {
-        frames: [32,33,33]
+        frames: [32, 33, 33]
       }),
       frameRate: 3,
       repeat: -1
@@ -2359,7 +2377,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'ollie_right',
       frames: this.anims.generateFrameNumbers('Mac', {
-        frames: [2, 4, 5, 5,5,5,5]
+        frames: [2, 4, 5, 5, 5, 5, 5]
       }),
       frameRate: 6,
       repeat: 0
@@ -2397,7 +2415,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'al_drink_hamms',
       frames: this.anims.generateFrameNumbers('Al', {
-        frames: [16,18]
+        frames: [16, 18]
       }),
       frameRate: 2,
       repeat: -1
@@ -2406,7 +2424,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'al_drink_monster',
       frames: this.anims.generateFrameNumbers('Al', {
-        frames: [16,17]
+        frames: [16, 17]
       }),
       frameRate: 2,
       repeat: -1
@@ -2415,7 +2433,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'al_drink_gatorade',
       frames: this.anims.generateFrameNumbers('Al', {
-        frames: [16,19]
+        frames: [16, 19]
       }),
       frameRate: 2,
       repeat: -1
@@ -2424,7 +2442,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'al_eat_andycapps',
       frames: this.anims.generateFrameNumbers('Al', {
-        frames: [16,20]
+        frames: [16, 20]
       }),
       frameRate: 2,
       repeat: -1
@@ -2433,7 +2451,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'al_drink_maxice',
       frames: this.anims.generateFrameNumbers('Al', {
-        frames: [16,21]
+        frames: [16, 21]
       }),
       frameRate: 2,
       repeat: -1
@@ -2442,7 +2460,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'al_drink_liquor',
       frames: this.anims.generateFrameNumbers('Al', {
-        frames: [16,22]
+        frames: [16, 22]
       }),
       frameRate: 2,
       repeat: -1
@@ -2451,7 +2469,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'al_larry_special',
       frames: this.anims.generateFrameNumbers('Al', {
-        frames: [9,9,10,11,12,13,14,15,]
+        frames: [9, 9, 10, 11, 12, 13, 14, 15, ]
       }),
       frameRate: 4,
       repeat: -1
@@ -2480,7 +2498,7 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'alidle',
       frames: this.anims.generateFrameNumbers('Al', {
-        frames: [9,9,9,0,0,0,9,9,9,0,0,0,9,9,9,0,0,0,10,11,12,13,14,15,5,5,5,5,5,5]
+        frames: [9, 9, 9, 0, 0, 0, 9, 9, 9, 0, 0, 0, 9, 9, 9, 0, 0, 0, 10, 11, 12, 13, 14, 15, 5, 5, 5, 5, 5, 5]
       }),
       frameRate: 2,
       repeat: -1
@@ -2491,6 +2509,25 @@ var LightWorld = new Phaser.Class({
       frames: this.anims.generateFrameNumbers('Al', {
         start: 5,
         end: 7
+      }),
+      frameRate: 3,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'umboyright',
+      frames: this.anims.generateFrameNumbers('umboy', {
+        start: 1,
+        end: 2
+      }),
+      frameRate: 3,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'umgirlright',
+      frames: this.anims.generateFrameNumbers('umgirl', {
+        frames: [1, 0, 2, 0]
       }),
       frameRate: 3,
       repeat: -1
@@ -2570,7 +2607,7 @@ var LightWorld = new Phaser.Class({
     //spawning npcs... recall NPC(scene, spawnPoint, texture, frame, type, left, right, up, down, idle, dialogue)
     bennett = new NPC(this, "bennett spawn point", 'Bennett', 0, 'Bennett', "bennettleft", "bennettright", "bennettup", "bennettdown", "bennettidle", "bennett_run", false, 250, 125, 5000);
     al = new NPC(this, "alPath0", 'Al', 0, 'Al', "alleft", "alright", "alleft", "alright", "alidle", "holdon", false, 250, 125, 250);
-    joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "joeright" , "punch", false, 250, 125, 1000);
+    joe = new NPC(this, "joe spawn point", "joe", 0, "Joe Bell", "joeleft", "joeright", "joeleft", "joeright", "joeright", "punch", false, 250, 125, 1000);
     joe.body.setCircle(30);
     joe.body.setOffset(45, 55);
     jon = new NPC(this, "jon spawn point", "jon", 0, "Homeboy Jon", "jonleft", "jonright", "jonleft", "jonright", "jonright", "bitenoise", false, 250, 125, 1000);
@@ -2579,7 +2616,7 @@ var LightWorld = new Phaser.Class({
     james = new NPC(this, "james spawn point", "james", 0, "James", "jamesleft", "jamesright", "jamesup", "jamesdown", "jamesdown", "bitenoise", false, 250, 125, 1000);
     james.body.setCircle(180);
     james.body.setOffset(50, 100); //overriding scale given by NPC class
-    oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke","smoke", "bong", false, 250, 125, 1000);
+    oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke", "smoke", "bong", false, 250, 125, 1000);
     oghomeboy.body.immovable = true;
     oghomeboy.body.moves = false;
     trevor = new NPC(this, "trevor spawn point", "Jimmy", 0, "Jimmy", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevoridle", "bong", false, 250, 125, 100);
@@ -2590,7 +2627,7 @@ var LightWorld = new Phaser.Class({
     stripper = new NPC(this, "stripper spawn point", "stripper", 0, "Stripper", "stripperleft", "stripperleft", "stripperup", "stripperdown", "stripperidle", "bong", false, 250, 125, 4000);
     stripper.body.setCircle(30);
     stripper.body.setOffset(25, 25);
-    jeanClaude = new NPC(this, "jeanPath0", "jeanClaude", 0, "Jean Claude", "jeanleft", "jeanleft", "jeanleft", "jeanleft", "jeanidle", "bong", false, 250, 125, 1000/6);
+    jeanClaude = new NPC(this, "jeanPath0", "jeanClaude", 0, "Jean Claude", "jeanleft", "jeanleft", "jeanleft", "jeanleft", "jeanidle", "bong", false, 250, 125, 1000 / 6);
     jeanClaude.body.setCircle(30);
     jeanClaude.body.setOffset(25, 25);
     larry = new NPC(this, "larry spawn point", "larry", 0, "larry", "larry", "larry", "larry", "larry", "larry", "bong", false, 250, 125, 1000);
@@ -2624,6 +2661,18 @@ var LightWorld = new Phaser.Class({
       chasers[i].body.setOffset(enemsForChasers[i][4], enemsForChasers[i][5]);
     }
 
+    //wandering NPCs
+
+    //umboy
+    umboy = new NPC(this, "umboy spawn point", "umboy", 0, "UM Boy", "umboyright", "umboyright", "umboyright", "umboyright", "umboyright", "punch", false);
+
+    //umgirl
+    umgirl = new NPC(this, "umgirl spawn point", "umgirl", 0, "UM girl", "umgirlright", "umgirlright", "umgirlright", "umgirlright", "umgirlright", "punch", false);
+
+    //crackhead
+    crackhead = new NPC(this, "crackhead spawn point", "crackhead", 0, "Melvin", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "punch", false);
+    crackhead.setScale(.25).setCircle(30).setOffset(60, 60);
+
     //fratboys
     fratboys = this.physics.add.group()
 
@@ -2641,12 +2690,6 @@ var LightWorld = new Phaser.Class({
       child.setCircle(40);
       child.setOffset(110, 80);
     });
-
-    crackhead = new NPC(this, "crackhead spawn point", "crackhead", 0, "Melvin", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "crackheadright", "punch", false);
-
-    crackhead.setScale(.25);
-    crackhead.setCircle(30);
-    crackhead.setOffset(60, 60);
 
     //fratboy2
     fratboy2prime = fratboys.create(Fratboy2PrimeSpawnPoint.x, Fratboy2PrimeSpawnPoint.y, 'fratboy2prime');
@@ -3084,6 +3127,7 @@ var LightWorld = new Phaser.Class({
     //collecting items
     var keyObjS = this.input.keyboard.addKey('S'); // Get key object
     keyObjS.on('down', function(event) {
+      console.log(`firstStrike: ${firstStrike}`)
       let numberOfItems = 0;
       for (let i = 0; i < Object.keys(inventory).length; i++) {
         key = Object.keys(inventory)[i]
@@ -3115,10 +3159,10 @@ var LightWorld = new Phaser.Class({
         if (jeanClaude.following) {
           jeanClaude.disableBody(true, true);
         }
-      } else if (playerTexture === 'board' && !this.ollie && (me.body.velocity.x**2+ me.body.velocity.y**2>150**2)) {
+      } else if (playerTexture === 'board' && !this.ollie && (me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 150 ** 2)) {
         this.ollie = true;
         this.DialogueMenu.kickflipRotationDisplay.angle = 0;
-      } else if (playerTexture === 1 && me.body.velocity.x**2+me.body.velocity.y**2<10**2) {
+      } else if (playerTexture === 1 && me.body.velocity.x ** 2 + me.body.velocity.y ** 2 < 10 ** 2) {
         playerTexture = 0
         car.enableBody(true, me.x, me.y, true, true);
         me.setTexture('Mac', 0)
@@ -3191,7 +3235,7 @@ var LightWorld = new Phaser.Class({
         items.push("Keys");
         keysGet = 1;
         gameState.itemget.play()
-      } else if (distance(me, gameState.gasStationEnter) < 30 && scene_number!==3) {
+      } else if (distance(me, gameState.gasStationEnter) < 30 && scene_number !== 3) {
         scene_number = 3;
       } else if (distance(me, volleyball) < 30 && kicking === false) {
         stamina -= 5;
@@ -3240,19 +3284,19 @@ var LightWorld = new Phaser.Class({
         }
         */
         //problem here if you go in apartment and then go in pool room, you warp to the wrong place when you change scenes
-      } else if (distance(me,gameState.myApartment)<30 && keysGet === 0) {
+      } else if (distance(me, gameState.myApartment) < 30 && keysGet === 0) {
         cantGetIn = 1;
-      } else if (distance(me,gameState.myApartment)<30 && keysGet) {
+      } else if (distance(me, gameState.myApartment) < 30 && keysGet) {
         //me.x = gameState.PlayerSpawnPoint.x;
         //me.y = gameState.PlayerSpawnPoint.y;
         indoorZone = "MyApartment"
         scene_number = 'indoors'
         this.scene.switch("MyApartment");
-      } else if (distance(me,gameState.trevorsApartment)<30 && !trevor.following) {
+      } else if (distance(me, gameState.trevorsApartment) < 30 && !trevor.following) {
         //me.x = gameState.PlayerSpawnPoint.x;
         //me.y = gameState.PlayerSpawnPoint.y;
         this.openDialoguePage(28)
-      } else if (distance(me,gameState.trevorsApartment)<30 && trevor.following) {
+      } else if (distance(me, gameState.trevorsApartment) < 30 && trevor.following) {
         //me.x = gameState.PlayerSpawnPoint.x;
         //me.y = gameState.PlayerSpawnPoint.y;
         indoorZone = "TrevorsApartment"
@@ -3295,12 +3339,12 @@ var LightWorld = new Phaser.Class({
       if (playerTexture === 'board' && this.ollie) {
         stamina -= 5;
         this.kickflip = true;
-        this.kickflipTimer+=1
+        this.kickflipTimer += 1
         this.kickflipTimerRunning = true;
         //console.log(this.kickflipTimer)
       } else if (playerTexture === 0 && skateboardGet) {
         playerTexture = 'board';
-        me.setVelocity(0,0);
+        me.setVelocity(0, 0);
         jamesToggleFollow = true;
       }
     }, this);
@@ -3389,8 +3433,11 @@ var LightWorld = new Phaser.Class({
       var xx = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var yy = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // creates a spawn zone at x,y. parameters are x, y, width, height
-      var zonePoint = {x:xx, y:yy};
-      if (distance(zonePoint,gameState.PlayerSpawnPoint)>400){
+      var zonePoint = {
+        x: xx,
+        y: yy
+      };
+      if (distance(zonePoint, gameState.PlayerSpawnPoint) > 400) {
         spawns.create(xx, yy, 20, 20);
       }
     }
@@ -3437,36 +3484,36 @@ var LightWorld = new Phaser.Class({
   update: function() {
 
     //dialogue for megaman game
-    if (beatChill===1){
+    if (beatChill === 1) {
       beatChill = 2
       this.openDialoguePage(290);
-    } else if (beatStag===1){
+    } else if (beatStag === 1) {
       beatStag = 2
       this.openDialoguePage(292);
-    } else if (lostAtMegaman===1){
+    } else if (lostAtMegaman === 1) {
       lostAtMegaman = 2
       this.openDialoguePage(291);
     }
     //to play custom keyboard music
-    if (playing && customMusicStart){
+    if (playing && customMusicStart) {
       customMusicStart = false
       customMusicPlaying = true
       gameState.music.stop()
-    } else if (playing && customMusicPlaying){
+    } else if (playing && customMusicPlaying) {
       playbackCustomSong()
-      }
+    }
 
-    if (darkworldDialogue===1){
+    if (darkworldDialogue === 1) {
       this.openDialoguePage(705);
-      darkworldDialogue=2;
+      darkworldDialogue = 2;
       activeQuests['Hausdorffs?'] = `I had a strange encounter with a dark looking fella when I was robo-tripping. I felt like I was in another dimension or some kind of mirror world. Shit was fucked, he said Hausdorffs have been fucking with me? Aren't Hausdorffs those little fucked up guys in that video game? I need some rest.`
 
-    } else if (darkworldDialogue===3){
+    } else if (darkworldDialogue === 3) {
       this.openDialoguePage(706);
-      darkworldDialogue=4;
-    } else if (darkworldDialogue===5){
+      darkworldDialogue = 4;
+    } else if (darkworldDialogue === 5) {
       this.openDialoguePage(707);
-      darkworldDialogue=6;
+      darkworldDialogue = 6;
     }
     //quest locations for gps
     if (currentQuest === 'Jean Claude' || currentQuest === 'Jean Claude?') {
@@ -3577,7 +3624,7 @@ var LightWorld = new Phaser.Class({
 
     if (this.gettingLaidOutByCar && !this.gettingUpFromCarHit) {
       me.angle += this.gettingLaidOutByCarAngularSpeed;
-      if (playerTexture===0){
+      if (playerTexture === 0) {
         me.setFrame(this.gettingLaidOutByCarFrame)
       }
       me.body.setVelocityX(this.gettingLaidOutByCarvelocity[0])
@@ -3587,8 +3634,8 @@ var LightWorld = new Phaser.Class({
         gameState.bodyhit.play();
       }
     } else if (this.gettingLaidOutByCar && this.gettingUpFromCarHit) {
-      if (playerTexture===0){
-          me.setFrame(25);
+      if (playerTexture === 0) {
+        me.setFrame(25);
       }
       me.angle = 0;
       me.body.setVelocityX(0)
@@ -3655,7 +3702,7 @@ var LightWorld = new Phaser.Class({
       this.cameras.main.shake(2000);
     }
     //car crash
-    if (playerTexture === 1 && !me.body.blocked.none && (me.body.velocity.x**2+me.body.velocity.y**2>900**2)) {
+    if (playerTexture === 1 && !me.body.blocked.none && (me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 900 ** 2)) {
       pause = true
       speed = 1
       playerTexture = 0
@@ -3806,8 +3853,8 @@ var LightWorld = new Phaser.Class({
       gameState.linkWoods.stop();
       gameState.trevorWoods.stop();
       gameState.music.stop();
-      if (!playing){
-          gameState.music.play();
+      if (!playing) {
+        gameState.music.play();
       }
     }
     //location settings for pool and volleyball court
@@ -4048,8 +4095,8 @@ var LightWorld = new Phaser.Class({
       inventory["Labatt Max Ice"]['numberOwned'] += 5;
       inventory["Liquor"]['numberOwned'] += 5;
       gameState.secret.play()
-      for (itemz of ["Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Jorts", "Wife Beater", "Sprinting Shoes", "Gold Duck Tape", "Camo Duck Tape"]) {
-        equipment[itemz]['numberOwned']+=1
+      for (itemz of ["Snowpants", "Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Sprinting Shoes", "Gold Duck Tape", "Camo Duck Tape"]) {
+        equipment[itemz]['numberOwned'] += 1
       }
       //good stuff
       for (itemz of ["Brothers Seal"]) {
@@ -4084,10 +4131,10 @@ var LightWorld = new Phaser.Class({
       gameState.secret.play()
       this.cameras.main.shake(1000);
       gameState.music.stop();
-        darkWorld = 2
+      darkWorld = 2
     } else if (darkWorld === 2) {
       darkWorld = 0
-      window.setTimeout(()=>{
+      window.setTimeout(() => {
         this.cameras.main.fadeIn(1000, 0, 0, 0)
         this.scene.switch("DarkWorld")
       }, 1000)
@@ -4248,7 +4295,7 @@ var LightWorld = new Phaser.Class({
         stripperFirstTalk = 3
         this.openDialoguePage(1602)
         completeQuest("Diamond Wants Some Coke")
-        equipment["Brass Knuckles"]['numberOwned']+=1
+        equipment["Brass Knuckles"]['numberOwned'] += 1
         removeAll(items, "Gram of Coke")
       } else if (distance(me, stripper) > 200 && stripperFirstTalk === 1) {
         stripperFirstTalk = 2
@@ -4280,7 +4327,7 @@ var LightWorld = new Phaser.Class({
       this.openDialoguePage(1502)
       completeQuest("Yoga girl needs blocks")
       gameState.itemget.play()
-      equipment["Gold Duck Tape"]['numberOwned']+=1
+      equipment["Gold Duck Tape"]['numberOwned'] += 1
       removeAll(items, "Yoga Blocks")
     } else if (distance(me, yogagirl) > 200 && yogagirlFirstTalk === 1) {
       yogagirlFirstTalk = 2
@@ -4299,7 +4346,7 @@ var LightWorld = new Phaser.Class({
       this.openDialoguePage(3502)
       completeQuest("Adeline is pissed")
       gameState.itemget.play()
-      equipment["Camo Duck Tape"]['numberOwned']+=1;
+      equipment["Camo Duck Tape"]['numberOwned'] += 1;
       removeAll(items, "Flowers")
     } else if (distance(me, adeline) > 200 && adelineFirstTalk === 1) {
       adelineFirstTalk = 2
@@ -4344,10 +4391,10 @@ var LightWorld = new Phaser.Class({
     }
 
     //dialogue ai for girl3
-    else if (distance(me, girl3) < 10 && girl3FirstDialogue === 0 && trevor.joinParameter && charStyle<50) {
+    else if (distance(me, girl3) < 10 && girl3FirstDialogue === 0 && trevor.joinParameter && charStyle < 50) {
       this.openDialoguePage(980)
       girl3FirstDialogue = 1
-    } else if (distance(me, girl3) < 10 && girl3FirstDialogue <= 1 && trevor.joinParameter && charStyle>=50) {
+    } else if (distance(me, girl3) < 10 && girl3FirstDialogue <= 1 && trevor.joinParameter && charStyle >= 50) {
       this.openDialoguePage(981)
       girl3FirstDialogue = 2
     }
@@ -4489,18 +4536,18 @@ var LightWorld = new Phaser.Class({
     james.animate(40);
     //james.getUnstuck();
 
-    if (playerTexture==='board' && jamesToggleFollow){
+    if (playerTexture === 'board' && jamesToggleFollow) {
       james.joinParameter = true;
       james.following = true;
       jamesToggleFollow = false
-    } else if (playerTexture!=='board' && jamesToggleFollow) {
+    } else if (playerTexture !== 'board' && jamesToggleFollow) {
       james.following = false;
       jamesToggleFollow = false;
       james.disableBody(true, true)
-      james.enableBody(true, jamesPath[james.position].x+5, jamesPath[james.position].y+5, true, true);
+      james.enableBody(true, jamesPath[james.position].x + 5, jamesPath[james.position].y + 5, true, true);
     }
 
-    if (playerTexture !== 'board'){
+    if (playerTexture !== 'board') {
       followPath(james, jamesPath, 125)
     }
 
@@ -4512,10 +4559,10 @@ var LightWorld = new Phaser.Class({
       activeQuests['High School Roof'] = 'James said he saw some lights or aliens or something up on the high school roof. He is most likely just high as shit but I may as well get up there anyway.'
     } else if (distance(me, james) > 150 && jamesFirstTalk === 1) {
       jamesFirstTalk = 2
-    } else if (distance(me, james) < 30 && jamesFirstTalk === 2 && playerTexture!='board' && !skateboardGet) {
+    } else if (distance(me, james) < 30 && jamesFirstTalk === 2 && playerTexture != 'board' && !skateboardGet) {
       this.openDialoguePage(47)
       jamesFirstTalk = 3
-    } else if (distance(me, james) > 150 && jamesFirstTalk === 3 && playerTexture!='board' && !skateboardGet) {
+    } else if (distance(me, james) > 150 && jamesFirstTalk === 3 && playerTexture != 'board' && !skateboardGet) {
       jamesFirstTalk = 2
     }
 
@@ -4625,97 +4672,97 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for larry
-      if (distance(me, larry) < 30 && larryFirstTalk === 0) {
-        larryFirstTalk = 1
-        this.openDialoguePage(8000)
-      } else if (distance(me, larry) > 200) {
-        larryFirstTalk = 0
-      }
+    if (distance(me, larry) < 30 && larryFirstTalk === 0) {
+      larryFirstTalk = 1
+      this.openDialoguePage(8000)
+    } else if (distance(me, larry) > 200) {
+      larryFirstTalk = 0
+    }
 
-      //ai for drew
-        if (distance(me, drew) < 30 && drewFirstTalk === 0) {
-          drewFirstTalk = 1
-          this.openDialoguePage(8001)
-        } else if (distance(me, drew) > 200) {
-          drewFirstTalk = 0
-        }
+    //ai for drew
+    if (distance(me, drew) < 30 && drewFirstTalk === 0) {
+      drewFirstTalk = 1
+      this.openDialoguePage(8001)
+    } else if (distance(me, drew) > 200) {
+      drewFirstTalk = 0
+    }
 
     //ai for trevor
-      if (distance(trevor, ball) > 400 && trevor.following === false) {
-        trevor.disableBody(true, true)
-        trevor.enableBody(true, ball.x + Phaser.Math.FloatBetween(-150, 150), ball.y + Phaser.Math.FloatBetween(-100, 100), true, true);
-      }
-      trevor.follow(me, 1)
-      trevor.animate(5);
-      if (trevor.body.velocity.x > 5) {
-        trevor.flipX = false;
-      }
-      if (trevor.body.velocity.x < -5) {
-        trevor.flipX = true;
-      }
+    if (distance(trevor, ball) > 400 && trevor.following === false) {
+      trevor.disableBody(true, true)
+      trevor.enableBody(true, ball.x + Phaser.Math.FloatBetween(-150, 150), ball.y + Phaser.Math.FloatBetween(-100, 100), true, true);
+    }
+    trevor.follow(me, 1)
+    trevor.animate(5);
+    if (trevor.body.velocity.x > 5) {
+      trevor.flipX = false;
+    }
+    if (trevor.body.velocity.x < -5) {
+      trevor.flipX = true;
+    }
 
-      //original value 1.4
-      trevor.chase(ball, 1.45);
-      //trevor.getUnstuck()
-      //increases keepaway high score whenever not paused
-      if (trevor.following === false && distance(me, ball) < 300 && distance(trevor, ball) > 30 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
-        if (!pause) {
-          keepaway += 1;
-        }
-        kickTheBallScoreDisplayed = true
+    //original value 1.4
+    trevor.chase(ball, 1.45);
+    //trevor.getUnstuck()
+    //increases keepaway high score whenever not paused
+    if (trevor.following === false && distance(me, ball) < 300 && distance(trevor, ball) > 30 && ((trevor.body.velocity.x) ** 2 + (trevor.body.velocity.y) ** 2 > 50)) {
+      if (!pause) {
+        keepaway += 1;
       }
-      if (distance(trevor, ball) < 30) {
-        kickTheBallScoreDisplayed = false
-        if (keepaway > keepawayHighScore) {
-          keepawayHighScore = keepaway
-        }
-        if (keepaway > 100) {
-          if (keepaway < 500) {
-            this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points.`)
-            this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width + 4;
-            this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
-          } else if (keepaway > 500 && keepaway < 1000) {
-            this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points. YOU DON'T SUCK!`)
-            this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width + 4;
-            this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
-          } else if (keepaway > 1000) {
-            this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points. HOLY FUCK!`)
-            this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width + 4;
-            this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
-          }
-          showKickTheBallScore = true;
-          //pause = true;
-          window.setTimeout(() => {
-            showKickTheBallScore = false;
-            //pause = false;
-          }, 3000);
-        }
-        if (keepaway > 100 && keepaway <= 300 && trevor.joinParameter === false) {
-          this.openDialoguePage(25)
-          if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
-            activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
-          }
-        } else if (keepaway > 300 && trevor.joinParameter === false) {
-          this.openDialoguePage(20)
-          if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
-            activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
-          }
-        } else if (keepaway > 500 && brothersSeal === 0 && neverBeenPro === true) {
-          this.openDialoguePage(21)
-        } else if (keepaway > 500 && brothersSeal === 0 && neverBeenPro === false) {
-          this.openDialoguePage(24)
-        } else if (keepaway > 1000 && brothersSeal === 1) {
-          this.openDialoguePage(22)
-        }
-        keepaway = 0
+      kickTheBallScoreDisplayed = true
+    }
+    if (distance(trevor, ball) < 30) {
+      kickTheBallScoreDisplayed = false
+      if (keepaway > keepawayHighScore) {
+        keepawayHighScore = keepaway
       }
-      if (keepaway === 500) {
-        trevor.joinParameter = true;
-        completeQuest('Go Pro at Kick-The-Ball');
-      } else if (keepaway === 1000) {
-        items.push("Brothers Seal")
-        brothersSeal = 1
+      if (keepaway > 100) {
+        if (keepaway < 500) {
+          this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points.`)
+          this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width + 4;
+          this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
+        } else if (keepaway > 500 && keepaway < 1000) {
+          this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points. YOU DON'T SUCK!`)
+          this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width + 4;
+          this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
+        } else if (keepaway > 1000) {
+          this.DialogueMenu.scoreGotten.setText(`You got ${keepaway} points. HOLY FUCK!`)
+          this.DialogueMenu.scoreGottenDisplay.width = this.DialogueMenu.scoreGotten.width + 4;
+          this.DialogueMenu.scoreGottenDisplayFront.width = this.DialogueMenu.scoreGotten.width;
+        }
+        showKickTheBallScore = true;
+        //pause = true;
+        window.setTimeout(() => {
+          showKickTheBallScore = false;
+          //pause = false;
+        }, 3000);
       }
+      if (keepaway > 100 && keepaway <= 300 && trevor.joinParameter === false) {
+        this.openDialoguePage(25)
+        if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
+          activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
+        }
+      } else if (keepaway > 300 && trevor.joinParameter === false) {
+        this.openDialoguePage(20)
+        if (!activeQuests['Go Pro at Kick-The-Ball'] && !completedQuests['Go Pro at Kick-The-Ball']) {
+          activeQuests['Go Pro at Kick-The-Ball'] = 'Jimmy is real good at kick the ball. Keep the ball away from him for long enough and he might help you out.'
+        }
+      } else if (keepaway > 500 && brothersSeal === 0 && neverBeenPro === true) {
+        this.openDialoguePage(21)
+      } else if (keepaway > 500 && brothersSeal === 0 && neverBeenPro === false) {
+        this.openDialoguePage(24)
+      } else if (keepaway > 1000 && brothersSeal === 1) {
+        this.openDialoguePage(22)
+      }
+      keepaway = 0
+    }
+    if (keepaway === 500) {
+      trevor.joinParameter = true;
+      completeQuest('Go Pro at Kick-The-Ball');
+    } else if (keepaway === 1000) {
+      items.push("Brothers Seal")
+      brothersSeal = 1
+    }
 
     //ai for jon (soccer game) (football) (score goals)
     if (distance(net1, me) < 10000) {
@@ -4800,6 +4847,30 @@ var LightWorld = new Phaser.Class({
         }
       }
     });
+
+    //ai for umboy
+    umboy.animate(3)
+    if (umboy.body.velocity.x > 5) {
+      umboy.flipX = false;
+    }
+    if (umboy.body.velocity.x < -5) {
+      umboy.flipX = true;
+    }
+    followPath(umboy, umPath, 40)
+
+    //ai for umgirl
+    umgirl.animate(3)
+    if (umgirl.body.velocity.x > 5) {
+      umgirl.flipX = false;
+    }
+    if (umgirl.body.velocity.x < -5) {
+      umgirl.flipX = true;
+    }
+    umgirl.body.setVelocityX(umboy.body.velocity.x)
+    umgirl.body.setVelocityY(umboy.body.velocity.y)
+    umgirl.x = umboy.x + 10
+    umgirl.y = umboy.y - 15
+
 
     //ai for crackhead
     crackhead.animate(5)
@@ -4971,7 +5042,7 @@ var LightWorld = new Phaser.Class({
     }
 
     //player animations and controls
-    if (!this.gettingLaidOutByCar && playerTexture!='board' && playerTexture!=1) {
+    if (!this.gettingLaidOutByCar && playerTexture != 'board' && playerTexture != 1) {
       me.body.setVelocity(0);
     }
 
@@ -5065,10 +5136,10 @@ var LightWorld = new Phaser.Class({
     }
 
     //skateboard texture
-    if (playerTexture === 'board'){
+    if (playerTexture === 'board') {
       speed = 4;
     }
-    if (playerTexture === 'board' && startSkateboardScene){
+    if (playerTexture === 'board' && startSkateboardScene) {
       jamesToggleFollow = true;
       stamina = 100;
       this.DialogueMenu.kickflipRotationDisplay.angle = 0;
@@ -5076,28 +5147,28 @@ var LightWorld = new Phaser.Class({
       this.ollieTimer = 0;
       startSkateboardScene = false;
       this.cameras.main.fadeOut(1000, 0, 0, 0)
-      window.setTimeout(()=>{
+      window.setTimeout(() => {
         this.cameras.main.fadeIn(1000, 0, 0, 0)
       }, 1000)
       me.x = jeanPath[25].x;
       me.y = jeanPath[25].y;
-      james.x = jeanPath[25].x+64;
+      james.x = jeanPath[25].x + 64;
       james.y = jeanPath[25].y;
-      me.body.setVelocity(0,0);
+      me.body.setVelocity(0, 0);
     }
-    if (!skateboardGet && playerTexture === 'board' && !(me.y>gameState.westburchamroadTL.y - 50 &&  me.y<gameState.eastburchamroadBR.y+50 && me.x>gameState.westburchamroadTL.x - 50 && me.x< gameState.eastburchamroadBR.x + 50)){
+    if (!skateboardGet && playerTexture === 'board' && !(me.y > gameState.westburchamroadTL.y - 50 && me.y < gameState.eastburchamroadBR.y + 50 && me.x > gameState.westburchamroadTL.x - 50 && me.x < gameState.eastburchamroadBR.x + 50)) {
       this.DialogueMenu.kickflipRotationDisplay.angle = 0;
       this.kickflipTimer = 0;
       this.ollieTimer = 0;
       me.x = jeanPath[25].x;
       me.y = jeanPath[25].y;
-      james.x = jeanPath[25].x+64;
+      james.x = jeanPath[25].x + 64;
       james.y = jeanPath[25].y;
-      me.body.setVelocity(0,0);
+      me.body.setVelocity(0, 0);
       kickflipCounter = 0;
       this.openDialoguePage(48)
     }
-    if (playerTexture === 'board' && stamina<=10 && !skateboardGet){
+    if (playerTexture === 'board' && stamina <= 10 && !skateboardGet) {
       playerTexture = 0;
       jamesToggleFollow = true;
       this.DialogueMenu.kickflipRotationDisplay.visible = false;
@@ -5110,88 +5181,92 @@ var LightWorld = new Phaser.Class({
       this.ollie = false;
     }
     if (playerTexture === 'board' && !pause) {
-      if (me.body.blocked.right || me.body.blocked.left || me.body.blocked.down || me.body.blocked.up){
+      if (me.body.blocked.right || me.body.blocked.left || me.body.blocked.down || me.body.blocked.up) {
         stamina -= 5;
         me.anims.play('meDeadSkateboard', true);
-        this.kickflipCounter=0;
+        this.kickflipCounter = 0;
         kickflipScoreDisplayed = false;
         gameState.crashBoard.play();
         gameState.skateboard.stop()
-        if (skateboardGet){
+        if (skateboardGet) {
           playerTexture = 0;
           jamesToggleFollow = true;
           this.DialogueMenu.kickflipRotationDisplay.visible = false;
           kickflipScoreDisplayed = false;
           this.DialogueMenu.kickflipRotationDisplay.angle = 0;
         }
-        me.setVelocity(0,0);
+        me.setVelocity(0, 0);
         pause = true;
         window.setTimeout(() => {
           pause = false
         }, 2000);
       }
       // player Horizontal movement
-      if (me.body.velocity.x**2 + me.body.velocity.y**2>100 && !this.ollie && !this.playingSkateboard){
+      if (me.body.velocity.x ** 2 + me.body.velocity.y ** 2 > 100 && !this.ollie && !this.playingSkateboard) {
         gameState.skateboard.play();
         this.playingSkateboard = true;
-      } if (this.ollie || (me.body.velocity.x**2 + me.body.velocity.y**2===0)){
+      }
+      if (this.ollie || (me.body.velocity.x ** 2 + me.body.velocity.y ** 2 === 0)) {
         this.playingSkateboard = false;
         gameState.skateboard.stop()
       }
       if (this.cursors.left.isDown && !this.ollie) {
-        me.body.setVelocityX(me.body.velocity.x-2*speed);
+        me.body.setVelocityX(me.body.velocity.x - 2 * speed);
       } else if (this.cursors.right.isDown && !this.ollie) {
-        me.body.setVelocityX(me.body.velocity.x+2*speed);
+        me.body.setVelocityX(me.body.velocity.x + 2 * speed);
       }
       // player Vertical movement
-      if (this.cursors.up.isDown && !this.ollie && Math.abs(me.body.velocity.x)>100) {
-        me.body.setVelocityY(me.body.velocity.y-speed);
-      } else if (this.cursors.down.isDown && !this.ollie&& Math.abs(me.body.velocity.x)>100) {
-        me.body.setVelocityY(me.body.velocity.y+speed);
+      if (this.cursors.up.isDown && !this.ollie && Math.abs(me.body.velocity.x) > 100) {
+        me.body.setVelocityY(me.body.velocity.y - speed);
+      } else if (this.cursors.down.isDown && !this.ollie && Math.abs(me.body.velocity.x) > 100) {
+        me.body.setVelocityY(me.body.velocity.y + speed);
       }
-      if (me.body.velocity.x>300){
+      if (me.body.velocity.x > 300) {
         me.body.setVelocityX(300);
-      } if (me.body.velocity.x<-300){
+      }
+      if (me.body.velocity.x < -300) {
         me.body.setVelocityX(-300);
-      } if (me.body.velocity.y>300){
+      }
+      if (me.body.velocity.y > 300) {
         me.body.setVelocityY(300);
-      } if (me.body.velocity.y<-300){
+      }
+      if (me.body.velocity.y < -300) {
         me.body.setVelocityY(-300);
       }
-      if (this.kickflipCounter===10 && !skateboardGet){
+      if (this.kickflipCounter === 10 && !skateboardGet) {
         this.openDialoguePage(45);
         this.kickflipCounter = 0;
         gameState.skateboard.stop()
         this.ollie = false;
       }
-      if (this.kickflipCounter===20 && brothersSealForSkateboarding === 0){
+      if (this.kickflipCounter === 20 && brothersSealForSkateboarding === 0) {
         this.openDialoguePage(455);
         items.push("Brothers Seal (board)")
         brothersSealForSkateboarding = 1
         this.ollie = false;
       }
       //kickflip timer
-      if (this.keyObjD.isDown && playerTexture === 'board' && this.ollie){
-        this.kickflipTimer+=1;
-      } else if (this.ollie && this.kickflipTimer>0){
+      if (this.keyObjD.isDown && playerTexture === 'board' && this.ollie) {
+        this.kickflipTimer += 1;
+      } else if (this.ollie && this.kickflipTimer > 0) {
         me.anims.stop()
       }
       //skateboarding animations
       if (!this.ollie && !this.kickflip && !pause) {
-        if (me.body.velocity.x<0 && (this.cursors.left.isDown || this.cursors.up.isDown) && !this.ollie) {
+        if (me.body.velocity.x < 0 && (this.cursors.left.isDown || this.cursors.up.isDown) && !this.ollie) {
           me.anims.play('board_right', true);
           me.flipX = true;
-        } else if (me.body.velocity.x>0  && (this.cursors.right.isDown || this.cursors.down.isDown) && !this.ollie) {
+        } else if (me.body.velocity.x > 0 && (this.cursors.right.isDown || this.cursors.down.isDown) && !this.ollie) {
           me.anims.play('board_right', true);
           me.flipX = false;
-        } else if (me.body.velocity.x<0){
+        } else if (me.body.velocity.x < 0) {
           me.setFrame(1);
           me.flipX = true;
-          me.body.setVelocityX(me.body.velocity.x+1)
-        } else if (me.body.velocity.x>0){
+          me.body.setVelocityX(me.body.velocity.x + 1)
+        } else if (me.body.velocity.x > 0) {
           me.setFrame(1);
           me.flipX = false;
-          me.body.setVelocityX(me.body.velocity.x-1)
+          me.body.setVelocityX(me.body.velocity.x - 1)
         } else {
           me.setFrame(1);
         }
@@ -5202,7 +5277,7 @@ var LightWorld = new Phaser.Class({
         } else if (this.ollieTimer >= 35) {
           me.y += 1;
         }
-        if (this.ollieTimer === 1){
+        if (this.ollieTimer === 1) {
           gameState.ollie_takeoff.play();
         }
         if (this.ollieTimer > 70) {
@@ -5229,25 +5304,25 @@ var LightWorld = new Phaser.Class({
           me.anims.play('kickflip_right', true);
         } else if (this.ollieTimer > 70) {
           gameState.ollie_land.play();
-          window.setTimeout(()=>{
+          window.setTimeout(() => {
             //this.DialogueMenu.kickflipRotationDisplay.visible = false;
             this.DialogueMenu.kickflipRotationDisplay.angle = 0;
           }, 500)
-          if (Math.abs(this.ollieTimer - this.kickflipTimer-10) < 2) {
+          if (Math.abs(this.ollieTimer - this.kickflipTimer - 10) < 2) {
             this.ollie = false;
             this.kickflip = false;
             this.kickflipTimer = 0;
             this.ollieTimer = 0;
-            this.kickflipCounter+=2
+            this.kickflipCounter += 2
             kickflipScoreDisplayed = true;
             me.anims.play('board_right', true);
             gameState.itemget.play();
-          } else if (Math.abs(this.ollieTimer - this.kickflipTimer-40) < 4) {
+          } else if (Math.abs(this.ollieTimer - this.kickflipTimer - 40) < 4) {
             this.ollie = false;
             this.kickflip = false;
             this.kickflipTimer = 0;
             this.ollieTimer = 0;
-            this.kickflipCounter+=1
+            this.kickflipCounter += 1
             kickflipScoreDisplayed = true;
             me.anims.play('board_right', true);
             gameState.itemget.play();
@@ -5256,9 +5331,9 @@ var LightWorld = new Phaser.Class({
             this.kickflip = false;
             this.kickflipTimer = 0;
             this.ollieTimer = 0;
-            this.kickflipCounter=0;
+            this.kickflipCounter = 0;
             kickflipScoreDisplayed = false;
-            if (skateboardGet){
+            if (skateboardGet) {
               playerTexture = 0;
               jamesToggleFollow = true;
               this.DialogueMenu.kickflipRotationDisplay.visible = false;
@@ -5267,7 +5342,7 @@ var LightWorld = new Phaser.Class({
             }
             me.anims.play('meDeadSkateboard', true);
             gameState.crashBoard.play()
-            me.setVelocity(0,0);
+            me.setVelocity(0, 0);
             pause = true;
             window.setTimeout(() => {
               pause = false
@@ -5286,80 +5361,80 @@ var LightWorld = new Phaser.Class({
       }
 
       // Horizontal car movement
-      if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+      if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown) {
         firstKeyDown = ''
-      } else if (this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+      } else if (this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown) {
         firstKeyDown = 'left'
-      } else if (!this.cursors.left.isDown && this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown){
+      } else if (!this.cursors.left.isDown && this.cursors.right.isDown && !this.cursors.up.isDown && !this.cursors.down.isDown) {
         firstKeyDown = 'right'
-      } else if (!this.cursors.left.isDown && !this.cursors.right.isDown && this.cursors.up.isDown && !this.cursors.down.isDown){
+      } else if (!this.cursors.left.isDown && !this.cursors.right.isDown && this.cursors.up.isDown && !this.cursors.down.isDown) {
         firstKeyDown = 'up'
-      } else if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && this.cursors.down.isDown){
+      } else if (!this.cursors.left.isDown && !this.cursors.right.isDown && !this.cursors.up.isDown && this.cursors.down.isDown) {
         firstKeyDown = 'down'
       }
 
-      if (this.keyObjD.isDown){ //apply the brakes when you press D
-        me.body.setVelocityX(me.body.velocity.x*8/10)
-        me.body.setVelocityY(me.body.velocity.y*8/10)
+      if (this.keyObjD.isDown) { //apply the brakes when you press D
+        me.body.setVelocityX(me.body.velocity.x * 8 / 10)
+        me.body.setVelocityY(me.body.velocity.y * 8 / 10)
       }
 
       if (this.cursors.left.isDown && gas > 0) {
         gas -= .0009
-          if (firstKeyDown==='left'){
-            me.body.setVelocityX(me.body.velocity.x-7*speed);
-          } else {
-            me.body.setVelocityX(me.body.velocity.x-3*speed);
-          }
+        if (firstKeyDown === 'left') {
+          me.body.setVelocityX(me.body.velocity.x - 7 * speed);
+        } else {
+          me.body.setVelocityX(me.body.velocity.x - 3 * speed);
+        }
       }
       if (this.cursors.right.isDown && gas > 0) {
         gas -= .0009
-        if (firstKeyDown==='right'){
-          me.body.setVelocityX(me.body.velocity.x+7*speed);
+        if (firstKeyDown === 'right') {
+          me.body.setVelocityX(me.body.velocity.x + 7 * speed);
         } else {
-          me.body.setVelocityX(me.body.velocity.x+3*speed);
+          me.body.setVelocityX(me.body.velocity.x + 3 * speed);
         }
       }
       if (this.cursors.up.isDown && gas > 0) {
         gas -= .0009
-        if (firstKeyDown==='up'){
-          me.body.setVelocityY(me.body.velocity.y-7*speed);
+        if (firstKeyDown === 'up') {
+          me.body.setVelocityY(me.body.velocity.y - 7 * speed);
         } else {
-          me.body.setVelocityY(me.body.velocity.y-3*speed);
+          me.body.setVelocityY(me.body.velocity.y - 3 * speed);
         }
       }
       if (this.cursors.down.isDown && gas > 0) {
         gas -= .0009
-        if (firstKeyDown==='down'){
-          me.body.setVelocityY(me.body.velocity.y+7*speed);
+        if (firstKeyDown === 'down') {
+          me.body.setVelocityY(me.body.velocity.y + 7 * speed);
         } else {
-          me.body.setVelocityY(me.body.velocity.y+3*speed);
+          me.body.setVelocityY(me.body.velocity.y + 3 * speed);
         }
       }
 
-      if (me.body.velocity.x>250*speed){
-        me.body.setVelocityX(250*speed)
-      } else if (me.body.velocity.x<-250*speed){
-        me.body.setVelocityX(-250*speed)
-      } else if (me.body.velocity.y>250*speed){
-        me.body.setVelocityY(250*speed)
-      } else if (me.body.velocity.y<-250*speed){
-        me.body.setVelocityY(-250*speed)
+      if (me.body.velocity.x > 250 * speed) {
+        me.body.setVelocityX(250 * speed)
+      } else if (me.body.velocity.x < -250 * speed) {
+        me.body.setVelocityX(-250 * speed)
+      } else if (me.body.velocity.y > 250 * speed) {
+        me.body.setVelocityY(250 * speed)
+      } else if (me.body.velocity.y < -250 * speed) {
+        me.body.setVelocityY(-250 * speed)
       }
 
       //sets body angle and size depending on 4 different velocity conditions
-      if (me.body.velocity.x < 0 && me.body.velocity.x**2>me.body.velocity.y**2){
+      if (me.body.velocity.x < 0 && me.body.velocity.x ** 2 > me.body.velocity.y ** 2) {
         me.angle = 270;
         me.body.setSize(64, 32);
         me.body.setOffset(0, 16)
-      } else if (me.body.velocity.x > 0 && me.body.velocity.x**2>me.body.velocity.y**2){
+      } else if (me.body.velocity.x > 0 && me.body.velocity.x ** 2 > me.body.velocity.y ** 2) {
         me.angle = 90;
         me.body.setSize(64, 32);
         me.body.setOffset(0, 16)
-      } else if (me.body.velocity.y < 0 && me.body.velocity.x**2<me.body.velocity.y**2){
+      } else if (me.body.velocity.y < 0 && me.body.velocity.x ** 2 < me.body.velocity.y ** 2) {
         me.angle = 0;
         me.body.setSize(32, 64);
         me.body.setOffset(16, 0)
-      } else if (me.body.velocity.y > 0 && me.body.velocity.x**2<me.body.velocity.y**2){
+      } else if (me.body.velocity.y > 0 && me.body.velocity.x ** 2 < me.body.velocity.y ** 2) {
         me.angle = 180;
         me.body.setSize(32, 64);
         me.body.setOffset(16, 0)
