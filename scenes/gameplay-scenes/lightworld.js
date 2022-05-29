@@ -857,8 +857,10 @@ var LightWorld = new Phaser.Class({
     this.load.spritesheet('umboy',
       'assets/images/umboy.png', {
         frameWidth: 140,
-        frameHeight: 250
+        frameHeight: 220
       });
+
+
     this.load.spritesheet('umgirl',
       'assets/images/umgirl.png', {
         frameWidth: 140,
@@ -1180,6 +1182,12 @@ var LightWorld = new Phaser.Class({
     for (let i = 0; i < 18; i++) {
       let stri = "umPath" + i.toString()
       umPath.push(map.findObject("Objects", obj => obj.name === stri));
+    }
+
+    um2Path = []
+    for (let i = 0; i < 13; i++) {
+      let stri = "um2Path" + i.toString()
+      um2Path.push(map.findObject("Objects", obj => obj.name === stri));
     }
 
     cwCarPath = []
@@ -2517,8 +2525,34 @@ var LightWorld = new Phaser.Class({
     this.anims.create({
       key: 'umboyright',
       frames: this.anims.generateFrameNumbers('umboy', {
-        start: 1,
-        end: 2
+        frames: [1,0,2,0]
+      }),
+      frameRate: 3,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'umboy2right',
+      frames: this.anims.generateFrameNumbers('umboy', {
+        frames: [4, 3, 5, 3]
+      }),
+      frameRate: 3,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'umboy3right',
+      frames: this.anims.generateFrameNumbers('umboy', {
+        frames: [7, 6, 8, 6]
+      }),
+      frameRate: 3,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'umboy4right',
+      frames: this.anims.generateFrameNumbers('umboy', {
+        frames: [10, 9, 11, 9]
       }),
       frameRate: 3,
       repeat: -1
@@ -2665,7 +2699,12 @@ var LightWorld = new Phaser.Class({
 
     //umboy
     umboy = new NPC(this, "umboy spawn point", "umboy", 0, "UM Boy", "umboyright", "umboyright", "umboyright", "umboyright", "umboyright", "punch", false);
-
+    umboy2 = new NPC(this, "umboy spawn point", "umboy", 0, "UM Boy 2", "umboy2right", "umboy2right", "umboy2right", "umboy2right", "umboy2right", "punch", false);
+    umboy3 = new NPC(this, "umboy spawn point", "umboy", 0, "UM Boy 3", "umboy3right", "umboy3right", "umboy3right", "umboy3right", "umboy3right", "punch", false);
+    umboy4 = new NPC(this, "umboy spawn point", "umboy", 0, "UM Boy 4", "umboy4right", "umboy4right", "umboy4right", "umboy4right", "umboy4right", "punch", false);
+    umboy2.setScale(.18)
+    umboy3.setScale(.16)
+    umboy4.setScale(.21)
     //umgirl
     umgirl = new NPC(this, "umgirl spawn point", "umgirl", 0, "UM girl", "umgirlright", "umgirlright", "umgirlright", "umgirlright", "umgirlright", "punch", false);
 
@@ -4848,8 +4887,8 @@ var LightWorld = new Phaser.Class({
       }
     });
 
-    //ai for umboy
-    umboy.animate(3)
+    //ai for umboys
+    umboy.animate(5)
     if (umboy.body.velocity.x > 5) {
       umboy.flipX = false;
     }
@@ -4858,18 +4897,40 @@ var LightWorld = new Phaser.Class({
     }
     followPath(umboy, umPath, 40)
 
+    umboy2.animate(6)
+    if (umboy2.body.velocity.x > 5) {
+      umboy2.flipX = false;
+    }
+    if (umboy2.body.velocity.x < -5) {
+      umboy2.flipX = true;
+    }
+    followPath(umboy2, um2Path, 40)
+    umboy3.animate(5)
+    if (umboy3.body.velocity.x > 5) {
+      umboy3.flipX = false;
+    }
+    if (umboy3.body.velocity.x < -5) {
+      umboy3.flipX = true;
+    }
+    walkWith(umboy3,umboy2)
+    umboy4.animate(6)
+    if (umboy4.body.velocity.x > 5) {
+      umboy4.flipX = false;
+    }
+    if (umboy4.body.velocity.x < -5) {
+      umboy4.flipX = true;
+    }
+    walkWith(umboy4,umboy3)
+
     //ai for umgirl
-    umgirl.animate(3)
+    umgirl.animate(5)
     if (umgirl.body.velocity.x > 5) {
       umgirl.flipX = false;
     }
     if (umgirl.body.velocity.x < -5) {
       umgirl.flipX = true;
     }
-    umgirl.body.setVelocityX(umboy.body.velocity.x)
-    umgirl.body.setVelocityY(umboy.body.velocity.y)
-    umgirl.x = umboy.x + 10
-    umgirl.y = umboy.y - 15
+    walkWith(umgirl,umboy)
 
 
     //ai for crackhead

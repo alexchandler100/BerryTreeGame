@@ -832,6 +832,18 @@ function directionVector(obj1, obj2) {
   }
 }
 
+function walkWith(follower,followee){
+  follower.body.setVelocityX(followee.body.velocity.x)
+  follower.body.setVelocityY(followee.body.velocity.y)
+  if (followee.body.velocity.x>followee.body.velocity.y){
+    follower.x = followee.x+15;
+    follower.y = followee.y+3;
+  } else {
+    follower.x = followee.x+3;
+    follower.y = followee.y+15;
+  }
+}
+
 function followPath(unit, path, speed = 50) {
   if (distance(unit, path[unit.position]) < 20 && !unit.changeDirection) {
     //console.log(unit.type)
