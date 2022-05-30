@@ -1291,21 +1291,31 @@ var LightWorld = new Phaser.Class({
     canjam.body.immovable = true;
     canjam.setScale(.1)
 
+    items = items.filter(function(value, index, arr){
+        return value!=='Phone' && value!=='Wallet' && value!=='Keys'
+    });
+
     //spawning phone wallet and keys
-    if (phoneGet === 0) {
+    //if (phoneGet === 0) {
       phone = this.physics.add.sprite(PhoneSpawnPoint.x, PhoneSpawnPoint.y + 8, 'phone');
       phone.setScale(.2);
       phone.angle = -25;
-    }
-    if (keysGet === 0) {
+    //}
+    //if (keysGet === 0) {
       keys = this.physics.add.sprite(KeysSpawnPoint.x, KeysSpawnPoint.y, 'car_keys');
       keys.setScale(.07);
-    }
-    if (walletGet === 0) {
+      if (keysGet===1){
+        keys.visible = false
+      }
+    //}
+    //if (walletGet === 0) {
       wallet = this.physics.add.sprite(WalletSpawnPoint.x, WalletSpawnPoint.y + 20, 'wallet');
       wallet.setScale(.2);
       wallet.angle = -50;
-    }
+      if (walletGet===1){
+        wallet.visible = false
+      }
+    //}
 
     //creating the soccer net in the field by the church
     goalieZones = this.physics.add.group({
@@ -3923,7 +3933,6 @@ var LightWorld = new Phaser.Class({
     }
     //setting location text, battle background and theme song based on location
     if (phoneGet===1) {
-      console.log(`phoneGet ${phoneGet}`)
       if (me.x > gameState.burcham731TL.x && me.y > gameState.burcham731TL.y && me.x < gameState.burcham731BR.x && me.y < gameState.burcham731BR.y) {
         gameStateNav.location.setText("731 Burcham Apartments\nEast Lansing, Mi");
         if (nearPool) {
