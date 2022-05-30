@@ -1317,9 +1317,9 @@ function generateRandomEquipment() {
   //base
   let types = {
     'Mac_upper': ['T-Shirt', 'Wife Beater'],
-    'Mac_lower': ['Shorts', 'Track Pants'],
+    'Mac_lower': ['Gym Shorts', 'Track Pants'],
     'Jimmy_upper': ['Shirt', 'Sweatshirt'],
-    'Jimmy_lower': ['Jorts', 'Snowpants'],
+    'Jimmy_lower': ['Cargo Pants', 'Waders'],
     'Al_upper': ['Button-Up', 'Hoody'],
     'Al_lower': ['Sweatpants', 'JNCO Jeans'],
     'Bennett_upper': ['Tank Top', 'Spandex Shirt'],
