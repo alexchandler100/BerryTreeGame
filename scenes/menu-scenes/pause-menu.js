@@ -162,6 +162,7 @@ var PauseMenu = new Phaser.Class({
             'liquorGet':liquorGet,
             'flowersGet':flowersGet,
             'keysGet':keysGet,
+            //'phoneGet':phoneGet
           }
           localStorage.setItem("overworldParams", JSON.stringify(overworldParams));
           localStorage.setItem("joinParams", JSON.stringify(joinParams));

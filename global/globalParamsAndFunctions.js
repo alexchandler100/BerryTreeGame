@@ -1591,6 +1591,7 @@ function loadState(){
       athletics = overworldParams["athletics"]
       items = overworldParams["items"]
       charStyle = overworldParams["charStyle"]
+      //phoneGet = overworldParams["phoneGet"]
       walletGet = overworldParams["walletGet"]
       liquorGet = overworldParams["liquorGet"]
       flowersGet = overworldParams["flowersGet"]
