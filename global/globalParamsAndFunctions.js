@@ -473,7 +473,7 @@ let joinParams = {'Jimmy': false, 'Al': false, 'Bennett': false}
 function equip(piece, player) {
   equipment[piece]['equipped'] += 1
   if (equipment[piece]['def'] > 0) {
-    party[player]['def'] += equipment[piece]['def']
+    party[player]['defense'] += equipment[piece]['def']
   }
   if (equipment[piece]['damagePlus'] > 0) {
     party[player]['damage'] += equipment[piece]['damagePlus']
@@ -507,7 +507,7 @@ function equip(piece, player) {
 function unequip(piece, player) { //problem: if I equip two pieces with nevermiss and then unequip one, it gives nevermiss false (test this) (fix... make nevermiss a number and anything >0 gives nevermiss)
   equipment[piece]['equipped'] -= 1
   if (equipment[piece]['def'] > 0) {
-    party[player]['def'] -= equipment[piece]['def']
+    party[player]['defense'] -= equipment[piece]['def']
   }
   if (equipment[piece]['damagePlus'] > 0) {
     party[player]['damage'] -= equipment[piece]['damagePlus']
