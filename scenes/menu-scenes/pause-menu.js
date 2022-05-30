@@ -169,6 +169,8 @@ var PauseMenu = new Phaser.Class({
           localStorage.setItem("party", JSON.stringify(party));
           localStorage.setItem("inventory", JSON.stringify(inventory));
           localStorage.setItem("equipped", JSON.stringify(equipped));
+          localStorage.setItem("activeQuests", JSON.stringify(activeQuests));
+          localStorage.setItem("completedQuests", JSON.stringify(completedQuests));
           //this.scene.scene.events.emit("Message", "Game Saved", 600,300);
           this.scene.stop();
           scene_number = 2;

@@ -1601,6 +1601,8 @@ function loadState(){
     equipped = JSON.parse(localStorage.getItem('equipped'))
     joinParams = JSON.parse(localStorage.getItem('joinParams'))
     inventory = JSON.parse(localStorage.getItem('inventory'))
+    activeQuests = JSON.parse(localStorage.getItem('activeQuests'))
+    completedQuests = JSON.parse(localStorage.getItem('completedQuests'))
   } else {
     //building inventory from the file inventory_items.json
     $(function() {
