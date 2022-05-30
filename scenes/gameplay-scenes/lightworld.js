@@ -3518,6 +3518,20 @@ var LightWorld = new Phaser.Class({
 
     this.scene.launch('Navigator');
     this.DialogueMenu = this.scene.get("DialogueMenu");
+
+    //reads joinParam data
+    if (joinParams['Jimmy']){
+      trevor.joinParameter = true;
+      trevor.following = true;
+    }
+    if (joinParams['Al']){
+      al.joinParameter = true;
+      al.following = true;
+    }
+    if (joinParams['Bennett']){
+      bennett.joinParameter = true;
+      bennett.following = true;
+    }
   },
 
   update: function() {
@@ -3908,7 +3922,7 @@ var LightWorld = new Phaser.Class({
       nearVolleyballCourt = false
     }
     //setting location text, battle background and theme song based on location
-    if (phoneGet) {
+    if (phoneGet  && time > 100) {
       if (me.x > gameState.burcham731TL.x && me.y > gameState.burcham731TL.y && me.x < gameState.burcham731BR.x && me.y < gameState.burcham731BR.y) {
         gameStateNav.location.setText("731 Burcham Apartments\nEast Lansing, Mi");
         if (nearPool) {

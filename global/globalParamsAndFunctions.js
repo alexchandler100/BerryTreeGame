@@ -1,7 +1,3 @@
-//game start paramters
-let gameOver = false;
-let newGame = true;
-
 //keyboard parameters
 let keyboardGet = false;
 let keyboardDialogue;
@@ -470,6 +466,8 @@ let equipped = {
   }
 }
 
+let joinParams = {'Jimmy': false, 'Al': false, 'Bennett': false}
+
 //equipment parameters (should all be incorporated in a larger object built from csv files)
 
 function equip(piece, player) {
@@ -832,15 +830,15 @@ function directionVector(obj1, obj2) {
   }
 }
 
-function walkWith(follower,followee){
+function walkWith(follower, followee) {
   follower.body.setVelocityX(followee.body.velocity.x)
   follower.body.setVelocityY(followee.body.velocity.y)
-  if (followee.body.velocity.x>followee.body.velocity.y){
-    follower.x = followee.x+15;
-    follower.y = followee.y+3;
+  if (followee.body.velocity.x > followee.body.velocity.y) {
+    follower.x = followee.x + 15;
+    follower.y = followee.y + 3;
   } else {
-    follower.x = followee.x+3;
-    follower.y = followee.y+15;
+    follower.x = followee.x + 3;
+    follower.y = followee.y + 15;
   }
 }
 
@@ -1282,151 +1280,24 @@ function openDrewStore() {
   scene_number = 97;
 }
 
-let inventory = {}
-
-//see if inventory file exists
-if (localStorage.getItem('inventory') !== null) {
-    console.log(`Save State Found For Inventory`);
-    inventory = JSON.parse(localStorage.getItem('inventory'))
-} else {
-  //building inventory from the file inventory_items.json
-  $(function() {
-    //var people = [];
-    $.getJSON('data/json-files/inventory_items.json', function(data) {
-      //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
-      $.each(data, function(i, f) {
-        name = f['name']
-        inventory[name] = f
-      });
-    });
-  });
-}
 
 
-let party = {}
-//see if party file exists
-if (localStorage.getItem('party') !== null) {
-    console.log(`Save State Found For Party`);
-    party = JSON.parse(localStorage.getItem('party'))
-} else {
-  //building character-stats from the file character-stats.json
-  $(function() {
-    //var people = [];
-    $.getJSON('data/json-files/character-stats.json', function(data) {
-      //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
-      $.each(data, function(i, f) {
-        name = f['name']
-        party[name] = f
-      });
-    });
-  });
-}
 
-let equipment = {}
-//see if equipment file exists
-if (localStorage.getItem('equipment') !== null) {
-    console.log(`Save State Found For Equipment`);
-    equipment = JSON.parse(localStorage.getItem('equipment'))
-} else {
-  //building character-stats from the file equipment.json
-  $(function() {
-    //var people = [];
-    $.getJSON('data/json-files/equipment.json', function(data) {
-      //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
-      $.each(data, function(i, f) {
-        name = f['name']
-        equipment[name] = f
-      });
-    });
-  });
-}
-
-window.setTimeout(() => {
-  //console.log(inventory)
-  for (let i = 0; i < Object.keys(inventory).length; i++) {
-    key1 = Object.keys(inventory)[i]
-    for (let j = 0; j < Object.keys(inventory[key1]).length; j++) {
-      key2 = Object.keys(inventory[key1])[j]
-      if (parseInt(inventory[key1][key2])) {
-        inventory[key1][key2] = parseInt(inventory[key1][key2])
-      } else if (parseFloat(inventory[key1][key2])) {
-        inventory[key1][key2] = parseFloat(inventory[key1][key2])
-      } else if (inventory[key1][key2] === '0') {
-        inventory[key1][key2] = 0;
-      }
-    }
-  }
-  let numberOfItems = 0;
-  for (let i = 0; i < Object.keys(inventory).length; i++) {
-    key = Object.keys(inventory)[i]
-    numberOfItems += inventory[key]['numberOwned']
-    //console.log(key, inventory[key]["hp"], inventory[key]["sp"], inventory[key]["randomEncounterRewards"])
-  }
-}, 200)
-
-window.setTimeout(() => {
-  for (let i = 0; i < Object.keys(party).length; i++) {
-    key1 = Object.keys(party)[i]
-    for (let j = 0; j < Object.keys(party[key1]).length; j++) {
-      key2 = Object.keys(party[key1])[j]
-      if (parseInt(party[key1][key2])) {
-        party[key1][key2] = parseInt(party[key1][key2])
-      } else if (parseFloat(party[key1][key2])) {
-        party[key1][key2] = parseFloat(party[key1][key2])
-      } else if (party[key1][key2] === '0') {
-        party[key1][key2] = 0;
-      } else if (String(party[key1][key2]).toLowerCase() == "true") {
-        party[key1][key2] = true
-      } else if (String(party[key1][key2]).toLowerCase() == "false") {
-        party[key1][key2] = false
-      }
-      // to handle column entries which are dictionaries or lists
-      else if (String(party[key1][key2]).includes("{") || String(party[key1][key2]).includes("[")) {
-        let json = party[key1][key2];
-        //console.log(json)
-        let obj = JSON.parse(json);
-        party[key1][key2] = obj
-      }
-    }
-  }
-  //console.log(party['Mac']['special'][0])
-}, 200)
-
-
-window.setTimeout(() => {
-  for (let i = 0; i < Object.keys(equipment).length; i++) {
-    key1 = Object.keys(equipment)[i]
-    for (let j = 0; j < Object.keys(equipment[key1]).length; j++) {
-      key2 = Object.keys(equipment[key1])[j]
-      if (parseInt(equipment[key1][key2])) {
-        equipment[key1][key2] = parseInt(equipment[key1][key2])
-      } else if (parseFloat(equipment[key1][key2])) {
-        equipment[key1][key2] = parseFloat(equipment[key1][key2])
-      } else if (equipment[key1][key2] === '0') {
-        equipment[key1][key2] = 0;
-      } else if (String(equipment[key1][key2]).toLowerCase() == "true") {
-        equipment[key1][key2] = true
-      } else if (String(equipment[key1][key2]).toLowerCase() == "false") {
-        equipment[key1][key2] = false
-      }
-    }
-  }
-}, 250)
 
 //building the list of effects
 let maxStrengths = {
   'style': 15,
-  'damagePlus':15,
-  'maxSPPlus':10,
-  'maxHPPlus':20,
+  'damagePlus': 15,
+  'maxSPPlus': 10,
+  'maxHPPlus': 20,
   'athletics': 15, //divide by 10 in the end
 }
 
-function describeEffect(stat,strength){
+function describeEffect(stat, strength) {
   effects = {
     'style': 'Style',
-    'damagePlus':'Damage',
-    'maxSPPlus':'Max SP',
+    'damagePlus': 'Damage',
+    'maxSPPlus': 'Max SP',
     'maxHPPlus': 'Max SP',
     'neverMiss': 'Never miss',
     'firstStrike': 'First strike',
@@ -1434,8 +1305,8 @@ function describeEffect(stat,strength){
     'preventBlindness': 'Prevents Blindness',
     'athletics': 'Athletics',
   }
-  if (maxStrengths[stat]){
-    return effects[stat] + ' +' +String(strength)
+  if (maxStrengths[stat]) {
+    return effects[stat] + ' +' + String(strength)
   } else {
     return effects[stat]
   }
@@ -1477,43 +1348,43 @@ function generateRandomEquipment() {
   let postfixes = {
     'preventBleeding': ['of Carbon-Fiber', `the Uncut`, `of Invinciblity`, `of Kevlar`],
     'preventBlindness': ['the All-Seeing', `of the Vigilent`, `of Sight`, `of Seeing`],
-    'damagePlus':['of Ferocity', 'of the Brutal', 'of the Savage', 'of the Vicious'],
-    'maxSPPlus':['of Competence', 'of the Skilled', `of Speciality`, `of the Expert`],
-    'maxHPPlus':['of the Healthy', 'of the Enduring', `of Constancy`, `of Lasting Health`],
+    'damagePlus': ['of Ferocity', 'of the Brutal', 'of the Savage', 'of the Vicious'],
+    'maxSPPlus': ['of Competence', 'of the Skilled', `of Speciality`, `of the Expert`],
+    'maxHPPlus': ['of the Healthy', 'of the Enduring', `of Constancy`, `of Lasting Health`],
   }
 
   // slots
   let slots = 0;
   let rareDraw = getRandomInt(10);
   console.log(rareDraw)
-  if (rareDraw===0) {
+  if (rareDraw === 0) {
     slots = 2
   } else if (rareDraw < 5) {
     slots = 1
   }
   console.log(`slots ${slots}`)
 
-  let prefix='';
-  let postfix='';
-  let stat1='';
-  let stat2='';
+  let prefix = '';
+  let postfix = '';
+  let stat1 = '';
+  let stat2 = '';
   let effect = '';
 
-  if (slots===1){
+  if (slots === 1) {
     console.log(`1 slot`);
     let typeOfAddon = getRandomInt(2);
-    if (typeOfAddon===0){
+    if (typeOfAddon === 0) {
       let statistics = Object.keys(prefixes);
       stat1 = statistics[getRandomInt(statistics.length)];
       let pres = prefixes[stat1];
       prefix = pres[getRandomInt(pres.length)];
-    } else if (typeOfAddon===1){
+    } else if (typeOfAddon === 1) {
       let statistics = Object.keys(postfixes);
       stat2 = statistics[getRandomInt(statistics.length)];
       let posts = postfixes[stat2];
       postfix = posts[getRandomInt(posts.length)];
     }
-  } else if (slots===2){
+  } else if (slots === 2) {
     console.log(`2 slots`)
     let prestatistics = Object.keys(prefixes)
     stat1 = prestatistics[getRandomInt(prestatistics.length)]
@@ -1524,55 +1395,55 @@ function generateRandomEquipment() {
     let posts = postfixes[stat2]
     postfix = posts[getRandomInt(posts.length)]
   }
-  console.log(`stat1 and stat2`, stat1,stat2)
+  console.log(`stat1 and stat2`, stat1, stat2)
   //building the name of the piece
   let name = base;
-  if (prefix.length>0){
-    name = prefix+' '+name
+  if (prefix.length > 0) {
+    name = prefix + ' ' + name
   }
-  if (postfix.length>0){
-    name = name+' '+postfix
+  if (postfix.length > 0) {
+    name = name + ' ' + postfix
   }
 
-  let activeEffects=[]
-  let strength1=0;
-  let strength2=0;
+  let activeEffects = []
+  let strength1 = 0;
+  let strength2 = 0;
   let value = 1
-  if (maxStrengths[stat1]){
-    strength1=getRandomInt(maxStrengths[stat1])+1
-    value+=strength1;
-    if (stat1 === 'athletics'){ //need to scale and round athletics
-      strength1 = strength1/40
+  if (maxStrengths[stat1]) {
+    strength1 = getRandomInt(maxStrengths[stat1]) + 1
+    value += strength1;
+    if (stat1 === 'athletics') { //need to scale and round athletics
+      strength1 = strength1 / 40
       strength1 = Math.round(strength1 * 100) / 100
     }
-    effect+=describeEffect(stat1, strength1)
-    activeEffects.push([stat1,strength1])
-  } else if (stat1){
-    strength1=10
-    value+=strength1;
-    effect+=describeEffect(stat1, 0)
-    activeEffects.push([stat1,true])
+    effect += describeEffect(stat1, strength1)
+    activeEffects.push([stat1, strength1])
+  } else if (stat1) {
+    strength1 = 10
+    value += strength1;
+    effect += describeEffect(stat1, 0)
+    activeEffects.push([stat1, true])
   }
-  if (maxStrengths[stat2]){
-    if (effect.length>0){
-      effect+='\n        '
+  if (maxStrengths[stat2]) {
+    if (effect.length > 0) {
+      effect += '\n        '
     }
-    strength2 = getRandomInt(maxStrengths[stat2])+1
-    value+=strength2;
-    if (stat2 === 'athletics'){ //need to scale and round athletics
-      strength2 = strength2/40
+    strength2 = getRandomInt(maxStrengths[stat2]) + 1
+    value += strength2;
+    if (stat2 === 'athletics') { //need to scale and round athletics
+      strength2 = strength2 / 40
       strength2 = Math.round(strength2 * 100) / 100
     }
-    effect+=describeEffect(stat2, strength2)
-    activeEffects.push([stat2,strength2])
-  } else if (stat2){
-    if (effect.length>0){
-      effect+='\n        '
+    effect += describeEffect(stat2, strength2)
+    activeEffects.push([stat2, strength2])
+  } else if (stat2) {
+    if (effect.length > 0) {
+      effect += '\n        '
     }
     strength2 = 10
-    value+=strength2;
-    effect+=describeEffect(stat2, 0)
-    activeEffects.push([stat2,true])
+    value += strength2;
+    effect += describeEffect(stat2, 0)
+    activeEffects.push([stat2, true])
   }
 
   let chars = {
@@ -1588,10 +1459,10 @@ function generateRandomEquipment() {
   }
   character = chars[type]
 
-  let piece_def = getRandomInt((party['Mac']['level']+5)*2)
+  let piece_def = getRandomInt((party['Mac']['level'] + 5) * 2)
   value += piece_def
 
-  if (effect===''){
+  if (effect === '') {
     effect = 'none'
   }
 
@@ -1629,10 +1500,10 @@ function generateRandomEquipment() {
   //new_equipment['effect'] = effect;
   //new_equipment['def'] = piece_def;
 
-  for (let i=0;i<activeEffects.length;i++){
+  for (let i = 0; i < activeEffects.length; i++) {
     let stati = activeEffects[i][0]
     let strengthi = activeEffects[i][1]
-    new_equipment[stati]= strengthi
+    new_equipment[stati] = strengthi
   }
   return new_equipment
 }
@@ -1648,3 +1519,214 @@ window.setTimeout(()=>{
   }
 }, 500)
 */
+
+function loadState(){
+  console.log('loading')
+  if (localStorage.getItem('overworldParams')){
+      overworldParams = JSON.parse(localStorage.getItem('overworldParams'))
+      //set all params
+      money = overworldParams["money"]
+      trevorAptFirstDialogue = overworldParams["trevorAptFirstDialogue"]
+      gas = overworldParams["gas"]
+      carCrashDialogue = overworldParams["carCrashDialogue"]
+      skateboardGet = overworldParams["skateboardGet"]
+      stripperBanged = overworldParams["stripperBanged"]
+      fratboy2primedialogue = overworldParams["fratboy2primedialogue"]
+      blondeTalk = overworldParams["blondeTalk"]
+      newDarkDialogue = overworldParams["newDarkDialogue"]
+      darkboydialogue = overworldParams["darkboydialogue"]
+      diodialogue = overworldParams["diodialogue"]
+      trevorAptFirstDialogue = overworldParams["trevorAptFirstDialogue"]
+      firstTimeCarGet = overworldParams["firstTimeCarGet"]
+      larryFirstTalk = overworldParams["larryFirstTalk"]
+      drewFirstTalk = overworldParams["drewFirstTalk"]
+      jeanClaudeFirstTalk = overworldParams["jeanClaudeFirstTalk"]
+      fratboy1FirstTalk = overworldParams["fratboy1FirstTalk"]
+      fratboy2FirstTalk = overworldParams["fratboy2FirstTalk"]
+      fratboy3FirstTalk = overworldParams["fratboy3FirstTalk"]
+      fratboy4FirstTalk = overworldParams["fratboy4FirstTalk"]
+      fratboy5FirstTalk = overworldParams["fratboy5FirstTalk"]
+      jamesFirstTalk = overworldParams["jamesFirstTalk"]
+      joeFirstTalk = overworldParams["joeFirstTalk"]
+      bennettFirstTalk = overworldParams["bennettFirstTalk"]
+      jonFirstTalk = overworldParams["jonFirstTalk"]
+      yogagirlFirstTalk = overworldParams["yogagirlFirstTalk"]
+      stripperFirstTalk = overworldParams["stripperFirstTalk"]
+      adelineFirstTalk = overworldParams["adelineFirstTalk"]
+      volleyballScore = overworldParams["volleyballScore"]
+      firstPoolParty = overworldParams["firstPoolParty"]
+      ogFirstTalk = overworldParams["ogFirstTalk"]
+      gunTalk = overworldParams["gunTalk"]
+      joeGet = overworldParams["joeGet"]
+      jamesGet = overworldParams["jamesGet"]
+      jimmyJoinParam = overworldParams["jimmyJoinParam"]
+      neverBeenPro = overworldParams["neverBeenPro"]
+      evanFirstDialogue = overworldParams["evanFirstDialogue"]
+      anthonyFirstDialogue = overworldParams["anthonyFirstDialogue"]
+      girl1FirstDialogue = overworldParams["girl1FirstDialogue"]
+      girl2FirstDialogue = overworldParams["girl2FirstDialogue"]
+      girl3FirstDialogue = overworldParams["girl3FirstDialogue"]
+      girl4FirstDialogue = overworldParams["girl4FirstDialogue"]
+      crackheadFirstTalk = overworldParams["crackheadFirstTalk"]
+      moneyToCrackhead = overworldParams["moneyToCrackhead"]
+      crackheadJoin = overworldParams["crackheadJoin"]
+      crackheadFirstJoin = overworldParams["crackheadFirstJoin"]
+      highnessDialogue = overworldParams["highnessDialogue"]
+      larryStoreOpen = overworldParams["larryStoreOpen"]
+      drewStoreOpen = overworldParams["drewStoreOpen"]
+      alFirstTalk = overworldParams["alFirstTalk"]
+      darkworldDialogue = overworldParams["darkworldDialogue"]
+      gotYogaBlocks = overworldParams["gotYogaBlocks"]
+      numberOfPlayers = overworldParams["numberOfPlayers"]
+      firstStrike = overworldParams["firstStrike"]
+      pageForDialogue = overworldParams["pageForDialogue"]
+      overworldClock = overworldParams["overworldClock"]
+      numberOfFights = overworldParams["numberOfFights"]
+      bennettGet = overworldParams["bennettGet"]
+      alGet = overworldParams["alGet"]
+      speed = overworldParams["speed"]
+      brothersSeal = overworldParams["brothersSeal"]
+      brothersSealForSkateboarding = overworldParams["brothersSealForSkateboarding"]
+      time = overworldParams["time"]
+      athletics = overworldParams["athletics"]
+      items = overworldParams["items"]
+      charStyle = overworldParams["charStyle"]
+      walletGet = overworldParams["walletGet"]
+      liquorGet = overworldParams["liquorGet"]
+      flowersGet = overworldParams["flowersGet"]
+      keysGet = overworldParams["keysGet"]
+  }
+  if (localStorage.getItem('equipped')){
+      equipped = JSON.parse(localStorage.getItem('equipped'))
+  }
+  if (localStorage.getItem('joinParams')){
+      joinParams = JSON.parse(localStorage.getItem('joinParams'))
+  }
+  if (localStorage.getItem('inventory') !== null && continueGame) {
+    console.log(`Save State Found For Inventory`);
+    inventory = JSON.parse(localStorage.getItem('inventory'))
+  } else {
+    //building inventory from the file inventory_items.json
+    $(function() {
+      //var people = [];
+      $.getJSON('data/json-files/inventory_items.json', function(data) {
+        //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+        $.each(data, function(i, f) {
+          name = f['name']
+          inventory[name] = f
+        });
+      });
+    });
+  }
+  //see if party file exists
+  if (localStorage.getItem('party') !== null && continueGame) {
+    console.log(`Save State Found For Party`);
+    party = JSON.parse(localStorage.getItem('party'))
+  } else {
+    //building character-stats from the file character-stats.json
+    $(function() {
+      //var people = [];
+      $.getJSON('data/json-files/character-stats.json', function(data) {
+        //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+        $.each(data, function(i, f) {
+          name = f['name']
+          party[name] = f
+        });
+      });
+    });
+  }
+  //see if equipment file exists
+  if (localStorage.getItem('equipment') !== null && continueGame) {
+    console.log(`Save State Found For Equipment`);
+    equipment = JSON.parse(localStorage.getItem('equipment'))
+  } else {
+    //building character-stats from the file equipment.json
+    $(function() {
+      //var people = [];
+      $.getJSON('data/json-files/equipment.json', function(data) {
+        //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+        $.each(data, function(i, f) {
+          name = f['name']
+          equipment[name] = f
+        });
+      });
+    });
+  }
+
+  //if no local storage is found, we will need to use the json files which need manual parsing for correct format
+  if (localStorage.getItem('equipment') !== null && continueGame) {
+    console.log(`manual parse not needed`);
+  } else {
+    window.setTimeout(() => {
+      //console.log(inventory)
+      for (let i = 0; i < Object.keys(inventory).length; i++) {
+        key1 = Object.keys(inventory)[i]
+        for (let j = 0; j < Object.keys(inventory[key1]).length; j++) {
+          key2 = Object.keys(inventory[key1])[j]
+          if (parseInt(inventory[key1][key2])) {
+            inventory[key1][key2] = parseInt(inventory[key1][key2])
+          } else if (parseFloat(inventory[key1][key2])) {
+            inventory[key1][key2] = parseFloat(inventory[key1][key2])
+          } else if (inventory[key1][key2] === '0') {
+            inventory[key1][key2] = 0;
+          }
+        }
+      }
+      let numberOfItems = 0;
+      for (let i = 0; i < Object.keys(inventory).length; i++) {
+        key = Object.keys(inventory)[i]
+        numberOfItems += inventory[key]['numberOwned']
+        //console.log(key, inventory[key]["hp"], inventory[key]["sp"], inventory[key]["randomEncounterRewards"])
+      }
+    }, 200)
+
+    window.setTimeout(() => {
+      for (let i = 0; i < Object.keys(party).length; i++) {
+        key1 = Object.keys(party)[i]
+        for (let j = 0; j < Object.keys(party[key1]).length; j++) {
+          key2 = Object.keys(party[key1])[j]
+          if (parseInt(party[key1][key2])) {
+            party[key1][key2] = parseInt(party[key1][key2])
+          } else if (parseFloat(party[key1][key2])) {
+            party[key1][key2] = parseFloat(party[key1][key2])
+          } else if (party[key1][key2] === '0') {
+            party[key1][key2] = 0;
+          } else if (String(party[key1][key2]).toLowerCase() == "true") {
+            party[key1][key2] = true
+          } else if (String(party[key1][key2]).toLowerCase() == "false") {
+            party[key1][key2] = false
+          }
+          // to handle column entries which are dictionaries or lists
+          else if (String(party[key1][key2]).includes("{") || String(party[key1][key2]).includes("[")) {
+            let json = party[key1][key2];
+            //console.log(json)
+            let obj = JSON.parse(json);
+            party[key1][key2] = obj
+          }
+        }
+      }
+      //console.log(party['Mac']['special'][0])
+    }, 200)
+
+
+    window.setTimeout(() => {
+      for (let i = 0; i < Object.keys(equipment).length; i++) {
+        key1 = Object.keys(equipment)[i]
+        for (let j = 0; j < Object.keys(equipment[key1]).length; j++) {
+          key2 = Object.keys(equipment[key1])[j]
+          if (parseInt(equipment[key1][key2])) {
+            equipment[key1][key2] = parseInt(equipment[key1][key2])
+          } else if (parseFloat(equipment[key1][key2])) {
+            equipment[key1][key2] = parseFloat(equipment[key1][key2])
+          } else if (equipment[key1][key2] === '0') {
+            equipment[key1][key2] = 0;
+          } else if (String(equipment[key1][key2]).toLowerCase() == "true") {
+            equipment[key1][key2] = true
+          } else if (String(equipment[key1][key2]).toLowerCase() == "false") {
+            equipment[key1][key2] = false
+          }
+        }
+      }
+    }, 250)
+  }
+}

@@ -51,19 +51,6 @@ var PauseMenu = new Phaser.Class({
       scene_number=9
     }, this);
 
-    //exit button
-    gameState1.save_button = this.add.rectangle(960, 70, 80, 20, 0xfff);
-    gameState1.save_button.setInteractive()
-    gameState1.save_button.on('pointerup', function() {
-      localStorage.setItem("equipment", JSON.stringify(equipment));
-      localStorage.setItem("party", JSON.stringify(party));
-      localStorage.setItem("inventory", JSON.stringify(inventory));
-    }, this);
-    saveText = this.add.text(960-7, 70-14, 'save', {
-      fontSize: '25px',
-      fill: '#fff'
-    });
-
 
     //exit button
     gameState1.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
@@ -79,41 +66,6 @@ var PauseMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-//Save function needs some work... its broken. Lets just disable it for now... better than
-//the current issue of saving and freezing the game
-
-/*
-    //save button
-    gameState1.save_button = this.add.rectangle(780, 70, 80, 20, 0xfff);
-    gameState1.save_button.setInteractive()
-    gameState1.save_button.on('pointerup', function() {
-      this.scene.stop();
-      scene_number = 2;
-      pause = false;
-      saveGame();
-    }, this);
-    saveText = this.add.text(780-28, 70-14, 'save', {
-      fontSize: '25px',
-      fill: '#fff'
-    });
-    */
-
-/*
-    //load button
-    gameState1.load_button = this.add.rectangle(880, 70, 80, 20, 0xfff);
-    gameState1.load_button.setInteractive()
-    gameState1.load_button.on('pointerup', function() {
-      this.scene.stop();
-      scene_number = 2;
-      pause = false;
-      loadGame2();
-    }, this);
-    loadText = this.add.text(880-28, 70-14, 'load', {
-      fontSize: '25px',
-      fill: '#fff'
-    });
-    */
-
 
         //controls button
         let control_x = 850;
@@ -123,6 +75,108 @@ var PauseMenu = new Phaser.Class({
           scene_number=99
         }, this);
         loadText = this.add.text(control_x-56, 70-14, 'controls', {
+          fontSize: '25px',
+          fill: '#fff'
+        });
+
+        this.message = new OnScreenMessage(this, this.events, 600,300);
+        this.add.existing(this.message);
+
+        //save button
+        gameState1.save_button = this.add.rectangle(control_x - 140, 70, 96, 20, 0xfff);
+        gameState1.save_button.setInteractive()
+        gameState1.save_button.on('pointerup', function() {
+          joinParams = {
+            'Jimmy': trevor.joinParameter,
+            'Al': al.joinParameter,
+            'Bennett': bennett.joinParameter,
+          }
+          overworldParams = {
+            'money': money,
+            'trevorAptFirstDialogue':trevorAptFirstDialogue,
+            'gas': gas,
+            'carCrashDialogue': carCrashDialogue,
+            'skateboardGet': skateboardGet,
+            'stripperBanged': stripperBanged,
+            'fratboy2primedialogue':fratboy2primedialogue,
+            'blondeTalk':blondeTalk,
+            'newDarkDialogue':newDarkDialogue,
+            'darkboydialogue':darkboydialogue,
+            'diodialogue':diodialogue,
+            'trevorAptFirstDialogue':trevorAptFirstDialogue,
+            'firstTimeCarGet':firstTimeCarGet,
+            'larryFirstTalk':larryFirstTalk,
+            'drewFirstTalk':drewFirstTalk,
+            'jeanClaudeFirstTalk':jeanClaudeFirstTalk,
+            'fratboy1FirstTalk':fratboy1FirstTalk,
+            'fratboy2FirstTalk':fratboy2FirstTalk,
+            'fratboy3FirstTalk':fratboy3FirstTalk,
+            'fratboy4FirstTalk':fratboy4FirstTalk,
+            'fratboy5FirstTalk':fratboy5FirstTalk,
+            'jamesFirstTalk':jamesFirstTalk,
+            'joeFirstTalk':joeFirstTalk,
+            'bennettFirstTalk':bennettFirstTalk,
+            'jonFirstTalk':jonFirstTalk,
+            'yogagirlFirstTalk':yogagirlFirstTalk,
+            'stripperFirstTalk':stripperFirstTalk,
+            'adelineFirstTalk':adelineFirstTalk,
+            'volleyballScore':volleyballScore,
+            'firstPoolParty':firstPoolParty,
+            'ogFirstTalk':ogFirstTalk,
+            'gunTalk':gunTalk,
+            'joeGet':joeGet,
+            'jamesGet':jamesGet,
+            'jimmyJoinParam':jimmyJoinParam,
+            'neverBeenPro':neverBeenPro,
+            'evanFirstDialogue':evanFirstDialogue,
+            'anthonyFirstDialogue':anthonyFirstDialogue,
+            'girl1FirstDialogue':girl1FirstDialogue,
+            'girl2FirstDialogue':girl2FirstDialogue,
+            'girl3FirstDialogue':girl3FirstDialogue,
+            'girl4FirstDialogue':girl4FirstDialogue,
+            'crackheadFirstTalk':crackheadFirstTalk,
+            'moneyToCrackhead':moneyToCrackhead,
+            'crackheadJoin':crackheadJoin,
+            'crackheadFirstJoin':crackheadFirstJoin,
+            'highnessDialogue':highnessDialogue,
+            'larryStoreOpen':larryStoreOpen,
+            'drewStoreOpen':drewStoreOpen,
+            'alFirstTalk':alFirstTalk,
+            'darkworldDialogue':darkworldDialogue,
+            'gotYogaBlocks':gotYogaBlocks,
+            'numberOfPlayers':numberOfPlayers,
+            'firstStrike':firstStrike,
+            'pageForDialogue':pageForDialogue,
+            'overworldClock':overworldClock,
+            'numberOfFights':numberOfFights,
+            'bennettGet':bennettGet,
+            'alGet':alGet,
+            'speed':speed,
+            'brothersSeal':brothersSeal,
+            'brothersSealForSkateboarding':brothersSealForSkateboarding,
+            'time':time,
+            'athletics':athletics,
+            'items':items,
+            'charStyle':charStyle,
+            'walletGet':walletGet,
+            'liquorGet':liquorGet,
+            'flowersGet':flowersGet,
+            'keysGet':keysGet,
+          }
+          localStorage.setItem("overworldParams", JSON.stringify(overworldParams));
+          localStorage.setItem("joinParams", JSON.stringify(joinParams));
+          localStorage.setItem("equipment", JSON.stringify(equipment));
+          localStorage.setItem("party", JSON.stringify(party));
+          localStorage.setItem("inventory", JSON.stringify(inventory));
+          localStorage.setItem("equipped", JSON.stringify(equipped));
+          //this.scene.scene.events.emit("Message", "Game Saved", 600,300);
+          this.scene.stop();
+          scene_number = 2;
+          pause = false
+          launchParameter=false;
+          console.log('game saved')
+        }, this);
+        saveText = this.add.text(control_x - 140 - 27, 70-14, 'save', {
           fontSize: '25px',
           fill: '#fff'
         });
@@ -146,7 +200,7 @@ var PauseMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    menuText = this.add.text(500, 60, "Party Stats", {
+    menuText = this.add.text(400, 60, "Party Stats", {
       fontSize: '30px',
       fill: '#fff'
     });

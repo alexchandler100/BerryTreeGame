@@ -1,19 +1,29 @@
 const gameState0 = {};
+//game start paramters
+let gameOver = false;
+let newGame = false;
+let continueGame = false;
+
+//parameters to load
+let inventory = {}
+let party = {}
+let equipment = {}
+let overworldParams = {}
 
 var Hausdorff = new Phaser.Class({
   Extends: Phaser.Physics.Arcade.Sprite,
   //notes: dialogue is a dictionary of audio objects like {"al": alSound} (fix needed...)
   // left, right, up, down are strings like 'alright' or 'jonleft'
-  initialize: function Hausdorff(scene, x,y) {
-    Phaser.GameObjects.Sprite.call(this, scene, x,y, 'hausdorf');
+  initialize: function Hausdorff(scene, x, y) {
+    Phaser.GameObjects.Sprite.call(this, scene, x, y, 'hausdorf');
     scene.add.existing(this)
     scene.physics.add.existing(this)
     this.spawn = false
     this.setInteractive().on('pointerover', function() {
       this.x = Phaser.Math.RND.between(100, 1100);
       this.y = Phaser.Math.RND.between(300, 550);
-      let rnd = Math.floor(Math.random()*2);
-      if (rnd===0){
+      let rnd = Math.floor(Math.random() * 2);
+      if (rnd === 0) {
         this.setTexture('quil', 0)
         this.setScale(.25)
       } else {
@@ -23,9 +33,9 @@ var Hausdorff = new Phaser.Class({
       //this.spawns()
     });
   },
-  spawns: function(){ //this is  not working...
-      newone = new Hausdorff(this, Phaser.Math.RND.between(100, 1100), Phaser.Math.RND.between(300, 550));
-      newone.setScale(Math.random() + .8)
+  spawns: function() { //this is  not working...
+    newone = new Hausdorff(this, Phaser.Math.RND.between(100, 1100), Phaser.Math.RND.between(300, 550));
+    newone.setScale(Math.random() + .8)
   }
 });
 
@@ -41,8 +51,8 @@ var TitleScreen = new Phaser.Class({
   },
   preload: function() {
     //audio
-    this.load.audio('banner','assets/audio/banner.mp3');
-    this.load.audio('trueStory','assets/audio/trueStory.mp3');
+    this.load.audio('banner', 'assets/audio/banner.mp3');
+    this.load.audio('trueStory', 'assets/audio/trueStory.mp3');
     //images
     this.load.image('hausdorf', "assets/images/hausdorf.png");
     this.load.image('quil', "assets/images/quil.png");
@@ -51,10 +61,10 @@ var TitleScreen = new Phaser.Class({
   create: function() {
     //to skip title, uncomment
     /*
-    this.scene.launch("LightWorld")
-    this.scene.launch('DialogueMenu');
-    this.scene.stop();
-*/
+        this.scene.launch("LightWorld")
+        this.scene.launch('DialogueMenu');
+        this.scene.stop();
+    */
 
     this.bannerSound = this.sound.add('banner', {
       volume: .5
@@ -85,11 +95,18 @@ var TitleScreen = new Phaser.Class({
     //gameState0.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
 
     //new button
-    this.startButton = this.add.rectangle(600, 400, 120, 30, 0x000);
+    this.startButton = this.add.rectangle(620, 400, 160, 30, 0x000);
     this.startButton.setInteractive()
     this.startButton.on('pointerup', function() {
+      newGame = true;
       this.startButton.disableInteractive();
       this.startButton.destroy();
+      if (localStorage.getItem('inventory') !== null){
+        this.continueButton.disableInteractive();
+        this.continueButton.destroy();
+        this.continueText.destroy();
+      }
+
       this.titleText.destroy();
       this.newText.destroy();
       this.graphics.destroy();
@@ -97,11 +114,9 @@ var TitleScreen = new Phaser.Class({
       this.buttonPushed = true;
       titleHausdorf.destroy()
       this.scale.startFullscreen();
-      /*
-      hausdorfs.children.iterate(function(child) {
-        child.destroy()
-      }, {});
-      */
+      window.setTimeout(() => {
+        loadState()
+      }, 5000)
       window.setTimeout(() => {
         this.scene.launch("LightWorld")
         this.scene.launch('DialogueMenu');
@@ -109,10 +124,9 @@ var TitleScreen = new Phaser.Class({
       }, 12000);
       pause = false;
       this.bannerBack = this.add.rectangle(0, 0, 1200, 600, 0x000).setDepth(1);
-      //this.bannerBack.alpha = 0;
       this.banner = this.add.image(0, 0, 'banner').setOrigin(0, 0).setDepth(1);
       this.banner.alpha = 0;
-      window.setTimeout(()=>{
+      window.setTimeout(() => {
         this.bannerSound.play()
       }, 100);
       this.tweens.add({
@@ -134,7 +148,6 @@ var TitleScreen = new Phaser.Class({
       }).setDepth(1); //this.banner.alpha = 0;
       this.trueStory.alpha = 0
       window.setTimeout(() => {
-        //this.trueStorySound.play()
         this.tweens.add({
           targets: this.trueStory,
           duration: 2000,
@@ -149,8 +162,7 @@ var TitleScreen = new Phaser.Class({
         });
       }, 10000);
     }, this);
-
-    this.newText = this.add.text(600 - 37, 400 - 15, 'begin', {
+    this.newText = this.add.text(600 - 37, 400 - 15, 'New Game', {
       fontSize: '25px',
       fill: '#b39c0e'
     });
@@ -161,11 +173,61 @@ var TitleScreen = new Phaser.Class({
       this.startButton.setStrokeStyle(1, 0x000, 1);
     }, this);
 
+    //continue button
+    if (localStorage.getItem('inventory') !== null){
+      this.continueButton = this.add.rectangle(620, 430, 160, 30, 0x000);
+      this.continueButton.setInteractive()
+      this.continueButton.on('pointerup', function() {
+        continueGame = true;
+        this.continueButton.disableInteractive();
+        this.continueButton.destroy();
+        this.startButton.disableInteractive();
+        this.startButton.destroy();
+        this.titleText.destroy();
+        this.newText.destroy();
+        this.continueText.destroy();
+        this.graphics.destroy();
+        this.titleTime = 0;
+        this.buttonPushed = true;
+        titleHausdorf.destroy()
+        this.scale.startFullscreen();
+
+        window.setTimeout(() => {
+          loadState()
+        }, 50)
+
+        window.setTimeout(() => {
+          this.scene.launch("LightWorld")
+          this.scene.launch('DialogueMenu');
+          this.scene.stop();
+        }, 2000);
+        pause = false;
+        //this.bannerBack.alpha = 0;
+        this.tweens.add({
+          targets: this.banner,
+          duration: 2000,
+          alpha: 1
+        });
+      }, this);
+
+      this.continueText = this.add.text(600 - 37, 430 - 15, 'Continue', {
+        fontSize: '25px',
+        fill: '#b39c0e'
+      });
+      this.continueButton.on('pointerover', function() {
+        this.continueButton.setStrokeStyle(2, 0xffe014, 1);
+      }, this);
+      this.continueButton.on('pointerout', function() {
+        this.continueButton.setStrokeStyle(1, 0x000, 1);
+      }, this);
+    }
+
     this.titleText = this.add.text(600, 210, "Berry Tree", {
       fontFamily: 'Academy Engraved LET',
       fontSize: '160px',
       fill: '#fff'
     }).setOrigin(0.5);
+
 
     /*
     subtitleText = this.add.text(600, 260, "Hausdorffs in the Darkworld", {
