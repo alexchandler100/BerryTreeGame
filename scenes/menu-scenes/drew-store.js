@@ -66,7 +66,7 @@ var DrewStore = new Phaser.Class({
         gameState44.chaching.play()
         money -= equipment['Flat Bill Hat']['value'];
         equipment["Flat Bill Hat"]['numberOwned'] += 1
-        redisplayItems = true
+        redisplay = true
       }
     }, this);
     flatBillHatText.inventoryName = "Flat Bill Hat"
@@ -78,7 +78,7 @@ var DrewStore = new Phaser.Class({
         gameState44.chaching.play()
         money -= equipment['Alligator Boots']['value'];
         equipment["Alligator Boots"]['numberOwned'] += 1
-        redisplayItems = true
+        redisplay = true
       }
     }, this);
     alligatorBootsText.inventoryName = "Alligator Boots"
@@ -90,7 +90,7 @@ var DrewStore = new Phaser.Class({
         gameState44.chaching.play()
         money -= equipment['Kanye Sunglasses']['value'];
         equipment["Kanye Sunglasses"]['numberOwned'] += 1
-        redisplayItems = true
+        redisplay = true
       }
     }, this);
     kanyeSunglassesText.inventoryName = "Kanye Sunglasses"
@@ -102,7 +102,7 @@ var DrewStore = new Phaser.Class({
         gameState44.chaching.play()
         money -= equipment['Gold Chain']['value'];
         equipment["Gold Chain"]['numberOwned'] += 1
-        redisplayItems = true
+        redisplay = true
       }
     }, this);
     goldChainText.inventoryName = "Gold Chain"
@@ -143,7 +143,7 @@ var DrewStore = new Phaser.Class({
     this.input.on('drop', function(pointer, gameObject, dropZone) {
       equipment[gameObject._text]['numberOwned'] -= 1;
       money += equipment[gameObject._text]['value']
-      redisplayItems = true
+      redisplay = true
     });
 
 
@@ -244,7 +244,7 @@ var DrewStore = new Phaser.Class({
 
   },
   update: function() {
-    if (redisplayItems) {
+    if (redisplay) {
       creditText.setText(`Your Cash: ${Math.round(money*100)/100}`)
       for (a_item of Object.keys(equipment)) {
         if (gameState44.newText[a_item]) {
@@ -274,7 +274,7 @@ var DrewStore = new Phaser.Class({
           }
         }
       }
-      redisplayItems = false
+      redisplay = false
     }
   }
 });

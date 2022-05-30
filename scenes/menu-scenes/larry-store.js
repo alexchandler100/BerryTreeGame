@@ -12,7 +12,6 @@ var LarryStore = new Phaser.Class({
   },
   preload: function() {
     this.load.audio('chaching', ['assets/audio/chaching.mp3']);
-
   },
   create: function() {
     //chaching sound effect
@@ -60,7 +59,7 @@ var LarryStore = new Phaser.Class({
         gameState33.chaching.play()
         money -= 20;
         inventory["Larry Special"]['numberOwned'] += 2
-        redisplayItems = true
+        redisplay = true
       }
     }, this);
     larrySpecialText.inventoryName = "Larry Special"
@@ -110,7 +109,7 @@ var LarryStore = new Phaser.Class({
       console.log(inventory[gameObject.name])
       inventory[gameObject.name]['numberOwned'] -= 1;
       money += inventory[gameObject.name]['value']
-      redisplayItems = true
+      redisplay = true
     });
 
 
@@ -221,7 +220,7 @@ var LarryStore = new Phaser.Class({
 
   },
   update: function() {
-    if (redisplayItems) {
+    if (redisplay) {
       creditText.setText(`Your Cash: ${Math.round(money*100)/100}`)
       for (a_item of Object.keys(inventory)) {
         if (gameState33.newItem[a_item]) {
@@ -247,7 +246,7 @@ var LarryStore = new Phaser.Class({
           }
         }
       }
-      redisplayItems = false
+      redisplay = false
     }
   }
 });
