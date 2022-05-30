@@ -274,7 +274,7 @@ function pickStyle(font, char, align='left'){
       var zoneAlAccessory = this.add.zone(340, 100 + 2*vgap1 + 4*vgap2 + vgap3 +15, 170, 30).setRectangleDropZone(170, 30);
 
     //al accessory2
-    alAccessory2Text = this.add.text(245, 100 + 2*vgap1 + 5*vgap2 + vgap3, `Accessory2: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+    alAccessory2Text = this.add.text(245, 100 + 2*vgap1 + 5*vgap2 + vgap3, `Accessory 2: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
     alAccessory2EquippedText = this.add.text(255, 100 + 2*vgap1 + 5*vgap2 + vgap3, `${equipped["Al"].accessory2}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
     alAccessory2EquippedText.setInteractive().on('pointerdown', function(){
       if (alAccessory2EquippedText._text!==''){
@@ -374,7 +374,7 @@ function pickStyle(font, char, align='left'){
       })
       var zoneBennettAccessory = this.add.zone(340, 100 + 4*vgap1 + 8*vgap2 + 3*vgap3+15, 170, 30).setRectangleDropZone(170, 30);
       //bennett accessory2
-      bennettAccessory2Text = this.add.text(245, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `Accessory2: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
+      bennettAccessory2Text = this.add.text(245, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `Accessory 2: `, pickStyle(typeFontSize, 'all','right')).setOrigin(1,0);
       bennettAccessory2EquippedText = this.add.text(255, 100 + 4*vgap1 + 9*vgap2 + 3*vgap3, `${equipped["Bennett"].accessory2}`, pickStyle(typeFontSize, 'all','left')).setOrigin(0,0).setDepth(1);
       bennettAccessory2EquippedText.setInteractive().on('pointerdown', function(){
         if (bennettAccessory2EquippedText._text!==''){

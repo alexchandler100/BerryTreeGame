@@ -51,6 +51,19 @@ var PauseMenu = new Phaser.Class({
       scene_number=9
     }, this);
 
+    //exit button
+    gameState1.save_button = this.add.rectangle(960, 70, 80, 20, 0xfff);
+    gameState1.save_button.setInteractive()
+    gameState1.save_button.on('pointerup', function() {
+      localStorage.setItem("equipment", JSON.stringify(equipment));
+      localStorage.setItem("party", JSON.stringify(party));
+      localStorage.setItem("inventory", JSON.stringify(inventory));
+    }, this);
+    saveText = this.add.text(960-7, 70-14, 'save', {
+      fontSize: '25px',
+      fill: '#fff'
+    });
+
 
     //exit button
     gameState1.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);

@@ -1705,6 +1705,9 @@ var BattleScene = new Phaser.Class({
           console.log(`magic item draw: ${rn3} needs to be under ${threshold} to award`)
           if (rn3<threshold){
             itemReward = itemRewardPiece['name']
+            if (equipment[itemReward]){ //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+              itemRewardPiece['name']=itemRewardPiece['name']+' '+String(itemRewardPiece['numberOwned']+1)
+            }
             equipment[itemReward]=itemRewardPiece
             console.log('got it!')
           }

@@ -1282,44 +1282,64 @@ function openDrewStore() {
   scene_number = 97;
 }
 
-//building inventory from the file inventory_items.json
 let inventory = {}
-$(function() {
-  //var people = [];
-  $.getJSON('data/json-files/inventory_items.json', function(data) {
-    //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
-    $.each(data, function(i, f) {
-      name = f['name']
-      inventory[name] = f
+
+//see if inventory file exists
+if (localStorage.getItem('inventory') !== null) {
+    console.log(`Save State Found For Inventory`);
+    inventory = JSON.parse(localStorage.getItem('inventory'))
+} else {
+  //building inventory from the file inventory_items.json
+  $(function() {
+    //var people = [];
+    $.getJSON('data/json-files/inventory_items.json', function(data) {
+      //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+      $.each(data, function(i, f) {
+        name = f['name']
+        inventory[name] = f
+      });
     });
   });
-});
+}
 
-//building character-stats from the file character-stats.json
+
 let party = {}
-$(function() {
-  //var people = [];
-  $.getJSON('data/json-files/character-stats.json', function(data) {
-    //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
-    $.each(data, function(i, f) {
-      name = f['name']
-      party[name] = f
+//see if party file exists
+if (localStorage.getItem('party') !== null) {
+    console.log(`Save State Found For Party`);
+    party = JSON.parse(localStorage.getItem('party'))
+} else {
+  //building character-stats from the file character-stats.json
+  $(function() {
+    //var people = [];
+    $.getJSON('data/json-files/character-stats.json', function(data) {
+      //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+      $.each(data, function(i, f) {
+        name = f['name']
+        party[name] = f
+      });
     });
   });
-});
+}
 
-//building character-stats from the file equipment.json
 let equipment = {}
-$(function() {
-  //var people = [];
-  $.getJSON('data/json-files/equipment.json', function(data) {
-    //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
-    $.each(data, function(i, f) {
-      name = f['name']
-      equipment[name] = f
+//see if equipment file exists
+if (localStorage.getItem('equipment') !== null) {
+    console.log(`Save State Found For Equipment`);
+    equipment = JSON.parse(localStorage.getItem('equipment'))
+} else {
+  //building character-stats from the file equipment.json
+  $(function() {
+    //var people = [];
+    $.getJSON('data/json-files/equipment.json', function(data) {
+      //for each input (i,f), i is a csv column like "name", "sp" etc, and f is an object with keys 0,1,2,3 values column entries
+      $.each(data, function(i, f) {
+        name = f['name']
+        equipment[name] = f
+      });
     });
   });
-});
+}
 
 window.setTimeout(() => {
   //console.log(inventory)
@@ -1455,11 +1475,11 @@ function generateRandomEquipment() {
 
   }
   let postfixes = {
-    'preventBleeding': ['of Hardness', `the Uncut`, `of Invinciblity`, `of Kevlar`],
+    'preventBleeding': ['of Carbon-Fiber', `the Uncut`, `of Invinciblity`, `of Kevlar`],
     'preventBlindness': ['the All-Seeing', `of the Vigilent`, `of Sight`, `of Seeing`],
-    'damagePlus':['of the Hardened', 'of the Brutal', 'of the Savage', 'of the Vicious'],
-    'maxSPPlus':['of Intelligence', 'of the Glinty', `of the Mage`, `of the Magical`],
-    'maxHPPlus':['of the Gritty', 'of the Enduring', `of Constancy`, `of Lasting`],
+    'damagePlus':['of Ferocity', 'of the Brutal', 'of the Savage', 'of the Vicious'],
+    'maxSPPlus':['of Competence', 'of the Skilled', `of Speciality`, `of the Expert`],
+    'maxHPPlus':['of the Healthy', 'of the Enduring', `of Constancy`, `of Lasting Health`],
   }
 
   // slots
@@ -1595,6 +1615,19 @@ function generateRandomEquipment() {
     'preventBlindness': false,
     'athletics': 0,
   }
+  //if we add more attributes we should change this to
+  //new_equipment = equipment['Camo T-Shirt']
+  //then change values
+  //this way any new stats are also in the object and we can just make changes in the csv file
+  //new_equipment['name'] = name;
+  //new_equipment['type'] = type;
+  //new_equipment['numberOwned'] = numberOwned;
+  //new_equipment['equipped'] = 0;
+  //new_equipment['character'] = character;
+  //new_equipment['randomEncounterRewards'] = 0;
+  //new_equipment['value'] = value;
+  //new_equipment['effect'] = effect;
+  //new_equipment['def'] = piece_def;
 
   for (let i=0;i<activeEffects.length;i++){
     let stati = activeEffects[i][0]
