@@ -1,5 +1,4 @@
 const gameState2 = {};
-let redisplayItems = true;
 
 var ItemsMenu = new Phaser.Class({
   Extends: Phaser.Scene,
@@ -8,9 +7,7 @@ var ItemsMenu = new Phaser.Class({
       "key": "ItemsMenu"
     });
   },
-  wake: function() {
-    redisplayItems = true
-  },
+
   init: function(data) {
     //sumn
   },
@@ -249,7 +246,7 @@ var ItemsMenu = new Phaser.Class({
       } else if (gameObject.name === "Gatorade") {
         gameState.drinkGatorade.play()
       }
-      redisplayItems = true;
+      redisplay = true;
     });
 
 
@@ -263,7 +260,7 @@ var ItemsMenu = new Phaser.Class({
   },
   update: function() {
     //redisplay items
-    if (redisplayItems) {
+    if (redisplay) {
       gameState2.macText.setText(`HP: ${party["Mac"]['hp']}/${party["Mac"]['maxHP']} \nSP: ${party["Mac"]['sp']}/${party["Mac"]['maxSP']}`)
       if (al.following) {
         gameState2.alText.setText(`HP: ${party["Al"]['hp']}/${party["Al"]['maxHP']} \nSP: ${party["Al"]['sp']}/${party["Al"]['maxSP']}`)
@@ -297,19 +294,16 @@ var ItemsMenu = new Phaser.Class({
           }
         }
       }
-      redisplayItems = false
+      redisplay = false
     }
     //change menus
     if (scene_number === 1) {
-      redisplayItems = true
       redisplay = true
       this.scene.switch('PauseMenu');
     } else if (scene_number === 8) {
-      redisplayItems = true
       redisplay = true
       this.scene.switch('EquipmentMenu');
     } else if (scene_number === 9) {
-      redisplayItems = true
       redisplay = true
       this.scene.switch('OverworldMenu');
     }

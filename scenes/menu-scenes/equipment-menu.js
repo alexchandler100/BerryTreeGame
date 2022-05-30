@@ -547,20 +547,17 @@ function pickStyle(font, char, align='left'){
   update: function() {
     if (scene_number === 1) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('PauseMenu');
     }
     else if (scene_number === 7) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('ItemsMenu');
     }
     else if (scene_number === 9) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('OverworldMenu');
     }
-    if (redisplay){
+    else if (redisplay){
       for (a_item of Object.keys(equipment)) {
         if (gameState4.newText[a_item])
         {gameState4.newText[a_item].destroy()}

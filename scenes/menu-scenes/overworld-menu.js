@@ -162,17 +162,14 @@ var OverworldMenu = new Phaser.Class({
     }
     if (scene_number === 1) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('PauseMenu');
     }
     else if (scene_number === 7) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('ItemsMenu');
     }
     else if (scene_number === 8) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('EquipmentMenu');
     }
   }

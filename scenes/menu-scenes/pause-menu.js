@@ -13,7 +13,6 @@ var PauseMenu = new Phaser.Class({
   onKeyInput: function(event) {
   },
   preload: function() {},
-
   create: function() {
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
@@ -218,17 +217,21 @@ var PauseMenu = new Phaser.Class({
       });
     }
 
-    if (trevor.following)
+    if (trevor.following){
       jimmyHpText = this.add.text(175 + 600, 140, `Jimmy HP: ${party['Jimmy']['hp']}/${party['Jimmy']['maxHP']} \nJimmy SP: ${party['Jimmy']['sp']}/${party['Jimmy']['maxSP']} \nJimmy EXP: ${party['Jimmy']['exp']}/${100*3**(party['Jimmy']['level']-1)} \nJimmy LVL: ${party['Jimmy']['level']} \nJimmy DMG: ${party['Jimmy']['damage']} \nJimmy DEF: ${party['Jimmy']['defense']}`, {
         fontSize: '25px',
         fill: '#fff'
       });
+    }
 
-      if (bennett.following)
+
+      if (bennett.following){
         jimmyHpText = this.add.text(175, 340, `Bennett HP: ${party['Bennett']['hp']}/${party['Bennett']['maxHP']} \nBennett SP: ${party['Bennett']['sp']}/${party['Bennett']['maxSP']} \nBennett EXP: ${party['Bennett']['exp']}/${100*3**(party['Bennett']['level']-1)} \nBennett LVL: ${party['Bennett']['level']} \nBennett DMG: ${party['Bennett']['damage']} \nBennett DEF: ${party['Bennett']['defense']}`, {
           fontSize: '25px',
           fill: '#fff'
         });
+      }
+
 
       this.input.keyboard.on("keydown", this.onKeyInput, this);
 
@@ -241,25 +244,35 @@ var PauseMenu = new Phaser.Class({
       }, this);
   },
   update: function() {
+    if (redisplay){
+      console.log(`reloading`)
+      redisplay = false
+      meHpText.setText(`Mac HP: ${party['Mac']['hp']}/${party['Mac']['maxHP']} \nMac SP: ${party['Mac']['sp']}/${party['Mac']['maxSP']} \nMac EXP: ${party['Mac']['exp']}/${100*3**(party['Mac']['level']-1)} \nMac LVL: ${party['Mac']['level']} \nMac DMG: ${party['Mac']['damage']} \nMac DEF: ${party['Mac']['defense']}`)
+      if (al.following) {
+        alHpText.setText(`Al HP: ${party['Al']['hp']}/${party['Al']['maxHP']} \nAl SP: ${party['Al']['sp']}/${party['Al']['maxSP']} \nAl EXP: ${party['Al']['exp']}/${100*3**(party['Al']['level']-1)} \nAl LVL: ${party['Al']['level']} \nAl DMG: ${party['Al']['damage']} \nAl DEF: ${party['Al']['defense']}`)
+      }
+      if (trevor.following){
+        jimmyHpText.setText(`Jimmy HP: ${party['Jimmy']['hp']}/${party['Jimmy']['maxHP']} \nJimmy SP: ${party['Jimmy']['sp']}/${party['Jimmy']['maxSP']} \nJimmy EXP: ${party['Jimmy']['exp']}/${100*3**(party['Jimmy']['level']-1)} \nJimmy LVL: ${party['Jimmy']['level']} \nJimmy DMG: ${party['Jimmy']['damage']} \nJimmy DEF: ${party['Jimmy']['defense']}`)
+      }
+      if (bennett.following){
+        jimmyHpText.setText(`Bennett HP: ${party['Bennett']['hp']}/${party['Bennett']['maxHP']} \nBennett SP: ${party['Bennett']['sp']}/${party['Bennett']['maxSP']} \nBennett EXP: ${party['Bennett']['exp']}/${100*3**(party['Bennett']['level']-1)} \nBennett LVL: ${party['Bennett']['level']} \nBennett DMG: ${party['Bennett']['damage']} \nBennett DEF: ${party['Bennett']['defense']}`)
+      }
+    }
     if (scene_number === 7) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('ItemsMenu');
       time2=0
     }
     else if (scene_number === 8) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('EquipmentMenu');
     }
     else if (scene_number === 9) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('OverworldMenu');
     }
     else if (scene_number === 99) {
       redisplay=true
-      redisplayItems=true
       this.scene.switch('ControlsScene');
     }
   }
