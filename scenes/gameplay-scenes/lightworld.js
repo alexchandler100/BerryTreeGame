@@ -1295,6 +1295,10 @@ var LightWorld = new Phaser.Class({
         return value!=='Phone' && value!=='Wallet' && value!=='Keys'
     });
 
+    keysGet = 0;
+    walletGet = 0;
+    phoneGet = 0;
+
     //spawning phone wallet and keys
     //if (phoneGet === 0) {
       phone = this.physics.add.sprite(PhoneSpawnPoint.x, PhoneSpawnPoint.y + 8, 'phone');
