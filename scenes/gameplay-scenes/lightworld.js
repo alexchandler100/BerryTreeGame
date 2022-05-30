@@ -3923,6 +3923,7 @@ var LightWorld = new Phaser.Class({
     }
     //setting location text, battle background and theme song based on location
     if (phoneGet===1) {
+      console.log(`phoneGet ${phoneGet}`)
       if (me.x > gameState.burcham731TL.x && me.y > gameState.burcham731TL.y && me.x < gameState.burcham731BR.x && me.y < gameState.burcham731BR.y) {
         gameStateNav.location.setText("731 Burcham Apartments\nEast Lansing, Mi");
         if (nearPool) {
