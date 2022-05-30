@@ -1286,11 +1286,11 @@ function openDrewStore() {
 
 //building the list of effects
 let maxStrengths = {
-  'style': 15,
-  'damagePlus': 15,
-  'maxSPPlus': 10,
-  'maxHPPlus': 20,
-  'athletics': 15, //divide by 10 in the end
+  'style': 5,
+  'damagePlus': 5,
+  'maxSPPlus': 3,
+  'maxHPPlus': 7,
+  'athletics': 5, //divide by 10 in the end
 }
 
 function describeEffect(stat, strength) {
@@ -1408,9 +1408,13 @@ function generateRandomEquipment() {
   let activeEffects = []
   let strength1 = 0;
   let strength2 = 0;
+  let maxStr1 = 0;
+  let maxStr2 = 0;
   let value = 1
   if (maxStrengths[stat1]) {
-    strength1 = getRandomInt(maxStrengths[stat1]) + 1
+    maxStr1 = maxStrengths[stat1]+maxStrengths[stat1]/3*party['Mac']['level'];
+    maxStr1 = Math.floor(maxStr1);
+    strength1 = getRandomInt(maxStr1) + 1
     value += strength1;
     if (stat1 === 'athletics') { //need to scale and round athletics
       strength1 = strength1 / 40
@@ -1428,7 +1432,9 @@ function generateRandomEquipment() {
     if (effect.length > 0) {
       effect += '\n        '
     }
-    strength2 = getRandomInt(maxStrengths[stat2]) + 1
+    maxStr2 = maxStrengths[stat2]+maxStrengths[stat2]/3*party['Mac']['level'];
+    maxStr2 = Math.floor(maxStr2);
+    strength2 = getRandomInt(maxStr2) + 1
     value += strength2;
     if (stat2 === 'athletics') { //need to scale and round athletics
       strength2 = strength2 / 40
@@ -1459,7 +1465,7 @@ function generateRandomEquipment() {
   }
   character = chars[type]
 
-  let piece_def = getRandomInt((party['Mac']['level'] + 5) * 2)
+  let piece_def = getRandomInt((party['Mac']['level'] + 1) * 2)
   value += piece_def
 
   if (effect === '') {
