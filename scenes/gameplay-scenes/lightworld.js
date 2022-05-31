@@ -3165,21 +3165,22 @@ var LightWorld = new Phaser.Class({
 
     //enabling dev mode
     var keyObjM = this.input.keyboard.addKey('M'); // Get key object
-    keyObjM.once('down', function(event) {
+    keyObjM.on('down', function(event) {
       devMode1 = 1
     });
     var keyObjR = this.input.keyboard.addKey('R'); // Get key object
-    keyObjR.once('down', function(event) {
+    keyObjR.on('down', function(event) {
       devMode2 = 1
     });
     var keyObjC = this.input.keyboard.addKey('C'); // Get key object
-    keyObjC.once('down', function(event) {
+    keyObjC.on('down', function(event) {
       devMode3 = 1
     });
 
     //collecting items
     var keyObjS = this.input.keyboard.addKey('S'); // Get key object
     keyObjS.on('down', function(event) {
+      console.log(generateRandomEquipment())
       console.log(`firstStrike: ${firstStrike}`)
       let numberOfItems = 0;
       for (let i = 0; i < Object.keys(inventory).length; i++) {
@@ -4134,6 +4135,8 @@ var LightWorld = new Phaser.Class({
       devMode1 = 0
       devMode2 = 0
       devMode3 = 0
+      party['Mac']['level']=10
+      console.log(`Mac is now level ${party['Mac']['level']}`)
       keysGet = 1;
       jeanClaude.joinParameter = true;
       jeanClaudeFirstTalk = 3;
@@ -4162,7 +4165,7 @@ var LightWorld = new Phaser.Class({
       inventory["Labatt Max Ice"]['numberOwned'] += 5;
       inventory["Liquor"]['numberOwned'] += 5;
       gameState.secret.play()
-      for (itemz of ["Snowpants", "Dio Band", "Brass Knuckles", "SP Booster", "HP Booster", "Camo Pants", "Camo Hoody", "Damage Booster", "Fubu Shirt", "Sprinting Shoes", "Gold Duck Tape", "Camo Duck Tape"]) {
+      for (itemz of Object.keys(equipment)) {
         equipment[itemz]['numberOwned'] += 1
       }
       //good stuff

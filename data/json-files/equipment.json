@@ -28,7 +28,7 @@
         "preventBlindnessValue2": "0"
     },
     "1": {
-        "name": "Jeans",
+        "name": "Pants",
         "type": "Mac_lower",
         "numberOwned": "1",
         "equipped": "1",
@@ -56,7 +56,7 @@
         "preventBlindnessValue2": "0"
     },
     "2": {
-        "name": "Blue Shirt",
+        "name": "Shirt",
         "type": "Jimmy_upper",
         "numberOwned": "1",
         "equipped": "1",
@@ -84,7 +84,7 @@
         "preventBlindnessValue2": "0"
     },
     "3": {
-        "name": "Brown Pants",
+        "name": "Cargo Pants",
         "type": "Jimmy_lower",
         "numberOwned": "1",
         "equipped": "1",
@@ -112,7 +112,7 @@
         "preventBlindnessValue2": "0"
     },
     "4": {
-        "name": "Red Shirt",
+        "name": "Track Suit Top",
         "type": "Al_upper",
         "numberOwned": "1",
         "equipped": "1",
@@ -140,7 +140,7 @@
         "preventBlindnessValue2": "0"
     },
     "5": {
-        "name": "Red Sweatpants",
+        "name": "Track Suit Bottom",
         "type": "Al_lower",
         "numberOwned": "1",
         "equipped": "1",
@@ -364,34 +364,6 @@
         "preventBlindnessValue2": "10"
     },
     "13": {
-        "name": "Camo Hoody",
-        "type": "Mac_upper",
-        "numberOwned": "0",
-        "equipped": "0",
-        "character": "Mac",
-        "randomEncounterRewards": "0.2",
-        "value": "60",
-        "def": "20",
-        "effect": "First strike\n        Damage +10\n        Never miss\n        Style +10 (if worn with Camo Pants)",
-        "style": "10",
-        "damagePlus": "10",
-        "maxSPPlus": "0",
-        "maxHPPlus": "0",
-        "neverMiss": "true",
-        "firstStrike": "true",
-        "preventBleeding": "false",
-        "preventBlindness": "false",
-        "athletics": "0",
-        "neverMissValue1": "10",
-        "neverMissValue2": "10",
-        "firstStrikeValue1": "10",
-        "firstStrikeValue2": "10",
-        "preventBleedingValue1": "false",
-        "preventBleedingValue2": "0",
-        "preventBlindnessValue1": "false",
-        "preventBlindnessValue2": "0"
-    },
-    "14": {
         "name": "Duster",
         "type": "Mac_upper",
         "numberOwned": "0",
@@ -419,36 +391,8 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "15": {
-        "name": "Camo Pants",
-        "type": "Mac_lower",
-        "numberOwned": "0",
-        "equipped": "0",
-        "character": "Mac",
-        "randomEncounterRewards": "0.2",
-        "value": "60",
-        "def": "10",
-        "effect": "First strike\n        Damage +10\n        Max HP +20\n        Style +10 (if worn with Camo Hoody)",
-        "style": "10",
-        "damagePlus": "10",
-        "maxSPPlus": "0",
-        "maxHPPlus": "20",
-        "neverMiss": "true",
-        "firstStrike": "false",
-        "preventBleeding": "false",
-        "preventBlindness": "false",
-        "athletics": "0",
-        "neverMissValue1": "10",
-        "neverMissValue2": "10",
-        "firstStrikeValue1": "false",
-        "firstStrikeValue2": "0",
-        "preventBleedingValue1": "false",
-        "preventBleedingValue2": "0",
-        "preventBlindnessValue1": "false",
-        "preventBlindnessValue2": "0"
-    },
-    "16": {
-        "name": "Fubu Shirt",
+    "14": {
+        "name": "MONCLER Black Down Promio Jacket",
         "type": "Al_upper",
         "numberOwned": "0",
         "equipped": "0",
@@ -475,8 +419,8 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "17": {
-        "name": "JNCO Jeans",
+    "15": {
+        "name": "AMRI Blue Jeans",
         "type": "Al_lower",
         "numberOwned": "0",
         "equipped": "0",
@@ -503,8 +447,8 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "18": {
-        "name": "Bear Shirt",
+    "16": {
+        "name": "Spirit Bear Shirt",
         "type": "Jimmy_upper",
         "numberOwned": "0",
         "equipped": "0",
@@ -531,8 +475,8 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "19": {
-        "name": "Deer Shirt",
+    "17": {
+        "name": "Spirit Deer Shirt",
         "type": "Jimmy_upper",
         "numberOwned": "0",
         "equipped": "0",
@@ -559,7 +503,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "20": {
+    "18": {
         "name": "SP Booster",
         "type": "accessory",
         "numberOwned": "0",
@@ -587,7 +531,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "21": {
+    "19": {
         "name": "HP Booster",
         "type": "accessory",
         "numberOwned": "0",
@@ -615,7 +559,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "22": {
+    "20": {
         "name": "Damage Booster",
         "type": "accessory",
         "numberOwned": "0",
@@ -643,7 +587,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "23": {
+    "21": {
         "name": "Brass Knuckles",
         "type": "accessory",
         "numberOwned": "0",
@@ -671,7 +615,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "24": {
+    "22": {
         "name": "Gold Duck Tape",
         "type": "accessory",
         "numberOwned": "0",
@@ -699,7 +643,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "25": {
+    "23": {
         "name": "Camo Duck Tape",
         "type": "accessory",
         "numberOwned": "0",
@@ -727,7 +671,7 @@
         "preventBlindnessValue1": "10",
         "preventBlindnessValue2": "10"
     },
-    "26": {
+    "24": {
         "name": "Sprinting Shoes",
         "type": "accessory",
         "numberOwned": "0",
@@ -755,7 +699,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "27": {
+    "25": {
         "name": "Dio Band",
         "type": "accessory",
         "numberOwned": "0",
@@ -783,7 +727,7 @@
         "preventBlindnessValue1": "10",
         "preventBlindnessValue2": "10"
     },
-    "28": {
+    "26": {
         "name": "Flat Bill Hat",
         "type": "accessory",
         "numberOwned": "0",
@@ -811,7 +755,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "29": {
+    "27": {
         "name": "Alligator Boots",
         "type": "accessory",
         "numberOwned": "0",
@@ -839,7 +783,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "30": {
+    "28": {
         "name": "Kanye Sunglasses",
         "type": "accessory",
         "numberOwned": "0",
@@ -867,7 +811,7 @@
         "preventBlindnessValue1": "false",
         "preventBlindnessValue2": "0"
     },
-    "31": {
+    "29": {
         "name": "Gold Chain",
         "type": "accessory",
         "numberOwned": "0",

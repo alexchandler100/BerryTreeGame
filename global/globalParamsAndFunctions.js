@@ -442,19 +442,19 @@ let playerColorsEquip = {
 let equipped = {
   'Mac': {
     upper: "Camo T-Shirt",
-    lower: "Jeans",
+    lower: "Pants",
     accessory: "",
     accessory2: "",
   },
   'Jimmy': {
-    upper: "Blue Shirt",
-    lower: "Brown Pants",
+    upper: "Shirt",
+    lower: "Cargo Pants",
     accessory: "",
     accessory2: "",
   },
   'Al': {
-    upper: "Red Shirt",
-    lower: "Red Sweatpants",
+    upper: "Track Suit Top",
+    lower: "Track Suit Bottom",
     accessory: "",
     accessory2: "",
   },
@@ -1298,7 +1298,7 @@ function describeEffect(stat, strength) {
     'style': 'Style',
     'damagePlus': 'Damage',
     'maxSPPlus': 'Max SP',
-    'maxHPPlus': 'Max SP',
+    'maxHPPlus': 'Max HP',
     'neverMiss': 'Never miss',
     'firstStrike': 'First strike',
     'preventBleeding': 'Prevents Bleeding',
@@ -1314,16 +1314,29 @@ function describeEffect(stat, strength) {
 }
 
 function generateRandomEquipment() {
+  let prefix = '';
+  let postfix = '';
+  let stat1 = '';
+  let stat2 = '';
+  let effect = '';
+  let activeEffects = []
+  let strength1 = 0;
+  let strength2 = 0;
+  let maxStr1 = 0;
+  let maxStr2 = 0;
+  let value = 1
   //base
+  let piece_def = getRandomInt((party['Mac']['level'] + 1) * 2)
+  value += piece_def
   let types = {
-    'Mac_upper': ['T-Shirt', 'Wife Beater'],
-    'Mac_lower': ['Gym Shorts', 'Track Pants'],
-    'Jimmy_upper': ['Shirt', 'Sweatshirt'],
-    'Jimmy_lower': ['Cargo Pants', 'Waders'],
-    'Al_upper': ['Button-Up', 'Hoody'],
-    'Al_lower': ['Sweatpants', 'JNCO Jeans'],
-    'Bennett_upper': ['Tank Top', 'Spandex Shirt'],
-    'Bennett_lower': ['Running Shorts', 'Spandex Swimsuit'],
+    'Mac_upper': ['Camo T-Shirt', 'Wrestling Shirt', `Wife Beater`, 'Camo Hoody'],
+    'Mac_lower': ['Pants', 'Gym Shorts', 'Track Pants','Camo Pants'],
+    'Jimmy_upper': ['Shirt', 'Bear Shirt', 'Deer Shirt', 'Sport Coat'],
+    'Jimmy_lower': ['Cargo Pants', 'Waders', 'Anglers Pants', 'Chinos'],
+    'Al_upper': ['Track Suit Top', 'Phat Farm Shirt', 'Fubu Shirt', 'Gucci Shirt'],
+    'Al_lower': ['Track Suit Bottom', 'Phat Farm Pants', 'Fubu Pants', 'Gucci Pants'],
+    'Bennett_upper': ['Running Shirt', 'Spandex Shirt', 'Dry-Fit Shirt', 'Cool-Active Shirt'],
+    'Bennett_lower': ['Running Shorts', 'Spandex Swimsuit', 'Dry-Fit Shorts', 'Cool-Active Shorts'],
     'accessory': ['Chain', 'Ring', 'Belt', 'Hat', 'Shoes'],
   }
 
@@ -1331,7 +1344,18 @@ function generateRandomEquipment() {
   let typeDraw = getRandomInt(Object.keys(types).length)
   let type = Object.keys(types)[typeDraw]
   //determining the exact equipment base
-  let baseDraw = getRandomInt(types[type].length)
+  let baseDraw = 0;
+  if (piece_def<=5 && type !=='accessory'){
+    baseDraw = 0;
+  } else if (piece_def<=10 && type !=='accessory'){
+    baseDraw = 1;
+  } else if (piece_def<=15 && type !=='accessory'){
+    baseDraw = 2;
+  } else if (piece_def<=20 && type !=='accessory'){
+    baseDraw = 3;
+  } else {
+    baseDraw = getRandomInt(types[type].length)
+  }
   let base = types[type][baseDraw]
   console.log(`typeDraw ${typeDraw}`)
   console.log(`type ${type}`)
@@ -1343,7 +1367,6 @@ function generateRandomEquipment() {
     'athletics': ['Sporting', `Active`, `Agile`, `Dry-Fit`],
     'neverMiss': ['Accurate', `Marksman's`, `Precise`, `Exact`],
     'firstStrike': ['Fast', `Quick`, `Sprightly`, `Nimble`],
-
   }
   let postfixes = {
     'preventBleeding': ['of Carbon-Fiber', `the Uncut`, `of Invinciblity`, `of Kevlar`],
@@ -1363,12 +1386,6 @@ function generateRandomEquipment() {
     slots = 1
   }
   console.log(`slots ${slots}`)
-
-  let prefix = '';
-  let postfix = '';
-  let stat1 = '';
-  let stat2 = '';
-  let effect = '';
 
   if (slots === 1) {
     console.log(`1 slot`);
@@ -1405,14 +1422,8 @@ function generateRandomEquipment() {
     name = name + ' ' + postfix
   }
 
-  let activeEffects = []
-  let strength1 = 0;
-  let strength2 = 0;
-  let maxStr1 = 0;
-  let maxStr2 = 0;
-  let value = 1
   if (maxStrengths[stat1]) {
-    maxStr1 = maxStrengths[stat1]+maxStrengths[stat1]/3*party['Mac']['level'];
+    maxStr1 = maxStrengths[stat1]*(1 + party['Mac']['level']/3);
     maxStr1 = Math.floor(maxStr1);
     strength1 = getRandomInt(maxStr1) + 1
     value += strength1;
@@ -1432,7 +1443,7 @@ function generateRandomEquipment() {
     if (effect.length > 0) {
       effect += '\n        '
     }
-    maxStr2 = maxStrengths[stat2]+maxStrengths[stat2]/3*party['Mac']['level'];
+    maxStr2 = maxStrengths[stat2]*(1 + party['Mac']['level']/3);
     maxStr2 = Math.floor(maxStr2);
     strength2 = getRandomInt(maxStr2) + 1
     value += strength2;
@@ -1464,9 +1475,6 @@ function generateRandomEquipment() {
     'accessory': 'all',
   }
   character = chars[type]
-
-  let piece_def = getRandomInt((party['Mac']['level'] + 1) * 2)
-  value += piece_def
 
   if (effect === '') {
     effect = 'none'
