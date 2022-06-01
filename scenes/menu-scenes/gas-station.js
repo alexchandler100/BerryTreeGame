@@ -62,7 +62,7 @@ var GasStation = new Phaser.Class({
         gameState3.chaching.play()
         money -= 3.5;
         inventory["Hamms"]['numberOwned']+=2
-        redisplayItems=true
+        redisplay=true
       }
     }, this);
     hammsText.inventoryName="Hamms"
@@ -76,7 +76,7 @@ var GasStation = new Phaser.Class({
         gameState3.chaching.play()
         money -= 3;
         inventory["Monster"]['numberOwned']+=2
-        redisplayItems=true
+        redisplay=true
       }
     }, this);
     monsterText.inventoryName="Monster"
@@ -90,7 +90,7 @@ var GasStation = new Phaser.Class({
         gameState3.chaching.play()
         money -= 3.5;
         inventory["Gatorade"]['numberOwned']+=2
-        redisplayItems=true
+        redisplay=true
       }
     }, this);
     gatoradeText.inventoryName="Gatorade"
@@ -104,7 +104,7 @@ var GasStation = new Phaser.Class({
         gameState3.chaching.play()
         money -= 1.5;
         inventory["Andy Capp's Hot Fries"]['numberOwned'] += 1
-        redisplayItems=true;
+        redisplay=true;
       }
     }, this);
     andycappsText.inventoryName="Andy Capp's Hot Fries"
@@ -118,7 +118,7 @@ var GasStation = new Phaser.Class({
         gameState3.chaching.play()
         money -= 2.59;
         gas += 1
-        redisplayItems=true
+        redisplay=true
       }
     }, this);
     gasText.inventoryName="Gas"
@@ -135,7 +135,7 @@ var GasStation = new Phaser.Class({
         jerkyText.destroy();
         gameState3.tempText.visible=false;
         gameState3.tempBackground.visible=false;
-        redisplayItems=true;
+        redisplay=true;
       }
     }, this);
     jerkyText.inventoryName="Jerky"
@@ -250,7 +250,7 @@ var GasStation = new Phaser.Class({
 
   },
   update: function() {
-    if (redisplayItems){
+    if (redisplay){
       creditText.setText(`Your Cash: ${Math.round(money*100)/100}     Gallons of Gas: ${Math.round(gas*100)/100} `)
       for (a_item of Object.keys(inventory)) {
         if (gameState3.newItem[a_item])
@@ -275,7 +275,7 @@ var GasStation = new Phaser.Class({
           }
         }
       }
-      redisplayItems=false
+      redisplay=false
     }
   }
 });

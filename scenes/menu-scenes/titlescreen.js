@@ -60,7 +60,7 @@ var TitleScreen = new Phaser.Class({
   },
   create: function() {
     //to skip title, uncomment
-    /*
+/*
         this.scene.launch("LightWorld")
         this.scene.launch('DialogueMenu');
         this.scene.stop();
