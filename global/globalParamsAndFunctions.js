@@ -7,7 +7,6 @@ let censored = true;
 let censoredPageExists = {};
 let activeQuests = {
   'Find Your Stuff': 'You got all drunk last night and lost your keys, phone, and wallet. Seems like you probably left them somewhere at 731 Burcham Apartments.',
-  'Robo-Trip': 'Today would be a real good day to get some tussin. I feel like I had some last night on the high school roof but never drank it. Maybe its still up there...',
 }
 let completedQuests = {
   'Wake Up': 'Well you did do one thing so far. Good job.',
@@ -833,7 +832,7 @@ function directionVector(obj1, obj2) {
 function walkWith(follower, followee) {
   follower.body.setVelocityX(followee.body.velocity.x)
   follower.body.setVelocityY(followee.body.velocity.y)
-  if (followee.body.velocity.x > followee.body.velocity.y) {
+  if (Math.abs(followee.body.velocity.x) > Math.abs(followee.body.velocity.y)) {
     follower.x = followee.x + 15;
     follower.y = followee.y + 3;
   } else {
@@ -1363,15 +1362,15 @@ function generateRandomEquipment() {
   console.log(`base ${base}`)
 
   let prefixes = {
-    'style': ['Swag', 'Stylish', 'Shiny', 'Dope'],
-    'athletics': ['Sporting', `Active`, `Agile`, `Dry-Fit`],
+    'style': ['Swag', 'Sick', 'Lit', 'Dope'],
+    'athletics': ['Asics', `Active`, `Agile`, `Nike`],
     'neverMiss': ['Accurate', `Marksman's`, `Precise`, `Exact`],
     'firstStrike': ['Fast', `Quick`, `Sprightly`, `Nimble`],
   }
   let postfixes = {
     'preventBleeding': ['of Carbon-Fiber', `the Uncut`, `of Invinciblity`, `of Kevlar`],
     'preventBlindness': ['the All-Seeing', `of the Vigilent`, `of Sight`, `of Seeing`],
-    'damagePlus': ['of Ferocity', 'of the Brutal', 'of the Savage', 'of the Vicious'],
+    'damagePlus': ['of Ferocity', 'of the Brutal', 'of the Savage', 'of the Badass'],
     'maxSPPlus': ['of Competence', 'of the Skilled', `of Speciality`, `of the Expert`],
     'maxHPPlus': ['of the Healthy', 'of the Enduring', `of Constancy`, `of Lasting Health`],
   }

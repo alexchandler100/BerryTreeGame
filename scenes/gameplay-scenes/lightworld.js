@@ -4557,6 +4557,7 @@ var LightWorld = new Phaser.Class({
     } else if (scene_number === 3 && launchParameter === false) {
       if (activeQuests["Go to the Gas Station"]) {
         completeQuest("Go to the Gas Station")
+        activeQuests['Robo-Trip'] = 'Today would be a real good day to get some tussin. I feel like I had some last night on the high school roof but never drank it. Maybe its still up there...'
       }
       pause = true;
       this.scene.launch('GasStation');

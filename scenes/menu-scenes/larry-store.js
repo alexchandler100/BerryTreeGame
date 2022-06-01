@@ -37,14 +37,14 @@ var LarryStore = new Phaser.Class({
     creditText.setText(`Your Cash: ${Math.round(money*100)/100}`)
 
     //text for your inventory
-    yourInventoryText = this.add.text(250, 170, '', {
+    yourInventoryText = this.add.text(250 - 40, 170, '', {
       fontSize: '25px',
       fill: '#fff'
     });
-    yourInventoryText.setText(`Your Inventory`)
+    yourInventoryText.setText(`Inventory (Drag to Sell)`)
 
     //text for store inventory
-    storeInventoryText = this.add.text(790, 120, 'Buy', {
+    storeInventoryText = this.add.text(790 - 30, 120, 'Click to Buy', {
       fontSize: '30px',
       fill: '#fff'
     });

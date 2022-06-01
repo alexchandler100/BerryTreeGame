@@ -15,6 +15,7 @@ var DrewStore = new Phaser.Class({
 
   },
   create: function() {
+    drewStoreMarkup = 3;
     //chaching sound effect
     gameState44.chaching = this.sound.add('chaching');
     //background
@@ -50,21 +51,21 @@ var DrewStore = new Phaser.Class({
     creditText.setText(`Your Cash: ${Math.round(money*100)/100}`)
 
     //text for your inventory
-    yourInventoryText = this.add.text(250, 170, '', style.mid);
-    yourInventoryText.setText(`Your Inventory`)
+    yourInventoryText = this.add.text(250 - 40, 170, '', style.mid);
+    yourInventoryText.setText(`Inventory (Drag to Sell)`)
 
-    let buy = {x: 790, y: 90}
+    let buy = {x: 790, y: 90};
     let inc = 40;
     let space = 3;
     //text for store inventory
-    storeInventoryText = this.add.text(buy.x, buy.y, 'Buy', style.large);
+    storeInventoryText = this.add.text(buy.x - 30, buy.y, 'Click to Buy', style.large);
 
     //button to buy hat
-    flatBillHatText = this.add.text(buy.x - space*inc, buy.y + inc, 'Flat Bill Hat', style.mid);
+    flatBillHatText = this.add.text(buy.x - space*inc, buy.y + inc, 'Flat Bill Hat', style.small);
     flatBillHatText.setInteractive().on('pointerup', function() {
-      if (money >= equipment['Flat Bill Hat']['value']) {
+      if (money >= equipment['Flat Bill Hat']['value'] * drewStoreMarkup) {
         gameState44.chaching.play()
-        money -= equipment['Flat Bill Hat']['value'];
+        money -= equipment['Flat Bill Hat']['value']* drewStoreMarkup;
         equipment["Flat Bill Hat"]['numberOwned'] += 1
         redisplay = true
       }
@@ -72,17 +73,18 @@ var DrewStore = new Phaser.Class({
     flatBillHatText.inventoryName = "Flat Bill Hat"
 
     //button to buy hat
-    alligatorBootsText = this.add.text(buy.x  - space*inc, buy.y + 2 * inc, 'Alligator Boots', style.mid);
+    alligatorBootsText = this.add.text(buy.x  - space*inc, buy.y + 2 * inc, 'Alligator Boots', style.small);
     alligatorBootsText.setInteractive().on('pointerup', function() {
-      if (money >= equipment['Alligator Boots']['value']) {
+      if (money >= equipment['Alligator Boots']['value'] * drewStoreMarkup) {
         gameState44.chaching.play()
-        money -= equipment['Alligator Boots']['value'];
+        money -= equipment['Alligator Boots']['value'] * drewStoreMarkup;
         equipment["Alligator Boots"]['numberOwned'] += 1
         redisplay = true
       }
     }, this);
     alligatorBootsText.inventoryName = "Alligator Boots"
 
+/*
     //button to buy kanyeSunglasses
     kanyeSunglassesText = this.add.text(buy.x  - space*inc, buy.y + 3 * inc, 'Kanye Sunglasses', style.mid);
     kanyeSunglassesText.setInteractive().on('pointerup', function() {
@@ -106,6 +108,55 @@ var DrewStore = new Phaser.Class({
       }
     }, this);
     goldChainText.inventoryName = "Gold Chain"
+    */
+
+
+
+    //button to buy rnd1
+    rnd1equip = generateRandomEquipment()
+    rnd1Text = this.add.text(buy.x  - space*inc, buy.y + 3 * inc, rnd1equip['name'], {
+      fontSize: '20px',
+      fill: playerColorsEquip[rnd1equip['character']]
+    });
+    rnd1Text.setInteractive().on('pointerup', function() {
+      if (money >= rnd1equip['value']* drewStoreMarkup) {
+        gameState44.chaching.play()
+        money -= rnd1equip['value'] * drewStoreMarkup;
+        if (equipment[rnd1equip['name']]){
+          rnd1equip['name'] = rnd1equip['name'] + ' '
+          equipment[rnd1equip['name']] = rnd1equip
+          //equipment[rnd1equip['name']]['value'] = Math.floor(equipment[rnd1equip['name']]['value']/2)
+        } else {
+          equipment[rnd1equip['name']] = rnd1equip
+          //equipment[rnd1equip['name']]['value'] = Math.floor(equipment[rnd1equip['name']]['value']/2)
+        }
+        redisplay = true
+      }
+    }, this);
+    rnd1Text.inventoryName = rnd1equip['name']
+
+    //button to buy rnd2
+    rnd2equip = generateRandomEquipment()
+    rnd2Text = this.add.text(buy.x  - space*inc, buy.y + 4 * inc, rnd2equip['name'], {
+      fontSize: '20px',
+      fill: playerColorsEquip[rnd2equip['character']]
+    });
+    rnd2Text.setInteractive().on('pointerup', function() {
+      if (money >= rnd2equip['value'] * drewStoreMarkup) {
+        gameState44.chaching.play()
+        money -= rnd2equip['value'] * drewStoreMarkup;
+        if (equipment[rnd2equip['name']]){
+          rnd2equip['name'] = rnd2equip['name'] + ' '
+          equipment[rnd2equip['name']] = rnd2equip
+          //equipment[rnd2equip['name']]['value'] = Math.floor(equipment[rnd2equip['name']]['value']/2)
+        } else {
+          equipment[rnd2equip['name']] = rnd2equip
+          //equipment[rnd2equip['name']]['value'] = Math.floor(equipment[rnd2equip['name']]['value']/2)
+        }
+        redisplay = true
+      }
+    }, this);
+    rnd2Text.inventoryName = rnd2equip['name']
 
     //text for store inventory
     sellText = this.add.text(buy.x, buy.y + 5.5 * inc, 'Sell', style.large);
@@ -202,7 +253,37 @@ var DrewStore = new Phaser.Class({
 
     this.input.on('pointerover', function(pointer, justOver) {
       console.log(justOver[0])
-      if (justOver[0]._text) {
+      if (justOver[0].inventoryName === rnd1equip['name']){
+        gameState44.tempBackground.x = pointer.x + 50;
+        gameState44.tempBackground.y = pointer.y - 15;
+        gameState44.tempBackground.visible = true;
+        gameState44.tempBackground2.x = pointer.x + 50 - borderWidth;
+        gameState44.tempBackground2.y = pointer.y - 15 - borderWidth;
+        gameState44.tempBackground2.visible = true;
+        gameState44.tempText.visible = true;
+        gameState44.tempText.setText(`Type: ${rnd1equip['type']} \nDef: ${rnd1equip['def']} \nEffect: ${rnd1equip['effect']} \nvalue: $${rnd1equip['value'] * drewStoreMarkup}`);
+        gameState44.tempText.x = gameState44.tempBackground.x;
+        gameState44.tempText.y = gameState44.tempBackground.y;
+        gameState44.tempBackground.width = gameState44.tempText.width;
+        gameState44.tempBackground.height = gameState44.tempText.height;
+        gameState44.tempBackground2.width = gameState44.tempText.width + 2 * borderWidth;
+        gameState44.tempBackground2.height = gameState44.tempText.height + 2 * borderWidth;
+      } else if (justOver[0].inventoryName === rnd2equip['name']){
+        gameState44.tempBackground.x = pointer.x + 50;
+        gameState44.tempBackground.y = pointer.y - 15;
+        gameState44.tempBackground.visible = true;
+        gameState44.tempBackground2.x = pointer.x + 50 - borderWidth;
+        gameState44.tempBackground2.y = pointer.y - 15 - borderWidth;
+        gameState44.tempBackground2.visible = true;
+        gameState44.tempText.visible = true;
+        gameState44.tempText.setText(`Type: ${rnd2equip['type']} \nDef: ${rnd2equip['def']} \nEffect: ${rnd2equip['effect']} \nvalue: $${rnd2equip['value'] * drewStoreMarkup}`);
+        gameState44.tempText.x = gameState44.tempBackground.x;
+        gameState44.tempText.y = gameState44.tempBackground.y;
+        gameState44.tempBackground.width = gameState44.tempText.width;
+        gameState44.tempBackground.height = gameState44.tempText.height;
+        gameState44.tempBackground2.width = gameState44.tempText.width + 2 * borderWidth;
+        gameState44.tempBackground2.height = gameState44.tempText.height + 2 * borderWidth;
+      } else if (justOver[0]._text) {
         //console.log(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`)
         gameState44.tempBackground.x = pointer.x + 50;
         gameState44.tempBackground.y = pointer.y - 15;
@@ -211,7 +292,7 @@ var DrewStore = new Phaser.Class({
         gameState44.tempBackground2.y = pointer.y - 15 - borderWidth;
         gameState44.tempBackground2.visible = true;
         gameState44.tempText.visible = true;
-        gameState44.tempText.setText(`Type: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value']}`);
+        gameState44.tempText.setText(`Type: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value'] * drewStoreMarkup}`);
         gameState44.tempText.x = gameState44.tempBackground.x;
         gameState44.tempText.y = gameState44.tempBackground.y;
         gameState44.tempBackground.width = gameState44.tempText.width;
