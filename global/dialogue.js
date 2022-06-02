@@ -447,7 +447,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'god',
         page: 8888,
-        narrative: "(To use your gps, just click on a quest in your quest log to activate that quest. If you open your GPS by clicking on the phone icon, it will point you in the direction needed for that quest.)",
+        narrative: "(To use your gps, just click on a quest in your quest log to activate that quest (open quest log with x key) . If you open your GPS by clicking on the phone icon, it will point you in the direction needed for that quest.)",
         options: [{
             option: 'Damnnnnnnn!!!',
             nextPage: undefined,

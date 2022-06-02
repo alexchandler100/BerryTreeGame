@@ -827,11 +827,11 @@ function walkWith(follower, followee) {
   follower.body.setVelocityX(followee.body.velocity.x)
   follower.body.setVelocityY(followee.body.velocity.y)
   if (Math.abs(followee.body.velocity.x) > Math.abs(followee.body.velocity.y)) {
-    follower.x = followee.x + 15;
-    follower.y = followee.y + 3;
-  } else {
     follower.x = followee.x + 3;
     follower.y = followee.y + 15;
+  } else {
+    follower.x = followee.x + 15;
+    follower.y = followee.y + 3;
   }
 }
 
