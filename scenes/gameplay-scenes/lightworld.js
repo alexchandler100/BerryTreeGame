@@ -394,10 +394,12 @@ var LightWorld = new Phaser.Class({
     if (gameState.phoneBackground) {
       if (gameState.camera1.visible) {
         gameStateNav.phoneBackground.visible = false
+        //gameStateNav.phoneBackdrop.visible = false
         gameState.camera1.visible = false
         gameStateNav.gpsPointer.visible = false;
       } else {
         gameStateNav.phoneBackground.visible = true
+        //gameStateNav.phoneBackdrop.visible = true
         gameState.camera1.visible = true;
         gameStateNav.gpsPointer.visible = true;
       }
@@ -883,6 +885,12 @@ var LightWorld = new Phaser.Class({
 
     camera.zoom = 2;
     camera.roundPixels = true;
+
+    //trying to set backdrop for camera 1 on phone (failed... fix needed)
+    //gameStateNav.phoneBackdrop = this.add.rectangle(950, 75 + 40, 200, 200, 0x000000).setOrigin(0,0);
+    //gameStateNav.phoneBackdrop.visible = false;
+    //gameStateNav.phoneBackdrop.setScrollFactor(0)
+    //console.log(gameStateNav.phoneBackdrop)
 
     gameState.camera1 = this.cameras.add(950, 75 + 40, 200, 200);
     gameState.camera1.zoom = .051
@@ -2614,7 +2622,7 @@ var LightWorld = new Phaser.Class({
     //spawning interactable objects
 
     //spawning car
-    car = this.physics.add.sprite(this.CarSpawnPoint.x - 200, this.CarSpawnPoint.y, 'car4');
+    car = this.physics.add.sprite(this.CarSpawnPoint.x, this.CarSpawnPoint.y, 'car4');
 
     //spawning flowers
     flowers = this.physics.add.sprite(gameState.altonBR.x - 16, gameState.altonBR.y + 16, 'flowers');
@@ -2667,6 +2675,7 @@ var LightWorld = new Phaser.Class({
     oghomeboy = new NPC(this, "homeboy spawn point", "smoke", 0, "Original Homeboy", "smoke", "smoke", "smoke", "smoke", "smoke", "bong", false, 250, 125, 1000);
     oghomeboy.body.immovable = true;
     oghomeboy.body.moves = false;
+    oghomeboy.setDepth(oghomeboy.y)
     trevor = new NPC(this, "trevor spawn point", "Jimmy", 0, "Jimmy", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevorrightfast", "trevoridle", "bong", false, 250, 125, 100);
     trevor.body.setCircle(60);
     trevor.body.setOffset(60, 180);
@@ -2679,8 +2688,9 @@ var LightWorld = new Phaser.Class({
     jeanClaude.body.setCircle(30);
     jeanClaude.body.setOffset(25, 25);
     larry = new NPC(this, "larry spawn point", "larry", 0, "larry", "larry", "larry", "larry", "larry", "larry", "bong", false, 250, 125, 1000);
+    larry.setDepth(larry.y)
     drew = new NPC(this, "drew spawn point", "drew", 0, "drew", "drew", "drew", "drew", "drew", "drew", "bong", false, 250, 125, 1000);
-
+    drew.setDepth(drew.y)
 
     //recall it goes (scene, spawn point, texture, position) and position should coincide with spawn point on path
     roadCar1 = new Car(this, "cwCarPath0", 4, 0);
@@ -3584,7 +3594,14 @@ var LightWorld = new Phaser.Class({
       darkworldDialogue = 6;
     }
     //quest locations for gps
-    if (currentQuest === 'Jean Claude' || currentQuest === 'Jean Claude?') {
+    if (currentQuest === 'Yoga girl needs blocks' && items.includes("Yoga Blocks")){
+      gameState.questLocations['Yoga girl needs blocks'] = {
+        x: yogagirl.x,
+        y: yogagirl.y
+      }
+    }
+    else if (currentQuest === 'Jean Claude' || currentQuest === 'Jean Claude?') {
+      if (!jeanClaude.following){
       gameState.questLocations['Jean Claude'] = {
         x: jeanClaude.x,
         y: jeanClaude.y
@@ -3593,9 +3610,23 @@ var LightWorld = new Phaser.Class({
         x: jeanClaude.x,
         y: jeanClaude.y
       }
+    } else {
+      gameState.questLocations['Jean Claude'] = {
+        x: stripper.x,
+        y: stripper.y
+      }
+      gameState.questLocations['Jean Claude?'] = {
+        x: stripper.x,
+        y: stripper.y
+      }
+    }
     } else if (currentQuest === "Diamond Wants Some Coke") {
       if (trevor.following) {
-        gameState.questLocations["Diamond Wants Some Coke"] = map.findObject("Objects", obj => obj.name === "girl4 spawn point")
+        if (items.includes('Gram of Coke')){
+          gameState.questLocations["Diamond Wants Some Coke"] = {x:stripper.x, y: stripper.y}
+        } else {
+          gameState.questLocations["Diamond Wants Some Coke"] = map.findObject("Objects", obj => obj.name === "girl4 spawn point")
+        }
       } else {
         gameState.questLocations["Diamond Wants Some Coke"] = {
           x: trevor.x,
@@ -3617,8 +3648,13 @@ var LightWorld = new Phaser.Class({
     } else if (currentQuest === "Al wants some shit") {
       if (inventory["Hamms"]['numberOwned'] < 4) {
         gameState.questLocations["Al wants some shit"] = map.findObject("Objects", obj => obj.name === "gas station enter");
-      } else {
+      } else if (!items.includes('Weed (2g)')){
         gameState.questLocations["Al wants some shit"] = map.findObject("Objects", obj => obj.name === "homeboy spawn point");
+      } else {
+        gameState.questLocations["Al wants some shit"] = {
+          x:al.x,
+          y:al.y
+        }
       }
 
     } else if (currentQuest === 'Go Pro at Kick-The-Ball') {
@@ -3636,7 +3672,9 @@ var LightWorld = new Phaser.Class({
     }
 
     //quest navigator pointer
-    gameState.questLocation = gameState.questLocations[currentQuest]
+    if (currentQuest!==''){
+        gameState.questLocation = gameState.questLocations[currentQuest]
+    }
     if ((me.x - gameState.questLocation.x) > 0) {
       gameState.questAngle = Math.atan((gameState.questLocation.y - me.y) / (gameState.questLocation.x - me.x)) * 180 / 3.1415
     } else if ((me.x - gameState.questLocation.x) < 0) {
@@ -4404,14 +4442,14 @@ var LightWorld = new Phaser.Class({
     }
 
     //ai for adeline
-    if (distance(me, adeline) < 40 && adelineFirstTalk === 0 && trevor.joinParameter && girl2FirstDialogue >= 1) {
+    if (distance(me, adeline) < 20 && adelineFirstTalk === 0 && trevor.joinParameter && girl2FirstDialogue >= 1) {
       gameState.adeline_idk.play();
       adelineFirstTalk = 1
       this.openDialoguePage(3500)
       if (!activeQuests["Adeline is pissed"]) {
         activeQuests["Adeline is pissed"] = "My lady friend Adeline is pissed because she heard me hitting on some girls by the pool. I should get her flowers or something... I think I saw some by the road at the Alton and Burcham intersection."
       }
-    } else if (distance(me, adeline) < 30 && adelineFirstTalk === 2 && items.includes("Flowers")) {
+    } else if (distance(me, adeline) < 20 && adelineFirstTalk === 2 && items.includes("Flowers")) {
       adelineFirstTalk = 2
       this.openDialoguePage(3502)
       completeQuest("Adeline is pissed")
@@ -4705,7 +4743,6 @@ var LightWorld = new Phaser.Class({
       gameState.beatbox.play();
       beatbox = 0
     } else if (gunTalk === 1) {
-      this.openDialoguePage(35)
       const index = items.indexOf('Weed (2g)');
       if (index > -1) {
         items.splice(index, 1);
@@ -4713,22 +4750,23 @@ var LightWorld = new Phaser.Class({
       inventory["Hamms"]['numberOwned'] -= 4
       gunTalk = 0
       completeQuest("Al wants some shit")
-    } else if (distance(me, al) < 30 && alFirstTalk === 0 && al.joinParameter === false) {
+    } else if (distance(me, al) < 30 && alFirstTalk === 0 && al.joinParameter === false && (inventory['Hamms']['numberOwned'] < 4 || !items.includes('Weed (2g)'))) {
       gameState.alSound.play()
       this.openDialoguePage(30)
       alFirstTalk = 1
-      activeQuests["Al wants some shit"] = "I ran into Homeboy Al. He got this new airsoft gun and said I could fuck with it if I got him 4 beers (hamms) and 2g of weed. I can get beers from the gas station, but I should get my car first. Original homeboy usually has weed, I think he's usually in the woods."
+      activeQuests["Al wants some shit"] = "I ran into Al. He got this new airsoft gun and said I could fuck with it if I got him 4 beers (hamms) and 2g of weed. I can get beers from the gas station, but I should get my car first. Original homeboy usually has weed, I think he's usually in the woods."
+    } else if (distance(me, al) < 30 && alFirstTalk === 0 && al.joinParameter === false) {
+      gameState.alSound.play()
+      this.openDialoguePage(3030)
+      alFirstTalk = 1
+      activeQuests["Al wants some shit"] = "I ran into Al. He got this new airsoft gun and said I could fuck with it if I got him 4 beers (hamms) and 2g of weed. I can get beers from the gas station, but I should get my car first. Original homeboy usually has weed, I think he's usually in the woods."
     } else if (distance(me, al) > 300 && alFirstTalk === 1) {
       alFirstTalk = 0
     }
-
     if (alGet === 1) {
       alGet = 2;
       al.joinParameter = true;
     }
-
-
-
     //ai for og homeboy
     if (distance(oghomeboy, me) < 1000) {
       oghomeboy.anims.play('smoke', true);
@@ -4741,7 +4779,6 @@ var LightWorld = new Phaser.Class({
         ogFirstTalk = 0
       }
     }
-
     //ai for larry
     if (distance(me, larry) < 30 && larryFirstTalk === 0) {
       larryFirstTalk = 1
@@ -4749,7 +4786,6 @@ var LightWorld = new Phaser.Class({
     } else if (distance(me, larry) > 200) {
       larryFirstTalk = 0
     }
-
     //ai for drew
     if (distance(me, drew) < 30 && drewFirstTalk === 0) {
       drewFirstTalk = 1
@@ -4757,7 +4793,6 @@ var LightWorld = new Phaser.Class({
     } else if (distance(me, drew) > 200) {
       drewFirstTalk = 0
     }
-
     //ai for trevor
     if (distance(trevor, ball) > 400 && trevor.following === false) {
       trevor.disableBody(true, true)

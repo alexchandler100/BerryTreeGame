@@ -23,6 +23,13 @@ var OverworldMenu = new Phaser.Class({
       return self.indexOf(value) === index;
     }
     //background and border
+    openKeyborder = this.add.rectangle(600, 20, 406, 36, 0xb39c0e).setOrigin(.5,.5);
+    openKey_background = this.add.rectangle(600, 20, 400, 30, 0x000).setOrigin(.5,.5);
+    openkeyText = this.add.text(600, 20, 'Press Z to open/close', {
+      fontSize: '25px',
+      fill: '#fff'
+    }).setOrigin(.5,.5);
+    //background and border
     gameState5.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
     gameState5.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
 
@@ -104,7 +111,7 @@ var OverworldMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    crackheadText = this.add.text(175, 320, `Money Given to Crackhead: ${moneyToCrackhead}`, {
+    crackheadText = this.add.text(175, 320, `Money Given to Melvin: ${moneyToCrackhead}`, {
       fontSize: '25px',
       fill: '#fff'
     });

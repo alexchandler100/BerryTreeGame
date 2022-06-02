@@ -210,6 +210,7 @@ var DrewStore = new Phaser.Class({
             fontSize: '20px',
             fill: playerColorsEquip[equipment[a_item]['character']]
           }).setDepth(1);
+          gameState44.newText[a_item].inventoryName = 'my_equipment'
           gameState44.newText[a_item].setInteractive();
           this.input.setDraggable(gameState44.newText[a_item]);
           if (ycoord44 >= 400) {
@@ -277,6 +278,22 @@ var DrewStore = new Phaser.Class({
         gameState44.tempBackground2.visible = true;
         gameState44.tempText.visible = true;
         gameState44.tempText.setText(`Type: ${rnd2equip['type']} \nDef: ${rnd2equip['def']} \nEffect: ${rnd2equip['effect']} \nvalue: $${rnd2equip['value'] * drewStoreMarkup}`);
+        gameState44.tempText.x = gameState44.tempBackground.x;
+        gameState44.tempText.y = gameState44.tempBackground.y;
+        gameState44.tempBackground.width = gameState44.tempText.width;
+        gameState44.tempBackground.height = gameState44.tempText.height;
+        gameState44.tempBackground2.width = gameState44.tempText.width + 2 * borderWidth;
+        gameState44.tempBackground2.height = gameState44.tempText.height + 2 * borderWidth;
+      } else if (justOver[0]._text && justOver[0].inventoryName === 'my_equipment') {
+        //console.log(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`)
+        gameState44.tempBackground.x = pointer.x + 50;
+        gameState44.tempBackground.y = pointer.y - 15;
+        gameState44.tempBackground.visible = true;
+        gameState44.tempBackground2.x = pointer.x + 50 - borderWidth;
+        gameState44.tempBackground2.y = pointer.y - 15 - borderWidth;
+        gameState44.tempBackground2.visible = true;
+        gameState44.tempText.visible = true;
+        gameState44.tempText.setText(`Type: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value']}`);
         gameState44.tempText.x = gameState44.tempBackground.x;
         gameState44.tempText.y = gameState44.tempBackground.y;
         gameState44.tempBackground.width = gameState44.tempText.width;

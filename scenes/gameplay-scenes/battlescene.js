@@ -208,7 +208,7 @@ var Menu = new Phaser.Class({
       } else if (unit.type === 'Bill') {
         menuText += 'Bill         '
       } else if (unit.type === 'Derek') {
-        menuText += 'Kevin        '
+        menuText += 'Derek        '
       } else {
         menuText += unit.type
       }

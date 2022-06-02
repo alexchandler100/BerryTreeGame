@@ -1,7 +1,6 @@
 //keyboard parameters
 let keyboardGet = false;
 let keyboardDialogue;
-
 //dialogue parameters
 let censored = true;
 let censoredPageExists = {};
@@ -12,27 +11,21 @@ let completedQuests = {
   'Wake Up': 'Well you did do one thing so far. Good job.',
 }
 let currentQuest = 'Find Your Stuff'
-
 //megaman parameters
 let switchToNextWeapon = false;
 let beatChill = 0;
 let lostAtMegaman = 0;
 let beatStag = 0;
-
 //car parameters
 let firstKeyDown = '';
 let carCrashDialogue = false;
 let gasAlert = 0;
-
 //homeboy game parameters
 let adventure = 0;
-
 //skateboard parameters
 let startSkateboardScene = false;
 let skateboardGet = false;
 let kickflipScoreDisplayed = false;
-
-
 //dialogue parameters
 let buyFailed = 0;
 let pageDisplayed = 0; //supposed to fix issue with multiple pages displaying causing errors
@@ -95,13 +88,11 @@ let alFirstTalk = 0;
 let darkworldDialogue = 0;
 let jonChaseX = 20;
 let gotYogaBlocks = false;
-
 //boss battle parameters
 let settingDepth = false;
 let bossType;
 let bossBattle = false;
 let bossBattleParameter = 0;
-
 //battle parameters
 let numberOfPlayers = 1;
 let battleBackgroundIndex = 0
@@ -122,7 +113,6 @@ let throwingMohawk = false
 let fallingMohawk = false
 let throwingAngle = 0
 let firstStrikeDisplay = false
-
 //overworld parameters
 let jamesToggleFollow = false;
 let openKeyboard = false;
@@ -181,13 +171,11 @@ let raceBegin = false;
 let raceOngoing = false;
 let winRace = 0;
 let wonRace = 0;
-
 //dark world/ light world parameters
 let sentBack = 0;
 let worldTheme = 'light'
 let darkWorld = 0;
 let hausdorfTexture = 0;
-
 //special item parameters
 let items = [];
 let gas = 6;
@@ -198,7 +186,6 @@ let walletGet = 0;
 let liquorGet = 0;
 let flowersGet = 0;
 let keysGet = 0;
-
 //to use items
 function useItem(object, player) {
   let obj = inventory[object];
@@ -264,9 +251,7 @@ function get10Monsters() { //james gives you monster
   inventory["Monster"]['numberOwned'] += 10
   gameState.itemget.play()
 }
-
 //character parameters (should all be incorporated in larger objects built from csv files.... fix needed)
-
 let animObject = {
   "Dio": ['diofloat', 'dioslash'],
   "Chad": ['frat1jump', 'frat1attack'],
@@ -465,7 +450,11 @@ let equipped = {
   }
 }
 
-let joinParams = {'Jimmy': false, 'Al': false, 'Bennett': false}
+let joinParams = {
+  'Jimmy': false,
+  'Al': false,
+  'Bennett': false
+}
 
 //equipment parameters (should all be incorporated in a larger object built from csv files)
 
@@ -671,6 +660,7 @@ function openKeyboardNow() {
 //use this to complete a quest
 function completeQuest(title) {
   completedQuests[title] = activeQuests[title]
+  currentQuest = ''
   delete activeQuests[title]
 }
 //bool=true means we are equipping. Otherwise we are unequipping
@@ -742,6 +732,10 @@ function goInPocketNine() {
 
 function openQuestLog() {
   scene_number = 10
+}
+
+function openPauseMenu() {
+  scene_number = 1
 }
 
 function exitPool() {
@@ -878,8 +872,9 @@ function buyWeed() {
 function buyWeedRipoff() {
   if (money >= 20) {
     money -= 20;
-    items.push('Weed (1g)')
+    items.push('Weed (2g)')
     gameState.itemget.play();
+    completeQuest('Get Weed From OG Homeboy')
   } else {
     buyFailed = 1
   }
@@ -1206,13 +1201,7 @@ function getJonItem() { //jon gives you sprinting shoes
   equipment["Sprinting Shoes"]['numberOwned'] += 1
 }
 
-function alCheckhamms() { //al checks if you have hamms and weed, if so, he joins your party
-  if (inventory['Hamms']['numberOwned'] >= 4 && items.includes("Weed (2g)")) {
-    gunTalk = 1
-  }
-  beatbox = 1
-  openQuestLog()
-}
+
 
 function colleenCheck20() { //al checks if you have hamms and weed, if so, he joins your party
   if (money >= 20) {
@@ -1228,8 +1217,10 @@ function jimmyJoins() { //if you go pro for the first time jimmy joins your part
 }
 
 function gunGet() { //al joins your party (still called gunget because he used to just give you a gun)
+  gunTalk = 1
   alGet = 1
-  gameState.itemget.play()
+  //gameState.itemget.play()
+  beatbox = 1
 }
 
 function cokeGet() { //al joins your party (still called gunget because he used to just give you a gun)
@@ -1329,7 +1320,7 @@ function generateRandomEquipment() {
   value += piece_def
   let types = {
     'Mac_upper': ['Camo T-Shirt', 'Wrestling Shirt', `Wife Beater`, 'Camo Hoody'],
-    'Mac_lower': ['Pants', 'Gym Shorts', 'Track Pants','Camo Pants'],
+    'Mac_lower': ['Pants', 'Gym Shorts', 'Track Pants', 'Camo Pants'],
     'Jimmy_upper': ['Shirt', 'Bear Shirt', 'Deer Shirt', 'Sport Coat'],
     'Jimmy_lower': ['Cargo Pants', 'Waders', 'Anglers Pants', 'Chinos'],
     'Al_upper': ['Track Suit Top', 'Phat Farm Shirt', 'Fubu Shirt', 'Gucci Shirt'],
@@ -1344,13 +1335,13 @@ function generateRandomEquipment() {
   let type = Object.keys(types)[typeDraw]
   //determining the exact equipment base
   let baseDraw = 0;
-  if (piece_def<=5 && type !=='accessory'){
+  if (piece_def <= 5 && type !== 'accessory') {
     baseDraw = 0;
-  } else if (piece_def<=10 && type !=='accessory'){
+  } else if (piece_def <= 10 && type !== 'accessory') {
     baseDraw = 1;
-  } else if (piece_def<=15 && type !=='accessory'){
+  } else if (piece_def <= 15 && type !== 'accessory') {
     baseDraw = 2;
-  } else if (piece_def<=20 && type !=='accessory'){
+  } else if (piece_def <= 20 && type !== 'accessory') {
     baseDraw = 3;
   } else {
     baseDraw = getRandomInt(types[type].length)
@@ -1422,7 +1413,7 @@ function generateRandomEquipment() {
   }
 
   if (maxStrengths[stat1]) {
-    maxStr1 = maxStrengths[stat1]*(1 + party['Mac']['level']/3);
+    maxStr1 = maxStrengths[stat1] * (1 + party['Mac']['level'] / 3);
     maxStr1 = Math.floor(maxStr1);
     strength1 = getRandomInt(maxStr1) + 1
     value += strength1;
@@ -1442,7 +1433,7 @@ function generateRandomEquipment() {
     if (effect.length > 0) {
       effect += '\n        '
     }
-    maxStr2 = maxStrengths[stat2]*(1 + party['Mac']['level']/3);
+    maxStr2 = maxStrengths[stat2] * (1 + party['Mac']['level'] / 3);
     maxStr2 = Math.floor(maxStr2);
     strength2 = getRandomInt(maxStr2) + 1
     value += strength2;
@@ -1533,7 +1524,7 @@ window.setTimeout(()=>{
 }, 500)
 */
 
-function loadState(){
+function loadState() {
   console.log('loading')
   if (localStorage.getItem('inventory') !== null && continueGame) {
     console.log(`Save State Found`);

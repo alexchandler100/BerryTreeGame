@@ -12,6 +12,12 @@ var QuestLogCompleted = new Phaser.Class({
   },
   preload: function() {},
   create: function() {
+    openKeyborder = this.add.rectangle(600, 20, 406, 36, 0xb39c0e).setOrigin(.5,.5);
+    openKey_background = this.add.rectangle(600, 20, 400, 30, 0x000).setOrigin(.5,.5);
+    openkeyText = this.add.text(600, 20, 'Press X to open/close', {
+      fontSize: '25px',
+      fill: '#fff'
+    }).setOrigin(.5,.5);
     //background and border
     gameState1.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
     gameState1.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
@@ -59,7 +65,7 @@ var QuestLogCompleted = new Phaser.Class({
         itemCount10+=1;
         gameState11.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 75, 0xb39c0e).setOrigin(0,0).setInteractive()
         gameState11.newItem[questTitle].name=questTitle
-          gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10+15, ycoord10+25, questTitle, {
+          gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10, ycoord10, questTitle, {
             fontSize: '20px',
             fill: '#fff',
             fontFamily: 'Academy Engraved LET',

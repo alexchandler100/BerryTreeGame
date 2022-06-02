@@ -60,11 +60,13 @@ var TitleScreen = new Phaser.Class({
   },
   create: function() {
     //to skip title, uncomment
-/*
+      /*
         this.scene.launch("LightWorld")
         this.scene.launch('DialogueMenu');
         this.scene.stop();
-    */
+        newGame = true
+        */
+
 
     this.bannerSound = this.sound.add('banner', {
       volume: .5

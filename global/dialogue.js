@@ -505,7 +505,6 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'Check this shit out',
           nextPage: undefined,
-          aftermath: openQuestLog
         },
         {
           option: 'Kick-the-ball?',
@@ -524,7 +523,6 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'Check this out',
           nextPage: undefined,
-          aftermath: openQuestLog
         },
         {
           option: 'Kick-the-ball?',
@@ -792,6 +790,21 @@ var DialogueMenu = new Phaser.Class({
 
       {
         character: 'Al',
+        page: 3030,
+        narrative: "Al: Yo you got that shit?",
+        options: [{
+            option: 'Yeah dude',
+            nextPage: 35
+          },
+          {
+            option: 'Not now dude',
+            nextPage: 32
+          },
+        ]
+      },
+
+      {
+        character: 'Al',
         page: 30+1000000,
         narrative: "Al: Hey man, I got this airsoft gun, you wanna mess wit it?",
         options: [{
@@ -812,7 +825,6 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'I got you man',
           nextPage: undefined,
-          aftermath: alCheckhamms
         }]
       },
 
@@ -823,7 +835,7 @@ var DialogueMenu = new Phaser.Class({
         options: [{
           option: 'I got you man',
           nextPage: undefined,
-          aftermath: alCheckhamms
+          aftermath: openQuestLog
         }]
       },
 
@@ -868,7 +880,17 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'Al',
         page: 35,
-        narrative: "Al: Yoooo nice. Ima drink these beers. Instead of giving you dis gun, Ima roll wit ya. Heard these fratboys been fuckin wit you dawg I ain't cool wit dat.",
+        narrative: "Al: Yoo niiice. I'ma drink these beers. Instead of giving you this gun, I gonna roll with ya.",
+        options: [{
+          option: 'Hell yeah',
+          nextPage: 3535,
+        }, ]
+      },
+
+      {
+        character: 'Al',
+        page: 3535,
+        narrative: "Al: Heard these fratboys been fuckin wit you dawg I ain't cool wit dat.",
         options: [{
           option: 'Hell yeah',
           nextPage: 36,
@@ -1231,7 +1253,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'smoke',
         page: 82,
-        narrative: "Original Homeboy: 20 bucks a gram",
+        narrative: "Original Homeboy: 20 bucks for two grams.",
         options: [{
             option: 'Fuck yeah',
             nextPage: 83,
@@ -2643,7 +2665,7 @@ var DialogueMenu = new Phaser.Class({
         narrative: `Man, random people are attacking me... that ain't good. I must have gone to a frat party or something last night. I always end up getting in fights with those dickheads.`,
         options: [{
           option: "Fuckin' A, Man",
-          nextPage: undefined,
+          nextPage: 50001,
         },
         {
           option: "Tips?",
@@ -2653,11 +2675,23 @@ var DialogueMenu = new Phaser.Class({
 
       {
         character: 'Mac',
+        page: 50001,
+        narrative: `I better suit up...`,
+        options: [{
+          option: "...",
+          nextPage: undefined,
+          aftermath: openPauseMenu
+        },
+        ]
+      },
+
+      {
+        character: 'Mac',
         page: 5000+1000000,
         narrative: `Man, random people are attacking me... that ain't good. I must have gone to a frat party or something last night. I always end up getting in fights with those guys.`,
         options: [{
           option: "Yeahh...",
-          nextPage: undefined,
+          nextPage: 50001,
         },
         {
           option: "Tips?",

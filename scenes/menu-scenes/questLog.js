@@ -12,7 +12,13 @@ var QuestLog = new Phaser.Class({
   },
   preload: function() {},
   create: function() {
-
+    //background and border
+    openKeyborder = this.add.rectangle(600, 20, 406, 36, 0xb39c0e).setOrigin(.5,.5);
+    openKey_background = this.add.rectangle(600, 20, 400, 30, 0x000).setOrigin(.5,.5);
+    openkeyText = this.add.text(600, 20, 'Press X to open/close', {
+      fontSize: '25px',
+      fill: '#fff'
+    }).setOrigin(.5,.5);
     //background and border
     gameState1.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
     gameState1.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);

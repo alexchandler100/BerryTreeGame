@@ -19,14 +19,11 @@ var ControlsScene = new Phaser.Class({
       return self.indexOf(value) === index;
     }
     //background and border
-    this.border = this.add.image(600, 300, 1006, 506, 0xb39c0e);
+    this.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
     this.controls = this.add.image(600, 300, 'controls')
 
-
-
-
     //exit button
-    this.exit_button = this.add.rectangle(1130, 70, 20, 20, 0xfff);
+    this.exit_button = this.add.rectangle(1070, 70, 20, 20, 0xfff);
     this.exit_button.setInteractive()
     this.exit_button.on('pointerup', function() {
       this.scene.stop();
@@ -34,14 +31,14 @@ var ControlsScene = new Phaser.Class({
       pause = false
       launchParameter=false;
     }, this);
-    exitText = this.add.text(1130-7, 70-14, 'x', {
+    exitText = this.add.text(1070-7, 70-14, 'x', {
       fontSize: '25px',
       fill: '#fff'
     });
 
 
 
-    menuText = this.add.text(500, 20, "Controls", {
+    menuText = this.add.text(500, 60, "Controls", {
       fontSize: '30px',
       fill: '#fff'
     });

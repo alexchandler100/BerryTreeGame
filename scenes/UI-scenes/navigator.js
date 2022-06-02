@@ -12,7 +12,6 @@ var Navigator = new Phaser.Class({
   },
   preload: function() {
     this.load.image('phoneBackground', "assets/images/phoneBackground.png");
-
     this.load.spritesheet('gpsPointer',
       'assets/images/gpsPointer.png', {
         frameWidth: 100,
@@ -24,7 +23,7 @@ var Navigator = new Phaser.Class({
     this.anims.create({
       key: 'gpsPointerBig',
       frames: this.anims.generateFrameNumbers('gpsPointer', {
-        frames: [0,3]
+        frames: [0,4]
       }),
       frameRate: 1,
       repeat: -1
@@ -33,7 +32,7 @@ var Navigator = new Phaser.Class({
     this.anims.create({
       key: 'gpsPointerMedium',
       frames: this.anims.generateFrameNumbers('gpsPointer', {
-        frames: [1,4]
+        frames: [1,5]
       }),
       frameRate: 2,
       repeat: -1
@@ -42,9 +41,18 @@ var Navigator = new Phaser.Class({
     this.anims.create({
       key: 'gpsPointerSmall',
       frames: this.anims.generateFrameNumbers('gpsPointer', {
-        frames: [2,5]
+        frames: [2,6]
       }),
       frameRate: 4,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'gpsPointerNearby',
+      frames: this.anims.generateFrameNumbers('gpsPointer', {
+        frames: [3,7]
+      }),
+      frameRate: 8,
       repeat: -1
     });
 
@@ -88,10 +96,12 @@ var Navigator = new Phaser.Class({
     gameStateNav.phone.on('pointerup', function() {
       if (gameState.camera1.visible){
         gameStateNav.phoneBackground.visible = false
+        //gameStateNav.phoneBackdrop.visible = false
         gameState.camera1.visible = false
         gameStateNav.gpsPointer.visible = false;
       } else {
         gameStateNav.phoneBackground.visible = true
+        //gameStateNav.phoneBackdrop.visible = true
         gameState.camera1.visible = true;
         gameStateNav.gpsPointer.visible = true;
       }
@@ -105,7 +115,14 @@ var Navigator = new Phaser.Class({
   },
   update: function() {
     pointerScale = Math.sqrt((me.x-gameState.questLocation.x)**2+(me.y-gameState.questLocation.y)**2)/10000
-    if (pointerScale<.2){
+    if (currentQuest === ''){ //if there is no set quest, do not show pointer
+      gameStateNav.gpsPointer.visible = false;
+    } else if (gameState.camera1.visible) {
+      gameStateNav.gpsPointer.visible = true;
+    }
+    if (pointerScale<.05){
+      gameStateNav.gpsPointer.anims.play('gpsPointerNearby',true)
+    } else if (pointerScale<.2){
       gameStateNav.gpsPointer.anims.play('gpsPointerSmall',true)
     } else if (pointerScale>.5){
       gameStateNav.gpsPointer.anims.play('gpsPointerBig',true)
