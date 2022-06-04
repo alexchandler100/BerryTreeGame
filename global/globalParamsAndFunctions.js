@@ -1107,7 +1107,6 @@ function getOneDamageMac() { //level up increase damage
   skillCheck('Mac')
 }
 
-
 function getOneDamageAl() { //level up increase damage
   party['Al']['damage'] += 2;
   gameState.itemget.play()
@@ -1141,7 +1140,6 @@ function playMegaman() { //computes distance between two things
   window.setTimeout(() => {
     startMegaman = true;
   }, 3000);
-
 }
 
 function distance(thing1, thing2) { //computes distance between two things
@@ -1201,8 +1199,6 @@ function getJonItem() { //jon gives you sprinting shoes
   equipment["Sprinting Shoes"]['numberOwned'] += 1
 }
 
-
-
 function colleenCheck20() { //al checks if you have hamms and weed, if so, he joins your party
   if (money >= 20) {
     cokeGet()
@@ -1228,7 +1224,6 @@ function cokeGet() { //al joins your party (still called gunget because he used 
   items.push("Gram of Coke")
   girl4FirstDialogue = 4
 }
-
 //this removes all instances of obj from the array arr
 function removeAll(arr, obj) {
   for (var i = 0; i < arr.length; i++) {
@@ -1237,7 +1232,6 @@ function removeAll(arr, obj) {
     }
   }
 }
-
 //this removes first instance of obj from the array arr
 function removeFirst(arr, obj) {
   for (var i = 0; i < arr.length; i++) {
@@ -1270,10 +1264,17 @@ function openDrewStore() {
   scene_number = 97;
 }
 
+function checkFileExist(urlToFile) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('HEAD', urlToFile, false);
+  xhr.send();
 
-
-
-
+  if (xhr.status == "404") {
+    return false;
+  } else {
+    return true;
+  }
+}
 //building the list of effects
 let maxStrengths = {
   'style': 5,
@@ -1300,7 +1301,6 @@ function describeEffect(stat, strength) {
   } else {
     return effects[stat]
   }
-
 }
 
 function generateRandomEquipment() {
@@ -1329,7 +1329,6 @@ function generateRandomEquipment() {
     'Bennett_lower': ['Running Shorts', 'Spandex Swimsuit', 'Dry-Fit Shorts', 'Cool-Active Shorts'],
     'accessory': ['Chain', 'Ring', 'Belt', 'Hat', 'Shoes'],
   }
-
   //determining equipment type
   let typeDraw = getRandomInt(Object.keys(types).length)
   let type = Object.keys(types)[typeDraw]
@@ -1351,7 +1350,6 @@ function generateRandomEquipment() {
   console.log(`type ${type}`)
   console.log(`baseDraw ${baseDraw}`)
   console.log(`base ${base}`)
-
   let prefixes = {
     'style': ['Swag', 'Sick', 'Lit', 'Dope'],
     'athletics': ['Asics', `Active`, `Agile`, `Nike`],
@@ -1365,7 +1363,6 @@ function generateRandomEquipment() {
     'maxSPPlus': ['of Competence', 'of the Skilled', `of Speciality`, `of the Expert`],
     'maxHPPlus': ['of the Healthy', 'of the Enduring', `of Constancy`, `of Lasting Health`],
   }
-
   // slots
   let slots = 0;
   let rareDraw = getRandomInt(10);
@@ -1411,7 +1408,6 @@ function generateRandomEquipment() {
   if (postfix.length > 0) {
     name = name + ' ' + postfix
   }
-
   if (maxStrengths[stat1]) {
     maxStr1 = maxStrengths[stat1] * (1 + party['Mac']['level'] / 3);
     maxStr1 = Math.floor(maxStr1);
@@ -1452,7 +1448,6 @@ function generateRandomEquipment() {
     effect += describeEffect(stat2, 0)
     activeEffects.push([stat2, true])
   }
-
   let chars = {
     'Mac_upper': 'Mac',
     'Mac_lower': 'Mac',
@@ -1465,11 +1460,9 @@ function generateRandomEquipment() {
     'accessory': 'all',
   }
   character = chars[type]
-
   if (effect === '') {
     effect = 'none'
   }
-
   new_equipment = {
     'name': name,
     'type': type,
@@ -1503,15 +1496,14 @@ function generateRandomEquipment() {
   //new_equipment['value'] = value;
   //new_equipment['effect'] = effect;
   //new_equipment['def'] = piece_def;
-
   for (let i = 0; i < activeEffects.length; i++) {
     let stati = activeEffects[i][0]
     let strengthi = activeEffects[i][1]
     new_equipment[stati] = strengthi
   }
+  new_equipment['base'] = base
   return new_equipment
 }
-
 /*
 window.setTimeout(()=>{
   //push 10 random pieces to the console
@@ -1523,7 +1515,6 @@ window.setTimeout(()=>{
   }
 }, 500)
 */
-
 function loadState() {
   console.log('loading')
   if (localStorage.getItem('inventory') !== null && continueGame) {
@@ -1654,7 +1645,6 @@ function loadState() {
       });
     });
   }
-
   //if no local storage is found, we will need to use the json files which need manual parsing for correct format
   if (localStorage.getItem('equipment') !== null && continueGame) {
     console.log(`manual parse not needed`);
@@ -1681,7 +1671,6 @@ function loadState() {
         //console.log(key, inventory[key]["hp"], inventory[key]["sp"], inventory[key]["randomEncounterRewards"])
       }
     }, 200)
-
     window.setTimeout(() => {
       for (let i = 0; i < Object.keys(party).length; i++) {
         key1 = Object.keys(party)[i]
@@ -1709,8 +1698,6 @@ function loadState() {
       }
       //console.log(party['Mac']['special'][0])
     }, 200)
-
-
     window.setTimeout(() => {
       for (let i = 0; i < Object.keys(equipment).length; i++) {
         key1 = Object.keys(equipment)[i]

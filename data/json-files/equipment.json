@@ -2,6 +2,7 @@
     "0": {
         "name": "Camo T-Shirt",
         "type": "Mac_upper",
+        "base": "CamoT-Shirt",
         "numberOwned": "1",
         "equipped": "1",
         "character": "Mac",
@@ -30,6 +31,7 @@
     "1": {
         "name": "Pants",
         "type": "Mac_lower",
+        "base": "Pants",
         "numberOwned": "1",
         "equipped": "1",
         "character": "Mac",
@@ -58,6 +60,7 @@
     "2": {
         "name": "Shirt",
         "type": "Jimmy_upper",
+        "base": "Shirt",
         "numberOwned": "1",
         "equipped": "1",
         "character": "Jimmy",
@@ -86,6 +89,7 @@
     "3": {
         "name": "Cargo Pants",
         "type": "Jimmy_lower",
+        "base": "CargoPants",
         "numberOwned": "1",
         "equipped": "1",
         "character": "Jimmy",
@@ -114,6 +118,7 @@
     "4": {
         "name": "Track Suit Top",
         "type": "Al_upper",
+        "base": "TrackSuitTop",
         "numberOwned": "1",
         "equipped": "1",
         "character": "Al",
@@ -142,6 +147,7 @@
     "5": {
         "name": "Track Suit Bottom",
         "type": "Al_lower",
+        "base": "TrackSuitBottom",
         "numberOwned": "1",
         "equipped": "1",
         "character": "Al",
@@ -170,6 +176,7 @@
     "6": {
         "name": "Running Shirt",
         "type": "Bennett_upper",
+        "base": "RunningShirt",
         "numberOwned": "1",
         "equipped": "1",
         "character": "Bennett",
@@ -198,6 +205,7 @@
     "7": {
         "name": "Running Shorts",
         "type": "Bennett_lower",
+        "base": "RunningShorts",
         "numberOwned": "1",
         "equipped": "1",
         "character": "Bennett",
@@ -226,6 +234,7 @@
     "8": {
         "name": "Under Armor Shirt",
         "type": "Bennett_upper",
+        "base": "UnderArmorShirt",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Bennett",
@@ -254,6 +263,7 @@
     "9": {
         "name": "Arc'teryx Incendo Pants",
         "type": "Bennett_lower",
+        "base": "Arc'teryxIncendoPants",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Bennett",
@@ -282,6 +292,7 @@
     "10": {
         "name": "Snowpants",
         "type": "Jimmy_lower",
+        "base": "Snowpants",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Jimmy",
@@ -310,6 +321,7 @@
     "11": {
         "name": "Poncho",
         "type": "Mac_upper",
+        "base": "Poncho",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Mac",
@@ -338,6 +350,7 @@
     "12": {
         "name": "Sombrero",
         "type": "accessory",
+        "base": "Sombrero",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -366,6 +379,7 @@
     "13": {
         "name": "Duster",
         "type": "Mac_upper",
+        "base": "Duster",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Mac",
@@ -394,6 +408,7 @@
     "14": {
         "name": "MONCLER Black Down Promio Jacket",
         "type": "Al_upper",
+        "base": "MONCLERBlackDownPromioJacket",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Al",
@@ -422,6 +437,7 @@
     "15": {
         "name": "AMRI Blue Jeans",
         "type": "Al_lower",
+        "base": "AMRIBlueJeans",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Al",
@@ -450,6 +466,7 @@
     "16": {
         "name": "Spirit Bear Shirt",
         "type": "Jimmy_upper",
+        "base": "SpiritBearShirt",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Jimmy",
@@ -478,6 +495,7 @@
     "17": {
         "name": "Spirit Deer Shirt",
         "type": "Jimmy_upper",
+        "base": "SpiritDeerShirt",
         "numberOwned": "0",
         "equipped": "0",
         "character": "Jimmy",
@@ -506,6 +524,7 @@
     "18": {
         "name": "SP Booster",
         "type": "accessory",
+        "base": "SPBooster",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -534,6 +553,7 @@
     "19": {
         "name": "HP Booster",
         "type": "accessory",
+        "base": "HPBooster",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -562,6 +582,7 @@
     "20": {
         "name": "Damage Booster",
         "type": "accessory",
+        "base": "DamageBooster",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -590,6 +611,7 @@
     "21": {
         "name": "Brass Knuckles",
         "type": "accessory",
+        "base": "BrassKnuckles",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -618,6 +640,7 @@
     "22": {
         "name": "Gold Duck Tape",
         "type": "accessory",
+        "base": "GoldDuckTape",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -646,6 +669,7 @@
     "23": {
         "name": "Camo Duck Tape",
         "type": "accessory",
+        "base": "CamoDuckTape",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -674,6 +698,7 @@
     "24": {
         "name": "Sprinting Shoes",
         "type": "accessory",
+        "base": "SprintingShoes",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -702,6 +727,7 @@
     "25": {
         "name": "Dio Band",
         "type": "accessory",
+        "base": "DioBand",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -730,6 +756,7 @@
     "26": {
         "name": "Flat Bill Hat",
         "type": "accessory",
+        "base": "FlatBillHat",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -758,6 +785,7 @@
     "27": {
         "name": "Alligator Boots",
         "type": "accessory",
+        "base": "AlligatorBoots",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -786,6 +814,7 @@
     "28": {
         "name": "Kanye Sunglasses",
         "type": "accessory",
+        "base": "KanyeSunglasses",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",
@@ -814,6 +843,7 @@
     "29": {
         "name": "Gold Chain",
         "type": "accessory",
+        "base": "GoldChain",
         "numberOwned": "0",
         "equipped": "0",
         "character": "all",

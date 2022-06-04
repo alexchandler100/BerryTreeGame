@@ -1,74 +1,74 @@
-name,type,numberOwned,equipped,character,randomEncounterRewards,value,def,effect,style,damagePlus,maxSPPlus,maxHPPlus,neverMiss,firstStrike,preventBleeding,preventBlindness,athletics,neverMissValue1,neverMissValue2,firstStrikeValue1,firstStrikeValue2,preventBleedingValue1,preventBleedingValue2,preventBlindnessValue1,preventBlindnessValue2
-Camo T-Shirt,Mac_upper,1,1,Mac,0,2,2,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Pants,Mac_lower,1,1,Mac,0,1,1,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Shirt,Jimmy_upper,1,1,Jimmy,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Cargo Pants,Jimmy_lower,1,1,Jimmy,0,1,1,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Track Suit Top,Al_upper,1,1,Al,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Track Suit Bottom,Al_lower,1,1,Al,0,2,2,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Running Shirt,Bennett_upper,1,1,Bennett,0,5,5,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Running Shorts,Bennett_lower,1,1,Bennett,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Under Armor Shirt,Bennett_upper,0,0,Bennett,0.2,31,10,"Damage +10
+name,type,base,numberOwned,equipped,character,randomEncounterRewards,value,def,effect,style,damagePlus,maxSPPlus,maxHPPlus,neverMiss,firstStrike,preventBleeding,preventBlindness,athletics,neverMissValue1,neverMissValue2,firstStrikeValue1,firstStrikeValue2,preventBleedingValue1,preventBleedingValue2,preventBlindnessValue1,preventBlindnessValue2
+Camo T-Shirt,Mac_upper,CamoT-Shirt,1,1,Mac,0,2,2,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Pants,Mac_lower,Pants,1,1,Mac,0,1,1,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Shirt,Jimmy_upper,Shirt,1,1,Jimmy,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Cargo Pants,Jimmy_lower,CargoPants,1,1,Jimmy,0,1,1,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Track Suit Top,Al_upper,TrackSuitTop,1,1,Al,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Track Suit Bottom,Al_lower,TrackSuitBottom,1,1,Al,0,2,2,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Running Shirt,Bennett_upper,RunningShirt,1,1,Bennett,0,5,5,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Running Shorts,Bennett_lower,RunningShorts,1,1,Bennett,0,3,3,none,0,0,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Under Armor Shirt,Bennett_upper,UnderArmorShirt,0,0,Bennett,0.2,31,10,"Damage +10
         Athletics +0.1
         Style +10",10,10,0,0,false,false,false,false,0.1,false,0,false,0,false,0,false,0
-Arc'teryx Incendo Pants,Bennett_lower,0,0,Bennett,0.2,31,10,"Damage +10
+Arc'teryx Incendo Pants,Bennett_lower,Arc'teryxIncendoPants,0,0,Bennett,0.2,31,10,"Damage +10
         Athletics +0.1
         Style +10",10,10,0,0,false,false,false,false,0.1,false,0,false,0,false,0,false,0
-Snowpants,Jimmy_lower,0,0,Jimmy,0.2,42,12,"Style +10
+Snowpants,Jimmy_lower,Snowpants,0,0,Jimmy,0.2,42,12,"Style +10
         Damage +10
         Never miss",10,10,0,0,true,false,false,false,0,10,10,false,0,false,0,false,0
-Poncho,Mac_upper,0,0,Mac,0.2,56,10,"Damage +10
+Poncho,Mac_upper,Poncho,0,0,Mac,0.2,56,10,"Damage +10
         Prevents Bleeding
         Max SP +16
         Style +10 (if worn with Sombrero)
         Never miss (if worn with Sombrero)",10,10,16,0,false,false,true,false,0,false,0,false,0,10,10,false,0
-Sombrero,accessory,0,0,all,0.2,62,7,"Damage +10
+Sombrero,accessory,Sombrero,0,0,all,0.2,62,7,"Damage +10
         Prevents Blindness
         Max HP+25
         Style +10 (if worn with Poncho)
         First strike (if worn with Poncho)",10,10,0,25,false,false,false,true,0,false,0,false,0,false,0,10,10
-Duster,Mac_upper,0,0,Mac,0.2,80,25,"Max HP + 20
+Duster,Mac_upper,Duster,0,0,Mac,0.2,80,25,"Max HP + 20
         Damage +5
         Max SP + 20
         Style +10",10,5,20,20,false,false,false,false,0,false,0,false,0,false,0,false,0
-MONCLER Black Down Promio Jacket,Al_upper,0,0,Al,0.2,57,12,"style +20
+MONCLER Black Down Promio Jacket,Al_upper,MONCLERBlackDownPromioJacket,0,0,Al,0.2,57,12,"style +20
         Max HP +10
         Damage +15",20,15,0,10,false,false,false,false,0,false,0,false,0,false,0,false,0
-AMRI Blue Jeans,Al_lower,0,0,Al,0.2,36,10,"style +10
+AMRI Blue Jeans,Al_lower,AMRIBlueJeans,0,0,Al,0.2,36,10,"style +10
         Damage +7
         Athletics -0.1
         Max SP +10",10,7,10,0,false,false,false,false,-0.1,false,0,false,0,false,0,false,0
-Spirit Bear Shirt,Jimmy_upper,0,0,Jimmy,0.2,28,12,"Damage +8
+Spirit Bear Shirt,Jimmy_upper,SpiritBearShirt,0,0,Jimmy,0.2,28,12,"Damage +8
         Style + 8
         Has a picture
         of a bear on it",8,8,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Spirit Deer Shirt,Jimmy_upper,0,0,Jimmy,0.2,40,15,"Never miss
+Spirit Deer Shirt,Jimmy_upper,SpiritDeerShirt,0,0,Jimmy,0.2,40,15,"Never miss
         Prevent Bleeding
         Style + 5
         Has a picture
         of a deer on it",5,0,0,0,true,false,true,false,0,10,10,false,0,10,10,false,0
-SP Booster,accessory,0,0,all,0.3,7,1,Max SP +6,0,0,6,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-HP Booster,accessory,0,0,all,0.3,21,1,Max HP +20,0,0,0,20,false,false,false,false,0,false,0,false,0,false,0,false,0
-Damage Booster,accessory,0,0,all,0.4,14,0,"Damage +4
+SP Booster,accessory,SPBooster,0,0,all,0.3,7,1,Max SP +6,0,0,6,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+HP Booster,accessory,HPBooster,0,0,all,0.3,21,1,Max HP +20,0,0,0,20,false,false,false,false,0,false,0,false,0,false,0,false,0
+Damage Booster,accessory,DamageBooster,0,0,all,0.4,14,0,"Damage +4
         Never miss",0,4,0,0,true,false,false,false,0,10,10,false,0,false,0,false,0
-Brass Knuckles,accessory,0,0,all,0.2,10,2,Damage +8,0,8,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Gold Duck Tape,accessory,0,0,all,0.2,12,2,Prevents Bleeding,0,0,0,0,false,false,true,false,0,false,0,false,0,10,10,false,0
-Camo Duck Tape,accessory,0,0,all,0.2,12,2,Prevents Blindness,0,0,0,0,false,false,false,true,0,false,0,false,0,false,0,10,10
-Sprinting Shoes,accessory,0,0,all,0,11.5,0,"Athletics +.15
+Brass Knuckles,accessory,BrassKnuckles,0,0,all,0.2,10,2,Damage +8,0,8,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
+Gold Duck Tape,accessory,GoldDuckTape,0,0,all,0.2,12,2,Prevents Bleeding,0,0,0,0,false,false,true,false,0,false,0,false,0,10,10,false,0
+Camo Duck Tape,accessory,CamoDuckTape,0,0,all,0.2,12,2,Prevents Blindness,0,0,0,0,false,false,false,true,0,false,0,false,0,false,0,10,10
+Sprinting Shoes,accessory,SprintingShoes,0,0,all,0,11.5,0,"Athletics +.15
         First Strike",0,0,0,0,false,true,false,false,0.15,false,0,10,10,false,0,false,0
-Dio Band,accessory,0,0,all,0,150,30,"An Unholy Relic
+Dio Band,accessory,DioBand,0,0,all,0,150,30,"An Unholy Relic
         Prevents Bleeding
         Prevents Blindness
         Damage + 25
         HP +50
         SP +25",0,25,25,50,false,false,true,true,0,false,0,false,0,10,10,10,10
-Flat Bill Hat,accessory,0,0,all,0.3,17,3,"Style +10
+Flat Bill Hat,accessory,FlatBillHat,0,0,all,0.3,17,3,"Style +10
         Damage +4",10,4,0,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Alligator Boots,accessory,0,0,all,0.2,35,5,"Style +20
+Alligator Boots,accessory,AlligatorBoots,0,0,all,0.2,35,5,"Style +20
         Max SP +10",20,0,10,0,false,false,false,false,0,false,0,false,0,false,0,false,0
-Kanye Sunglasses,accessory,0,0,all,0.2,34,4,"Style +15
+Kanye Sunglasses,accessory,KanyeSunglasses,0,0,all,0.2,34,4,"Style +15
         Never miss
         Damage +5",15,5,0,0,true,false,false,false,0,10,10,false,0,false,0,false,0
-Gold Chain,accessory,0,0,all,0.2,55,6,"Style +15
+Gold Chain,accessory,GoldChain,0,0,all,0.2,55,6,"Style +15
         Max HP +10
         Max SP +4
         First Strike",15,0,4,10,true,true,false,false,0,10,10,10,10,false,0,false,0
