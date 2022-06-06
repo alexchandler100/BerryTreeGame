@@ -1,6 +1,7 @@
 const gameState4 = {};
 let redisplay = true;
 gameState4.colorIndex = {}
+gameState4.backgroundColor={}
 
 var EquipmentMenu = new Phaser.Class({
   Extends: Phaser.Scene,
@@ -24,13 +25,13 @@ var EquipmentMenu = new Phaser.Class({
     }
     gameState4.equipped[player]['face'] = this.add.image(x, y - this.cellSize + this.gapSize, player.toLowerCase() + 'Face').setDepth(1).setScale(.5);
     gameState4.equipped[player]['upperBackgroundColor'] = this.add.rectangle(x, y, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, playerColors[player]).setDepth(1);
-    gameState4.equipped[player]['upperBackground'] = this.add.rectangle(x, y, this.cellSize, this.cellSize, 0x333333).setDepth(1);
+    gameState4.equipped[player]['upperBackground'] = this.add.image(x, y, 'background').setDepth(1);
     gameState4.equipped[player]['lowerBackgroundColor'] = this.add.rectangle(x, y + this.cellSize + this.gapSize, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, playerColors[player]).setDepth(1);
-    gameState4.equipped[player]['lowerBackground'] = this.add.rectangle(x, y + this.cellSize + this.gapSize, this.cellSize, this.cellSize, 0x333333).setDepth(1);
+    gameState4.equipped[player]['lowerBackground'] = this.add.image(x, y + this.cellSize + this.gapSize, 'background').setDepth(1);
     gameState4.equipped[player]['accessoryBackgroundColor'] = this.add.rectangle(x - this.cellSize - this.gapSize, y + this.cellSize / 2, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, 0xffffff).setDepth(1);
-    gameState4.equipped[player]['accessoryBackground'] = this.add.rectangle(x - this.cellSize - this.gapSize, y + this.cellSize / 2, this.cellSize, this.cellSize, 0x333333).setDepth(1);
+    gameState4.equipped[player]['accessoryBackground'] = this.add.image(x - this.cellSize - this.gapSize, y + this.cellSize / 2, 'background').setDepth(1);
     gameState4.equipped[player]['accessory2BackgroundColor'] = this.add.rectangle(x + this.cellSize + this.gapSize, y + this.cellSize / 2, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, 0xffffff).setDepth(1);
-    gameState4.equipped[player]['accessory2Background'] = this.add.rectangle(x + this.cellSize + this.gapSize, y + this.cellSize / 2, this.cellSize, this.cellSize, 0x333333).setDepth(1);
+    gameState4.equipped[player]['accessory2Background'] = this.add.image(x + this.cellSize + this.gapSize, y + this.cellSize / 2, 'background').setDepth(1);
     if (equipped[player]['upper'] !== '') {
       gameState4.equipped[player]['upper'] = this.add.image(x, y, equipment[equipped[player]['upper']]['base']).setDepth(2).setInteractive();
     } else {
@@ -107,24 +108,18 @@ var EquipmentMenu = new Phaser.Class({
   displayContainer: function() {
     //console.log(gameState4.colorIndex)
     gameState4.background = {}
-    gameState4.backgroundColor = {}
+    //gameState4.backgroundColor = {}
     let xcoord4 = this.displayEquipmentTopLeft.x;
     let ycoord4 = this.displayEquipmentTopLeft.y;
+    //for (let i = 0; i < this.numberOfSlots; i++) {
+      //if (gameState4.backgroundColor[i]) {
+        //gameState4.backgroundColor[i].visible = false
+      //}
+    //}
     for (let i = 0; i < this.numberOfSlots; i++) {
-      //console.log(a_item)
-      //console.log(Object.keys(gameState4.colorIndex))
-      if (Object.keys(gameState4.backgroundColor).includes(String(i))) {
-        //console.log(`yeahhh`)
-        gameState4.backgroundColor[i].visible = false
-            }
-          }
-    for (let i = 0; i < this.numberOfSlots; i++) {
-      //console.log(a_item)
-      //console.log(Object.keys(gameState4.colorIndex))
-      if (Object.keys(gameState4.colorIndex).includes(String(i))) {
-        //console.log(`yeahhh`)
-        gameState4.backgroundColor[i] = this.add.rectangle(xcoord4, ycoord4, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, gameState4.colorIndex[i]).setDepth(1);
-      }
+      //if (Object.keys(gameState4.colorIndex).includes(String(i))) {
+        //gameState4.backgroundColor[i] = this.add.rectangle(xcoord4, ycoord4, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, gameState4.colorIndex[i]).setDepth(1);
+      //}
       gameState4.background[i] = this.add.image(xcoord4, ycoord4, 'background').setDepth(1);
       gameState4.background[i].displayHeight = this.cellSize
       gameState4.background[i].displayWidth = this.cellSize
@@ -135,11 +130,14 @@ var EquipmentMenu = new Phaser.Class({
         xcoord4 += this.cellSize + this.gapSize
       }
     }
+    gameState4.colorIndex = {}
   },
   displayEquipment: function() {
+    for (ii of Object.keys(gameState4.backgroundColor)){
+      gameState4.backgroundColor[ii].destroy()
+    }
     gameState4.newText = {}
     gameState4.background = {}
-    gameState4.backgroundColor = {}
     let xcoord4 = this.displayEquipmentTopLeft.x;
     let ycoord4 = this.displayEquipmentTopLeft.y;
     let jj = 0;
@@ -172,6 +170,9 @@ var EquipmentMenu = new Phaser.Class({
             gameState4.newText[a_item]._text = a_item
             gameState4.newText[a_item].setInteractive();
             this.input.setDraggable(gameState4.newText[a_item]);
+            //set background color
+            gameState4.backgroundColor[jj] = this.add.rectangle(xcoord4, ycoord4, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, playerColors[equipment[a_item]['character']]).setDepth(1);
+            jj += 1
             if (xcoord4 >= this.displayEquipmentRight) {
               xcoord4 = this.displayEquipmentTopLeft.x
               ycoord4 += this.cellSize + this.gapSize
@@ -179,8 +180,6 @@ var EquipmentMenu = new Phaser.Class({
               xcoord4 += this.cellSize + this.gapSize
             }
           }
-          gameState4.colorIndex[jj] = playerColors[equipment[a_item]['character']]
-          jj += 1
         }
       }
     }
@@ -223,6 +222,32 @@ var EquipmentMenu = new Phaser.Class({
     this.load.image('Ring', "assets/images/equipmentIcons/Ring.png");
     this.load.image('background', "assets/images/equipmentIcons/background.png");
     this.load.image('accessoryIcon', "assets/images/equipmentIcons/accessoryIcon.png");
+
+    this.load.image('AnglersPants', "assets/images/equipmentIcons/AnglersPants.png");
+    this.load.image('BearShirt', "assets/images/equipmentIcons/BearShirt.png");
+    this.load.image('CamoHoody', "assets/images/equipmentIcons/CamoHoody.png");
+    this.load.image('CamoPants', "assets/images/equipmentIcons/CamoPants.png");
+    this.load.image('Chinos', "assets/images/equipmentIcons/Chinos.png");
+    this.load.image('Cool-ActiveShirt', "assets/images/equipmentIcons/Cool-ActiveShirt.png");
+
+    this.load.image('Cool-ActiveShorts', "assets/images/equipmentIcons/Cool-ActiveShorts.png");
+    this.load.image('DeerShirt', "assets/images/equipmentIcons/DeerShirt.png");
+    this.load.image('Dry-FitShirt', "assets/images/equipmentIcons/Dry-FitShirt.png");
+    this.load.image('Dry-FitShorts', "assets/images/equipmentIcons/Dry-FitShorts.png");
+    this.load.image('FubuPants', "assets/images/equipmentIcons/FubuPants.png");
+    this.load.image('FubuShirt', "assets/images/equipmentIcons/FubuShirt.png");
+    this.load.image('GucciPants', "assets/images/equipmentIcons/GucciPants.png");
+    this.load.image('GucciShirt', "assets/images/equipmentIcons/GucciShirt.png");
+    this.load.image('GymShorts', "assets/images/equipmentIcons/GymShorts.png");
+    this.load.image('PhatFarmPants', "assets/images/equipmentIcons/PhatFarmPants.png");
+    this.load.image('PhatFarmShirt', "assets/images/equipmentIcons/PhatFarmShirt.png");
+    this.load.image('SpandexShirt', "assets/images/equipmentIcons/SpandexShirt.png");
+    this.load.image('SpandexSwimsuit', "assets/images/equipmentIcons/SpandexSwimsuit.png");
+    this.load.image('SportCoat', "assets/images/equipmentIcons/SportCoat.png");
+    this.load.image('TrackPants', "assets/images/equipmentIcons/TrackPants.png");
+    this.load.image('Waders', "assets/images/equipmentIcons/Waders.png");
+    this.load.image('WrestlingShirt', "assets/images/equipmentIcons/WrestlingShirt.png");
+    this.load.image('WifeBeater', "assets/images/equipmentIcons/WifeBeater.png");
   },
   create: function() {
     this.numberOfSlots = 42;
@@ -230,7 +255,7 @@ var EquipmentMenu = new Phaser.Class({
     this.gapSize = 5;
     this.displayEquipmentTopLeft = {
       x: 660,
-      y: 180
+      y: 170
     }
     this.displayEquipmentRight = 990
     gameState4.equipped = {

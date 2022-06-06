@@ -478,16 +478,16 @@ function equip(piece, player) {
   if (equipment[piece]['style'] > 0) {
     charStyle += equipment[piece]['style']
   }
-  if (equipment[piece]['firstStrike'] === 'true') {
+  if (equipment[piece]['firstStrike'] === true) {
     firstStrike = true;
   }
-  if (equipment[piece]['neverMiss'] === 'true') {
+  if (equipment[piece]['neverMiss'] === true) {
     party[player]['neverMiss'] = true
   }
-  if (equipment[piece]['preventBleeding'] === 'true') {
+  if (equipment[piece]['preventBleeding'] === true) {
     party[player]['bleedProof'] = true
   }
-  if (equipment[piece]['preventBlindness'] === 'true') {
+  if (equipment[piece]['preventBlindness'] === true) {
     party[player]['blindProof'] = true
   }
 }
@@ -512,16 +512,16 @@ function unequip(piece, player) { //problem: if I equip two pieces with nevermis
   if (equipment[piece]['style'] > 0) {
     charStyle -= equipment[piece]['style']
   }
-  if (equipment[piece]['firstStrike'] === 'true') {
+  if (equipment[piece]['firstStrike'] === true) {
     firstStrike = false;
   }
-  if (equipment[piece]['neverMiss'] === 'true') {
+  if (equipment[piece]['neverMiss'] === true) {
     party[player]['neverMiss'] = false
   }
-  if (equipment[piece]['preventBleeding'] === 'true') {
+  if (equipment[piece]['preventBleeding'] === true) {
     party[player]['bleedProof'] = false
   }
-  if (equipment[piece]['preventBlindness'] === 'true') {
+  if (equipment[piece]['preventBlindness'] === true) {
     party[player]['blindProof'] = false
   }
 }
@@ -1497,12 +1497,14 @@ function generateRandomEquipment() {
   //new_equipment['effect'] = effect;
   //new_equipment['def'] = piece_def;
   for (let i = 0; i < activeEffects.length; i++) {
-    let stati = activeEffects[i][0]
-    let strengthi = activeEffects[i][1]
-    new_equipment[stati] = strengthi
+    let stati = activeEffects[i][0];
+    let strengthi = activeEffects[i][1];
+    new_equipment[stati] = strengthi;
   }
-  new_equipment['base'] = base
-  return new_equipment
+  base = base.replace(new RegExp(' ', 'g'), '');
+  console.log(base)
+  new_equipment['base'] = base;
+  return new_equipment;
 }
 /*
 window.setTimeout(()=>{
