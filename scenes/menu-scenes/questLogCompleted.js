@@ -1,5 +1,3 @@
-const gameState11 = {};
-
 var QuestLogCompleted = new Phaser.Class({
   Extends: Phaser.Scene,
   initialize: function() {
@@ -23,29 +21,30 @@ var QuestLogCompleted = new Phaser.Class({
     gameState1.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
 
     //switch to menu 1
-    gameState11.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
-    gameState11.pausemenu_button1.setInteractive()
-    gameState11.pausemenu_button1.on('pointerup', function() {
+    this.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
+    this.pausemenu_button1.setInteractive()
+    this.pausemenu_button1.on('pointerup', function() {
       scene_number=10
     }, this);
 
     //switch to menu 2
-    gameState11.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
-    gameState11.pausemenu_button_white2 = this.add.rectangle(180, 70, 16, 16, 0x000);
-    gameState11.pausemenu_button2.setInteractive()
-    gameState11.pausemenu_button2.on('pointerup', function() {
+    this.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
+    this.pausemenu_button_white2 = this.add.rectangle(180, 70, 16, 16, 0x000);
+    this.pausemenu_button2.setInteractive()
+    this.pausemenu_button2.on('pointerup', function() {
       scene_number=11
     }, this);
 
     //exit button
-    gameState11.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
-    gameState11.exit_button.setInteractive()
-    gameState11.exit_button.on('pointerup', function() {
+    this.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
+    this.exit_button.setInteractive()
+    this.exit_button.on('pointerup', function() {
       this.scene.stop();
       scene_number = 2;
       pause = false
       launchParameter=false;
     }, this);
+
     exitText = this.add.text(1080-7, 70-14, 'x', {
       fontSize: '25px',
       fill: '#fff'
@@ -56,18 +55,18 @@ var QuestLogCompleted = new Phaser.Class({
       fill: '#fff'
     });
     graphics = this.add.graphics().setDepth(5)
-    gameState11.newItem={}
-    gameState11.activeQuestDisplay={}
+    this.newItem={}
+    this.activeQuestDisplay={}
     let xcoord10 = 215;
     let ycoord10 = 140;
     let itemCount10=0;
     for (questTitle of Object.keys(completedQuests)) {
         itemCount10+=1;
-        gameState11.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0x333333).setOrigin(0,0).setInteractive()
-        gameState11.newItem[questTitle].name=questTitle
+        this.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0x333333).setOrigin(0,0).setInteractive()
+        this.newItem[questTitle].name=questTitle
         graphics.lineStyle(4, 0xffffff);
         graphics.strokeRoundedRect(xcoord10, ycoord10, 150, 80, 5);
-          gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10+5, ycoord10+5, questTitle, {
+          this.activeQuestDisplay[questTitle] = this.add.text(xcoord10+5, ycoord10+5, questTitle, {
             fontSize: '20px',
             fill: '#fff',
             fontFamily: 'Academy Engraved LET',
@@ -83,7 +82,7 @@ var QuestLogCompleted = new Phaser.Class({
         else {xcoord10+=200}
     }
 
-    gameState11.tempText=this.add.text(0,0, ``, {
+    this.tempText=this.add.text(0,0, ``, {
       fontSize: '25px',
       fill: '#ffffff',
       fontFamily: 'Academy Engraved LET',
@@ -101,31 +100,31 @@ var QuestLogCompleted = new Phaser.Class({
       rect.updateData();
     }
 
-    gameState11.tempBackground = this.add.rectangle(0,0, 300, 200, 0x000000).setOrigin(0,0).setDepth(6);
-    gameState11.tempBackground.setStrokeStyle(4, 0xb39c0e);
-    gameState11.tempBackground.visible=false;
-    gameState11.tempText.visible=false;
+    this.tempBackground = this.add.rectangle(0,0, 300, 200, 0x444444).setOrigin(0,0).setDepth(6);
+    this.tempBackground.setStrokeStyle(4, 0xb39c0e);
+    this.tempBackground.visible=false;
+    this.tempText.visible=false;
 
     this.input.on('pointerover', function (pointer, justOver) {
       if (justOver[0].name){
-        gameState11.tempBackground.x=pointer.x+15;
-        gameState11.tempBackground.y=pointer.y-15;
-        gameState11.tempBackground.visible=true;
-        gameState11.tempText.visible=true;
-        gameState11.tempText.setText(completedQuests[justOver[0].name]);
-        gameState11.tempText.x=gameState11.tempBackground.x+5;
-        gameState11.tempText.y=gameState11.tempBackground.y+5;
-        setSize(gameState11.tempBackground, gameState11.tempText.width + 10, gameState11.tempText.height + 10)
+        this.tempBackground.x=pointer.x+15;
+        this.tempBackground.y=pointer.y-15;
+        this.tempBackground.visible=true;
+        this.tempText.visible=true;
+        this.tempText.setText(completedQuests[justOver[0].name]);
+        this.tempText.x=this.tempBackground.x+5;
+        this.tempText.y=this.tempBackground.y+5;
+        setSize(this.tempBackground, this.tempText.width + 10, this.tempText.height + 10)
       }
-  });
+  }, this);
 
   this.input.on('pointerout', function (pointer, justOut) {
-      gameState11.tempText.visible=false;
-      gameState11.tempBackground.visible=false;
-  });
+      this.tempText.visible=false;
+      this.tempBackground.visible=false;
+  }, this);
 
-  gameState11.keyObjX = this.input.keyboard.addKey('X'); // Get key object
-  gameState11.keyObjX.on('down', function() {
+  this.keyObjX = this.input.keyboard.addKey('X'); // Get key object
+  this.keyObjX.on('down', function() {
     this.scene.stop();
     scene_number = 2;
     pause = false

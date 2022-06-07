@@ -3175,7 +3175,8 @@ var LightWorld = new Phaser.Class({
       speed = 4
     });
 
-    //enabling dev mode
+    //enabling dev mode (need to uncomment)
+    /*
     var keyObjM = this.input.keyboard.addKey('M'); // Get key object
     keyObjM.on('down', function(event) {
       devMode1 = 1
@@ -3188,6 +3189,7 @@ var LightWorld = new Phaser.Class({
     keyObjC.on('down', function(event) {
       devMode3 = 1
     });
+    */
 
     //collecting items
     var keyObjS = this.input.keyboard.addKey('S'); // Get key object
