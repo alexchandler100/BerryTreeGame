@@ -220,6 +220,9 @@ var EquipmentMenu = new Phaser.Class({
     this.load.image('armor_pants', "assets/images/equipmentIcons/armor_pants.png");
     this.load.image('Belt', "assets/images/equipmentIcons/Belt.png");
     this.load.image('Ring', "assets/images/equipmentIcons/Ring.png");
+    this.load.image('Chain', "assets/images/equipmentIcons/Chain.png");
+    this.load.image('Hat', "assets/images/equipmentIcons/Hat.png");
+    this.load.image('Shoes', "assets/images/equipmentIcons/Shoes.png");
     this.load.image('background', "assets/images/equipmentIcons/background.png");
     this.load.image('accessoryIcon', "assets/images/equipmentIcons/accessoryIcon.png");
 
@@ -264,6 +267,7 @@ var EquipmentMenu = new Phaser.Class({
       'Jimmy': {},
       'Bennett': {}
     }
+
     //background and border
     openKeyborder = this.add.rectangle(600, 20, 406, 36, 0xb39c0e).setOrigin(.5, .5);
     openKey_background = this.add.rectangle(600, 20, 400, 30, 0x000).setOrigin(.5, .5);
@@ -271,6 +275,53 @@ var EquipmentMenu = new Phaser.Class({
       fontSize: '25px',
       fill: '#fff'
     }).setOrigin(.5, .5);
+
+    var bGgraphics = this.add.graphics()
+    let points = [
+      {x:293, y:107},
+      {x:413, y:107},
+      {x:586, y:245},
+      {x:586, y:395},
+      {x:413, y:540},
+      {x:293, y:540},
+      {x:120, y:395},
+      {x:120, y:245}]
+      let points2 = [
+        {x:293, y:107-3},
+        {x:413, y:107-3},
+        {x:586+2, y:245-2},
+        {x:586+2, y:395+2},
+        {x:413, y:540+2},
+        {x:293, y:540+2},
+        {x:120-2, y:395+2},
+        {x:120-2, y:245-2}]
+
+      let points3 = [
+        {x:620, y:97},
+        {x:1090, y:97},
+        {x:1090, y:540},
+        {x:620, y:540}]
+        let points4 = [
+          {x:620-2, y:97-2},
+          {x:1090+2, y:97-2},
+          {x:1090+2, y:540+2},
+          {x:620-2, y:540+2}]
+    var leftBGgraphics = new Phaser.Geom.Polygon(points);
+    var leftBGgraphics2 = new Phaser.Geom.Polygon(points2);
+    var rightBGgraphics3 = new Phaser.Geom.Polygon(points3);
+    var rightBGgraphics4 = new Phaser.Geom.Polygon(points4);
+    bGgraphics.fillStyle(0xb39c0e);   // color: 0xRRGGBB
+    bGgraphics.fillPoints(leftBGgraphics2.points, true);
+    bGgraphics.setDepth(1)
+    bGgraphics.fillStyle(0x777777);   // color: 0xRRGGBB
+    bGgraphics.fillPoints(leftBGgraphics.points, true);
+    bGgraphics.setDepth(1)
+    bGgraphics.fillStyle(0xb39c0e);   // color: 0xRRGGBB
+    bGgraphics.fillPoints(rightBGgraphics4.points, true);
+    bGgraphics.setDepth(1)
+    bGgraphics.fillStyle(0x777777);   // color: 0xRRGGBB
+    bGgraphics.fillPoints(rightBGgraphics3.points, true);
+    bGgraphics.setDepth(1)
     //background and border
     gameState4.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
     gameState4.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
@@ -316,10 +367,10 @@ var EquipmentMenu = new Phaser.Class({
       fontSize: '30px',
       fill: '#fff'
     });
-    inventoryText = this.add.text(780, 100, `Inventory: `, {
+    inventoryText = this.add.text(780, 100, `Inventory`, {
       fontSize: '25px',
       fill: '#fff'
-    });
+    }).setDepth(5);
 
     this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
       gameObject.x = dragX;
@@ -352,11 +403,19 @@ var EquipmentMenu = new Phaser.Class({
     this.input.on('pointerover', function(pointer, justOver) {
       //console.log(justOver[0])
       if (equipment[justOver[0]._text]) {
-        gameState4.tempBackground.x = pointer.x + 50;
-        gameState4.tempBackground.y = pointer.y - 15;
+        if (pointer.x>600){
+          gameState4.tempBackground.x = pointer.x - 250;
+        } else {
+          gameState4.tempBackground.x = pointer.x + 50;
+        }
+        if (pointer.y>300){
+          gameState4.tempBackground.y = pointer.y - 150;
+        } else {
+          gameState4.tempBackground.y = pointer.y - 15;
+        }
+        gameState4.tempBackground2.x = gameState4.tempBackground.x - borderWidth;
+        gameState4.tempBackground2.y = gameState4.tempBackground.y - borderWidth;
         gameState4.tempBackground.visible = true;
-        gameState4.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState4.tempBackground2.y = pointer.y - 15 - borderWidth;
         gameState4.tempBackground2.visible = true;
         gameState4.tempText.visible = true;
         gameState4.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value']}`);

@@ -878,6 +878,8 @@ var LightWorld = new Phaser.Class({
   },
   create: function() {
     this.cameras.main.fadeIn(7000, 0, 0, 0)
+    this.scene.launch('Navigator');
+    this.DialogueMenu = this.scene.get("DialogueMenu");
     //default pointer
     this.input.setDefaultCursor('url(assets/images/handPointer.png), pointer');
     //camera controls
@@ -3541,8 +3543,6 @@ var LightWorld = new Phaser.Class({
       "Crackhead wants some change": map.findObject("Objects", obj => obj.name === "crackhead spawn point"),
     }
 
-    this.scene.launch('Navigator');
-    this.DialogueMenu = this.scene.get("DialogueMenu");
 
     //reads joinParam data
     if (joinParams['Jimmy']){
@@ -3975,7 +3975,12 @@ var LightWorld = new Phaser.Class({
       nearVolleyballCourt = false
     }
     //setting location text, battle background and theme song based on location
-    if (phoneGet===1) {
+    if (phoneGet===0  && !(me.x > gameState.burcham731TL.x-450 && me.y > gameState.burcham731TL.y && me.x < gameState.burcham731BR.x + 1100 && me.y < gameState.burcham731BR.y)){
+      this.openDialoguePage(2323)
+      me.x += directionVector(me,gameState.volleyballBR)[0]*10
+      me.y += directionVector(me,gameState.volleyballBR)[1]*10
+    }
+    if (phoneGet>=1){
       if (me.x > gameState.burcham731TL.x && me.y > gameState.burcham731TL.y && me.x < gameState.burcham731BR.x && me.y < gameState.burcham731BR.y) {
         gameStateNav.location.setText("731 Burcham Apartments\nEast Lansing, Mi");
         if (nearPool) {

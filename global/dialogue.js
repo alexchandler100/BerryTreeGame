@@ -776,7 +776,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'Al',
         page: 30,
-        narrative: "Al: Hey man, I got this airsoft gun, you wanna fuck wit it?",
+        narrative: "Al: Hey man, I got this airsoft gun, you wanna fuck with it?",
         options: [{
             option: 'Yeah dude',
             nextPage: 31
@@ -806,7 +806,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'Al',
         page: 30+1000000,
-        narrative: "Al: Hey man, I got this airsoft gun, you wanna mess wit it?",
+        narrative: "Al: Hey man, I got this airsoft gun, you wanna mess with it?",
         options: [{
             option: 'Yeah dude',
             nextPage: 31
@@ -821,7 +821,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'Al',
         page: 31,
-        narrative: "Al: Listen man, gimme four beers and two grams of weed and you can fuck wit it fo awhile.",
+        narrative: "Al: Listen man, gimme four beers and two grams of weed and you can fuck with it fo awhile.",
         options: [{
           option: 'I got you man',
           nextPage: undefined,
@@ -831,7 +831,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'Al',
         page: 31+1000000,
-        narrative: "Al: Listen man, gimme four beers and two grams of weed and you can mess wit it fo awhile.",
+        narrative: "Al: Listen man, gimme four beers and two grams of weed and you can mess with it fo awhile.",
         options: [{
           option: 'I got you man',
           nextPage: undefined,
@@ -890,11 +890,21 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'Al',
         page: 3535,
-        narrative: "Al: Heard these fratboys been fuckin wit you dawg I ain't cool wit dat.",
+        narrative: "Al: Heard these fratboys been fuckin with you dawg I ain't cool with dat.",
         options: [{
           option: 'Hell yeah',
           nextPage: 36,
           aftermath: gunGet
+        }, ]
+      },
+
+      {
+        character: 'god',
+        page: 2323,
+        narrative: "You should find your phone before venturing outwards...",
+        options: [{
+          option: 'Okayy',
+          nextPage: undefined,
         }, ]
       },
 

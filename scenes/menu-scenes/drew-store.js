@@ -113,6 +113,10 @@ var DrewStore = new Phaser.Class({
     this.load.image('armor_pants', "assets/images/equipmentIcons/armor_pants.png");
     this.load.image('Belt', "assets/images/equipmentIcons/Belt.png");
     this.load.image('Ring', "assets/images/equipmentIcons/Ring.png");
+    this.load.image('Chain', "assets/images/equipmentIcons/Chain.png");
+    this.load.image('Hat', "assets/images/equipmentIcons/Hat.png");
+    this.load.image('Shoes', "assets/images/equipmentIcons/Shoes.png");
+
     this.load.image('background', "assets/images/equipmentIcons/background.png");
     this.load.image('accessoryIcon', "assets/images/equipmentIcons/accessoryIcon.png");
 
@@ -178,6 +182,7 @@ var DrewStore = new Phaser.Class({
       fontSize: '25px',
       fill: '#fff'
     });
+    gameState44.exit_button._text = 'x'
 
     let style={}
 
@@ -337,11 +342,12 @@ var DrewStore = new Phaser.Class({
 
     //  A drop zone
     var zone = this.add.zone(850, buy.y + 300, 400, 140).setRectangleDropZone(400, 140);
-
+    zone._text = 'dropZone'
     //  Just a visual display of the drop zone
     var graphics = this.add.graphics();
     graphics.lineStyle(2, 0xffff00);
     graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
+
 
     this.input.on('dragenter', function(pointer, gameObject, dropZone) {
       graphics.clear();
@@ -402,62 +408,31 @@ var DrewStore = new Phaser.Class({
 
     this.input.on('pointerover', function(pointer, justOver) {
       console.log(justOver[0])
-      if (justOver[0].inventoryName === rnd1equip['name']){
-        gameState44.tempBackground.x = pointer.x + 50;
-        gameState44.tempBackground.y = pointer.y - 15;
+      if (justOver[0]._text!=='dropZone' && justOver[0]._text!=='x'){
+        if (pointer.x>600){
+          gameState44.tempBackground.x = pointer.x - 250;
+        } else {
+          gameState44.tempBackground.x = pointer.x + 50;
+        }
+        if (pointer.y>300){
+          gameState44.tempBackground.y = pointer.y - 150;
+        } else {
+          gameState44.tempBackground.y = pointer.y - 15;
+        }
+        gameState44.tempBackground2.x = gameState44.tempBackground.x - borderWidth;
+        gameState44.tempBackground2.y = gameState44.tempBackground.y - borderWidth;
         gameState44.tempBackground.visible = true;
-        gameState44.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState44.tempBackground2.y = pointer.y - 15 - borderWidth;
         gameState44.tempBackground2.visible = true;
         gameState44.tempText.visible = true;
-        gameState44.tempText.setText(`Name: ${rnd1equip['name']} \nType: ${rnd1equip['type']} \nDef: ${rnd1equip['def']} \nEffect: ${rnd1equip['effect']} \nvalue: $${rnd1equip['value'] * drewStoreMarkup}`);
-        gameState44.tempText.x = gameState44.tempBackground.x;
-        gameState44.tempText.y = gameState44.tempBackground.y;
-        gameState44.tempBackground.width = gameState44.tempText.width;
-        gameState44.tempBackground.height = gameState44.tempText.height;
-        gameState44.tempBackground2.width = gameState44.tempText.width + 2 * borderWidth;
-        gameState44.tempBackground2.height = gameState44.tempText.height + 2 * borderWidth;
-      } else if (justOver[0].inventoryName === rnd2equip['name']){
-        gameState44.tempBackground.x = pointer.x + 50;
-        gameState44.tempBackground.y = pointer.y - 15;
-        gameState44.tempBackground.visible = true;
-        gameState44.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState44.tempBackground2.y = pointer.y - 15 - borderWidth;
-        gameState44.tempBackground2.visible = true;
-        gameState44.tempText.visible = true;
-        gameState44.tempText.setText(`Name: ${rnd2equip['name']} \nType: ${rnd2equip['type']} \nDef: ${rnd2equip['def']} \nEffect: ${rnd2equip['effect']} \nvalue: $${rnd2equip['value'] * drewStoreMarkup}`);
-        gameState44.tempText.x = gameState44.tempBackground.x;
-        gameState44.tempText.y = gameState44.tempBackground.y;
-        gameState44.tempBackground.width = gameState44.tempText.width;
-        gameState44.tempBackground.height = gameState44.tempText.height;
-        gameState44.tempBackground2.width = gameState44.tempText.width + 2 * borderWidth;
-        gameState44.tempBackground2.height = gameState44.tempText.height + 2 * borderWidth;
-      } else if (justOver[0]._text && justOver[0].inventoryName === 'my_equipment') {
-        //console.log(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`)
-        gameState44.tempBackground.x = pointer.x + 50;
-        gameState44.tempBackground.y = pointer.y - 15;
-        gameState44.tempBackground.visible = true;
-        gameState44.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState44.tempBackground2.y = pointer.y - 15 - borderWidth;
-        gameState44.tempBackground2.visible = true;
-        gameState44.tempText.visible = true;
-        gameState44.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value']}`);
-        gameState44.tempText.x = gameState44.tempBackground.x;
-        gameState44.tempText.y = gameState44.tempBackground.y;
-        gameState44.tempBackground.width = gameState44.tempText.width;
-        gameState44.tempBackground.height = gameState44.tempText.height;
-        gameState44.tempBackground2.width = gameState44.tempText.width + 2 * borderWidth;
-        gameState44.tempBackground2.height = gameState44.tempText.height + 2 * borderWidth;
-      } else if (justOver[0]._text) {
-        //console.log(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`)
-        gameState44.tempBackground.x = pointer.x + 50;
-        gameState44.tempBackground.y = pointer.y - 15;
-        gameState44.tempBackground.visible = true;
-        gameState44.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState44.tempBackground2.y = pointer.y - 15 - borderWidth;
-        gameState44.tempBackground2.visible = true;
-        gameState44.tempText.visible = true;
-        gameState44.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value'] * drewStoreMarkup}`);
+        if (justOver[0].inventoryName === rnd1equip['name']){
+          gameState44.tempText.setText(`Name: ${rnd1equip['name']} \nType: ${rnd1equip['type']} \nDef: ${rnd1equip['def']} \nEffect: ${rnd1equip['effect']} \nvalue: $${rnd1equip['value'] * drewStoreMarkup}`);
+          } else if (justOver[0].inventoryName === rnd2equip['name']){
+          gameState44.tempText.setText(`Name: ${rnd2equip['name']} \nType: ${rnd2equip['type']} \nDef: ${rnd2equip['def']} \nEffect: ${rnd2equip['effect']} \nvalue: $${rnd2equip['value'] * drewStoreMarkup}`);
+        } else if (justOver[0]._text && justOver[0].inventoryName === 'my_equipment') {
+          gameState44.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value']}`);
+        } else if (justOver[0]._text) {
+          gameState44.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value'] * drewStoreMarkup}`);
+        }
         gameState44.tempText.x = gameState44.tempBackground.x;
         gameState44.tempText.y = gameState44.tempBackground.y;
         gameState44.tempBackground.width = gameState44.tempText.width;
