@@ -4298,11 +4298,10 @@ var LightWorld = new Phaser.Class({
     });
 
     for (let i = 0; i < enemsForChasers.length; i++) {
-      if (chasers[i].body.velocity.x > 5) {
-        chasers[i].anims.play(enemsForChasers[i][1], true)
+      chasers[i].anims.play(enemsForChasers[i][1], true)
+      if (chasers[i].body.velocity.x > 15) {
         chasers[i].flipX = false;
-      } else if (chasers[i].body.velocity.x < 5) {
-        chasers[i].anims.play(enemsForChasers[i][1], true)
+      } else if (chasers[i].body.velocity.x < -15) {
         chasers[i].flipX = true;
       }
     }

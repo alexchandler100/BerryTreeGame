@@ -161,11 +161,14 @@ var DrewStore = new Phaser.Class({
     gameState44.chaching = this.sound.add('chaching');
     //background
     gameState44.narrative_background = this.add.rectangle(100, 50, 1000, 500, 0x000).setOrigin(0);
+    gameState44.narrative_background.setStrokeStyle(4, 0xb39c0e);
     gameState44.narrative_background.setFillStyle(0x000, 0.8);
     gameState44.narrative_background2 = this.add.rectangle(150, 160, 420, 330, 0xffffff).setOrigin(0);
+    gameState44.narrative_background2.setStrokeStyle(4, 0xb39c0e);
     gameState44.narrative_background2.setFillStyle(0xffffff, 0.5);
 
     gameState44.buy_background2 = this.add.rectangle(850, 225, 400, 225, 0xffffff).setOrigin(0.5);
+    gameState44.buy_background2.setStrokeStyle(4, 0xb39c0e);
     gameState44.buy_background2.setFillStyle(0xffffff, 0.5);
 
     //exit button
@@ -255,34 +258,6 @@ var DrewStore = new Phaser.Class({
     }, this);
     alligatorBootsText.inventoryName = "Alligator Boots"
 
-/*
-    //button to buy kanyeSunglasses
-    kanyeSunglassesText = this.add.text(buy.x  - space*inc, buy.y + 3 * inc, 'Kanye Sunglasses', style.mid);
-    kanyeSunglassesText.setInteractive().on('pointerup', function() {
-      if (money >= equipment['Kanye Sunglasses']['value']) {
-        gameState44.chaching.play()
-        money -= equipment['Kanye Sunglasses']['value'];
-        equipment["Kanye Sunglasses"]['numberOwned'] += 1
-        redisplay = true
-      }
-    }, this);
-    kanyeSunglassesText.inventoryName = "Kanye Sunglasses"
-
-    //button to buy goldChain
-    goldChainText = this.add.text(buy.x  - space*inc, buy.y + 4 * inc, 'Gold Chain', style.mid);
-    goldChainText.setInteractive().on('pointerup', function() {
-      if (money >= equipment['Gold Chain']['value']) {
-        gameState44.chaching.play()
-        money -= equipment['Gold Chain']['value'];
-        equipment["Gold Chain"]['numberOwned'] += 1
-        redisplay = true
-      }
-    }, this);
-    goldChainText.inventoryName = "Gold Chain"
-    */
-
-
-
     //button to buy rnd1
     rnd1equip = generateRandomEquipment()
     let rnd1equip_name_decoded = rnd1equip['base'].replace(new RegExp(' ', 'g'), '');
@@ -299,10 +274,8 @@ var DrewStore = new Phaser.Class({
         if (equipment[rnd1equip['name']]){
           rnd1equip['name'] = rnd1equip['name'] + ' '
           equipment[rnd1equip['name']] = rnd1equip
-          //equipment[rnd1equip['name']]['value'] = Math.floor(equipment[rnd1equip['name']]['value']/2)
         } else {
           equipment[rnd1equip['name']] = rnd1equip
-          //equipment[rnd1equip['name']]['value'] = Math.floor(equipment[rnd1equip['name']]['value']/2)
         }
         redisplay = true
       }
@@ -325,10 +298,8 @@ var DrewStore = new Phaser.Class({
         if (equipment[rnd2equip['name']]){
           rnd2equip['name'] = rnd2equip['name'] + ' '
           equipment[rnd2equip['name']] = rnd2equip
-          //equipment[rnd2equip['name']]['value'] = Math.floor(equipment[rnd2equip['name']]['value']/2)
         } else {
           equipment[rnd2equip['name']] = rnd2equip
-          //equipment[rnd2equip['name']]['value'] = Math.floor(equipment[rnd2equip['name']]['value']/2)
         }
         redisplay = true
       }
@@ -345,7 +316,7 @@ var DrewStore = new Phaser.Class({
     zone._text = 'dropZone'
     //  Just a visual display of the drop zone
     var graphics = this.add.graphics();
-    graphics.lineStyle(2, 0xffff00);
+    graphics.lineStyle(4, 0xb39c0e);
     graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
 
 

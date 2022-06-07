@@ -55,7 +55,7 @@ var QuestLogCompleted = new Phaser.Class({
       fontSize: '30px',
       fill: '#fff'
     });
-
+    graphics = this.add.graphics().setDepth(5)
     gameState11.newItem={}
     gameState11.activeQuestDisplay={}
     let xcoord10 = 215;
@@ -63,14 +63,16 @@ var QuestLogCompleted = new Phaser.Class({
     let itemCount10=0;
     for (questTitle of Object.keys(completedQuests)) {
         itemCount10+=1;
-        gameState11.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 75, 0xb39c0e).setOrigin(0,0).setInteractive()
+        gameState11.newItem[questTitle]=this.add.rectangle(xcoord10, ycoord10, 150, 80, 0x333333).setOrigin(0,0).setInteractive()
         gameState11.newItem[questTitle].name=questTitle
-          gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10, ycoord10, questTitle, {
+        graphics.lineStyle(4, 0xffffff);
+        graphics.strokeRoundedRect(xcoord10, ycoord10, 150, 80, 5);
+          gameState11.activeQuestDisplay[questTitle] = this.add.text(xcoord10+5, ycoord10+5, questTitle, {
             fontSize: '20px',
             fill: '#fff',
             fontFamily: 'Academy Engraved LET',
             wordWrap: {
-              width: 130,
+              width: 140,
               useAdvancedWrap: true
             }
           }).setOrigin(0, 0);
@@ -81,30 +83,40 @@ var QuestLogCompleted = new Phaser.Class({
         else {xcoord10+=200}
     }
 
-    gameState11.tempBackground = this.add.rectangle(0,0, 400, 200, 0xffffff).setOrigin(0,0).setDepth(2);
     gameState11.tempText=this.add.text(0,0, ``, {
       fontSize: '25px',
-      fill: '#000000',
+      fill: '#ffffff',
       fontFamily: 'Academy Engraved LET',
       align: 'center',
       wordWrap: {
         width: 300,
         useAdvancedWrap: true
       }
-    }).setDepth(3);
+    }).setDepth(7);
+
+    var setSize = function(rect, width, height) {
+      rect.setSize(width, height);
+      rect.geom.setSize(width, height);
+      rect.updateDisplayOrigin();
+      rect.updateData();
+    }
+
+    gameState11.tempBackground = this.add.rectangle(0,0, 300, 200, 0x000000).setOrigin(0,0).setDepth(6);
+    gameState11.tempBackground.setStrokeStyle(4, 0xb39c0e);
     gameState11.tempBackground.visible=false;
     gameState11.tempText.visible=false;
 
     this.input.on('pointerover', function (pointer, justOver) {
+      if (justOver[0].name){
         gameState11.tempBackground.x=pointer.x+15;
         gameState11.tempBackground.y=pointer.y-15;
         gameState11.tempBackground.visible=true;
         gameState11.tempText.visible=true;
         gameState11.tempText.setText(completedQuests[justOver[0].name]);
-        gameState11.tempText.x=gameState11.tempBackground.x;
-        gameState11.tempText.y=gameState11.tempBackground.y;
-        gameState11.tempBackground.width=gameState11.tempText.width;
-        gameState11.tempBackground.height=gameState11.tempText.height;
+        gameState11.tempText.x=gameState11.tempBackground.x+5;
+        gameState11.tempText.y=gameState11.tempBackground.y+5;
+        setSize(gameState11.tempBackground, gameState11.tempText.width + 10, gameState11.tempText.height + 10)
+      }
   });
 
   this.input.on('pointerout', function (pointer, justOut) {

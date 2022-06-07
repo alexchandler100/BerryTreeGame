@@ -18,8 +18,10 @@ var LarryStore = new Phaser.Class({
     gameState33.chaching = this.sound.add('chaching');
     //background
     gameState33.narrative_background = this.add.rectangle(100, 50, 1000, 500, 0x000).setOrigin(0);
+    gameState33.narrative_background.setStrokeStyle(4, 0xb39c0e);
     gameState33.narrative_background.setFillStyle(0x000, 0.8);
     gameState33.narrative_background2 = this.add.rectangle(150, 160, 450, 330, 0xffffff).setOrigin(0);
+    gameState33.narrative_background2.setStrokeStyle(4, 0xb39c0e);
     gameState33.narrative_background2.setFillStyle(0xffffff, 0.5);
 
     //text for name of store
@@ -80,7 +82,7 @@ var LarryStore = new Phaser.Class({
 
     //  Just a visual display of the drop zone
     var graphics = this.add.graphics();
-    graphics.lineStyle(2, 0xffff00);
+    graphics.lineStyle(2, 0xb39c0e);
     graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
 
     this.input.on('dragenter', function(pointer, gameObject, dropZone) {
