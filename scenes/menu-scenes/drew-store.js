@@ -1,9 +1,3 @@
-const gameState44 = {};
-gameState44.backgroundColor={}
-gameState44.colorIndex = {}
-gameState44.newText = {}
-gameState44.background = {}
-
 var DrewStore = new Phaser.Class({
   Extends: Phaser.Scene,
   initialize: function() {
@@ -15,23 +9,23 @@ var DrewStore = new Phaser.Class({
     //sumn
   },
   displayContainer: function() {
-    //console.log(gameState44.colorIndex)
-    gameState44.background = {}
-    //gameState44.backgroundColor = {}
+    //console.log(this.colorIndex)
+    this.background = {}
+    //this.backgroundColor = {}
     let xcoord44 = this.displayEquipmentTopLeft.x;
     let ycoord44 = this.displayEquipmentTopLeft.y;
     //for (let i = 0; i < this.numberOfSlots; i++) {
-      //if (gameState44.backgroundColor[i]) {
-        //gameState44.backgroundColor[i].visible = false
+      //if (this.backgroundColor[i]) {
+        //this.backgroundColor[i].visible = false
       //}
     //}
     for (let i = 0; i < this.numberOfSlots; i++) {
-      //if (Object.keys(gameState44.colorIndex).includes(String(i))) {
-        //gameState44.backgroundColor[i] = this.add.rectangle(xcoord44, ycoord44, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, gameState44.colorIndex[i]).setDepth(1);
+      //if (Object.keys(this.colorIndex).includes(String(i))) {
+        //this.backgroundColor[i] = this.add.rectangle(xcoord44, ycoord44, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, this.colorIndex[i]).setDepth(1);
       //}
-      gameState44.background[i] = this.add.image(xcoord44, ycoord44, 'background').setDepth(1);
-      gameState44.background[i].displayHeight = this.cellSize
-      gameState44.background[i].displayWidth = this.cellSize
+      this.background[i] = this.add.image(xcoord44, ycoord44, 'background').setDepth(1);
+      this.background[i].displayHeight = this.cellSize
+      this.background[i].displayWidth = this.cellSize
       if (xcoord44 >= this.displayEquipmentRight) {
         xcoord44 = this.displayEquipmentTopLeft.x
         ycoord44 += this.cellSize + this.gapSize
@@ -39,18 +33,18 @@ var DrewStore = new Phaser.Class({
         xcoord44 += this.cellSize + this.gapSize
       }
     }
-    gameState44.colorIndex = {}
+    this.colorIndex = {}
   },
   displayEquipment: function() {
-    for (ii of Object.keys(gameState44.backgroundColor)){
-      gameState44.backgroundColor[ii].destroy()
+    for (ii of Object.keys(this.backgroundColor)){
+      this.backgroundColor[ii].destroy()
     }
-    console.log(gameState44.newText)
-    for (jjj of Object.keys(gameState44.newText)){
-      gameState44.newText[jjj].destroy()
+    console.log(this.newText)
+    for (jjj of Object.keys(this.newText)){
+      this.newText[jjj].destroy()
     }
-    gameState44.newText = {}
-    gameState44.background = {}
+    this.newText = {}
+    this.background = {}
     let xcoord44 = this.displayEquipmentTopLeft.x;
     let ycoord44 = this.displayEquipmentTopLeft.y;
     let jj = 0;
@@ -62,29 +56,29 @@ var DrewStore = new Phaser.Class({
             let name_decoded = equipment[a_item]['base'].replace(new RegExp(' ', 'g'), '');
             if (checkFileExist("assets/images/equipmentIcons/" + name_decoded + ".png")) {
               //console.log(name_decoded + ' exists in file system')
-              gameState44.newText[a_item] = this.add.image(xcoord44, ycoord44, name_decoded).setDepth(5);
+              this.newText[a_item] = this.add.image(xcoord44, ycoord44, name_decoded).setDepth(5);
             } else if (equipment[a_item]['type'].slice(-5) === 'upper') {
-              gameState44.newText[a_item] = this.add.image(xcoord44, ycoord44, 'armor').setDepth(5);
+              this.newText[a_item] = this.add.image(xcoord44, ycoord44, 'armor').setDepth(5);
             } else if (equipment[a_item]['type'].slice(-5) === 'lower') {
-              gameState44.newText[a_item] = this.add.image(xcoord44, ycoord44, 'armor_pants').setDepth(5);
+              this.newText[a_item] = this.add.image(xcoord44, ycoord44, 'armor_pants').setDepth(5);
             } else if (equipment[a_item]['type'] === 'accessory') {
               if (equipment[a_item]['base'] === 'Belt') {
-                gameState44.newText[a_item] = this.add.image(xcoord44, ycoord44, 'Belt').setDepth(5);
+                this.newText[a_item] = this.add.image(xcoord44, ycoord44, 'Belt').setDepth(5);
               } else if (equipment[a_item]['base'] === 'Ring') {
-                gameState44.newText[a_item] = this.add.image(xcoord44, ycoord44, 'Ring').setDepth(5);
+                this.newText[a_item] = this.add.image(xcoord44, ycoord44, 'Ring').setDepth(5);
               } else {
-                gameState44.newText[a_item] = this.add.image(xcoord44, ycoord44, 'accessoryIcon').setDepth(5);
+                this.newText[a_item] = this.add.image(xcoord44, ycoord44, 'accessoryIcon').setDepth(5);
               }
             } else {
-              gameState44.newText[a_item] = this.add.image(xcoord44, ycoord44, 'armor').setDepth(5);
+              this.newText[a_item] = this.add.image(xcoord44, ycoord44, 'armor').setDepth(5);
             }
-            gameState44.newText[a_item].displayHeight = this.cellSize
-            gameState44.newText[a_item].displayWidth = this.cellSize
-            gameState44.newText[a_item]._text = a_item
-            gameState44.newText[a_item].setInteractive();
-            this.input.setDraggable(gameState44.newText[a_item]);
+            this.newText[a_item].displayHeight = this.cellSize
+            this.newText[a_item].displayWidth = this.cellSize
+            this.newText[a_item]._text = a_item
+            this.newText[a_item].setInteractive();
+            this.input.setDraggable(this.newText[a_item]);
             //set background color
-            gameState44.backgroundColor[jj] = this.add.rectangle(xcoord44, ycoord44, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, playerColors[equipment[a_item]['character']]).setDepth(1);
+            this.backgroundColor[jj] = this.add.rectangle(xcoord44, ycoord44, this.cellSize + this.gapSize / 2, this.cellSize + this.gapSize / 2, playerColors[equipment[a_item]['character']]).setDepth(1);
             jj += 1
             if (xcoord44 >= this.displayEquipmentRight) {
               xcoord44 = this.displayEquipmentTopLeft.x
@@ -147,6 +141,10 @@ var DrewStore = new Phaser.Class({
     this.load.image('WifeBeater', "assets/images/equipmentIcons/WifeBeater.png");
   },
   create: function() {
+    this.backgroundColor={}
+    this.colorIndex = {}
+    this.newText = {}
+    this.background = {}
     this.numberOfSlots = 35;
     this.storeCellSize = 70;
     this.cellSize = 50;
@@ -158,23 +156,23 @@ var DrewStore = new Phaser.Class({
     this.displayEquipmentRight = 480
     drewStoreMarkup = 3;
     //chaching sound effect
-    gameState44.chaching = this.sound.add('chaching');
+    this.chaching = this.sound.add('chaching');
     //background
-    gameState44.narrative_background = this.add.rectangle(100, 50, 1000, 500, 0x000).setOrigin(0);
-    gameState44.narrative_background.setStrokeStyle(4, 0xb39c0e);
-    gameState44.narrative_background.setFillStyle(0x000, 0.8);
-    gameState44.narrative_background2 = this.add.rectangle(150, 160, 420, 330, 0xffffff).setOrigin(0);
-    gameState44.narrative_background2.setStrokeStyle(4, 0xb39c0e);
-    gameState44.narrative_background2.setFillStyle(0xffffff, 0.5);
+    this.narrative_background = this.add.rectangle(100, 50, 1000, 500, 0x000).setOrigin(0);
+    this.narrative_background.setStrokeStyle(4, 0xb39c0e);
+    this.narrative_background.setFillStyle(0x000, 0.8);
+    this.narrative_background2 = this.add.rectangle(150, 160, 420, 330, 0xffffff).setOrigin(0);
+    this.narrative_background2.setStrokeStyle(4, 0xb39c0e);
+    this.narrative_background2.setFillStyle(0xffffff, 0.5);
 
-    gameState44.buy_background2 = this.add.rectangle(850, 225, 400, 225, 0xffffff).setOrigin(0.5);
-    gameState44.buy_background2.setStrokeStyle(4, 0xb39c0e);
-    gameState44.buy_background2.setFillStyle(0xffffff, 0.5);
+    this.buy_background2 = this.add.rectangle(850, 225, 400, 225, 0xffffff).setOrigin(0.5);
+    this.buy_background2.setStrokeStyle(4, 0xb39c0e);
+    this.buy_background2.setFillStyle(0xffffff, 0.5);
 
     //exit button
-    gameState44.exit_button = this.add.rectangle(1080, 75, 20, 20, 0xfff);
-    gameState44.exit_button.setInteractive()
-    gameState44.exit_button.on('pointerup', function() {
+    this.exit_button = this.add.rectangle(1080, 75, 20, 20, 0xfff);
+    this.exit_button.setInteractive()
+    this.exit_button.on('pointerup', function() {
       this.scene.stop();
       scene_number = 2;
       launchParameter = false
@@ -185,7 +183,7 @@ var DrewStore = new Phaser.Class({
       fontSize: '25px',
       fill: '#fff'
     });
-    gameState44.exit_button._text = 'x'
+    this.exit_button._text = 'x'
 
     let style={}
 
@@ -223,16 +221,16 @@ var DrewStore = new Phaser.Class({
     storeInventoryText = this.add.text(buy.x - inc - 30, buy.y, 'Click to Buy', style.large);
 
     //button to buy hat
-    gameState44.backgroundFBH = this.add.image(buy.x - inc, buy.y + inc, 'background');
-    gameState44.backgroundFBH.displayHeight = this.storeCellSize
-    gameState44.backgroundFBH.displayWidth = this.storeCellSize
+    this.backgroundFBH = this.add.image(buy.x - inc, buy.y + inc, 'background');
+    this.backgroundFBH.displayHeight = this.storeCellSize
+    this.backgroundFBH.displayWidth = this.storeCellSize
     flatBillHatText = this.add.image(buy.x - inc, buy.y + inc, 'FlatBillHat');
     flatBillHatText._text = 'Flat Bill Hat'
     flatBillHatText.displayWidth = this.storeCellSize
     flatBillHatText.displayHeight = this.storeCellSize
     flatBillHatText.setInteractive().on('pointerup', function() {
       if (money >= equipment['Flat Bill Hat']['value'] * drewStoreMarkup) {
-        gameState44.chaching.play()
+        this.chaching.play()
         money -= equipment['Flat Bill Hat']['value']* drewStoreMarkup;
         equipment["Flat Bill Hat"]['numberOwned'] += 1
         redisplay = true
@@ -241,16 +239,16 @@ var DrewStore = new Phaser.Class({
     flatBillHatText.inventoryName = "Flat Bill Hat"
 
     //button to buy boots
-    gameState44.backgroundAB = this.add.image(buy.x  +inc-10, buy.y +  inc, 'background');
-    gameState44.backgroundAB.displayHeight = this.storeCellSize
-    gameState44.backgroundAB.displayWidth = this.storeCellSize
+    this.backgroundAB = this.add.image(buy.x  +inc-10, buy.y +  inc, 'background');
+    this.backgroundAB.displayHeight = this.storeCellSize
+    this.backgroundAB.displayWidth = this.storeCellSize
     alligatorBootsText = this.add.image(buy.x  +inc-10, buy.y +  inc, 'AlligatorBoots', style.small);
     alligatorBootsText._text = 'Alligator Boots'
     alligatorBootsText.displayWidth = this.storeCellSize
     alligatorBootsText.displayHeight = this.storeCellSize
     alligatorBootsText.setInteractive().on('pointerup', function() {
       if (money >= equipment['Alligator Boots']['value'] * drewStoreMarkup) {
-        gameState44.chaching.play()
+        this.chaching.play()
         money -= equipment['Alligator Boots']['value'] * drewStoreMarkup;
         equipment["Alligator Boots"]['numberOwned'] += 1
         redisplay = true
@@ -261,15 +259,15 @@ var DrewStore = new Phaser.Class({
     //button to buy rnd1
     rnd1equip = generateRandomEquipment()
     let rnd1equip_name_decoded = rnd1equip['base'].replace(new RegExp(' ', 'g'), '');
-    gameState44.backgroundR1 = this.add.image(buy.x  - inc, buy.y + 2 * inc, 'background');
-    gameState44.backgroundR1.displayHeight = this.storeCellSize
-    gameState44.backgroundR1.displayWidth = this.storeCellSize
+    this.backgroundR1 = this.add.image(buy.x  - inc, buy.y + 2 * inc, 'background');
+    this.backgroundR1.displayHeight = this.storeCellSize
+    this.backgroundR1.displayWidth = this.storeCellSize
     rnd1Text = this.add.image(buy.x  - inc, buy.y + 2 * inc, rnd1equip_name_decoded);
     rnd1Text.displayWidth = this.storeCellSize
     rnd1Text.displayHeight = this.storeCellSize
     rnd1Text.setInteractive().on('pointerup', function() {
       if (money >= rnd1equip['value']* drewStoreMarkup) {
-        gameState44.chaching.play()
+        this.chaching.play()
         money -= rnd1equip['value'] * drewStoreMarkup;
         if (equipment[rnd1equip['name']]){
           rnd1equip['name'] = rnd1equip['name'] + ' '
@@ -285,15 +283,15 @@ var DrewStore = new Phaser.Class({
     //button to buy rnd2
     rnd2equip = generateRandomEquipment()
     let rnd2equip_name_decoded = rnd2equip['base'].replace(new RegExp(' ', 'g'), '');
-    gameState44.backgroundR2 = this.add.image(buy.x + inc-10, buy.y + 2 * inc,  'background');
-    gameState44.backgroundR2.displayHeight = this.storeCellSize
-    gameState44.backgroundR2.displayWidth = this.storeCellSize
+    this.backgroundR2 = this.add.image(buy.x + inc-10, buy.y + 2 * inc,  'background');
+    this.backgroundR2.displayHeight = this.storeCellSize
+    this.backgroundR2.displayWidth = this.storeCellSize
     rnd2Text = this.add.image(buy.x + inc-10, buy.y + 2 * inc,  rnd2equip_name_decoded);
     rnd2Text.displayWidth = this.storeCellSize
     rnd2Text.displayHeight = this.storeCellSize
     rnd2Text.setInteractive().on('pointerup', function() {
       if (money >= rnd2equip['value'] * drewStoreMarkup) {
-        gameState44.chaching.play()
+        this.chaching.play()
         money -= rnd2equip['value'] * drewStoreMarkup;
         if (equipment[rnd2equip['name']]){
           rnd2equip['name'] = rnd2equip['name'] + ' '
@@ -324,12 +322,12 @@ var DrewStore = new Phaser.Class({
       graphics.clear();
       graphics.lineStyle(2, 0x00ffff);
       graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
-    });
+    }, this);
     this.input.on('dragleave', function(pointer, gameObject, dropZone) {
       graphics.clear();
       graphics.lineStyle(2, 0xffff00);
       graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
-    });
+    }, this);
 
     this.input.on('dragend', function(pointer, gameObject, dropped) {
       if (!dropped) {
@@ -339,27 +337,28 @@ var DrewStore = new Phaser.Class({
       graphics.clear();
       graphics.lineStyle(2, 0xffff00);
       graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
-    });
+    }, this);
     this.input.on('drop', function(pointer, gameObject, dropZone) {
       console.log(gameObject)
       equipment[gameObject._text]['numberOwned'] -= 1;
       money += equipment[gameObject._text]['value']
+      this.chaching.play()
       gameObject.destroy()
       redisplay = true
-    });
+    }, this);
 
     this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
       gameObject.x = dragX;
       gameObject.y = dragY;
-    });
+    }, this);
 
     var borderWidth = 2
-    gameState44.tempBackground = this.add.rectangle(0, 0, 400, 200, 0x000000).setOrigin(0, 0);
-    gameState44.tempBackground.visible = false;
-    gameState44.tempBackground.setDepth(12);
-    gameState44.tempBackground2 = this.add.rectangle(0, 0, 400 + 2 * borderWidth, 200 + 2 * borderWidth, 0xb39c0e).setOrigin(0, 0);
-    gameState44.tempBackground2.visible = false;
-    gameState44.tempBackground2.setDepth(11);
+    this.tempBackground = this.add.rectangle(0, 0, 400, 200, 0x000000).setOrigin(0, 0);
+    this.tempBackground.visible = false;
+    this.tempBackground.setDepth(12);
+    this.tempBackground2 = this.add.rectangle(0, 0, 400 + 2 * borderWidth, 200 + 2 * borderWidth, 0xb39c0e).setOrigin(0, 0);
+    this.tempBackground2.visible = false;
+    this.tempBackground2.setDepth(11);
 
     var styled = {
       fontSize: '15pt',
@@ -373,51 +372,51 @@ var DrewStore = new Phaser.Class({
         useAdvancedWrap: false
       },
     };
-    gameState44.tempText = this.add.text(0, 0, ``, styled);
-    gameState44.tempText.visible = false;
-    gameState44.tempText.setDepth(13);
+    this.tempText = this.add.text(0, 0, ``, styled);
+    this.tempText.visible = false;
+    this.tempText.setDepth(13);
 
     this.input.on('pointerover', function(pointer, justOver) {
       console.log(justOver[0])
       if (justOver[0]._text!=='dropZone' && justOver[0]._text!=='x'){
         if (pointer.x>600){
-          gameState44.tempBackground.x = pointer.x - 250;
+          this.tempBackground.x = pointer.x - 250;
         } else {
-          gameState44.tempBackground.x = pointer.x + 50;
+          this.tempBackground.x = pointer.x + 50;
         }
         if (pointer.y>300){
-          gameState44.tempBackground.y = pointer.y - 150;
+          this.tempBackground.y = pointer.y - 150;
         } else {
-          gameState44.tempBackground.y = pointer.y - 15;
+          this.tempBackground.y = pointer.y - 15;
         }
-        gameState44.tempBackground2.x = gameState44.tempBackground.x - borderWidth;
-        gameState44.tempBackground2.y = gameState44.tempBackground.y - borderWidth;
-        gameState44.tempBackground.visible = true;
-        gameState44.tempBackground2.visible = true;
-        gameState44.tempText.visible = true;
+        this.tempBackground2.x = this.tempBackground.x - borderWidth;
+        this.tempBackground2.y = this.tempBackground.y - borderWidth;
+        this.tempBackground.visible = true;
+        this.tempBackground2.visible = true;
+        this.tempText.visible = true;
         if (justOver[0].inventoryName === rnd1equip['name']){
-          gameState44.tempText.setText(`Name: ${rnd1equip['name']} \nType: ${rnd1equip['type']} \nDef: ${rnd1equip['def']} \nEffect: ${rnd1equip['effect']} \nvalue: $${rnd1equip['value'] * drewStoreMarkup}`);
+          this.tempText.setText(`Name: ${rnd1equip['name']} \nType: ${rnd1equip['type']} \nDef: ${rnd1equip['def']} \nEffect: ${rnd1equip['effect']} \nvalue: $${rnd1equip['value'] * drewStoreMarkup}`);
           } else if (justOver[0].inventoryName === rnd2equip['name']){
-          gameState44.tempText.setText(`Name: ${rnd2equip['name']} \nType: ${rnd2equip['type']} \nDef: ${rnd2equip['def']} \nEffect: ${rnd2equip['effect']} \nvalue: $${rnd2equip['value'] * drewStoreMarkup}`);
+          this.tempText.setText(`Name: ${rnd2equip['name']} \nType: ${rnd2equip['type']} \nDef: ${rnd2equip['def']} \nEffect: ${rnd2equip['effect']} \nvalue: $${rnd2equip['value'] * drewStoreMarkup}`);
         } else if (justOver[0]._text && justOver[0].inventoryName === 'my_equipment') {
-          gameState44.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value']}`);
+          this.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value']}`);
         } else if (justOver[0]._text) {
-          gameState44.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value'] * drewStoreMarkup}`);
+          this.tempText.setText(`Name: ${equipment[justOver[0]._text]['name']} \nType: ${equipment[justOver[0]._text]['type']} \nDef: ${equipment[justOver[0]._text]['def']} \nEffect: ${equipment[justOver[0]._text]['effect']} \nvalue: $${equipment[justOver[0]._text]['value'] * drewStoreMarkup}`);
         }
-        gameState44.tempText.x = gameState44.tempBackground.x;
-        gameState44.tempText.y = gameState44.tempBackground.y;
-        gameState44.tempBackground.width = gameState44.tempText.width;
-        gameState44.tempBackground.height = gameState44.tempText.height;
-        gameState44.tempBackground2.width = gameState44.tempText.width + 2 * borderWidth;
-        gameState44.tempBackground2.height = gameState44.tempText.height + 2 * borderWidth;
+        this.tempText.x = this.tempBackground.x;
+        this.tempText.y = this.tempBackground.y;
+        this.tempBackground.width = this.tempText.width;
+        this.tempBackground.height = this.tempText.height;
+        this.tempBackground2.width = this.tempText.width + 2 * borderWidth;
+        this.tempBackground2.height = this.tempText.height + 2 * borderWidth;
       }
-    });
+    }, this);
 
     this.input.on('pointerout', function(pointer, justOut) {
-      gameState44.tempText.visible = false;
-      gameState44.tempBackground.visible = false;
-      gameState44.tempBackground2.visible = false;
-    });
+      this.tempText.visible = false;
+      this.tempBackground.visible = false;
+      this.tempBackground2.visible = false;
+    }, this);
 
 
     this.displayPage()

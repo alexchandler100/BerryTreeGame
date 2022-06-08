@@ -18,8 +18,8 @@ var QuestLog = new Phaser.Class({
       fill: '#fff'
     }).setOrigin(.5, .5);
     //background and border
-    gameState1.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
-    gameState1.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
+    this.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
+    this.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
 
     //switch to menu 1
     this.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);

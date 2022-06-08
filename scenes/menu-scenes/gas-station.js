@@ -1,5 +1,3 @@
-const gameState3 = {};
-
 var GasStation = new Phaser.Class({
   Extends: Phaser.Scene,
   initialize: function() {
@@ -16,12 +14,14 @@ var GasStation = new Phaser.Class({
   },
   create: function() {
     //chaching sound effect
-    gameState3.chaching = this.sound.add('chaching');
+    this.chaching = this.sound.add('chaching');
     //background
-    gameState3.narrative_background = this.add.rectangle(100, 50, 1000, 500, 0x000).setOrigin(0);
-    gameState3.narrative_background.setFillStyle(0x000, 0.8);
-    gameState3.narrative_background2 = this.add.rectangle(150, 160, 450, 330, 0xffffff).setOrigin(0);
-    gameState3.narrative_background2.setFillStyle(0xffffff, 0.5);
+    this.narrative_background = this.add.rectangle(100, 50, 1000, 500, 0x000).setOrigin(0);
+    this.narrative_background.setStrokeStyle(4, 0xb39c0e);
+    this.narrative_background.setFillStyle(0x000, 0.8);
+    this.narrative_background2 = this.add.rectangle(150, 160, 450, 330, 0xffffff).setOrigin(0);
+    this.narrative_background2.setStrokeStyle(4, 0xb39c0e);
+    this.narrative_background2.setFillStyle(0xffffff, 0.5);
 
     //text for name of store
     storeText = this.add.text(425, 60, '', {
@@ -59,7 +59,7 @@ var GasStation = new Phaser.Class({
     });
     hammsText.setInteractive().on('pointerup', function() {
       if (money >= 3.5) {
-        gameState3.chaching.play()
+        this.chaching.play()
         money -= 3.5;
         inventory["Hamms"]['numberOwned']+=2
         redisplay=true
@@ -73,7 +73,7 @@ var GasStation = new Phaser.Class({
     });
     monsterText.setInteractive().on('pointerup', function() {
       if (money >= 3) {
-        gameState3.chaching.play()
+        this.chaching.play()
         money -= 3;
         inventory["Monster"]['numberOwned']+=2
         redisplay=true
@@ -87,7 +87,7 @@ var GasStation = new Phaser.Class({
     });
     gatoradeText.setInteractive().on('pointerup', function() {
       if (money >= 3.5) {
-        gameState3.chaching.play()
+        this.chaching.play()
         money -= 3.5;
         inventory["Gatorade"]['numberOwned']+=2
         redisplay=true
@@ -101,7 +101,7 @@ var GasStation = new Phaser.Class({
     });
     andycappsText.setInteractive().on('pointerup', function() {
       if (money >= 1.5) {
-        gameState3.chaching.play()
+        this.chaching.play()
         money -= 1.5;
         inventory["Andy Capp's Hot Fries"]['numberOwned'] += 1
         redisplay=true;
@@ -115,7 +115,7 @@ var GasStation = new Phaser.Class({
     });
     gasText.setInteractive().on('pointerup', function() {
       if (money >= 2.59) {
-        gameState3.chaching.play()
+        this.chaching.play()
         money -= 2.59;
         gas += 1
         redisplay=true
@@ -129,28 +129,28 @@ var GasStation = new Phaser.Class({
     });
     jerkyText.setInteractive().on('pointerup', function() {
       if (money >= 7.99) {
-        gameState3.chaching.play()
+        this.chaching.play()
         money -= 7.99;
         items.push("Jerky");
         jerkyText.destroy();
-        gameState3.tempText.visible=false;
-        gameState3.tempBackground.visible=false;
+        this.tempText.visible=false;
+        this.tempBackground.visible=false;
         redisplay=true;
       }
     }, this);
     jerkyText.inventoryName="Jerky"
 
-    gameState3.newItem = {}
+    this.newItem = {}
     let xcoord2 = 175;
     let ycoord2 = 230;
     let itemCount = 0;
     for (a_item of Object.keys(inventory)) {
       if (inventory[a_item]['numberOwned'] > 0) {
         itemCount += 1;
-        gameState3.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive();
-        gameState3.newItem[a_item].name = `${a_item}`;
-        gameState3.newItem[a_item].setScale(.5)
-        this.input.setDraggable(gameState3.newItem[a_item]);
+        this.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive();
+        this.newItem[a_item].name = `${a_item}`;
+        this.newItem[a_item].setScale(.5)
+        this.input.setDraggable(this.newItem[a_item]);
         if (itemCount % 6 === 0) {
           xcoord2 = 175;
           ycoord2 += 65
@@ -161,12 +161,12 @@ var GasStation = new Phaser.Class({
     }
 
     var borderWidth = 2
-    gameState3.tempBackground = this.add.rectangle(0, 0, 400, 200, 0x000000).setOrigin(0, 0);
-    gameState3.tempBackground.visible = false;
-    gameState3.tempBackground.setDepth(2);
-    gameState3.tempBackground2 = this.add.rectangle(0, 0, 400 + 2 * borderWidth, 200 + 2 * borderWidth, 0xb39c0e).setOrigin(0, 0);
-    gameState3.tempBackground2.visible = false;
-    gameState3.tempBackground2.setDepth(1);
+    this.tempBackground = this.add.rectangle(0, 0, 400, 200, 0x000000).setOrigin(0, 0);
+    this.tempBackground.visible = false;
+    this.tempBackground.setDepth(2);
+    this.tempBackground2 = this.add.rectangle(0, 0, 400 + 2 * borderWidth, 200 + 2 * borderWidth, 0xb39c0e).setOrigin(0, 0);
+    this.tempBackground2.visible = false;
+    this.tempBackground2.setDepth(1);
 
     var style = {
       fontSize: '15pt',
@@ -180,63 +180,63 @@ var GasStation = new Phaser.Class({
         useAdvancedWrap: false
       },
     };
-    gameState3.tempText = this.add.text(0, 0, ``, style);
-    gameState3.tempText.visible = false;
-    gameState3.tempText.setDepth(3);
+    this.tempText = this.add.text(0, 0, ``, style);
+    this.tempText.visible = false;
+    this.tempText.setDepth(3);
 
     this.input.on('pointerover', function (pointer, justOver) {
       if (justOver[0].name && justOver[0].name!=="Mac" && justOver[0].name!=="Al" && justOver[0].name!=="Jimmy"){
         console.log(justOver[0].name)
-        gameState3.tempBackground.x=pointer.x+50;
-        gameState3.tempBackground.y=pointer.y-15;
-        gameState3.tempBackground.visible=true;
-        gameState3.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState3.tempBackground2.y = pointer.y - 15 - borderWidth;
-        gameState3.tempBackground2.visible = true;
-        gameState3.tempText.visible=true;
-        gameState3.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']}  \nValue: $${inventory[justOver[0].name]['value']}`);
-        gameState3.tempText.x=gameState3.tempBackground.x;
-        gameState3.tempText.y=gameState3.tempBackground.y;
-        gameState3.tempBackground.width=gameState3.tempText.width;
-        gameState3.tempBackground.height=gameState3.tempText.height;
-        gameState3.tempBackground2.width = gameState3.tempText.width + 2 * borderWidth;
-        gameState3.tempBackground2.height = gameState3.tempText.height + 2 * borderWidth;
+        this.tempBackground.x=pointer.x+50;
+        this.tempBackground.y=pointer.y-15;
+        this.tempBackground.visible=true;
+        this.tempBackground2.x = pointer.x + 50 - borderWidth;
+        this.tempBackground2.y = pointer.y - 15 - borderWidth;
+        this.tempBackground2.visible = true;
+        this.tempText.visible=true;
+        this.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']}  \nValue: $${inventory[justOver[0].name]['value']}`);
+        this.tempText.x=this.tempBackground.x;
+        this.tempText.y=this.tempBackground.y;
+        this.tempBackground.width=this.tempText.width;
+        this.tempBackground.height=this.tempText.height;
+        this.tempBackground2.width = this.tempText.width + 2 * borderWidth;
+        this.tempBackground2.height = this.tempText.height + 2 * borderWidth;
       } else if (justOver[0].inventoryName){
         console.log(justOver[0].inventoryName)
-        gameState3.tempBackground.x=pointer.x+50;
-        gameState3.tempBackground.y=pointer.y-15;
-        gameState3.tempBackground.visible=true;
-        gameState3.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState3.tempBackground2.y = pointer.y - 15 - borderWidth;
-        gameState3.tempBackground2.visible = true;
-        gameState3.tempText.visible=true;
+        this.tempBackground.x=pointer.x+50;
+        this.tempBackground.y=pointer.y-15;
+        this.tempBackground.visible=true;
+        this.tempBackground2.x = pointer.x + 50 - borderWidth;
+        this.tempBackground2.y = pointer.y - 15 - borderWidth;
+        this.tempBackground2.visible = true;
+        this.tempText.visible=true;
         if (justOver[0].inventoryName!=='Gas' && justOver[0].inventoryName!=='Jerky'){
-          gameState3.tempText.setText(`Effect: ${inventory[justOver[0].inventoryName]['itemEffects']}`);
+          this.tempText.setText(`Effect: ${inventory[justOver[0].inventoryName]['itemEffects']}`);
         } else if (justOver[0].inventoryName==='Gas'){
-          gameState3.tempText.setText(`Effect: for use in combustion \nengine or possibly to huff`);
+          this.tempText.setText(`Effect: for use in combustion \nengine or possibly to huff`);
         } else if (justOver[0].inventoryName==='Jerky'){
-          gameState3.tempText.setText(`Effect: the jerky here sucks \nbut dogs like it at least ...`);
+          this.tempText.setText(`Effect: the jerky here sucks \nbut dogs like it at least ...`);
         }
 
-        gameState3.tempText.x=gameState3.tempBackground.x;
-        gameState3.tempText.y=gameState3.tempBackground.y;
-        gameState3.tempBackground.width=gameState3.tempText.width;
-        gameState3.tempBackground.height=gameState3.tempText.height;
-        gameState3.tempBackground2.width = gameState3.tempText.width + 2 * borderWidth;
-        gameState3.tempBackground2.height = gameState3.tempText.height + 2 * borderWidth;
+        this.tempText.x=this.tempBackground.x;
+        this.tempText.y=this.tempBackground.y;
+        this.tempBackground.width=this.tempText.width;
+        this.tempBackground.height=this.tempText.height;
+        this.tempBackground2.width = this.tempText.width + 2 * borderWidth;
+        this.tempBackground2.height = this.tempText.height + 2 * borderWidth;
       }
-  });
+  }, this);
 
   this.input.on('pointerout', function (pointer, justOut) {
-      gameState3.tempText.visible=false;
-      gameState3.tempBackground.visible=false;
-      gameState3.tempBackground2.visible=false;
-  });
+      this.tempText.visible=false;
+      this.tempBackground.visible=false;
+      this.tempBackground2.visible=false;
+  }, this);
 
     //exit button
-    gameState3.exit_button = this.add.rectangle(1080, 75, 20, 20, 0xfff);
-    gameState3.exit_button.setInteractive()
-    gameState3.exit_button.on('pointerup', function() {
+    this.exit_button = this.add.rectangle(1080, 75, 20, 20, 0xfff);
+    this.exit_button.setInteractive()
+    this.exit_button.on('pointerup', function() {
       this.scene.stop();
       scene_number = 2;
       launchParameter=false
@@ -253,20 +253,20 @@ var GasStation = new Phaser.Class({
     if (redisplay){
       creditText.setText(`Your Cash: ${Math.round(money*100)/100}     Gallons of Gas: ${Math.round(gas*100)/100} `)
       for (a_item of Object.keys(inventory)) {
-        if (gameState3.newItem[a_item])
-        {gameState3.newItem[a_item].destroy()}
+        if (this.newItem[a_item])
+        {this.newItem[a_item].destroy()}
       }
-      gameState3.newItem = {}
+      this.newItem = {}
       let xcoord2 = 175;
       let ycoord2 = 230;
       let itemCount = 0;
       for (a_item of Object.keys(inventory)) {
         if (inventory[a_item]['numberOwned'] > 0) {
           itemCount += 1;
-          gameState3.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive();
-          gameState3.newItem[a_item].name = `${a_item}`;
-          gameState3.newItem[a_item].setScale(.5)
-          this.input.setDraggable(gameState3.newItem[a_item]);
+          this.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive();
+          this.newItem[a_item].name = `${a_item}`;
+          this.newItem[a_item].setScale(.5)
+          this.input.setDraggable(this.newItem[a_item]);
           if (itemCount % 6 === 0) {
             xcoord2 = 175;
             ycoord2 += 65

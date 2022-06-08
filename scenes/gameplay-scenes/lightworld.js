@@ -1509,6 +1509,16 @@ var LightWorld = new Phaser.Class({
     });
 
     this.anims.create({
+      key: 'carexplosionstop',
+      frames: this.anims.generateFrameNumbers('car4', {
+        start: 0,
+        end: 0
+      }),
+      frameRate: 1,
+      repeat: 0
+    });
+
+    this.anims.create({
       key: 'diofloat',
       frames: this.anims.generateFrameNumbers('dio', {
         start: 10,
@@ -2625,6 +2635,9 @@ var LightWorld = new Phaser.Class({
 
     //spawning car
     car = this.physics.add.sprite(this.CarSpawnPoint.x, this.CarSpawnPoint.y, 'car4');
+    car.body.immovable = true;
+    car.setSize(32, 64);
+    car.setOffset(16, 0);
 
     //spawning flowers
     flowers = this.physics.add.sprite(gameState.altonBR.x - 16, gameState.altonBR.y + 16, 'flowers');
@@ -2969,6 +2982,7 @@ var LightWorld = new Phaser.Class({
     this.physics.add.collider(me, oghomeboy);
     //this.physics.add.collider(me, james);
     this.physics.add.collider(me, fratboys);
+    this.physics.add.collider(me, car);
 
     //colliders for grls
     this.physics.add.collider(grls, grls);
@@ -3201,7 +3215,7 @@ var LightWorld = new Phaser.Class({
         key = Object.keys(inventory)[i]
         numberOfItems += inventory[key]['numberOwned']
       }
-      if (playerTexture === 0 && me.body.velocity.x === 0 && me.body.velocity.y === 0 && keysGet > 0 && distance(car, me) < 30) {
+      if (playerTexture === 0 && me.body.velocity.x === 0 && me.body.velocity.y === 0 && keysGet > 0 && distance(car, me) < 50) {
         playerTexture = 1;
         speed = 1;
         car.disableBody(true, true);
@@ -3814,7 +3828,7 @@ var LightWorld = new Phaser.Class({
       pause = true
       speed = 1
       playerTexture = 0
-      car.enableBody(true, me.x, me.y, true, true);
+      car.enableBody(true, me.x, me.y,  true, true);
       me.setTexture('Mac', 0)
       car.angle = 0
       gameState.carSound.stop();
@@ -3843,6 +3857,8 @@ var LightWorld = new Phaser.Class({
       }, 2200);
       window.setTimeout(() => {
         car.enableBody(true, this.CarSpawnPoint.x, this.CarSpawnPoint.y, true, true);
+        car.setTexture('car4')
+        car.anims.play('carexplosionstop', false);
       }, 2500);
       gameState.carCrash.play();
     }
@@ -4259,6 +4275,9 @@ var LightWorld = new Phaser.Class({
     if (newGame === true && gameOver === false) {
       this.openDialoguePage(9999)
       newGame = false;
+    } else if (newGame === false && continueGame === true) {
+      this.openDialoguePage(7777)
+      continueGame = false
     } else if (newGame === false && gameOver === true) {
       this.openDialoguePage(300)
       gameOver = false

@@ -1,5 +1,3 @@
-const gameState5 = {};
-
 var OverworldMenu = new Phaser.Class({
   Extends: Phaser.Scene,
   initialize: function() {
@@ -30,42 +28,42 @@ var OverworldMenu = new Phaser.Class({
       fill: '#fff'
     }).setOrigin(.5,.5);
     //background and border
-    gameState5.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
-    gameState5.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
+    this.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
+    this.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
 
     //switch to menu 1
-    gameState5.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
-    gameState5.pausemenu_button1.setInteractive()
-    gameState5.pausemenu_button1.on('pointerup', function() {
+    this.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
+    this.pausemenu_button1.setInteractive()
+    this.pausemenu_button1.on('pointerup', function() {
       scene_number=1
     }, this);
 
     //switch to menu 2
-    gameState5.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
-    gameState5.pausemenu_button2.setInteractive()
-    gameState5.pausemenu_button2.on('pointerup', function() {
+    this.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
+    this.pausemenu_button2.setInteractive()
+    this.pausemenu_button2.on('pointerup', function() {
       scene_number=7
     }, this);
 
     //switch to menu 3
-    gameState5.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff);
-    gameState5.pausemenu_button3.setInteractive()
-    gameState5.pausemenu_button3.on('pointerup', function() {
+    this.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff);
+    this.pausemenu_button3.setInteractive()
+    this.pausemenu_button3.on('pointerup', function() {
       scene_number=8
     }, this);
 
     //switch to menu 4
-    gameState5.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff);
-    gameState5.pausemenu_button_white4 = this.add.rectangle(240, 70, 16, 16, 0x000);
-    gameState5.pausemenu_button4.setInteractive()
-    gameState5.pausemenu_button4.on('pointerup', function() {
+    this.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff);
+    this.pausemenu_button_white4 = this.add.rectangle(240, 70, 16, 16, 0x000);
+    this.pausemenu_button4.setInteractive()
+    this.pausemenu_button4.on('pointerup', function() {
       scene_number=9
     }, this);
 
     //exit button
-    gameState5.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
-    gameState5.exit_button.setInteractive()
-    gameState5.exit_button.on('pointerup', function() {
+    this.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
+    this.exit_button.setInteractive()
+    this.exit_button.on('pointerup', function() {
       launchParameter=false;
       this.scene.stop();
       scene_number = 2;
@@ -76,7 +74,7 @@ var OverworldMenu = new Phaser.Class({
       fill: '#fff'
     });
 
-    menuText = this.add.text(500, 60, "Overworld Stats", {
+    menuText = this.add.text(500, 60, "Overworld", {
       fontSize: '30px',
       fill: '#fff'
     });
@@ -148,8 +146,8 @@ var OverworldMenu = new Phaser.Class({
     this.mySeal5 = this.physics.add.sprite(750,275,'sealEmpty')
     this.mySeal6 = this.physics.add.sprite(1000,275,'sealEmpty')
 
-    gameState5.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
-    gameState5.keyObjZ.on('down', function() {
+    this.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
+    this.keyObjZ.on('down', function() {
       this.scene.stop();
       scene_number = 2;
       pause = false

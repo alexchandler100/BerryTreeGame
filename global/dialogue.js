@@ -304,6 +304,17 @@ var DialogueMenu = new Phaser.Class({
 
       {
         character: 'god',
+        page: 7777,
+        narrative: "Damn... You lost your phone, wallet, and keys... AGAIN...",
+        options: [{
+            option: 'Goddamnit....',
+            nextPage: undefined
+          },
+        ]
+      },
+
+      {
+        character: 'god',
         page: 9999+1000000,
         narrative: "Rrrggggg............",
         options: [{

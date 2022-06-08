@@ -1,5 +1,3 @@
-const gameState2 = {};
-
 var ItemsMenu = new Phaser.Class({
   Extends: Phaser.Scene,
   initialize: function() {
@@ -30,42 +28,42 @@ var ItemsMenu = new Phaser.Class({
       fill: '#fff'
     }).setOrigin(.5,.5);
     //background and border
-    gameState2.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
-    gameState2.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
+    this.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
+    this.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
 
     //switch to menu 1
-    gameState2.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
-    gameState2.pausemenu_button1.setInteractive()
-    gameState2.pausemenu_button1.on('pointerup', function() {
+    this.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
+    this.pausemenu_button1.setInteractive()
+    this.pausemenu_button1.on('pointerup', function() {
       scene_number = 1
     }, this);
 
     //switch to menu 2
-    gameState2.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
-    gameState2.pausemenu_button_white2 = this.add.rectangle(180, 70, 16, 16, 0x000);
-    gameState2.pausemenu_button2.setInteractive()
-    gameState2.pausemenu_button2.on('pointerup', function() {
+    this.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
+    this.pausemenu_button_white2 = this.add.rectangle(180, 70, 16, 16, 0x000);
+    this.pausemenu_button2.setInteractive()
+    this.pausemenu_button2.on('pointerup', function() {
       scene_number = 7
     }, this);
 
     //switch to menu 3
-    gameState2.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff);
-    gameState2.pausemenu_button3.setInteractive()
-    gameState2.pausemenu_button3.on('pointerup', function() {
+    this.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff);
+    this.pausemenu_button3.setInteractive()
+    this.pausemenu_button3.on('pointerup', function() {
       scene_number = 8
     }, this);
 
     //switch to menu 4
-    gameState2.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff);
-    gameState2.pausemenu_button4.setInteractive()
-    gameState2.pausemenu_button4.on('pointerup', function() {
+    this.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff);
+    this.pausemenu_button4.setInteractive()
+    this.pausemenu_button4.on('pointerup', function() {
       scene_number = 9
     }, this);
 
     //exit button
-    gameState2.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
-    gameState2.exit_button.setInteractive()
-    gameState2.exit_button.on('pointerup', function() {
+    this.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
+    this.exit_button.setInteractive()
+    this.exit_button.on('pointerup', function() {
       this.scene.stop();
       scene_number = 2;
       pause = false;
@@ -128,31 +126,31 @@ var ItemsMenu = new Phaser.Class({
       this.bennettBackground.isFilled = true;
     }
 
-    gameState2.macText = this.add.text(macsFaceX + 7, textY, '', {
+    this.macText = this.add.text(macsFaceX + 7, textY, '', {
       fontSize: '15px',
       fill: '#fff'
     });
-    gameState2.alText = this.add.text(alsFaceX + 7, textY, '', {
+    this.alText = this.add.text(alsFaceX + 7, textY, '', {
       fontSize: '15px',
       fill: '#fff'
     });
-    gameState2.jimmyText = this.add.text(trevorsFaceX + 7, textY, '', {
+    this.jimmyText = this.add.text(trevorsFaceX + 7, textY, '', {
       fontSize: '15px',
       fill: '#fff'
     });
-    gameState2.bennettText = this.add.text(bennettsFaceX + 7, textY + 200, '', {
+    this.bennettText = this.add.text(bennettsFaceX + 7, textY + 200, '', {
       fontSize: '15px',
       fill: '#fff'
     });
-    gameState2.macText.setText(`HP: ${party["Mac"]['hp']}/${party["Mac"]['maxHP']} \nSP: ${party["Mac"]['sp']}/${party["Mac"]['maxSP']}`)
+    this.macText.setText(`HP: ${party["Mac"]['hp']}/${party["Mac"]['maxHP']} \nSP: ${party["Mac"]['sp']}/${party["Mac"]['maxSP']}`)
     if (al.following) {
-      gameState2.alText.setText(`HP: ${party["Al"]['hp']}/${party["Al"]['maxHP']} \nSP: ${party["Al"]['sp']}/${party["Al"]['maxSP']}`)
+      this.alText.setText(`HP: ${party["Al"]['hp']}/${party["Al"]['maxHP']} \nSP: ${party["Al"]['sp']}/${party["Al"]['maxSP']}`)
     }
     if (trevor.following) {
-      gameState2.jimmyText.setText(`HP: ${party["Jimmy"]['hp']}/${party["Jimmy"]['maxHP']} \nSP: ${party["Jimmy"]['sp']}/${party["Jimmy"]['maxSP']}`)
+      this.jimmyText.setText(`HP: ${party["Jimmy"]['hp']}/${party["Jimmy"]['maxHP']} \nSP: ${party["Jimmy"]['sp']}/${party["Jimmy"]['maxSP']}`)
     }
     if (bennett.following) {
-      gameState2.bennettText.setText(`HP: ${party["Bennett"]['hp']}/${party["Bennett"]['maxHP']} \nSP: ${party["Bennett"]['sp']}/${party["Bennett"]['maxSP']}`)
+      this.bennettText.setText(`HP: ${party["Bennett"]['hp']}/${party["Bennett"]['maxHP']} \nSP: ${party["Bennett"]['sp']}/${party["Bennett"]['maxSP']}`)
     }
 
     //  A drop zone for mac face
@@ -171,16 +169,16 @@ var ItemsMenu = new Phaser.Class({
     });
 
     //generates graphics for all items in inventory
-    gameState2.newItem = {}
+    this.newItem = {}
     let xcoord2 = 175;
     let ycoord2 = 140;
     let itemCount = 0;
     for (a_item of Object.keys(inventory)) {
       if (inventory[a_item]['numberOwned'] > 0) {
         itemCount += 1;
-        gameState2.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive()
-        gameState2.newItem[a_item].name = `${a_item}`
-        this.input.setDraggable(gameState2.newItem[a_item]);
+        this.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive()
+        this.newItem[a_item].name = `${a_item}`
+        this.input.setDraggable(this.newItem[a_item]);
         if (itemCount % 3 === 0) {
           xcoord2 = 175;
           ycoord2 += 125
@@ -193,15 +191,15 @@ var ItemsMenu = new Phaser.Class({
     this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
       gameObject.x = dragX;
       gameObject.y = dragY;
-    });
+    }, this);
 
     var borderWidth = 2
-    gameState2.tempBackground = this.add.rectangle(0, 0, 400, 200, 0x000000).setOrigin(0, 0);
-    gameState2.tempBackground.visible = false;
-    gameState2.tempBackground.setDepth(2);
-    gameState2.tempBackground2 = this.add.rectangle(0, 0, 400 + 2*borderWidth, 200 + 2*borderWidth, 0xb39c0e).setOrigin(0, 0);
-    gameState2.tempBackground2.visible = false;
-    gameState2.tempBackground2.setDepth(1);
+    this.tempBackground = this.add.rectangle(0, 0, 400, 200, 0x000000).setOrigin(0, 0);
+    this.tempBackground.visible = false;
+    this.tempBackground.setDepth(2);
+    this.tempBackground2 = this.add.rectangle(0, 0, 400 + 2*borderWidth, 200 + 2*borderWidth, 0xb39c0e).setOrigin(0, 0);
+    this.tempBackground2.visible = false;
+    this.tempBackground2.setDepth(1);
 
     var style = {
       fontSize: '15pt',
@@ -215,34 +213,34 @@ var ItemsMenu = new Phaser.Class({
         useAdvancedWrap: false
     },
     };
-    gameState2.tempText = this.add.text(0, 0, ``, style);
-    gameState2.tempText.visible = false;
-    gameState2.tempText.setDepth(3);
+    this.tempText = this.add.text(0, 0, ``, style);
+    this.tempText.visible = false;
+    this.tempText.setDepth(3);
 
     this.input.on('pointerover', function(pointer, justOver) {
       if (justOver[0].name && justOver[0].name !== "Mac" && justOver[0].name !== "Al" && justOver[0].name !== "Jimmy" && justOver[0].name !== "Bennett") {
-        gameState2.tempBackground.x = pointer.x + 50;
-        gameState2.tempBackground.y = pointer.y - 15;
-        gameState2.tempBackground.visible = true;
-        gameState2.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState2.tempBackground2.y = pointer.y - 15 - borderWidth;
-        gameState2.tempBackground2.visible = true;
-        gameState2.tempText.visible = true;
-        gameState2.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`);
-        gameState2.tempText.x = gameState2.tempBackground.x;
-        gameState2.tempText.y = gameState2.tempBackground.y;
-        gameState2.tempBackground.width = gameState2.tempText.width;
-        gameState2.tempBackground.height = gameState2.tempText.height;
-        gameState2.tempBackground2.width = gameState2.tempText.width + 2*borderWidth;
-        gameState2.tempBackground2.height = gameState2.tempText.height + 2*borderWidth;
+        this.tempBackground.x = pointer.x + 50;
+        this.tempBackground.y = pointer.y - 15;
+        this.tempBackground.visible = true;
+        this.tempBackground2.x = pointer.x + 50 - borderWidth;
+        this.tempBackground2.y = pointer.y - 15 - borderWidth;
+        this.tempBackground2.visible = true;
+        this.tempText.visible = true;
+        this.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`);
+        this.tempText.x = this.tempBackground.x;
+        this.tempText.y = this.tempBackground.y;
+        this.tempBackground.width = this.tempText.width;
+        this.tempBackground.height = this.tempText.height;
+        this.tempBackground2.width = this.tempText.width + 2*borderWidth;
+        this.tempBackground2.height = this.tempText.height + 2*borderWidth;
       }
-    });
+    }, this);
 
     this.input.on('pointerout', function(pointer, justOut) {
-      gameState2.tempText.visible = false;
-      gameState2.tempBackground.visible = false;
-      gameState2.tempBackground2.visible = false;
-    });
+      this.tempText.visible = false;
+      this.tempBackground.visible = false;
+      this.tempBackground2.visible = false;
+    }, this);
 
     this.input.on('drop', function(pointer, gameObject, dropZone) {
       console.log(gameObject.name)
@@ -254,11 +252,11 @@ var ItemsMenu = new Phaser.Class({
         gameState.drinkGatorade.play()
       }
       redisplay = true;
-    });
+    }, this);
 
 
-    gameState2.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
-    gameState2.keyObjZ.on('down', function() {
+    this.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
+    this.keyObjZ.on('down', function() {
       this.scene.stop();
       scene_number = 2;
       pause = false
@@ -268,31 +266,31 @@ var ItemsMenu = new Phaser.Class({
   update: function() {
     //redisplay items
     if (redisplay) {
-      gameState2.macText.setText(`HP: ${party["Mac"]['hp']}/${party["Mac"]['maxHP']} \nSP: ${party["Mac"]['sp']}/${party["Mac"]['maxSP']}`)
+      this.macText.setText(`HP: ${party["Mac"]['hp']}/${party["Mac"]['maxHP']} \nSP: ${party["Mac"]['sp']}/${party["Mac"]['maxSP']}`)
       if (al.following) {
-        gameState2.alText.setText(`HP: ${party["Al"]['hp']}/${party["Al"]['maxHP']} \nSP: ${party["Al"]['sp']}/${party["Al"]['maxSP']}`)
+        this.alText.setText(`HP: ${party["Al"]['hp']}/${party["Al"]['maxHP']} \nSP: ${party["Al"]['sp']}/${party["Al"]['maxSP']}`)
       }
       if (trevor.following) {
-        gameState2.jimmyText.setText(`HP: ${party["Jimmy"]['hp']}/${party["Jimmy"]['maxHP']} \nSP: ${party["Jimmy"]['sp']}/${party["Jimmy"]['maxSP']}`)
+        this.jimmyText.setText(`HP: ${party["Jimmy"]['hp']}/${party["Jimmy"]['maxHP']} \nSP: ${party["Jimmy"]['sp']}/${party["Jimmy"]['maxSP']}`)
       }
       if (bennett.following) {
-        gameState2.bennettText.setText(`HP: ${party["Bennett"]['hp']}/${party["Bennett"]['maxHP']} \nSP: ${party["Bennett"]['sp']}/${party["Bennett"]['maxSP']}`)
+        this.bennettText.setText(`HP: ${party["Bennett"]['hp']}/${party["Bennett"]['maxHP']} \nSP: ${party["Bennett"]['sp']}/${party["Bennett"]['maxSP']}`)
       }
       for (a_item of Object.keys(inventory)) {
-        if (gameState2.newItem[a_item]) {
-          gameState2.newItem[a_item].destroy()
+        if (this.newItem[a_item]) {
+          this.newItem[a_item].destroy()
         }
       }
-      gameState2.newItem = {}
+      this.newItem = {}
       let xcoord2 = 175;
       let ycoord2 = 140;
       let itemCount = 0;
       for (a_item of Object.keys(inventory)) {
         if (inventory[a_item]['numberOwned'] > 0) {
           itemCount += 1;
-          gameState2.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive()
-          gameState2.newItem[a_item].name = `${a_item}`
-          this.input.setDraggable(gameState2.newItem[a_item]);
+          this.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive()
+          this.newItem[a_item].name = `${a_item}`
+          this.input.setDraggable(this.newItem[a_item]);
           if (itemCount % 3 === 0) {
             xcoord2 = 175;
             ycoord2 += 125

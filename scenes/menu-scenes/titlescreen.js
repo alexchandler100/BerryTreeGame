@@ -1,4 +1,3 @@
-const gameState0 = {};
 //game start paramters
 let gameOver = false;
 let newGame = false;
@@ -67,7 +66,7 @@ var TitleScreen = new Phaser.Class({
       this.scene.launch("LightWorld")
       this.scene.launch('DialogueMenu');
       this.scene.stop();
-        */
+*/
 
 
     this.bannerSound = this.sound.add('banner', {
@@ -94,10 +93,6 @@ var TitleScreen = new Phaser.Class({
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(3, 0xb39c0e);
     this.graphics.strokeRect(100, 50, 1000, 500, 0xb39c0e);
-
-    //gameState0.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
-    //gameState0.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
-
     //new button
     this.startButton = this.add.rectangle(620, 400, 160, 30, 0x000);
     this.startButton.setInteractive()

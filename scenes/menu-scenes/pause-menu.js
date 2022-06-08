@@ -1,5 +1,3 @@
-const gameState1 = {};
-
 var PauseMenu = new Phaser.Class({
   Extends: Phaser.Scene,
   initialize: function() {
@@ -10,8 +8,8 @@ var PauseMenu = new Phaser.Class({
   init: function(data) {
     //sumn
   },
-  partyText: function(x,y,player){
-    gameState1.partyText = this.add.text(x,y, '     '+player+`\nHP: ${party[player]['hp']}/${party[player]['maxHP']} \nSP: ${party[player]['sp']}/${party[player]['maxSP']} \nEXP: ${party[player]['exp']}/${100*3**(party[player]['level']-1)} \nLVL: ${party[player]['level']} \nDMG: ${party[player]['damage']} \nDEF: ${party[player]['defense']} \nBleedproof: ${party[player]['bleedProof']} \nBlindproof: ${party[player]['blindProof']} \nNever Miss: ${party[player]['neverMiss']}`, {
+  partyText: function(scene, x,y,player){
+    scene.add.text(x,y, '     '+player+`\nHP: ${party[player]['hp']}/${party[player]['maxHP']} \nSP: ${party[player]['sp']}/${party[player]['maxSP']} \nEXP: ${party[player]['exp']}/${100*3**(party[player]['level']-1)} \nLVL: ${party[player]['level']} \nDMG: ${party[player]['damage']} \nDEF: ${party[player]['defense']} \nBleedproof: ${party[player]['bleedProof']} \nBlindproof: ${party[player]['blindProof']} \nNever Miss: ${party[player]['neverMiss']}`, {
       fontSize: '17px',
       fill: '#fff'
     });
@@ -30,43 +28,43 @@ var PauseMenu = new Phaser.Class({
       fill: '#fff'
     }).setOrigin(.5, .5);
     //background and border
-    gameState1.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
-    gameState1.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
+    this.border = this.add.rectangle(600, 300, 1006, 506, 0xb39c0e);
+    this.narrative_background = this.add.rectangle(600, 300, 1000, 500, 0x000);
 
     //switch to menu 1
-    gameState1.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
-    gameState1.pausemenu_button_white1 = this.add.rectangle(150, 70, 16, 16, 0x000);
-    gameState1.pausemenu_button1.setInteractive()
-    gameState1.pausemenu_button1.on('pointerup', function() {
+    this.pausemenu_button1 = this.add.rectangle(150, 70, 20, 20, 0xfff);
+    this.pausemenu_button_white1 = this.add.rectangle(150, 70, 16, 16, 0x000);
+    this.pausemenu_button1.setInteractive()
+    this.pausemenu_button1.on('pointerup', function() {
       scene_number = 1
     }, this);
 
     //switch to menu 2
-    gameState1.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
-    gameState1.pausemenu_button2.setInteractive()
-    gameState1.pausemenu_button2.on('pointerup', function() {
+    this.pausemenu_button2 = this.add.rectangle(180, 70, 20, 20, 0xfff);
+    this.pausemenu_button2.setInteractive()
+    this.pausemenu_button2.on('pointerup', function() {
       scene_number = 7
     }, this);
 
     //switch to menu 3
-    gameState1.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff);
-    gameState1.pausemenu_button3.setInteractive()
-    gameState1.pausemenu_button3.on('pointerup', function() {
+    this.pausemenu_button3 = this.add.rectangle(210, 70, 20, 20, 0xfff);
+    this.pausemenu_button3.setInteractive()
+    this.pausemenu_button3.on('pointerup', function() {
       scene_number = 8
     }, this);
 
     //switch to menu 4
-    gameState1.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff);
-    gameState1.pausemenu_button4.setInteractive()
-    gameState1.pausemenu_button4.on('pointerup', function() {
+    this.pausemenu_button4 = this.add.rectangle(240, 70, 20, 20, 0xfff);
+    this.pausemenu_button4.setInteractive()
+    this.pausemenu_button4.on('pointerup', function() {
       scene_number = 9
     }, this);
 
 
     //exit button
-    gameState1.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
-    gameState1.exit_button.setInteractive()
-    gameState1.exit_button.on('pointerup', function() {
+    this.exit_button = this.add.rectangle(1080, 70, 20, 20, 0xfff);
+    this.exit_button.setInteractive()
+    this.exit_button.on('pointerup', function() {
       this.scene.stop();
       scene_number = 2;
       pause = false
@@ -80,9 +78,9 @@ var PauseMenu = new Phaser.Class({
 
     //controls button
     let control_x = 850;
-    gameState1.controls_button = this.add.rectangle(control_x, 70, 140, 20, 0xfff);
-    gameState1.controls_button.setInteractive()
-    gameState1.controls_button.on('pointerup', function() {
+    this.controls_button = this.add.rectangle(control_x, 70, 140, 20, 0xfff);
+    this.controls_button.setInteractive()
+    this.controls_button.on('pointerup', function() {
       scene_number = 99
     }, this);
     loadText = this.add.text(control_x - 56, 70 - 14, 'controls', {
@@ -94,9 +92,9 @@ var PauseMenu = new Phaser.Class({
     this.add.existing(this.message);
 
     //save button
-    gameState1.save_button = this.add.rectangle(control_x - 140, 70, 96, 20, 0xfff);
-    gameState1.save_button.setInteractive()
-    gameState1.save_button.on('pointerup', function() {
+    this.save_button = this.add.rectangle(control_x - 140, 70, 96, 20, 0xfff);
+    this.save_button.setInteractive()
+    this.save_button.on('pointerup', function() {
       joinParams = {
         'Jimmy': trevor.joinParameter,
         'Al': al.joinParameter,
@@ -196,9 +194,9 @@ var PauseMenu = new Phaser.Class({
     });
 
     //full button
-    gameState1.full_button = this.add.rectangle(980, 70, 80, 20, 0xfff);
-    gameState1.full_button.setInteractive()
-    gameState1.full_button.on('pointerup', function() {
+    this.full_button = this.add.rectangle(980, 70, 80, 20, 0xfff);
+    this.full_button.setInteractive()
+    this.full_button.on('pointerup', function() {
       if (this.scale.isFullscreen) {
         this.scale.stopFullscreen();
       } else {
@@ -209,7 +207,7 @@ var PauseMenu = new Phaser.Class({
       fontSize: '25px',
       fill: '#fff'
     });
-    menuText = this.add.text(400, 60, "Party Stats", {
+    menuText = this.add.text(400, 60, "Party", {
       fontSize: '30px',
       fill: '#fff'
     });
@@ -217,8 +215,8 @@ var PauseMenu = new Phaser.Class({
   redisplay = true
 
     this.input.keyboard.on("keydown", this.onKeyInput, this);
-    gameState1.keyObjZ = this.input.keyboard.addKey('Z'); // Get key object
-    gameState1.keyObjZ.on('down', function() {
+    this.keyObjZ = this.input.keyboard.addKey('Z');
+    this.keyObjZ.on('down', function() {
       this.scene.stop();
       scene_number = 2;
       pause = false
@@ -226,23 +224,21 @@ var PauseMenu = new Phaser.Class({
     }, this);
   },
   update: function() {
-    //to redisplay party stats
-    if (redisplay) {
+    if (redisplay) { //to redisplay party stats
       console.log(`reloading`)
       redisplay = false
-      this.partyText(175,110,'Mac')
+      this.partyText(this,175,110,'Mac')
       if (al.following) {
-        this.partyText(175 + 300, 110,'Al')
+        this.partyText(this,175 + 300, 110,'Al')
       }
       if (trevor.following) {
-        this.partyText(175 + 600, 110, 'Jimmy')
+        this.partyText(this,175 + 600, 110, 'Jimmy')
       }
       if (bennett.following) {
-        this.partyText(175, 330, 'Bennett')
+        this.partyText(this,175, 330, 'Bennett')
       }
     }
-    //to switch scenes on button press
-    if (scene_number === 7) {
+    if (scene_number === 7) { //to switch scenes on button press
       redisplay = true
       this.scene.switch('ItemsMenu');
       time2 = 0

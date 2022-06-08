@@ -1,5 +1,3 @@
-const gameState33 = {};
-
 var LarryStore = new Phaser.Class({
   Extends: Phaser.Scene,
   initialize: function() {
@@ -15,14 +13,14 @@ var LarryStore = new Phaser.Class({
   },
   create: function() {
     //chaching sound effect
-    gameState33.chaching = this.sound.add('chaching');
+    this.chaching = this.sound.add('chaching');
     //background
-    gameState33.narrative_background = this.add.rectangle(100, 50, 1000, 500, 0x000).setOrigin(0);
-    gameState33.narrative_background.setStrokeStyle(4, 0xb39c0e);
-    gameState33.narrative_background.setFillStyle(0x000, 0.8);
-    gameState33.narrative_background2 = this.add.rectangle(150, 160, 450, 330, 0xffffff).setOrigin(0);
-    gameState33.narrative_background2.setStrokeStyle(4, 0xb39c0e);
-    gameState33.narrative_background2.setFillStyle(0xffffff, 0.5);
+    this.narrative_background = this.add.rectangle(100, 50, 1000, 500, 0x000).setOrigin(0);
+    this.narrative_background.setStrokeStyle(4, 0xb39c0e);
+    this.narrative_background.setFillStyle(0x000, 0.8);
+    this.narrative_background2 = this.add.rectangle(150, 160, 450, 330, 0xffffff).setOrigin(0);
+    this.narrative_background2.setStrokeStyle(4, 0xb39c0e);
+    this.narrative_background2.setFillStyle(0xffffff, 0.5);
 
     //text for name of store
     storeText = this.add.text(425, 60, '', {
@@ -58,7 +56,7 @@ var LarryStore = new Phaser.Class({
     });
     larrySpecialText.setInteractive().on('pointerup', function() {
       if (money >= 20) {
-        gameState33.chaching.play()
+        this.chaching.play()
         money -= 20;
         inventory["Larry Special"]['numberOwned'] += 2
         redisplay = true
@@ -89,12 +87,12 @@ var LarryStore = new Phaser.Class({
       graphics.clear();
       graphics.lineStyle(2, 0x00ffff);
       graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
-    });
+    }, this);
     this.input.on('dragleave', function(pointer, gameObject, dropZone) {
       graphics.clear();
       graphics.lineStyle(2, 0xffff00);
       graphics.strokeRect(zone.x - zone.input.hitArea.width / 2, zone.y - zone.input.hitArea.height / 2, zone.input.hitArea.width, zone.input.hitArea.height);
-    });
+    }, this);
 
     this.input.on('dragend', function(pointer, gameObject, dropped) {
       if (!dropped) {
@@ -111,21 +109,22 @@ var LarryStore = new Phaser.Class({
       console.log(inventory[gameObject.name])
       inventory[gameObject.name]['numberOwned'] -= 1;
       money += inventory[gameObject.name]['value']
+      this.chaching.play()
       redisplay = true
-    });
+    }, this);
 
 
-    gameState33.newItem = {}
+    this.newItem = {}
     let xcoord2 = 175;
     let ycoord2 = 230;
     let itemCount = 0;
     for (a_item of Object.keys(inventory)) {
       if (inventory[a_item]['numberOwned'] > 0) {
         itemCount += 1;
-        gameState33.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive();
-        gameState33.newItem[a_item].name = `${a_item}`;
-        gameState33.newItem[a_item].setScale(.5)
-        this.input.setDraggable(gameState33.newItem[a_item]);
+        this.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive();
+        this.newItem[a_item].name = `${a_item}`;
+        this.newItem[a_item].setScale(.5)
+        this.input.setDraggable(this.newItem[a_item]);
         if (itemCount % 6 === 0) {
           xcoord2 = 175;
           ycoord2 += 65
@@ -138,15 +137,15 @@ var LarryStore = new Phaser.Class({
     this.input.on('drag', function(pointer, gameObject, dragX, dragY) {
       gameObject.x = dragX;
       gameObject.y = dragY;
-    });
+    }, this);
 
     var borderWidth = 2
-    gameState33.tempBackground = this.add.rectangle(0, 0, 400, 200, 0x000000).setOrigin(0, 0);
-    gameState33.tempBackground.visible = false;
-    gameState33.tempBackground.setDepth(2);
-    gameState33.tempBackground2 = this.add.rectangle(0, 0, 400 + 2 * borderWidth, 200 + 2 * borderWidth, 0xb39c0e).setOrigin(0, 0);
-    gameState33.tempBackground2.visible = false;
-    gameState33.tempBackground2.setDepth(1);
+    this.tempBackground = this.add.rectangle(0, 0, 400, 200, 0x000000).setOrigin(0, 0);
+    this.tempBackground.visible = false;
+    this.tempBackground.setDepth(2);
+    this.tempBackground2 = this.add.rectangle(0, 0, 400 + 2 * borderWidth, 200 + 2 * borderWidth, 0xb39c0e).setOrigin(0, 0);
+    this.tempBackground2.visible = false;
+    this.tempBackground2.setDepth(1);
 
     var style = {
       fontSize: '15pt',
@@ -160,55 +159,55 @@ var LarryStore = new Phaser.Class({
         useAdvancedWrap: false
       },
     };
-    gameState33.tempText = this.add.text(0, 0, ``, style);
-    gameState33.tempText.visible = false;
-    gameState33.tempText.setDepth(3);
+    this.tempText = this.add.text(0, 0, ``, style);
+    this.tempText.visible = false;
+    this.tempText.setDepth(3);
 
     this.input.on('pointerover', function(pointer, justOver) {
       if (justOver[0].name && justOver[0].name !== "Mac" && justOver[0].name !== "Al" && justOver[0].name !== "Jimmy") {
         //console.log(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`)
-        gameState33.tempBackground.x = pointer.x + 50;
-        gameState33.tempBackground.y = pointer.y - 15;
-        gameState33.tempBackground.visible = true;
-        gameState33.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState33.tempBackground2.y = pointer.y - 15 - borderWidth;
-        gameState33.tempBackground2.visible = true;
-        gameState33.tempText.visible = true;
-        gameState33.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`);
-        gameState33.tempText.x = gameState33.tempBackground.x;
-        gameState33.tempText.y = gameState33.tempBackground.y;
-        gameState33.tempBackground.width = gameState33.tempText.width;
-        gameState33.tempBackground.height = gameState33.tempText.height;
-        gameState33.tempBackground2.width = gameState33.tempText.width + 2 * borderWidth;
-        gameState33.tempBackground2.height = gameState33.tempText.height + 2 * borderWidth;
+        this.tempBackground.x = pointer.x + 50;
+        this.tempBackground.y = pointer.y - 15;
+        this.tempBackground.visible = true;
+        this.tempBackground2.x = pointer.x + 50 - borderWidth;
+        this.tempBackground2.y = pointer.y - 15 - borderWidth;
+        this.tempBackground2.visible = true;
+        this.tempText.visible = true;
+        this.tempText.setText(`Name: ${justOver[0].name} \nQuantity: ${inventory[justOver[0].name]['numberOwned']} \nEffect: ${inventory[justOver[0].name]['itemEffects']} \nValue: $${inventory[justOver[0].name]['value']}`);
+        this.tempText.x = this.tempBackground.x;
+        this.tempText.y = this.tempBackground.y;
+        this.tempBackground.width = this.tempText.width;
+        this.tempBackground.height = this.tempText.height;
+        this.tempBackground2.width = this.tempText.width + 2 * borderWidth;
+        this.tempBackground2.height = this.tempText.height + 2 * borderWidth;
       } else if (justOver[0].inventoryName) {
-        gameState33.tempBackground.x = pointer.x + 50;
-        gameState33.tempBackground.y = pointer.y - 15;
-        gameState33.tempBackground.visible = true;
-        gameState33.tempBackground2.x = pointer.x + 50 - borderWidth;
-        gameState33.tempBackground2.y = pointer.y - 15 - borderWidth;
-        gameState33.tempBackground2.visible = true;
-        gameState33.tempText.visible = true;
-        gameState33.tempText.setText(`Effect: ${inventory[justOver[0].inventoryName]['itemEffects']}`);
-        gameState33.tempText.x = gameState33.tempBackground.x;
-        gameState33.tempText.y = gameState33.tempBackground.y;
-        gameState33.tempBackground.width = gameState33.tempText.width;
-        gameState33.tempBackground.height = gameState33.tempText.height;
-        gameState33.tempBackground2.width = gameState33.tempText.width + 2 * borderWidth;
-        gameState33.tempBackground2.height = gameState33.tempText.height + 2 * borderWidth;
+        this.tempBackground.x = pointer.x + 50;
+        this.tempBackground.y = pointer.y - 15;
+        this.tempBackground.visible = true;
+        this.tempBackground2.x = pointer.x + 50 - borderWidth;
+        this.tempBackground2.y = pointer.y - 15 - borderWidth;
+        this.tempBackground2.visible = true;
+        this.tempText.visible = true;
+        this.tempText.setText(`Effect: ${inventory[justOver[0].inventoryName]['itemEffects']}`);
+        this.tempText.x = this.tempBackground.x;
+        this.tempText.y = this.tempBackground.y;
+        this.tempBackground.width = this.tempText.width;
+        this.tempBackground.height = this.tempText.height;
+        this.tempBackground2.width = this.tempText.width + 2 * borderWidth;
+        this.tempBackground2.height = this.tempText.height + 2 * borderWidth;
       }
-    });
+    }, this);
 
     this.input.on('pointerout', function(pointer, justOut) {
-      gameState33.tempText.visible = false;
-      gameState33.tempBackground.visible = false;
-      gameState33.tempBackground2.visible = false;
-    });
+      this.tempText.visible = false;
+      this.tempBackground.visible = false;
+      this.tempBackground2.visible = false;
+    }, this);
 
     //exit button
-    gameState33.exit_button = this.add.rectangle(1080, 75, 20, 20, 0xfff);
-    gameState33.exit_button.setInteractive()
-    gameState33.exit_button.on('pointerup', function() {
+    this.exit_button = this.add.rectangle(1080, 75, 20, 20, 0xfff);
+    this.exit_button.setInteractive()
+    this.exit_button.on('pointerup', function() {
       this.scene.stop();
       scene_number = 2;
       launchParameter = false
@@ -225,21 +224,21 @@ var LarryStore = new Phaser.Class({
     if (redisplay) {
       creditText.setText(`Your Cash: ${Math.round(money*100)/100}`)
       for (a_item of Object.keys(inventory)) {
-        if (gameState33.newItem[a_item]) {
-          gameState33.newItem[a_item].destroy()
+        if (this.newItem[a_item]) {
+          this.newItem[a_item].destroy()
         }
       }
-      gameState33.newItem = {}
+      this.newItem = {}
       let xcoord2 = 175;
       let ycoord2 = 230;
       let itemCount = 0;
       for (a_item of Object.keys(inventory)) {
         if (inventory[a_item]['numberOwned'] > 0) {
           itemCount += 1;
-          gameState33.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive();
-          gameState33.newItem[a_item].name = `${a_item}`;
-          gameState33.newItem[a_item].setScale(.5)
-          this.input.setDraggable(gameState33.newItem[a_item]);
+          this.newItem[a_item] = this.add.image(xcoord2, ycoord2, inventory[a_item]['all_usable_items_icons']).setOrigin(0, 0).setInteractive();
+          this.newItem[a_item].name = `${a_item}`;
+          this.newItem[a_item].setScale(.5)
+          this.input.setDraggable(this.newItem[a_item]);
           if (itemCount % 6 === 0) {
             xcoord2 = 175;
             ycoord2 += 65
