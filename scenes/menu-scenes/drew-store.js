@@ -72,6 +72,7 @@ var DrewStore = new Phaser.Class({
             } else {
               this.newText[a_item] = this.add.image(xcoord44, ycoord44, 'armor').setDepth(5);
             }
+            this.newText[a_item].inventoryName = 'my_equipment'
             this.newText[a_item].displayHeight = this.cellSize
             this.newText[a_item].displayWidth = this.cellSize
             this.newText[a_item]._text = a_item
