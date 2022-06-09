@@ -117,7 +117,7 @@ var GasStation = new Phaser.Class({
       if (money >= 2.59) {
         this.chaching.play()
         money -= 2.59;
-        gas += 1
+        gas += 1.7
         redisplay=true
       }
     }, this);

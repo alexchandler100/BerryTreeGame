@@ -1856,18 +1856,30 @@ var DialogueMenu = new Phaser.Class({
         narrative: `You may choose between further increasing SP by 1, HP by 3, or damage by 2.`,
         options: [{
             option: 'SP',
-            nextPage: undefined,
+            nextPage: 6001,
             aftermath: getOneSPMac
           },
           {
             option: 'HP',
-            nextPage: undefined,
+            nextPage: 6001,
             aftermath: getThreeHPMac
           },
           {
             option: 'damage',
-            nextPage: undefined,
+            nextPage: 6001,
             aftermath: getOneDamageMac
+          },
+        ]
+      },
+
+      {
+        character: 'god',
+        page: 6001,
+        narrative: `Your stat points have been updated...`,
+        options: [{
+            option: 'Hell yeah',
+            nextPage: undefined,
+            aftermath: skillCheck
           },
         ]
       },
@@ -1985,6 +1997,16 @@ var DialogueMenu = new Phaser.Class({
         narrative: `Was that a dream? Was I hallucinating? What the fuck was that shit about? I better sleep it off.`,
         options: [{
           option: 'Goddamn',
+          nextPage: 7050,
+        }, ]
+      },
+
+      {
+        character: 'god',
+        page: 7050,
+        narrative: `You notice three new pieces of equipment in your inventory (a gift from DB?)`,
+        options: [{
+          option: 'Right on!',
           nextPage: undefined,
         }, ]
       },
@@ -2022,7 +2044,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'fratboy2prime',
         page: 900,
-        narrative: `StabBoy: I will EAT your HEART until you DIE!`,
+        narrative: `Logan: I will EAT your HEART until you DIE!`,
         options: [{
           option: 'shiiit...',
           nextPage: undefined,
@@ -2033,7 +2055,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'fratboy5',
         page: 1100,
-        narrative: `Frank: Hey buddy, I'm Frank and this is my girlfriend Tammy. Sometimes... she just gets me so angry! Care to spar?`,
+        narrative: `Frank: Hey buddy, I'm Frank and this is my girlfriend Alana. Sometimes... she just gets me so angry! Care to spar?`,
         options: [{
           option: 'Cool man...',
           nextPage: undefined,
@@ -2481,13 +2503,21 @@ var DialogueMenu = new Phaser.Class({
       },
 
       {
+        character: 'Bennett',
+        page: 3011,
+        narrative: `Bennett: Bro if you can beat me in a race, I'll help you out fighting those dickheads. Meet me out on the road.`,
+        options: [{
+          option: 'Hell yeah',
+          nextPage: undefined,
+          aftermath: startBennettQuest
+        },]
+      },
+
+      {
         character: 'blonde',
         page: 4010,
-        narrative: `Alana: You never called me you asshole. Whatever like I have a boyfriend now and he's in a frat.`,
-        options: [{
-          option: 'Shiiit',
-          nextPage: undefined,
-        },
+        narrative: `Alana: You never called me you asshole. Whatever like I have a boyfriend now and he's in a frat. He is totally gonna kick your ass.`,
+        options: [
         {
           option: `Lol where's he at?`,
           nextPage: 4011,
@@ -2497,7 +2527,7 @@ var DialogueMenu = new Phaser.Class({
       {
         character: 'blonde',
         page: 4011,
-        narrative: `Alana: Shut up!!!`,
+        narrative: `Alana: Shut up!!! He's on Division with his frat brothers.`,
         options: [{
           option: 'You using these blocks?',
           nextPage: 4012,
@@ -3062,16 +3092,16 @@ var DialogueMenu = new Phaser.Class({
           let page = {
             character: 'god',
             page: 500,
-            narrative: `Damnnnn, Mac has progressed to level ${party['Mac']['level']}. Mac's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            narrative: `Damnnnn, Mac has progressed to level ${party['Mac']['level']}. Mac's HP has increased by 5, SP has increased by 1, and damage has increased by 4.`,
             options: [{
               option: 'tight',
               nextPage: 600,
             }, ]
           }
           this.displayPage(this, page)
-          party['Mac']['maxHP'] += 15;
-          party['Mac']['damage'] += 5;
-          party['Mac']['maxSP'] += 5;
+          party['Mac']['maxHP'] += 5;
+          party['Mac']['damage'] += 4;
+          party['Mac']['maxSP'] += 1;
           party['Mac']['hp'] = party['Mac']['maxHP'];
           party['Mac']['sp'] = party['Mac']['maxSP']
         } else if (party['Al']['exp'] >= 100 * 3 ** (i - 1) && party['Al']['level'] === i) {
@@ -3080,16 +3110,16 @@ var DialogueMenu = new Phaser.Class({
           let page = {
             character: 'god',
             page: 501,
-            narrative: `Good shit man, Al has progressed to level ${party['Al']['level']}. Al's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            narrative: `Good shit man, Al has progressed to level ${party['Al']['level']}. Al's HP has increased by 5, SP has increased by 1, and damage has increased by 4.`,
             options: [{
               option: 'tight',
               nextPage: 601,
             }, ]
           }
           this.displayPage(this, page)
-          party['Al']['maxHP'] += 15;
-          party['Al']['damage'] += 5;
-          party['Mac']['maxSP'] += 5;
+          party['Al']['maxHP'] += 5;
+          party['Al']['damage'] += 4;
+          party['Mac']['maxSP'] += 1;
           party['Al']['hp'] = party['Al']['maxHP'];
           party['Al']['sp'] = party['Al']['maxSP'];
         } else if (party['Jimmy']['exp'] >= 100 * 3 ** (i - 1) && party['Jimmy']['level'] === i) {
@@ -3098,16 +3128,16 @@ var DialogueMenu = new Phaser.Class({
           let page = {
             character: 'god',
             page: 502,
-            narrative: `Good shit man, Jimmy has progressed to level ${party['Jimmy']['level']}. Jimmy's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            narrative: `Good shit man, Jimmy has progressed to level ${party['Jimmy']['level']}. Jimmy's HP has increased by 5, SP has increased by 1, and damage has increased by 4.`,
             options: [{
               option: 'sweet',
               nextPage: 602,
             }, ]
           }
           this.displayPage(this, page)
-          party['Jimmy']['maxHP'] += 15;
-          party['Jimmy']['maxSP'] += 5;
-          party['Jimmy']['damage'] += 5
+          party['Jimmy']['maxHP'] += 5;
+          party['Jimmy']['maxSP'] += 1;
+          party['Jimmy']['damage'] += 4
           party['Jimmy']['hp'] = party['Jimmy']['maxHP'];
           party['Jimmy']['sp'] = party['Jimmy']['maxSP']
         } else if (party['Bennett']['exp'] >= 100 * 3 ** (i - 1) && party['Bennett']['level'] === i) {
@@ -3116,16 +3146,16 @@ var DialogueMenu = new Phaser.Class({
           let page = {
             character: 'god',
             page: 502,
-            narrative: `Good shit man, Bennett has progressed to level ${party['Bennett']['level']}. Bennett's HP has increased by 15, SP has increased by 5, and damage has increased by 5.`,
+            narrative: `Good shit man, Bennett has progressed to level ${party['Bennett']['level']}. Bennett's HP has increased by 5, SP has increased by 1, and damage has increased by 4.`,
             options: [{
               option: 'sweet',
               nextPage: 602,
             }, ]
           }
           this.displayPage(this, page)
-          party['Bennett']['maxHP'] += 15;
-          party['Bennett']['maxSP'] += 5;
-          party['Bennett']['damage'] += 5
+          party['Bennett']['maxHP'] += 5;
+          party['Bennett']['maxSP'] += 1;
+          party['Bennett']['damage'] += 4
           party['Bennett']['hp'] = party['Bennett']['maxHP'];
           party['Bennett']['sp'] = party['Bennett']['maxSP']
         } else {

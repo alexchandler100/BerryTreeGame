@@ -1919,9 +1919,9 @@ var LightWorld = new Phaser.Class({
       repeat: 0
     });
     this.anims.create({
-      key: 'bennettdead',
+      key: 'bennettDead',
       frames: this.anims.generateFrameNumbers('bennettattack', {
-        frames: [5]
+        frames: [6]
       }),
       frameRate: 1,
       repeat: 0
@@ -3270,7 +3270,6 @@ var LightWorld = new Phaser.Class({
           jeanClaude.enableBody(true, me.x - 30, me.y - 50, true, true);
         }
       } else if (darkWorld === 0 && distance(hausdorf, me) < 30 && worldTheme === 'light') {
-        completeQuest('Robo-Trip');
         completeQuest('High School Roof');
         darkWorld = 1;
         worldTheme = 'dark';
@@ -3537,8 +3536,7 @@ var LightWorld = new Phaser.Class({
     gameState.questLocations = {
       'Hausdorffs?': map.findObject("Objects", obj => obj.name === "my apartment"),
       'Find Your Stuff': map.findObject("Objects", obj => obj.name === "phone spawn point"),
-      'Robo-Trip': map.findObject("Objects", obj => obj.name === "hausdorf spawn point"),
-      'Frat Boy Wants to Stab': map.findObject("Objects", obj => obj.name === "fratboy2prime spawn point"),
+      'Frat Boy Wants to Stab Me': map.findObject("Objects", obj => obj.name === "fratboy2prime spawn point"),
       'Jean Claude': map.findObject("Objects", obj => obj.name === "jeanPath0"),
       'Jean Claude?': map.findObject("Objects", obj => obj.name === "jeanPath0"),
       "Diamond Wants Some Coke": map.findObject("Objects", obj => obj.name === "girl4 spawn point"),
@@ -3597,6 +3595,11 @@ var LightWorld = new Phaser.Class({
       playbackCustomSong()
     }
 
+    //to give quest for skateboard
+    if (!skateboardGet && trevor.joinParameter && !activeQuests['Find James']){
+      activeQuests['Find James'] = `I should find James. He usually has some shit going on. Maybe he can help me out. He is probably skateboarding by the church.`
+    }
+
     if (darkworldDialogue === 1) {
       this.openDialoguePage(705);
       darkworldDialogue = 2;
@@ -3614,6 +3617,16 @@ var LightWorld = new Phaser.Class({
       gameState.questLocations['Yoga girl needs blocks'] = {
         x: yogagirl.x,
         y: yogagirl.y
+      }
+    } else if (currentQuest === 'Find James'){
+      gameState.questLocations['Find James'] = {
+        x: james.x,
+        y: james.y
+      }
+    } else if (currentQuest === `Alana's boyfriend wants to fight`){
+      gameState.questLocations[`Alana's boyfriend wants to fight`] = {
+        x: fratboy5.x,
+        y: fratboy5.y
       }
     }
     else if (currentQuest === 'Jean Claude' || currentQuest === 'Jean Claude?') {
@@ -3775,7 +3788,7 @@ var LightWorld = new Phaser.Class({
     } else if (distance(me, gameState.evanSpawnPoint) < 30 && evanFirstDialogue === 0) {
       evanFirstDialogue = 1
       this.openDialoguePage(7000)
-      activeQuests['Frat Boy Wants to Stab'] = 'Evan told me there is some frat guy with a knife waiting for me at the Burcham and Division intersection. Better not go until I got my crew together...'
+      activeQuests['Frat Boy Wants to Stab Me'] = 'Evan told me there is some frat guy with a knife waiting for me at the Burcham and Division intersection. Better not go until I got my crew together...'
     }
     if (numberOfFights === 1 && openFightDialogue === true) {
       openFightDialogue = false
@@ -3867,6 +3880,7 @@ var LightWorld = new Phaser.Class({
       this.openDialoguePage(1800)
     }
     //followers leave if you get too far away (with some code to keep them from leaving if you're in the car.)
+    /*
     if (distance(me, trevor) > 1200 && playerTexture === 0) {
       trevor.following = false;
     }
@@ -3876,6 +3890,7 @@ var LightWorld = new Phaser.Class({
     if (distance(me, bennett) > 1200 && playerTexture === 0) {
       bennett.following = false;
     }
+    */
     //ai for cop cars
     copCar1.animate()
     copCar1.soundSiren()
@@ -4181,7 +4196,7 @@ var LightWorld = new Phaser.Class({
     } else if (bossType === 'fratboy2prime' && bossBattleParameter === 1) {
       this.scene.switch('BattleScene');
       bossBattleParameter = 0
-      completeQuest('Frat Boy Wants to Stab')
+      completeQuest('Frat Boy Wants to Stab Me')
     } else if (bossType === 'darkboy' && bossBattleParameter === 1) {
       this.scene.switch('BattleScene');
       bossBattleParameter = 0
@@ -4592,7 +4607,9 @@ var LightWorld = new Phaser.Class({
     if (phoneGet + walletGet + keysGet === 5) {
       completeQuest("Gotta Find My Keys")
       keysGet += 1;
-      activeQuests["Gotta Find My Car"] = "I found my keys in the woods, but now I don't know where my car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
+      if (firstTimeCarGet === 0){
+        activeQuests["Gotta Find My Car"] = "I found my keys in the woods, but now I don't know where my car is. It must be close by, maybe there is a clearing somewhere around here I might have parked..."
+      }
       window.setTimeout(() => {
         this.openDialoguePage(6)
       }, 2000);
@@ -4620,7 +4637,6 @@ var LightWorld = new Phaser.Class({
     } else if (scene_number === 3 && launchParameter === false) {
       if (activeQuests["Go to the Gas Station"]) {
         completeQuest("Go to the Gas Station")
-        activeQuests['Robo-Trip'] = 'Today would be a real good day to get some tussin. I feel like I had some last night on the high school roof but never drank it. Maybe its still up there...'
       }
       pause = true;
       this.scene.launch('GasStation');
@@ -4690,7 +4706,7 @@ var LightWorld = new Phaser.Class({
       this.openDialoguePage(40)
       jamesFirstTalk = 1;
       jamesGet = 'spoke';
-      activeQuests['High School Roof'] = 'James said he saw some lights or aliens or something up on the high school roof. He is most likely just high as shit but I may as well get up there anyway.'
+      activeQuests['High School Roof'] = 'James said he saw some weird lights above the high school. I think I was on the high school roof last night... I got some tussin from the rite-aid and must have left it up there. '
     } else if (distance(me, james) > 150 && jamesFirstTalk === 1) {
       jamesFirstTalk = 2
     } else if (distance(me, james) < 30 && jamesFirstTalk === 2 && playerTexture != 'board' && !skateboardGet) {
@@ -4735,12 +4751,12 @@ var LightWorld = new Phaser.Class({
       } else if (distance(me, bennett) > 600) {
         gameState.bennettSound.stop()
       }
-      if (distance(me, bennett) < 30 && bennettFirstTalk === 0 && playerTexture === 0) {
+      if (distance(me, bennett) < 30 && bennettFirstTalk === 0 && playerTexture === 0 && !bennett.joinParameter) {
         this.openDialoguePage(90)
         bennettFirstTalk = 1
         gameState.arnold_bennett.play()
         if (!activeQuests['Beat Bennett in a Race']) {
-          activeQuests['Beat Bennett in a Race'] = 'I saw Bennett running along the road. If I can beat him in a race, maybe he will help me out. Remember if I always go full speed, I will run out of stamina real fast.'
+          activeQuests['Beat Bennett in a Race'] = 'I saw Bennett running along the road. If I can beat him in a race, maybe he will help me out. (Find some + athletics equipment and a way to recover stamina mid-race.)'
         }
 
       } else if (distance(me, bennett) > 100) {
@@ -5153,6 +5169,7 @@ var LightWorld = new Phaser.Class({
       if (distance(me, fratboy5) < 30 && fratboy5FirstTalk === 0) {
         this.openDialoguePage(1100)
         fratboy5FirstTalk = 1
+        completeQuest(`Alana's boyfriend wants to fight`)
       }
     }
 
@@ -5387,6 +5404,9 @@ var LightWorld = new Phaser.Class({
         me.body.setVelocityY(-300);
       }
       if (this.kickflipCounter === 10 && !skateboardGet) {
+        if (activeQuests['Find James']){
+          completeQuest('Find James')
+        }
         this.openDialoguePage(45);
         this.kickflipCounter = 0;
         gameState.skateboard.stop()
@@ -5532,7 +5552,7 @@ var LightWorld = new Phaser.Class({
       }
 
       if (this.cursors.left.isDown && gas > 0) {
-        gas -= .0009
+        gas -= .0006
         if (firstKeyDown === 'left') {
           me.body.setVelocityX(me.body.velocity.x - 7 * speed);
         } else {
@@ -5540,7 +5560,7 @@ var LightWorld = new Phaser.Class({
         }
       }
       if (this.cursors.right.isDown && gas > 0) {
-        gas -= .0009
+        gas -= .0006
         if (firstKeyDown === 'right') {
           me.body.setVelocityX(me.body.velocity.x + 7 * speed);
         } else {
@@ -5548,7 +5568,7 @@ var LightWorld = new Phaser.Class({
         }
       }
       if (this.cursors.up.isDown && gas > 0) {
-        gas -= .0009
+        gas -= .0006
         if (firstKeyDown === 'up') {
           me.body.setVelocityY(me.body.velocity.y - 7 * speed);
         } else {
@@ -5556,7 +5576,7 @@ var LightWorld = new Phaser.Class({
         }
       }
       if (this.cursors.down.isDown && gas > 0) {
-        gas -= .0009
+        gas -= .0006
         if (firstKeyDown === 'down') {
           me.body.setVelocityY(me.body.velocity.y + 7 * speed);
         } else {

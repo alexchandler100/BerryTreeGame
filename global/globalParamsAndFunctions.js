@@ -106,6 +106,7 @@ let chasers = [];
 let chasersEnabled = false;
 let chaserInitiateFight = 0;
 let itemReward = '';
+let itemRewardPiece;
 let mohawkBounceTimer = 0;
 let mohawkStartingYValue = 0;
 let throwingMohawkTarget = []
@@ -261,7 +262,7 @@ let animObject = {
   "Melvin": ['crackheadright', 'crackheadattack'],
   "Derek": ['junkieright', 'junkieattack'],
   "Bill": ['ex_junkieright', 'ex_junkieattack'],
-  'StabBoy 2': ['fratboy2primewalk', 'fratboy2primestab'],
+  'Logan': ['fratboy2primewalk', 'fratboy2primestab'],
   'DB': ['darkboy2walk', 'darkboy2attack'],
   'Frank': ['frat5huhuh', 'frat5huhuh'],
 }
@@ -274,7 +275,7 @@ let sfxObject = {
   "Melvin": "bitenoise",
   "Derek": "stabnoise",
   "Bill": "stabnoise",
-  'StabBoy 2': "stabnoise",
+  'Logan': "stabnoise",
   'Frank': "bodyhit",
   "DB": "bitenoise",
 }
@@ -757,11 +758,6 @@ function playSecret() {
   gameState.secret.play()
 }
 
-//to initiate level up dialogue
-function levelCheck() {
-  checkLevelDialogue = 1
-}
-
 //to initiate joe giving you 10 bucks
 function joeBorrow() {
   money += 10;
@@ -981,6 +977,7 @@ function adventured() { //play zelda block noise
 
 function startRace() {
   raceBegin = true;
+  stamina = 100;
 }
 
 function meWinRace() {
@@ -1059,6 +1056,11 @@ function getTreeFitty() { //girl gives you 3.50 for beer
   gameState.itemget.play()
 }
 
+//to initiate level up dialogue
+function levelCheck() {
+  checkLevelDialogue = 1
+}
+
 function getOneSPMac() { //level up increase SP
   party['Mac']['maxSP'] += 1;
   gameState.itemget.play()
@@ -1083,7 +1085,7 @@ function getOneSPBennett() { //level up increase SP
 function getThreeHPMac() { //level up increase HP
   party['Mac']['maxHP'] += 3;
   gameState.itemget.play()
-  skillCheck('Mac')
+  //skillCheck('Mac')
 }
 
 function getThreeHPAl() { //level up increase HP
@@ -1104,7 +1106,7 @@ function getThreeHPBennett() { //level up increase HP
 function getOneDamageMac() { //level up increase damage
   party['Mac']['damage'] += 2;
   gameState.itemget.play()
-  skillCheck('Mac')
+  //skillCheck('Mac')
 }
 
 function getOneDamageAl() { //level up increase damage
@@ -1122,8 +1124,9 @@ function getOneDamageBennett() { //level up increase damage
   gameState.itemget.play()
 }
 
-function skillCheck(player) {
-  if (player === 'Mac' && party['Mac']['level'] === 3) {
+function skillCheck() {
+  if (party['Mac']['level'] === 3 && !(party['Mac']['special'].includes("Fuck Everybody Up (8)"))) {
+    console.log('got level 3 skill for Mac')
     party['Mac']['special'].push("Fuck Everybody Up (8)")
     party['Mac']['skillDialogue'][3] = true
   }
@@ -1263,6 +1266,11 @@ function openLarryStore() {
 function openDrewStore() {
   scene_number = 97;
 }
+
+function startBennettQuest() {
+  activeQuests['Beat Bennett in a Race'] = `Bennett said if I can beat him in a race, he will help me out. He's a damn pro runner though. (Find some + athletics equipment and a way to recover stamina mid-race.)`
+}
+
 
 function checkFileExist(urlToFile) {
   var xhr = new XMLHttpRequest();

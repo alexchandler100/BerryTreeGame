@@ -271,7 +271,7 @@ var DrewStore = new Phaser.Class({
         this.chaching.play()
         money -= rnd1equip['value'] * drewStoreMarkup;
         if (equipment[rnd1equip['name']]){
-          rnd1equip['name'] = rnd1equip['name'] + ' '
+          rnd1equip['name'] = rnd1equip['name']+' '+String(rnd1equip['numberOwned']+1)
           equipment[rnd1equip['name']] = rnd1equip
         } else {
           equipment[rnd1equip['name']] = rnd1equip
@@ -295,7 +295,7 @@ var DrewStore = new Phaser.Class({
         this.chaching.play()
         money -= rnd2equip['value'] * drewStoreMarkup;
         if (equipment[rnd2equip['name']]){
-          rnd2equip['name'] = rnd2equip['name'] + ' '
+          rnd2equip['name'] = rnd2equip['name']+' '+String(rnd2equip['numberOwned']+1)
           equipment[rnd2equip['name']] = rnd2equip
         } else {
           equipment[rnd2equip['name']] = rnd2equip

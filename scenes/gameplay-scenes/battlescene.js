@@ -118,9 +118,9 @@ var Menu = new Phaser.Class({
   },
   addMenuItem: function(unit) {
     var menuItem = new MenuItem(0, this.menuItems.length * 25, unit, this.scene);
-    if (this.menuItems.length>=6){
+    if (this.menuItems.length >= 6) {
       menuItem.x = 200;
-      menuItem.y = this.menuItems.length * 25 - 6*25
+      menuItem.y = this.menuItems.length * 25 - 6 * 25
     }
     this.menuItems.push(menuItem);
     this.add(menuItem);
@@ -308,9 +308,9 @@ var Unit = new Phaser.Class({
     this.runaway = false;
     this.running = false;
   },
-  run: function(){
-    if (this.runaway){
-      this.x-=5
+  run: function() {
+    if (this.runaway) {
+      this.x -= 5
     }
   },
   // we will use this to notify the menu item when the unit is dead
@@ -336,7 +336,7 @@ var Unit = new Phaser.Class({
     }
     //to decrease likeliness to land hit if blinded
     if (Object.keys(party).includes(this.type)) {
-      if (party[this.type]['blind']){
+      if (party[this.type]['blind']) {
         gameStateBattle.rnd = Math.floor(gameStateBattle.rnd / 3)
         console.log('this hero is blind')
       }
@@ -347,21 +347,20 @@ var Unit = new Phaser.Class({
       extra_damage = Math.ceil(Math.random() * this.damage / 4) - Math.floor(this.damage / 8)
     }
     //this makes it so that if you have the never miss property, you do not miss even if you roll 0
-    if (Object.keys(party).includes(this.type)){
-        console.log(`party[${this.type}]['neverMiss']: ${party[this.type]['neverMiss']}`)
+    if (Object.keys(party).includes(this.type)) {
+      console.log(`party[${this.type}]['neverMiss']: ${party[this.type]['neverMiss']}`)
     }
     if (gameStateBattle.rnd <= 0 && !Object.keys(party).includes(this.type)) {
       dd = 0;
-    } else if (gameStateBattle.rnd <= 0 && Object.keys(party).includes(this.type) && !party[this.type]['neverMiss']){
+    } else if (gameStateBattle.rnd <= 0 && Object.keys(party).includes(this.type) && !party[this.type]['neverMiss']) {
       dd = 0;
-    }
-    else if (Object.keys(party).includes(target.type)) {
+    } else if (Object.keys(party).includes(target.type)) {
       dd = this.damage - party[target.type]['defense'] + extra_damage;
     } else {
       dd = this.damage + extra_damage;
     }
     if (target.living) {
-      let d = Math.max(0, dd)*strength;
+      let d = Math.max(0, dd) * strength;
       if (Object.keys(party).includes(this.type) && party[this.type]['blind']) {
         d = Math.floor(d / 2)
       }
@@ -371,57 +370,58 @@ var Unit = new Phaser.Class({
       if (Object.keys(party).includes(target.type)) {
         d = Math.floor(d * (1.35) ** (numberOfPlayers))
       }
-      if (Object.keys(party).includes(target.type) && party[target.type]['defenseUp']!==1){
-        d*=party[target.type]['defenseUp'] //for protein monster this scales by .6
-        party[target.type]['defenseUpTurns']-=1
+      if (Object.keys(party).includes(target.type) && party[target.type]['defenseUp'] !== 1) {
+        d *= party[target.type]['defenseUp'] //for protein monster this scales by .6
+        party[target.type]['defenseUpTurns'] -= 1
         console.log('attacked with less strength')
-        if (party[target.type]['defenseUpTurns']===0){
-          party[target.type]['defenseUp']=1
+        if (party[target.type]['defenseUpTurns'] === 0) {
+          party[target.type]['defenseUp'] = 1
           console.log('attack up is over')
         }
       }
-      if (Object.keys(party).includes(this.type) && party[this.type]['attackUp']!==1){
-        d*=party[this.type]['attackUp'] //for wine this scales by 1.2
+      if (Object.keys(party).includes(this.type) && party[this.type]['attackUp'] !== 1) {
+        d *= party[this.type]['attackUp'] //for wine this scales by 1.2
         console.log('attacked with extra strength')
-        if (party[this.type]['attackUpTurns']===0){
-          party[this.type]['attackUp']=1
+        if (party[this.type]['attackUpTurns'] === 0) {
+          party[this.type]['attackUp'] = 1
           console.log('attack up is over')
         }
       }
+      d = Math.floor(d)
       target.takeDamage(d);
       window.setTimeout(() => { //this is what actually applies damage
-      //if the attacker is fratboy2, and the attack hits, the target is blinded
-      if (this.type === "Dylan" && d > 0) {
-        if (!party[target.type]['blindProof']) {
-          party[target.type]['blind'] = 2
+        //if the attacker is fratboy2, and the attack hits, the target is blinded
+        if (this.type === "Dylan" && d > 0) {
+          if (!party[target.type]['blindProof']) {
+            party[target.type]['blind'] = 2
+          } else {
+            console.log(`${target.type} has blindProof status`)
+          }
+        }
+        //if the attacker is derek or bill, and the attack hits, the target starts bleeding
+        if ((this.type === "Bill" || this.type === "Derek") && d > 0) {
+          if (!party[target.type]['bleedProof']) {
+            party[target.type]['bleeding'] = 3
+          } else {
+            console.log(`${target.type} has bleedProof status`)
+          }
+        }
+        if (gameStateBattle.rnd >= 9) {
+          this.scene.events.emit("Message", "Critical hit! ");
+        } else if (gameStateBattle.rnd <= 0 && Object.keys(party).includes(this.type) && party[this.type]['neverMiss']) {
+          this.scene.events.emit("Message", this.type + " attacks " + target.type);
+        } else if (gameStateBattle.rnd <= 0) {
+          this.scene.events.emit("Message", this.type + " tries to attack " + target.type + " but fucks it up and misses");
         } else {
-          console.log(`${target.type} has blindProof status`)
+          this.scene.events.emit("Message", this.type + " attacks " + target.type);
         }
-      }
-      //if the attacker is derek or bill, and the attack hits, the target starts bleeding
-      if ((this.type === "Bill" || this.type === "Derek") && d > 0) {
-        if (!party[target.type]['bleedProof']) {
-          party[target.type]['bleeding'] = 3
-        } else{
-          console.log(`${target.type} has bleedProof status`)
-        }
-      }
-      if (gameStateBattle.rnd >= 9) {
-        this.scene.events.emit("Message", "Critical hit! ");
-      } else if (gameStateBattle.rnd <= 0 && Object.keys(party).includes(this.type) && !party[this.type]['neverMiss']) {
-        this.scene.events.emit("Message", this.type + " tries to attack " + target.type + " but fucks it up and misses");
-      } else if (gameStateBattle.rnd <= 0) {
-        this.scene.events.emit("Message", this.type + " tries to attack " + target.type + " but fucks it up and misses");
-      } else {
-        this.scene.events.emit("Message", this.type + " attacks " + target.type);
-      }
-      //movement of damageIndicator depents on t and u so we reset because by now they have become large
-      gameStateBattle.t = 0;
-      gameStateBattle.u = 0;
-      gameStateBattle.damageText.scaleX = 2;
-      gameStateBattle.damageText.scaleY = 2;
-      //tells the little numbers floating above targets head what to display when hit
-      this.scene.events.emit("damageIndicator", [target.displayDamage(d), target.x, target.y]);
+        //movement of damageIndicator depents on t and u so we reset because by now they have become large
+        gameStateBattle.t = 0;
+        gameStateBattle.u = 0;
+        gameStateBattle.damageText.scaleX = 2;
+        gameStateBattle.damageText.scaleY = 2;
+        //tells the little numbers floating above targets head what to display when hit
+        this.scene.events.emit("damageIndicator", [target.displayDamage(d), target.x, target.y]);
       }, 1500);
     }
   },
@@ -444,7 +444,7 @@ var Unit = new Phaser.Class({
     } else {
       gameStateBattle.rnd = Math.floor(Math.random() * 10)
     }
-    if (Object.keys(party).includes(this.type) && party[this.type]['blind']>0) {
+    if (Object.keys(party).includes(this.type) && party[this.type]['blind'] > 0) {
       gameStateBattle.rnd = Math.floor(gameStateBattle.rnd / 3)
     }
     if (gameStateBattle.rnd >= 9) {
@@ -458,62 +458,62 @@ var Unit = new Phaser.Class({
       dd = this.damage + extra_damage
     }
     let d = Math.max(0, dd) * 1.5
-    if (Object.keys(party).includes(this.type) && party[this.type]['blind']>0) {
+    if (Object.keys(party).includes(this.type) && party[this.type]['blind'] > 0) {
       d = Math.floor(d / 2)
       console.log('this hero is blind')
     }
-    if (Object.keys(party).includes(this.type) && party[this.type]['attackUp']>1){
-      d*=party[this.type]['attackUp'] //for wine this scales by 1.2
+    if (Object.keys(party).includes(this.type) && party[this.type]['attackUp'] > 1) {
+      d *= party[this.type]['attackUp'] //for wine this scales by 1.2
       //party[this.type]['attackUpTurns']-=1
       console.log('attacked with extra strength')
-      if (party[this.type]['attackUpTurns']===0){
-        party[this.type]['attackUp']=1
+      if (party[this.type]['attackUpTurns'] === 0) {
+        party[this.type]['attackUp'] = 1
         console.log('attack up is over')
       }
     }
     let dam;
     if (target.living) {
       //specifically for Mac special attack
-        if (this.type === 'Mac') {
-          d *= 1.2
-          dam = Math.round(d)
-          target.takeDamage(dam);
-          if (gameStateBattle.rnd >= 9) {
-            this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
-          } else {
-            this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
-          }
+      if (this.type === 'Mac') {
+        d *= 1.2
+        dam = Math.round(d)
+        target.takeDamage(dam);
+        if (gameStateBattle.rnd >= 9) {
+          this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
+        } else {
+          this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
         }
-        //specifically for Al special attack
-        else if (this.type === 'Al') {
-          dam = Math.round(d / 3)
-          target.takeDamage(dam);
-          if (gameStateBattle.rnd >= 9) {
-            this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
-          } else {
-            this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
-          }
+      }
+      //specifically for Al special attack
+      else if (this.type === 'Al') {
+        dam = Math.round(d / 3)
+        target.takeDamage(dam);
+        if (gameStateBattle.rnd >= 9) {
+          this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
+        } else {
+          this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
         }
-        //specifically for Jimmy special attack
-        else if (this.type === 'Jimmy') {
-          dam = Math.round(d / 2)
-          target.takeDamage(dam);
-          if (gameStateBattle.rnd >= 9) {
-            this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
-          } else {
-            this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
-          }
-        } else if (this.type === 'Bennett') {
-          dam = Math.round(d * 2)
-          target.takeDamage(dam);
-          if (gameStateBattle.rnd >= 9) {
-            this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
-          } else {
-            this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
-          }
+      }
+      //specifically for Jimmy special attack
+      else if (this.type === 'Jimmy') {
+        dam = Math.round(d / 2)
+        target.takeDamage(dam);
+        if (gameStateBattle.rnd >= 9) {
+          this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
+        } else {
+          this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
         }
-        //movement of damageIndicator depents on t and u so we reset because by now they have become large
-        window.setTimeout(() => {
+      } else if (this.type === 'Bennett') {
+        dam = Math.round(d * 1.4)
+        target.takeDamage(dam);
+        if (gameStateBattle.rnd >= 9) {
+          this.scene.events.emit("Message", "Critical hit! " + this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
+        } else {
+          this.scene.events.emit("Message", this.type + " special attacks " + target.type + " for " + `${dam}` + " damage");
+        }
+      }
+      //movement of damageIndicator depents on t and u so we reset because by now they have become large
+      window.setTimeout(() => {
         gameStateBattle.t = 0;
         gameStateBattle.u = 0;
         gameStateBattle.damageText.scaleX = 2;
@@ -685,7 +685,7 @@ var Unit = new Phaser.Class({
       }
       gameState.drinkCan.play()
       this.scene.events.emit("Message", this.type + " drinks a Max Ice to recover 50 HP and 15 SP");
-      useItem("Labatt Max Ice",this.type)
+      useItem("Labatt Max Ice", this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -736,7 +736,7 @@ var Unit = new Phaser.Class({
     if (party[this.type]['defendOn']) {
       party[this.type]['defendOn'] = false
     }
-    if (inventory["Andy Capp's Hot Fries"]['numberOwned']>= 1) {
+    if (inventory["Andy Capp's Hot Fries"]['numberOwned'] >= 1) {
       if (this.type === "Mac") {
         gameStateBattle.me.flipX = false;
         gameStateBattle.me.anims.play('eat_andycapps', true);
@@ -766,7 +766,7 @@ var Unit = new Phaser.Class({
         }, 2999);
       }
       gameState.eating_andycapps.play();
-      useItem("Andy Capp's Hot Fries",this.type)
+      useItem("Andy Capp's Hot Fries", this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -807,7 +807,7 @@ var Unit = new Phaser.Class({
         }, 2999);
       }
       gameState.drinking_liquor.play();
-      useItem('Liquor',this.type)
+      useItem('Liquor', this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -847,7 +847,7 @@ var Unit = new Phaser.Class({
         }, 2999);
       }
       gameState.drinking_liquor.play();
-      useItem('Wine',this.type)
+      useItem('Wine', this.type)
     } else {
       this.scene.events.emit("Message", "Shiiit you ain't got any of that shit you done goofed.");
     }
@@ -896,7 +896,7 @@ var Unit = new Phaser.Class({
 
   takeDamage: function(damage) {
     if (Object.keys(party).includes(this.type)) {
-      if (party[this.type]['defendOn']){
+      if (party[this.type]['defendOn']) {
         damage /= 2;
         damage = Math.round(damage);
       }
@@ -919,21 +919,21 @@ var Unit = new Phaser.Class({
       this.menuItem = null;
       this.living = false;
       window.setTimeout(() => {
-      if (this.type==="Mac"){
-        gameStateBattle.me.anims.play('meDead',true)
-        gameStateBattle.me.flipX = false;
-      } else if (this.type==="Al"){
-        gameStateBattle.al.anims.play('alDead',true)
-      } else if (this.type==="Jimmy"){
-        gameStateBattle.trevor.anims.play('trevorDead',true)
-        gameStateBattle.trevor.flipX = false;
-      } else if (this.type==='Bennett'){
-        gameStateBattle.bennett.anims.play('bennettDead',true)
-        gameStateBattle.bennett.flipX = false;
-      } else if (this.type==="Cam" || this.type==="Dylan" || this.type==="Chad" ||this.type==="Jackson" ||this.type==="Derek" ||this.type==="Bill" || this.type==="Melvin" ){
-        this.runaway = true
-      }
-        }, 3000);
+        if (this.type === "Mac") {
+          gameStateBattle.me.anims.play('meDead', true)
+          gameStateBattle.me.flipX = false;
+        } else if (this.type === "Al") {
+          gameStateBattle.al.anims.play('alDead', true)
+        } else if (this.type === "Jimmy") {
+          gameStateBattle.trevor.anims.play('trevorDead', true)
+          gameStateBattle.trevor.flipX = false;
+        } else if (this.type === 'Bennett') {
+          gameStateBattle.bennett.anims.play('bennettDead', true)
+          gameStateBattle.bennett.flipX = false;
+        } else if (this.type === "Cam" || this.type === "Dylan" || this.type === "Chad" || this.type === "Jackson" || this.type === "Derek" || this.type === "Bill" || this.type === "Melvin") {
+          this.runaway = true
+        }
+      }, 3000);
     }
   },
 
@@ -1006,24 +1006,24 @@ var BattleScene = new Phaser.Class({
         frameWidth: 50,
         frameHeight: 50
       });
-      this.load.spritesheet('pepperSpray',
-        'assets/images/pepperSpray.png', {
-          frameWidth: 200,
-          frameHeight: 80
-        });
-        this.load.spritesheet('airsoft',
-          'assets/images/airsoft.png', {
-            frameWidth: 50,
-            frameHeight: 30
-          });
-          this.load.spritesheet('mohawk',
-            'assets/images/mohawk.png', {
-              frameWidth: 25,
-              frameHeight: 55
-            });
-      this.load.audio('smack', ['assets/audio/smack.mp3']);
-      this.load.audio('eating_andycapps', ['assets/audio/eating_andycapps.wav']);
-      this.load.audio('drinking_liquor', ['assets/audio/drinking_liquor.wav']);
+    this.load.spritesheet('pepperSpray',
+      'assets/images/pepperSpray.png', {
+        frameWidth: 200,
+        frameHeight: 80
+      });
+    this.load.spritesheet('airsoft',
+      'assets/images/airsoft.png', {
+        frameWidth: 50,
+        frameHeight: 30
+      });
+    this.load.spritesheet('mohawk',
+      'assets/images/mohawk.png', {
+        frameWidth: 25,
+        frameHeight: 55
+      });
+    this.load.audio('smack', ['assets/audio/smack.mp3']);
+    this.load.audio('eating_andycapps', ['assets/audio/eating_andycapps.wav']);
+    this.load.audio('drinking_liquor', ['assets/audio/drinking_liquor.wav']);
   },
   create: function() {
     this.smack = this.sound.add('smack', {
@@ -1197,96 +1197,99 @@ var BattleScene = new Phaser.Class({
     //makes sure that battlescene hp and sp coincide with overworld hp and sp
     gameStateBattle.me.hp = party['Mac']['hp']
     gameStateBattle.me.sp = party['Mac']['sp']
-    if (trevor.following){
+    if (trevor.following) {
       gameStateBattle.trevor.hp = party['Jimmy']['hp']
       gameStateBattle.trevor.sp = party['Jimmy']['sp']
-    } if (al.following){
+    }
+    if (al.following) {
       gameStateBattle.al.hp = party['Al']['hp']
       gameStateBattle.al.sp = party['Al']['sp']
-    } if (bennett.following){
+    }
+    if (bennett.following) {
       gameStateBattle.bennett.hp = party['Bennett']['hp']
       gameStateBattle.bennett.sp = party['Bennett']['sp']
     }
 
 
-    if (this.walkingCounter<= 150){
-      this.walkingCounter+=1;
-      for (let i=0; i<this.enemies.length; i++){
-        this.enemies[i].x+=3;
+    if (this.walkingCounter <= 150) {
+      this.walkingCounter += 1;
+      for (let i = 0; i < this.enemies.length; i++) {
+        this.enemies[i].x += 3;
       }
-      for (let i=0; i<this.heroes.length; i++){
-        this.heroes[i].x-=3;
+      for (let i = 0; i < this.heroes.length; i++) {
+        this.heroes[i].x -= 3;
       }
     }
-    if (stamina>=30){
+    if (stamina >= 30) {
       gameState.outOfBreath.stop()
       playingOutOfBreath = false
     }
-    if (this.billBackWalk){
-      this.units[this.index].x-=1
+    if (this.billBackWalk) {
+      this.units[this.index].x -= 1
       this.units[this.index].flipX = true;
     }
     //to make enemies run away
-    for (let i=0;i<this.enemies.length;i++){
-      if (this.enemies[i].runaway && this.enemies[i].running===false){
-        this.enemies[i].running=true
-        this.enemies[i].anims.play(animObject[this.enemies[i].type][0],true)
-      } if (this.enemies[i].running){
+    for (let i = 0; i < this.enemies.length; i++) {
+      if (this.enemies[i].runaway && this.enemies[i].running === false) {
+        this.enemies[i].running = true
+        this.enemies[i].anims.play(animObject[this.enemies[i].type][0], true)
+      }
+      if (this.enemies[i].running) {
         window.setTimeout(() => {
           this.enemies[i].running = false;
           this.enemies[i].runaway = false;
         }, 3000);
-        this.enemies[i].x-=3
+        this.enemies[i].x -= 3
         this.enemies[i].flipX = true;
       }
 
     }
-    if (throwingMohawk && gameStateBattle.rnd===0){
-      mohawk.setScale(1-(mohawkStartingYValue - mohawk.y)/(mohawkStartingYValue))
+    if (throwingMohawk && gameStateBattle.rnd === 0) {
+      mohawk.setScale(1 - (mohawkStartingYValue - mohawk.y) / (mohawkStartingYValue))
       mohawk.setFrame(0)
       //mohawk.anims.play('throw',true)
-      mohawk.x+=8*Math.cos(throwingAngle)
-      mohawk.y+=8*Math.sin(throwingAngle)
-      mohawk.angle+=16
-      if (mohawk.x>1500){
+      mohawk.x += 8 * Math.cos(throwingAngle)
+      mohawk.y += 8 * Math.sin(throwingAngle)
+      mohawk.angle += 16
+      if (mohawk.x > 1500) {
         gameState.shatter.play();
         throwingMohawk = false;
       }
-    } else if (throwingMohawk && gameStateBattle.rnd>0){
-      mohawk.setScale(1-(mohawkStartingYValue - mohawk.y)/(mohawkStartingYValue))
+    } else if (throwingMohawk && gameStateBattle.rnd > 0) {
+      mohawk.setScale(1 - (mohawkStartingYValue - mohawk.y) / (mohawkStartingYValue))
       mohawk.setFrame(0)
       //mohawk.anims.play('throw',true)
-      mohawk.x+=8*Math.cos(throwingAngle)
-      mohawk.y+=8*Math.sin(throwingAngle)
-      mohawk.angle+=16
-      if (Math.abs(mohawk.x-throwingMohawkTarget[0].x)<10){
+      mohawk.x += 8 * Math.cos(throwingAngle)
+      mohawk.y += 8 * Math.sin(throwingAngle)
+      mohawk.angle += 16
+      if (Math.abs(mohawk.x - throwingMohawkTarget[0].x) < 10) {
         gameState.shatter.play();
         throwingMohawk = false;
         fallingMohawk = true;
-        gameStateBattle.randomX = Math.random()*3 + 2;
-        gameStateBattle.signX = (-1)**(Math.floor(Math.random()*2))
+        gameStateBattle.randomX = Math.random() * 3 + 2;
+        gameStateBattle.signX = (-1) ** (Math.floor(Math.random() * 2))
         gameStateBattle.playingMohawkGround = false
       }
-    } else if (fallingMohawk && gameStateBattle.rnd>0){
-      mohawkBounceTimer+=1
-      throwingMohawkTarget=[]
+    } else if (fallingMohawk && gameStateBattle.rnd > 0) {
+      mohawkBounceTimer += 1
+      throwingMohawkTarget = []
       mohawk.setFrame(1)
-      mohawk.x+=gameStateBattle.signX*gameStateBattle.randomX
-      mohawk.y+=3*(-100+mohawkBounceTimer*6)/100
-      mohawk.angle-=4
+      mohawk.x += gameStateBattle.signX * gameStateBattle.randomX
+      mohawk.y += 3 * (-100 + mohawkBounceTimer * 6) / 100
+      mohawk.angle -= 4
       window.setTimeout(() => {
-        if (!gameStateBattle.playingMohawkGround){
+        if (!gameStateBattle.playingMohawkGround) {
           gameState.mohawkGround.play();
           gameStateBattle.playingMohawkGround = true
         }
-        mohawkBounceTimer=0;
+        mohawkBounceTimer = 0;
         fallingMohawk = false;
         mohawk.angle = 90;
         mohawk.setFrame(2);
       }, 1000);
       window.setTimeout(() => {
-        mohawk.x=-50
-        mohawk.y=-50
+        mohawk.x = -50
+        mohawk.y = -50
       }, 1500);
       window.setTimeout(() => {
         gameStateBattle.playingMohawkGround = false
@@ -1394,8 +1397,16 @@ var BattleScene = new Phaser.Class({
     gameStateBattle.damageText.scaleX -= .005
     gameStateBattle.damageText.scaleY -= .005
   },
+  scaleHP: function(base) {
+    let level = party['Mac']['level'];
+    return base + 20 * (level - 1);
+  },
+  scaleDam: function(base) {
+    let level = party['Mac']['level'];
+    return base + Math.floor(base / 3) * (level - 1);
+  },
   startBattle: function() {
-  //add in background
+    //add in background
     if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       this.add.image(0, -125, `school_roof`).setOrigin(0, 0);
     } else if (bossBattle && (bossType === 'fratboy2prime')) {
@@ -1420,49 +1431,49 @@ var BattleScene = new Phaser.Class({
       ['fratboy3', 'Cam', 25, 10, fratboy3, 'frat3right'],
       ['fratboy4', 'Jackson', 20, 9, fratboy4, 'frat4right'],
     ]
-/*
-    enems=[];  //to get a specific enemy
-    for (let i=0; i<7 ;i++){
-      enems.push(['ex_junkie', 'Bill', 30, 8, ex_junkie, 'ex_junkieright'])
-  }*/
+    /*
+        enems=[];  //to get a specific enemy
+        for (let i=0; i<7 ;i++){
+          enems.push(['ex_junkie', 'Bill', 30, 8, ex_junkie, 'ex_junkieright'])
+      }*/
     if (bossBattle && bossType === 'darkboy') {
-      gameStateBattle.enem1 = new Enemy(this, 450  - 450, 250, 'darkboy2', null, 'DB', 1000, 20);
+      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 250, 'darkboy2', null, 'DB', 1000, 30);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'dio') {
-      gameStateBattle.enem1 = new Enemy(this, 250 - 450, 300, 'dio', null, 'Dio', 1200, 45);
+      gameStateBattle.enem1 = new Enemy(this, 250 - 450, 300, 'dio', null, 'Dio', 2000, 45);
       this.add.existing(gameStateBattle.enem1);
     } else if (bossBattle && bossType === 'fratboy2prime') {
-      gameStateBattle.enem1 = new Enemy(this, 120 - 450, 200, 'fratboy2prime', null, 'StabBoy 2', 600, 30);
+      gameStateBattle.enem1 = new Enemy(this, 120 - 450, 200, 'fratboy2prime', null, 'Logan', 800, 25);
       this.add.existing(gameStateBattle.enem1);
-      gameStateBattle.enem2 = new Enemy(this, 385 - 450, 350, enems[3][0], null, enems[3][1], enems[3][2] + 3 * (party['Mac']['level'] - 1), enems[3][3] + enems[3][3] / 3 * (party['Mac']['level'] - 1));
+      gameStateBattle.enem2 = new Enemy(this, 385 - 450, 350, enems[3][0], null, enems[3][1], this.scaleHP(enems[3][2]), this.scaleDam(enems[3][3]));
       this.add.existing(gameStateBattle.enem2);
-      gameStateBattle.enem3 = new Enemy(this, 450 - 450, 250, enems[4][0], null, enems[4][1], enems[4][2] + 3 * (party['Mac']['level'] - 1), enems[4][3] + enems[4][3] / 3 * (party['Mac']['level'] - 1));
+      gameStateBattle.enem3 = new Enemy(this, 450 - 450, 250, enems[4][0], null, enems[4][1], this.scaleHP(enems[4][2]), this.scaleDam(enems[4][3]));
       this.add.existing(gameStateBattle.enem3);
-      gameStateBattle.enem4 = new Enemy(this, 250 - 450, 275, enems[5][0], null, enems[5][1], enems[5][2] + 3 * (party['Mac']['level'] - 1), enems[5][3] + enems[5][3] / 3 * (party['Mac']['level'] - 1));
+      gameStateBattle.enem4 = new Enemy(this, 250 - 450, 275, enems[5][0], null, enems[5][1], this.scaleHP(enems[5][2]), this.scaleDam(enems[5][3]));
       this.add.existing(gameStateBattle.enem4);
-      gameStateBattle.enem5 = new Enemy(this, 200 - 450, 325, enems[2][0], null, enems[2][1], enems[2][2] + 3 * (party['Mac']['level'] - 1), enems[2][3] + enems[2][3] / 3 * (party['Mac']['level'] - 1));
+      gameStateBattle.enem5 = new Enemy(this, 200 - 450, 325, enems[2][0], null, enems[2][1], this.scaleHP(enems[2][2]), this.scaleDam(enems[2][3]));
       this.add.existing(gameStateBattle.enem5);
     } else if (bossBattle && bossType === 'frank') {
-      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 300, 'fratboy5', null, 'Frank', 1000, 35);
+      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 300, 'fratboy5', null, 'Frank', 1500, 50);
       this.add.existing(gameStateBattle.enem1);
     } else {
       //adding enemies...recall it goes (scene, x, y, texture, frame, type, hp, damage)
-      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 250, enems[rr][0], null, enems[rr][1], enems[rr][2] + 15 * (party['Mac']['level'] - 1), enems[rr][3] + Math.floor(enems[rr][3] / 4) * (party['Mac']['level'] - 1));
+      gameStateBattle.enem1 = new Enemy(this, 450 - 450, 250, enems[rr][0], null, enems[rr][1], this.scaleHP(enems[rr][2]), this.scaleDam(enems[rr][3]));
       this.add.existing(gameStateBattle.enem1);
       if (set1.size === 2) {
-        gameStateBattle.enem2 = new Enemy(this, 400 - 450, 300, enems[ss][0], null, enems[ss][1], enems[ss][2] + 15 * (party['Mac']['level'] - 1), enems[ss][3] + Math.floor(enems[ss][3] / 4) * (party['Mac']['level'] - 1));
+        gameStateBattle.enem2 = new Enemy(this, 400 - 450, 300, enems[ss][0], null, enems[ss][1], this.scaleHP(enems[ss][2]), this.scaleDam(enems[ss][3]));
         this.add.existing(gameStateBattle.enem2);
       }
       if (set2.size === 3 && numberOfPlayers >= 2) {
-        gameStateBattle.enem3 = new Enemy(this, 350 - 450, 350, enems[tt][0], null, enems[tt][1], enems[tt][2] + 15 * (party['Mac']['level'] - 1), enems[tt][3] + Math.floor(enems[tt][3] / 4) * (party['Mac']['level'] - 1));
+        gameStateBattle.enem3 = new Enemy(this, 350 - 450, 350, enems[tt][0], null, enems[tt][1], this.scaleHP(enems[tt][2]), this.scaleDam(enems[tt][3]));
         this.add.existing(gameStateBattle.enem3);
       }
       if (set3.size === 4 && numberOfPlayers >= 3) {
-        gameStateBattle.enem4 = new Enemy(this, 300 - 450, 275, enems[pp][0], null, enems[pp][1], enems[pp][2] + 15 * (party['Mac']['level'] - 1), enems[pp][3] + Math.floor(enems[pp][3] / 4) * (party['Mac']['level'] - 1));
+        gameStateBattle.enem4 = new Enemy(this, 300 - 450, 275, enems[pp][0], null, enems[pp][1], this.scaleHP(enems[pp][2]), this.scaleDam(enems[pp][3]));
         this.add.existing(gameStateBattle.enem4);
       }
       if (set4.size === 5 && numberOfPlayers >= 3) {
-        gameStateBattle.enem5 = new Enemy(this, 250 - 450, 325, enems[qq][0], null, enems[qq][1], enems[qq][2] + 15 * (party['Mac']['level'] - 1), enems[qq][3] + Math.floor(enems[qq][3] / 4) * (party['Mac']['level'] - 1));
+        gameStateBattle.enem5 = new Enemy(this, 250 - 450, 325, enems[qq][0], null, enems[qq][1], this.scaleHP(enems[qq][2]), this.scaleDam(enems[qq][3]));
         this.add.existing(gameStateBattle.enem5);
       }
 
@@ -1609,10 +1620,10 @@ var BattleScene = new Phaser.Class({
     // array with both parties, who will attack
     this.units = this.heroes.concat(this.enemies);
 
-    if (runaway || firstStrike){
+    if (runaway || firstStrike) {
       this.index = -1; //so player attacks first
     } else {
-      this.index = this.units.length-2  //so enemy gets 1 attack before player
+      this.index = this.units.length - 2 //so enemy gets 1 attack before player
     }
     //currentHero=this.heroes[this.index]
 
@@ -1624,7 +1635,7 @@ var BattleScene = new Phaser.Class({
     for (var i = 0; i < this.enemies.length; i++) {
       if (this.enemies[i].living)
         victory = false;
-        //console.log(`${this.enemies[i]} living: ${this.enemies[i].living}`)
+      //console.log(`${this.enemies[i]} living: ${this.enemies[i].living}`)
     }
     return victory;
   },
@@ -1644,16 +1655,38 @@ var BattleScene = new Phaser.Class({
     numberOfFights += 1;
     battleBackground = ''
     if (bossBattle && bossType === 'darkboy') {
+      itemReward = ''
       exp += 100 * 3 ** (party['Mac']['level'] - 1)
       reward = 10
       money += reward
       items.push('Empty NyQuil')
       gameState.spooky.stop()
+      //randomized gift 1
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=itemRewardPiece['name']+','
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
+      //randomized gift 2
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=' '+itemRewardPiece['name']+', and'
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
+      //randomized gift 3
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=' '+itemRewardPiece['name']
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
     } else if (bossBattle && bossType === 'dio') {
       exp += 200 * 3 ** (party['Mac']['level'] - 1);
       reward = 100;
       money += reward;
-      equipment['Dio Band']['numberOwned']+=1
+      equipment['Dio Band']['numberOwned'] += 1
       gameState.holyDiver.stop();
       gameState.music.stop();
       gameState.spooky.stop();
@@ -1661,28 +1694,71 @@ var BattleScene = new Phaser.Class({
       dioEnabled = false;
       diodialogue = 3;
     } else if (bossBattle && bossType === 'fratboy2prime') {
+      burchamWalkFrontImage.a.setDepth(-1) //this is because the image does not get destroyed...  but this is not the best fix i.e. all backgrounds should be destroyed after battle (fix needed...)
       exp += 100 * 3 ** (party['Mac']['level'] - 1)
       reward = 20
       money += reward
       items.push('knife')
       gameState.spooky.stop()
+      //randomized gift 1
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=itemRewardPiece['name']+','
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
+      //randomized gift 2
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=' '+itemRewardPiece['name']+', and'
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
+      //randomized gift 3
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=' '+itemRewardPiece['name']
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
     } else if (bossBattle && bossType === 'frank') {
       exp += 100 * 3 ** (party['Mac']['level'] - 1)
       reward = 25
       money += reward
       gameState.spooky.stop()
+      //randomized gift 1
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=itemRewardPiece['name']+','
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
+      //randomized gift 2
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=' '+itemRewardPiece['name']+', and'
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
+      //randomized gift 3
+      itemRewardPiece = generateRandomEquipment()
+      itemReward +=' '+itemRewardPiece['name']
+      if (equipment[itemRewardPiece['name']]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+        itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
+      }
+      equipment[itemRewardPiece['name']] = itemRewardPiece
     } else {
       exp += this.enemies.length * party['Mac']['level'] * 10;
       reward += Math.round(this.enemies.length * Math.ceil(party['Mac']['level'] / 5) * Math.floor(Math.random() * 3) * 30) / 100;
       money += reward;
       let pickAType = Math.floor(Math.random() * 2);
       //pickAType = 0; //to force equipment reward
-      if (pickAType===0){
-        let magicOrLegendary = Math.floor(Math.random()*10);
-        if (magicOrLegendary===0){ //grant a legendary item
+      if (pickAType === 0) {
+        let magicOrLegendary = Math.floor(Math.random() * 10);
+        if (magicOrLegendary === 0) { //grant a legendary item
           let rewardKeys = Object.keys(equipment)
-          rewardKeys = rewardKeys.filter(function (currentElement) {
-            return equipment[currentElement]['randomEncounterRewards']>0
+          rewardKeys = rewardKeys.filter(function(currentElement) {
+            return equipment[currentElement]['randomEncounterRewards'] > 0
           });
           console.log(rewardKeys)
           let rn = Math.floor(Math.random() * rewardKeys.length);
@@ -1694,28 +1770,28 @@ var BattleScene = new Phaser.Class({
           if (rn2 < rewardProbability) {
             console.log('got it!');
             itemReward = rewardKeys[rn];
-            equipment[itemReward]['numberOwned']+=1;
+            equipment[itemReward]['numberOwned'] += 1;
           }
         } else { //generate a random magic item half the time
           console.log(`generating a random magic item`)
           rn3 = Math.random();
           itemRewardPiece = generateRandomEquipment()
           console.log(itemRewardPiece)
-          let threshold = .4 //change to 1 for testing but .4 for gameplay
+          let threshold = .5 //change to 1 for testing but .4 for gameplay
           console.log(`magic item draw: ${rn3} needs to be under ${threshold} to award`)
-          if (rn3<threshold){
+          if (rn3 < threshold) {
             itemReward = itemRewardPiece['name']
-            if (equipment[itemReward]){ //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
-              itemRewardPiece['name']=itemRewardPiece['name']+' '+String(itemRewardPiece['numberOwned']+1)
+            if (equipment[itemReward]) { //this is in case the same equipment name already exists (very rare) because we dont want to save over an existing piece
+              itemRewardPiece['name'] = itemRewardPiece['name'] + ' ' + String(itemRewardPiece['numberOwned'] + 1)
             }
-            equipment[itemReward]=itemRewardPiece
+            equipment[itemRewardPiece['name']] = itemRewardPiece
             console.log('got it!')
           }
         }
-      } else if (pickAType===1){
+      } else if (pickAType === 1) {
         let rewardKeys = Object.keys(inventory)
-        rewardKeys = rewardKeys.filter(function (currentElement) {
-          return inventory[currentElement]['randomEncounterRewards']>0
+        rewardKeys = rewardKeys.filter(function(currentElement) {
+          return inventory[currentElement]['randomEncounterRewards'] > 0
         });
         console.log(rewardKeys)
         let rn = Math.floor(Math.random() * rewardKeys.length);
@@ -1727,7 +1803,7 @@ var BattleScene = new Phaser.Class({
         if (rn2 < rewardProbability) {
           console.log('got it!')
           itemReward = rewardKeys[rn];
-          inventory[itemReward]['numberOwned']+=1
+          inventory[itemReward]['numberOwned'] += 1
         }
       }
     }
@@ -1770,9 +1846,9 @@ var BattleScene = new Phaser.Class({
       this.scene.switch('LightWorld')
       gameState.music = this.sound.add('theme');
       worldTheme = 'light'
-      if (bossType === 'darkboy'){
+      if (bossType === 'darkboy') {
         darkworldDialogue = 1
-      } else if (bossType === 'dio'){
+      } else if (bossType === 'dio') {
         darkworldDialogue = 3
       }
     } else {
@@ -1783,7 +1859,7 @@ var BattleScene = new Phaser.Class({
   endBattleGameOver: function() {
     this.walkingCounter = 0;
     this.scene.sleep('UIScene');
-    if (bossBattle && bossType!='darkboy' && bossType!='dio') {
+    if (bossBattle && bossType != 'darkboy' && bossType != 'dio') {
       gameState.dead.play();
       gameState.spooky.stop();
       gameState.holyDiver.stop();
@@ -1792,7 +1868,7 @@ var BattleScene = new Phaser.Class({
       gameOver = true;
       bossBattle = false;
       worldTheme = 'light';
-    }  else if (bossBattle && (bossType==='darkboy' || bossType==='dio')) {
+    } else if (bossBattle && (bossType === 'darkboy' || bossType === 'dio')) {
       //set health to 1 so you keep living in lightworld
       gameStateBattle.me.hp = 1;
       party["Mac"]['hp'] = 1;
@@ -1860,8 +1936,8 @@ var BattleScene = new Phaser.Class({
       }
     }
   },
-  wake: function() {      //this never seems to get called sommehow
-      //set hp for party
+  wake: function() { //this never seems to get called sommehow
+    //set hp for party
     gameStateBattle.me.hp = party["Mac"]['hp']
     if (bennett.joinParameter && bennett.following) {
       gameStateBattle.bennett.hp = party['Bennett']['hp']
@@ -2028,14 +2104,14 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.me.y = 250
           //gameStateBattle.me.flipX = true;
           gameStateBattle.me.anims.play('bouncing', true);
-          if (party['Mac']['attackUpTurns']>0 ){
-            party['Mac']['attackUpTurns']-=1
+          if (party['Mac']['attackUpTurns'] > 0) {
+            party['Mac']['attackUpTurns'] -= 1
           }
         }, 2999);
       } else if (this.units[this.index].type === "Al") {
         airsoft.x = this.aliveEnemies[target].x + 100
         airsoft.y = this.aliveEnemies[target].y + 20
-        airsoft.anims.play('airsoftShoot',true);
+        airsoft.anims.play('airsoftShoot', true);
         gameStateBattle.al.x = this.aliveEnemies[target].x + 260
         gameStateBattle.al.y = this.aliveEnemies[target].y + 20
         gameStateBattle.al.anims.play('alattack', false);
@@ -2046,8 +2122,8 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.al.x = 800
           gameStateBattle.al.y = 300
           gameStateBattle.al.anims.play('alleft', true);
-          if (party['Al']['attackUpTurns']>0 ){
-            party['Al']['attackUpTurns']-=1
+          if (party['Al']['attackUpTurns'] > 0) {
+            party['Al']['attackUpTurns'] -= 1
           }
         }, 2999);
       } else if (this.units[this.index].type === "Jimmy") {
@@ -2058,15 +2134,15 @@ var BattleScene = new Phaser.Class({
         window.setTimeout(() => {
           gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y + 1)
           this.smack.play();
-        }, 300+666);
+        }, 300 + 666);
         window.setTimeout(() => {
           gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y - 1)
           this.smack.play();
-        }, 300+2*666);
+        }, 300 + 2 * 666);
         window.setTimeout(() => {
           gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y + 1)
           this.smack.play();
-        }, 300+3*666);
+        }, 300 + 3 * 666);
         gameStateBattle.trevor.x = this.aliveEnemies[target].x + 61
         gameStateBattle.trevor.y = this.aliveEnemies[target].y - 10
         gameStateBattle.trevor.anims.play('trevorslap', false);
@@ -2076,8 +2152,8 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.trevor.y = 350
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
-          if (party['Jimmy']['attackUpTurns']>0 ){
-            party['Jimmy']['attackUpTurns']-=1
+          if (party['Jimmy']['attackUpTurns'] > 0) {
+            party['Jimmy']['attackUpTurns'] -= 1
           }
         }, 2999);
       } else if (this.units[this.index].type === 'Bennett') {
@@ -2100,8 +2176,8 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.bennett.x = 1001
           gameStateBattle.bennett.y = 325
           gameStateBattle.bennett.anims.play('bennett_walk', true);
-          if (party['Bennett']['attackUpTurns']>0 ){
-            party['Bennett']['attackUpTurns']-=1
+          if (party['Bennett']['attackUpTurns'] > 0) {
+            party['Bennett']['attackUpTurns'] -= 1
           }
         }, 2999);
       }
@@ -2133,26 +2209,26 @@ var BattleScene = new Phaser.Class({
         window.setTimeout(() => {
           gameState.punchSound.play();
           gameStateBattle.me.setDepth(this.aliveEnemies[target].y - 1)
-        }, 430*2);
+        }, 430 * 2);
         window.setTimeout(() => {
           gameState.punchSound.play();
           gameStateBattle.me.setDepth(this.aliveEnemies[target].y + 1)
-        }, 430*3);
+        }, 430 * 3);
         window.setTimeout(() => {
           gameState.punchSound.play();
           gameStateBattle.me.setDepth(this.aliveEnemies[target].y + 1)
-        }, 430*4);
+        }, 430 * 4);
         window.setTimeout(() => {
           gameState.punchSound.play();
           gameStateBattle.me.setDepth(this.aliveEnemies[target].y - 1)
-        }, 430*5);
+        }, 430 * 5);
         window.setTimeout(() => {
           gameStateBattle.me.x = 850;
           gameStateBattle.me.y = 250;
           //gameStateBattle.me.flipX = true;
           gameStateBattle.me.anims.play('bouncing', true);
-          if (party['Mac']['attackUpTurns']>0 ){
-            party['Mac']['attackUpTurns']-=1
+          if (party['Mac']['attackUpTurns'] > 0) {
+            party['Mac']['attackUpTurns'] -= 1
           }
         }, 3500);
 
@@ -2173,7 +2249,7 @@ var BattleScene = new Phaser.Class({
         for (let i = 0; i < 6; i++) {
           window.setTimeout(() => {
             gameState.punchSound.play()
-            gameStateBattle.me.setDepth(this.aliveEnemies[target].y + (-1)**(i+1))
+            gameStateBattle.me.setDepth(this.aliveEnemies[target].y + (-1) ** (i + 1))
             this.units[this.index].attack(this.aliveEnemies[i % this.aliveEnemies.length], .5)
             gameStateBattle.me.x = this.aliveEnemies[i % this.aliveEnemies.length].x + 80;
             gameStateBattle.me.y = this.aliveEnemies[i % this.aliveEnemies.length].y;
@@ -2183,8 +2259,8 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.me.x = 850;
           gameStateBattle.me.y = 250;
           gameStateBattle.me.anims.play('bouncing', true);
-          if (party['Mac']['attackUpTurns']>0 ){
-            party['Mac']['attackUpTurns']-=1
+          if (party['Mac']['attackUpTurns'] > 0) {
+            party['Mac']['attackUpTurns'] -= 1
           }
         }, 3500);
 
@@ -2209,15 +2285,15 @@ var BattleScene = new Phaser.Class({
         window.setTimeout(() => {
           gameStateBattle.trevor.setDepth(this.aliveEnemies[target].y + 1)
           this.smack.play();
-        }, 300+666);
+        }, 300 + 666);
         window.setTimeout(() => {
-          gameStateBattle.trevor.setDepth(this.aliveEnemies[target+1].y - 1)
+          gameStateBattle.trevor.setDepth(this.aliveEnemies[target + 1].y - 1)
           this.smack.play();
-        }, 300+2*666);
+        }, 300 + 2 * 666);
         window.setTimeout(() => {
-          gameStateBattle.trevor.setDepth(this.aliveEnemies[target+1].y + 1)
+          gameStateBattle.trevor.setDepth(this.aliveEnemies[target + 1].y + 1)
           this.smack.play();
-        }, 300+3*666);
+        }, 300 + 3 * 666);
         window.setTimeout(() => {
           this.units[this.index].special(this.aliveEnemies[target + 1])
           gameStateBattle.trevor.x = this.aliveEnemies[target + 1].x + 61;
@@ -2228,8 +2304,8 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.trevor.y = 350;
           gameStateBattle.trevor.anims.play('trevorright', true);
           gameStateBattle.trevor.flipX = true;
-          if (party['Jimmy']['attackUpTurns']>0 ){
-            party['Jimmy']['attackUpTurns']-=1
+          if (party['Jimmy']['attackUpTurns'] > 0) {
+            party['Jimmy']['attackUpTurns'] -= 1
           }
         }, 2999);
 
@@ -2266,8 +2342,8 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.al.x = 800;
           gameStateBattle.al.y = 300;
           gameStateBattle.al.anims.play('alleft', true);
-          if (party['Al']['attackUpTurns']>0 ){
-            party['Al']['attackUpTurns']-=1
+          if (party['Al']['attackUpTurns'] > 0) {
+            party['Al']['attackUpTurns'] -= 1
           }
         }, 2999);
       } else { // if you dont have enough SP, go again
@@ -2295,8 +2371,8 @@ var BattleScene = new Phaser.Class({
           gameStateBattle.bennett.x = 1001
           gameStateBattle.bennett.y = 325
           gameStateBattle.bennett.anims.play('bennett_walk', true);
-          if (party['Bennett']['attackUpTurns']>0 ){
-            party['Bennett']['attackUpTurns']-=1
+          if (party['Bennett']['attackUpTurns'] > 0) {
+            party['Bennett']['attackUpTurns'] -= 1
           }
         }, 2999);
       } else { // if you dont have enough SP, go again
@@ -2370,15 +2446,15 @@ var BattleScene = new Phaser.Class({
         // if you paid crackhead 10 he will attack his own teammates
         if (this.units[this.index].type === "Melvin" && crackheadJoin) {
           r = Math.floor(Math.random() * this.enemies.length);
-          if (this.enemies[r].type==="Melvin"){
-            if (this.enemies.length===1){
+          if (this.enemies[r].type === "Melvin") {
+            if (this.enemies.length === 1) {
               this.endBattleVictory();
             }
           } else {
-              this.units[this.index].attack(this.enemies[r]);
+            this.units[this.index].attack(this.enemies[r]);
           }
         } else {
-            this.units[this.index].attack(this.heroes[r]);
+          this.units[this.index].attack(this.heroes[r]);
         }
         currentXY = {
           x: JSON.parse(JSON.stringify(this.units[this.index].x)),
@@ -2393,8 +2469,8 @@ var BattleScene = new Phaser.Class({
             this.units[this.index].setScale(1)
           }, 2000);
           this.units[this.index].setDepth(this.enemies[r].y - 1)
-          this.units[this.index].x = this.enemies[r].x-20;
-          this.units[this.index].y = this.enemies[r].y+5;
+          this.units[this.index].x = this.enemies[r].x - 20;
+          this.units[this.index].y = this.enemies[r].y + 5;
         } else if (this.units[this.index].type === "Melvin" && !crackheadJoin) {
           settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
           this.units[this.index].setScale(.85)
@@ -2403,32 +2479,31 @@ var BattleScene = new Phaser.Class({
             this.units[this.index].setScale(1)
           }, 2000);
           this.units[this.index].setDepth(this.heroes[r].y - 1)
-          this.units[this.index].x = this.heroes[r].x-20;
-          this.units[this.index].y = this.heroes[r].y+5;
+          this.units[this.index].x = this.heroes[r].x - 20;
+          this.units[this.index].y = this.heroes[r].y + 5;
         } else if (this.units[this.index].type === "Chad") {
           settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
           window.setTimeout(() => {
             settingDepth = false;
           }, 2000);
           this.units[this.index].setDepth(this.heroes[r].y + 1)
-          this.units[this.index].x = this.heroes[r].x-50;
-          this.units[this.index].y = this.heroes[r].y-15;
+          this.units[this.index].x = this.heroes[r].x - 50;
+          this.units[this.index].y = this.heroes[r].y - 15;
           window.setTimeout(() => {
-            this.units[this.index].x = this.heroes[r].x-100;
-            this.units[this.index].y = this.heroes[r].y-15;
+            this.units[this.index].x = this.heroes[r].x - 100;
+            this.units[this.index].y = this.heroes[r].y - 15;
           }, 500);
         } else if (this.units[this.index].type === "Dylan") {
-          this.units[this.index].x = this.heroes[r].x-210;
-          this.units[this.index].y = this.heroes[r].y-15;
-          spray.x = this.heroes[r].x-60;
-          spray.y = this.heroes[r].y- 50;
-          spray.anims.play('spray',true)
+          this.units[this.index].x = this.heroes[r].x - 210;
+          this.units[this.index].y = this.heroes[r].y - 15;
+          spray.x = this.heroes[r].x - 60;
+          spray.y = this.heroes[r].y - 50;
+          spray.anims.play('spray', true)
           window.setTimeout(() => {
             spray.x = -50
             spray.y = -50
           }, 2000);
-        }
-        else if (this.units[this.index].type === "Jackson") {
+        } else if (this.units[this.index].type === "Jackson") {
           this.units[this.index].x = this.heroes[r].x - 70;
           this.units[this.index].y = this.heroes[r].y;
           settingDepth = true; //do this so we can set custom depth (in a way other than by y-value)
@@ -2438,12 +2513,12 @@ var BattleScene = new Phaser.Class({
           this.units[this.index].setDepth(this.heroes[r].y + 1)
         } else if (this.units[this.index].type === "Cam") {
           window.setTimeout(() => {
-            mohawkStartingYValue = this.units[this.index].y-50;
+            mohawkStartingYValue = this.units[this.index].y - 50;
             throwingMohawk = true;
             throwingMohawkTarget.push(this.heroes[r])
-            throwingAngle = Math.atan((this.heroes[r].y-this.units[this.index].y)/(this.heroes[r].x-this.units[this.index].x))
+            throwingAngle = Math.atan((this.heroes[r].y - this.units[this.index].y) / (this.heroes[r].x - this.units[this.index].x))
             mohawk.x = this.units[this.index].x;
-            mohawk.y = this.units[this.index].y-50;
+            mohawk.y = this.units[this.index].y - 50;
           }, 300);
           window.setTimeout(() => {
             throwingMohawk = false;
@@ -2455,7 +2530,7 @@ var BattleScene = new Phaser.Class({
             this.units[this.index].setScale(1);
           }, 2000);
           this.units[this.index].setDepth(this.heroes[r].y - 1)
-          this.units[this.index].x = this.heroes[r].x-120;
+          this.units[this.index].x = this.heroes[r].x - 120;
           this.units[this.index].y = this.heroes[r].y;
           window.setTimeout(() => {
             this.units[this.index].setScale(.85)
@@ -2476,8 +2551,8 @@ var BattleScene = new Phaser.Class({
             this.units[this.index].flipX = false;
           }, 2000);
           this.units[this.index].setDepth(this.heroes[r].y + 1)
-            this.units[this.index].x = this.heroes[r].x - 45;
-            this.units[this.index].y = this.heroes[r].y;
+          this.units[this.index].x = this.heroes[r].x - 45;
+          this.units[this.index].y = this.heroes[r].y;
           window.setTimeout(() => {
             this.units[this.index].anims.play(animObject[this.units[this.index].type][0], true);
             this.billBackWalk = true;
@@ -2490,7 +2565,7 @@ var BattleScene = new Phaser.Class({
             this.units[this.index].setScale(1);
           }, 2000);
           this.units[this.index].setDepth(this.heroes[r].y - 1)
-          this.units[this.index].x = this.heroes[r].x-50;
+          this.units[this.index].x = this.heroes[r].x - 50;
           this.units[this.index].y = this.heroes[r].y;
         } else {
           this.units[this.index].x = this.heroes[r].x - 70;
@@ -2550,15 +2625,15 @@ var UIScene = new Phaser.Class({
     //remap actions
     this.actionsMenu.actionsRemap()
     // first move
-    window.setTimeout(()=>{
+    window.setTimeout(() => {
       this.battleScene.nextTurn();
     }, 2500);
-    this.bannerBack = this.add.rectangle(0, 0, 1200, 600, 0x000).setOrigin(0,0).setDepth(1001);
-      this.tweens.add({
-          targets: this.bannerBack,
-          duration: 1000,
-          alpha: 0
-      });
+    this.bannerBack = this.add.rectangle(0, 0, 1200, 600, 0x000).setOrigin(0, 0).setDepth(1001);
+    this.tweens.add({
+      targets: this.bannerBack,
+      duration: 1000,
+      alpha: 0
+    });
   },
   onEnemy: function(index) {
     this.heroesMenu.deselect();

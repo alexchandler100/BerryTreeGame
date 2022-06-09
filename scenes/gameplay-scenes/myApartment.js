@@ -1152,6 +1152,16 @@ var MyApartment = new Phaser.Class({
     //setting depth for me
     meApt.setDepth(meApt.y);
 
+    //ai for bennettApt
+
+    //dialogue for joe and james
+    if (distance(meApt, bennettApt) < 60 && bennettAptTalk === false && !(bennett.joinParameter)) {
+      bennettAptTalk= true;
+      this.openDialoguePage(3011)
+    } else if (distance(meApt, bennettApt) > 100) {
+      bennettAptTalk = false
+    }
+
     //ai for stripper
 
     if (stripperApt.following) {
@@ -1411,7 +1421,7 @@ var MyApartment = new Phaser.Class({
     if (distance(meApt, blondeApt) < 20 && blondeTalk === false) {
       blondeTalk = true;
       this.openDialoguePage(4010)
-
+      activeQuests[`Alana's boyfriend wants to fight`] = `I ran into Alana in the gym. Apparently she has a boyfriend and he wants to fight. I better make sure I'm ready...`
     } else if (distance(meApt, blondeApt) > 40) {
       blondeTalk = false
     }
