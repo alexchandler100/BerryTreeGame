@@ -3688,8 +3688,18 @@ var LightWorld = new Phaser.Class({
 
     } else if (currentQuest === 'Go Pro at Kick-The-Ball') {
       gameState.questLocations['Go Pro at Kick-The-Ball'] = {
-        x: trevor.x,
-        y: trevor.y
+        x: ball.x,
+        y: ball.y
+      }
+    } else if (currentQuest === `Brother's Seal for Kick-the-Ball`) {
+      gameState.questLocations[`Brother's Seal for Kick-the-Ball`] = {
+        x: ball.x,
+        y: ball.y
+      }
+    } else if (currentQuest === `Brother's Seal for Skateboarding`){
+      gameState.questLocations[`Brother's Seal for Skateboarding`] = {
+        x: me.x,
+        y: me.y
       }
     } else if (currentQuest === "Crackhead wants some change") {
       gameState.questLocations["Crackhead wants some change"] = {
@@ -4903,12 +4913,14 @@ var LightWorld = new Phaser.Class({
       }
       keepaway = 0
     }
-    if (keepaway === 500) {
+    if (keepaway === 500 && !completedQuests['Go Pro at Kick-The-Ball']) {
       trevor.joinParameter = true;
       completeQuest('Go Pro at Kick-The-Ball');
-    } else if (keepaway === 1000) {
+      activeQuests[`Brother's Seal for Kick-the-Ball`] = 'I got 500 points in kick-the-ball. I can get Jimmy to follow me by clicking him. If I click again, he will stop following me and I can keep playing. I should get to 1000 points.';
+    } else if (keepaway === 1000 && !completedQuests[`Brother's Seal for Kick-the-Ball`]) {
       items.push("Brothers Seal")
       brothersSeal = 1
+      completeQuest(`Brother's Seal for Kick-the-Ball`)
     }
 
     //ai for jon (soccer game) (football) (score goals)
@@ -5339,6 +5351,7 @@ var LightWorld = new Phaser.Class({
       this.openDialoguePage(48)
     }
     if (playerTexture === 'board' && stamina <= 10 && !skateboardGet) {
+      this.kickflipCounter = 0;
       playerTexture = 0;
       jamesToggleFollow = true;
       this.DialogueMenu.kickflipRotationDisplay.visible = false;
@@ -5407,12 +5420,14 @@ var LightWorld = new Phaser.Class({
         if (activeQuests['Find James']){
           completeQuest('Find James')
         }
+        activeQuests[`Brother's Seal for Skateboarding`] = `I got 10 kickflips in a row, so I basically went pro. Rumor has it that there is a Brother's Seal for skateboarding, and it takes 20 kickflips in a row to get it. Now that I have the board, I can try on my own time (press D).`
         this.openDialoguePage(45);
         this.kickflipCounter = 0;
         gameState.skateboard.stop()
         this.ollie = false;
       }
       if (this.kickflipCounter === 20 && brothersSealForSkateboarding === 0) {
+        completeQuest(`Brother's Seal for Skateboarding`)
         this.openDialoguePage(455);
         items.push("Brothers Seal (board)")
         brothersSealForSkateboarding = 1
