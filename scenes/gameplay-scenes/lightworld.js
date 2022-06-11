@@ -4868,7 +4868,7 @@ var LightWorld = new Phaser.Class({
       }
       kickTheBallScoreDisplayed = true
     }
-    if (distance(trevor, ball) < 30) {
+    if (distance(trevor, ball) < 30 || trevor.following) {
       kickTheBallScoreDisplayed = false
       if (keepaway > keepawayHighScore) {
         keepawayHighScore = keepaway
@@ -5319,6 +5319,7 @@ var LightWorld = new Phaser.Class({
 
     //skateboard texture
     if (playerTexture === 'board') {
+      kickTheBallScoreDisplayed = false
       speed = 4;
     }
     if (playerTexture === 'board' && startSkateboardScene) {
